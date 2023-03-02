@@ -132,3 +132,4 @@ dmypy.json
 # large files
 dataset/
 *.npy
+*.pt
