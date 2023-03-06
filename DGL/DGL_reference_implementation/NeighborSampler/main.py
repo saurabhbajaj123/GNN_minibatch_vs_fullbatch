@@ -2,11 +2,12 @@ import dgl
 import torch
 import numpy as np
 from ogb.nodeproppred import DglNodePropPredDataset
+import time 
 
 root = "../dataset/"
 dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
 device = "cuda" if torch.cuda.is_available() else "cpu"
-
+# device = "cpu"
 graph, node_labels = dataset[0]
 # Add reverse edges since ogbn-arxiv is unidirectional.
 graph = dgl.add_reverse_edges(graph)
@@ -100,47 +101,79 @@ valid_dataloader = dgl.dataloading.DataLoader(
     device=device
 )
 
+test_dataloader = dgl.dataloading.DataLoader(
+    graph, test_nids, sampler,
+    batch_size=1024,
+    shuffle=False,
+    drop_last=False,
+    num_workers=0,
+    device=device
+)
 import tqdm
 import sklearn.metrics
 
 best_accuracy = 0
 best_model_path = 'model.pt'
-for epoch in range(1000):
+
+num_epochs = 5
+total_time = 0
+for epoch in range(num_epochs):
     model.train()
 
-    with tqdm.tqdm(train_dataloader) as tq:
-        for step, (input_nodes, output_nodes, mfgs) in enumerate(tq):
-            # feature copy from CPU to GPU takes place here
-            inputs = mfgs[0].srcdata['feat']
-            labels = mfgs[-1].dstdata['label']
+    # with tqdm.tqdm(train_dataloader) as tq:
+    for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
+        # feature copy from CPU to GPU takes place here
+        inputs = mfgs[0].srcdata['feat']
+        labels = mfgs[-1].dstdata['label']
+        tic = time.time()
+        predictions = model(mfgs, inputs)
+        loss = F.cross_entropy(predictions, labels)
+        opt.zero_grad()
+        loss.backward()
+        opt.step()
+        tac = time.time()
+        total_time += (tac - tic)
+        accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
+
+        # tq.set_postfix({'loss': '%.03f' % loss.item(), 'acc': '%.03f' % accuracy}, refresh=False)
+    if epoch % 1 == 0:
+        model.eval()
+
+        predictions = []
+        labels = []
+        # with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
+        with torch.no_grad():
+            # for input_nodes, output_nodes, mfgs in tq:
+            for input_nodes, output_nodes, mfgs in valid_dataloader:
             
-            predictions = model(mfgs, inputs)
+                inputs = mfgs[0].srcdata['feat']
+                labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
+                predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
+            predictions = np.concatenate(predictions)
+            labels = np.concatenate(labels)
+            accuracy = sklearn.metrics.accuracy_score(labels, predictions)
+            if best_accuracy < accuracy:
+                best_accuracy = accuracy
+                torch.save(model.state_dict(), best_model_path)
+            print('Epoch {}, Val Acc {}, Best Val Acc {}'.format(epoch, accuracy, best_accuracy))
 
-            loss = F.cross_entropy(predictions, labels)
-            opt.zero_grad()
-            loss.backward()
-            opt.step()
+            # Note that this tutorial do not train the whole model to the end.
+            # break
 
-            accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
+print("total time for {} epochs = {}".format(num_epochs, total_time))
 
-            tq.set_postfix({'loss': '%.03f' % loss.item(), 'acc': '%.03f' % accuracy}, refresh=False)
-
-    model.eval()
-
-    predictions = []
-    labels = []
-    with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
-        for input_nodes, output_nodes, mfgs in tq:
-            inputs = mfgs[0].srcdata['feat']
-            labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
-            predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
-        predictions = np.concatenate(predictions)
-        labels = np.concatenate(labels)
-        accuracy = sklearn.metrics.accuracy_score(labels, predictions)
-        print('Epoch {} Validation Accuracy {}'.format(epoch, accuracy))
-        if best_accuracy < accuracy:
-            best_accuracy = accuracy
-            torch.save(model.state_dict(), best_model_path)
-
-        # Note that this tutorial do not train the whole model to the end.
-        # break
+model.load_state_dict(torch.load(best_model_path))
+model.eval()
+predictions = []
+labels = []
+# with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
+with torch.no_grad():
+    # for input_nodes, output_nodes, mfgs in tq:
+    for input_nodes, output_nodes, mfgs in test_dataloader:
+        inputs = mfgs[0].srcdata['feat']
+        labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
+        predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
+    predictions = np.concatenate(predictions)
+    labels = np.concatenate(labels)
+    accuracy = sklearn.metrics.accuracy_score(labels, predictions)
+    print('Test Acc {}'.format(accuracy))
