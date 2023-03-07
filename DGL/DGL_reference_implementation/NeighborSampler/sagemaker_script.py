@@ -22,43 +22,40 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 class Model(nn.Module):
-    def __init__(self, in_feats, h_feats, num_classes, num_layers, aggregator_type='mean'):
+    def __init__(
+        self, in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
+    ):
         super(Model, self).__init__()
-        self.conv = []
-        # self.conv1 = SAGEConv(in_feats, h_feats, aggregator_type='mean')
-        self.conv.append(SAGEConv(in_feats, h_feats, aggregator_type=aggregator_type))
-        for _ in range(num_layers - 2):
-            self.conv.append(SAGEConv(h_feats, h_feats, aggregator_type=aggregator_type))
-        self.conv.append(SAGEConv(h_feats, num_classes, aggregator_type=aggregator_type))
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.n_classes = n_classes
+        self.layers = nn.ModuleList()
+        self.layers.append(SAGEConv(in_feats, n_hidden, aggregator_type=aggregator_type))
+        for _ in range(n_layers - 2):
+            self.layers.append(SAGEConv(n_hidden, n_hidden, aggregator_type=aggregator_type))
+        self.layers.append(SAGEConv(n_hidden, n_classes, aggregator_type=aggregator_type))
+        self.dropout = nn.Dropout(dropout)
+        self.activation = activation
 
-        # self.conv2 = SAGEConv(h_feats, num_classes, aggregator_type='mean')
-        self.h_feats = h_feats
-        self.conv = nn.ModuleList(self.conv)
-        self.num_layers = num_layers
+
 
     def forward(self, mfgs, x):
-        # Lines that are changed are marked with an arrow: "<---"
-
-        # h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
-        # h = self.conv1(mfgs[0], (x, h_dst))  # <---
-        # h = F.relu(h)
-        # h_dst = h[:mfgs[1].num_dst_nodes()]  # <---
-        # h = self.conv2(mfgs[1], (h, h_dst))  # <---
         h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
-        h = self.conv[0](mfgs[0], (x, h_dst))
-        for i in range(1, self.num_layers - 1):
+        h = self.layers[0](mfgs[0], (x, h_dst))
+        for i in range(1, self.n_layers - 1):
             h_dst = h[:mfgs[i].num_dst_nodes()]  # <---
-            h = self.conv[i](mfgs[i], (h, h_dst))
-            h = F.relu(h)
+            h = self.layers[i](mfgs[i], (h, h_dst))
+            # h = F.relu(h)
+            h = self.activation(h)
+            h = self.dropout(h)
         h_dst = h[:mfgs[-1].num_dst_nodes()]  # <---
-        h = self.conv[-1](mfgs[-1], (h, h_dst))
+        h = self.layers[-1](mfgs[-1], (h, h_dst))
         return h
 
 
-def _get_data_loader(batch_size=1024, sampler, device):
-    logger.info("Get train data loader")
-    root = "../dataset/"
-    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+def _get_data_loader(sampler, device, batch_size=1024 , root="../dataset/", dataset='ogbn-arxiv'):
+    logger.info("Get train-val-test data loader")
+    dataset = DglNodePropPredDataset(dataset, root=root)
 
     idx_split = dataset.get_idx_split()
     train_nids = idx_split['train']
@@ -70,8 +67,8 @@ def _get_data_loader(batch_size=1024, sampler, device):
     graph.ndata['label'] = node_labels[:, 0]
 
     node_features = graph.ndata['feat']
-    num_features = node_features.shape[1]
-    num_classes = (node_labels.max() + 1).item()
+    in_feats = node_features.shape[1]
+    n_classes = (node_labels.max() + 1).item()
     
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
@@ -104,48 +101,75 @@ def _get_data_loader(batch_size=1024, sampler, device):
     device=device
     )
 
-    return (train_dataloader, valid_dataloader, test_dataloader, (num_features, num_classes))
+    return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
 
-def train(args):
-    batch_size = args.batch_size
-    num_layers = args.num_layers
-    fanout = args.fanout
-    num_hidden =args.num_hidden
+def train(args, data, device):
+    n_layers = args.n_layers
+    n_hidden = args.n_hidden
     num_epochs = args.num_epochs
+    dropout = args.dropout
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(num_layers)])
-
-    train_dataloader, valid_dataloader, test_dataloader, (num_features, num_classes) = _get_data_loader(batch_size, sampler, device)
+    train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = data
 
     input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
 
-    model = Model(num_features, num_hidden, num_classes, num_layers).to(device)
+    activation = F.relu
+
+    model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation).to(device)
     opt = torch.optim.Adam(model.parameters())
 
     best_accuracy = 0
+    
+    best_eval_acc = 0
+    best_test_acc = 0
+
     best_model_path = 'model.pt'
 
-    num_epochs = 5
     total_time = 0
 
+    time_load = 0
+    time_forward = 0
+    time_backward = 0
+    total_time = 0
     for epoch in range(num_epochs):
         model.train()
+        tic = time.time()
+        
+        
+
         for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
+            tic_start = time.time()
             inputs = mfgs[0].srcdata['feat']
             labels = mfgs[-1].dstdata['label']
-            tic = time.time()
+            tic_step = time.time()
             predictions = model(mfgs, inputs)
             loss = F.cross_entropy(predictions, labels)
             opt.zero_grad()
+            tic_forward = time.time()
             loss.backward()
             opt.step()
-            tac = time.time()
-            total_time += (tac - tic)
-            accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
+            tic_backward = time.time()
 
-        if epoch % 1 == 0:
+            time_load += tic_step - tic_start
+            time_forward += tic_forward - tic_step
+            time_backward += tic_backward - tic_forward
+
+            accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
+            if step % args.log_every == 0:
+                logger.debug(
+                        "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
+                            epoch, step, loss.item(), accuracy.item()
+                        )
+                    )
+        toc = time.time()
+        total_time += toc - tic
+        logger.debug(
+            "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
+                toc - tic, time_load, time_forward, time_backward
+            )
+        )
+
+        if epoch % args.eval_every == 0:
             model.eval()
 
             predictions = []
@@ -160,22 +184,23 @@ def train(args):
                     predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
                 predictions = np.concatenate(predictions)
                 labels = np.concatenate(labels)
-                accuracy = sklearn.metrics.accuracy_score(labels, predictions)
-                if best_accuracy < accuracy:
-                    best_accuracy = accuracy
+                eval_acc = sklearn.metrics.accuracy_score(labels, predictions)
+                if best_eval_acc < eval_acc:
+                    best_eval_acc = eval_acc
                     torch.save(model.state_dict(), best_model_path)
-                logger.debug('Epoch {}, Val Acc {}, Best Val Acc {}'.format(epoch, accuracy, best_accuracy))
+                logger.debug('Epoch {}, Val Acc {}, Best Val Acc {}'.format(epoch, eval_acc, best_eval_acc))
 
     logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
-
+    logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
+    return best_eval_acc
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--batch-size",
+        "--batch_size",
         type=int,
-        default=64,
+        default=1024,
         metavar="N",
         help="input batch size for training (default: 64)",
     )
@@ -188,6 +213,36 @@ if __name__ == "__main__":
         help="number of epochs to train (default: 10)",
     )
 
-    parser.add_argument("--num_layers", type=int, default=16)
+    parser.add_argument("--n_layers", type=int, default=8)
     parser.add_argument("--fanout", type=int, default=4)
-    parser.add_argument("--num_hidden", type=int, default=128)
+    parser.add_argument("--n_hidden", type=int, default=2**6)
+    parser.add_argument("--dropout", type=float, default=0.0)
+    parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--log-every", type=int, default=20)
+    args = parser.parse_args()
+
+
+    batch_size = args.batch_size
+    n_layers = args.n_layers
+    fanout = args.fanout
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
+    data = _get_data_loader(sampler, device, batch_size)
+
+    # for i in range(6, 11):
+    #     for j in range(30, 41):
+    #         for k in range()
+
+    # args = {
+    #     "batch_size": 2**i,
+    #     "num_epochs": j,
+    #     "n_layers": k,
+    #     "fanout": l,
+    #     "droupout": m,
+    #     "eval_every": n,
+    #     "log_every": o
+    # }
+
+    train(args, data, device)
+
