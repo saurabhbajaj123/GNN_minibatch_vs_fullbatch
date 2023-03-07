@@ -53,7 +53,7 @@ class Model(nn.Module):
         return h
 
 
-def _get_data_loader(sampler, device, root="../dataset/", dataset='ogbn-arxiv', batch_size=1024):
+def _get_data_loader(sampler, device, batch_size=1024 , root="../dataset/", dataset='ogbn-arxiv'):
     logger.info("Get train-val-test data loader")
     dataset = DglNodePropPredDataset(dataset, root=root)
 
@@ -75,7 +75,7 @@ def _get_data_loader(sampler, device, root="../dataset/", dataset='ogbn-arxiv', 
     graph,              # The graph
     train_nids,         # The node IDs to iterate over in minibatches
     sampler,            # The neighbor sampler
-    # device=device,      # Put the sampled MFGs on CPU or GPU
+    device=device,      # Put the sampled MFGs on CPU or GPU
     # The following arguments are inherited from PyTorch DataLoader.
     batch_size=batch_size,    # Batch size
     shuffle=True,       # Whether to shuffle the nodes for every epoch
@@ -89,7 +89,7 @@ def _get_data_loader(sampler, device, root="../dataset/", dataset='ogbn-arxiv', 
     shuffle=False,
     drop_last=False,
     num_workers=0,
-    # device=device
+    device=device
     )
 
     test_dataloader = dgl.dataloading.DataLoader(
@@ -98,7 +98,7 @@ def _get_data_loader(sampler, device, root="../dataset/", dataset='ogbn-arxiv', 
     shuffle=False,
     drop_last=False,
     num_workers=0,
-    # device=device
+    device=device
     )
 
     return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
@@ -145,8 +145,8 @@ def train(args):
 
         for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
             tic_start = time.time()
-            inputs = mfgs[0].srcdata['feat'].to(device)
-            labels = mfgs[-1].dstdata['label'].to(device)
+            inputs = mfgs[0].srcdata['feat']
+            labels = mfgs[-1].dstdata['label']
             tic_step = time.time()
             predictions = model(mfgs, inputs)
             loss = F.cross_entropy(predictions, labels)
@@ -161,11 +161,12 @@ def train(args):
             time_backward += tic_backward - tic_forward
 
             accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
-            logger.debug(
-                    "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
-                        epoch, step, loss.item(), accuracy.item()
+            if step % args.log_every == 0:
+                logger.debug(
+                        "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
+                            epoch, step, loss.item(), accuracy.item()
+                        )
                     )
-                )
         toc = time.time()
         total_time += toc - tic
         logger.debug(
@@ -205,7 +206,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=64,
+        default=1024,
         metavar="N",
         help="input batch size for training (default: 64)",
     )
@@ -218,11 +219,12 @@ if __name__ == "__main__":
         help="number of epochs to train (default: 10)",
     )
 
-    parser.add_argument("--n_layers", type=int, default=16)
+    parser.add_argument("--n_layers", type=int, default=8)
     parser.add_argument("--fanout", type=int, default=4)
-    parser.add_argument("--n_hidden", type=int, default=128)
-    parser.add_argument("--dropout", type=float, default=0.5)
+    parser.add_argument("--n_hidden", type=int, default=2**6)
+    parser.add_argument("--dropout", type=float, default=0.0)
     parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--log-every", type=int, default=20)
     args = parser.parse_args()
     train(args)
 
