@@ -230,19 +230,19 @@ if __name__ == "__main__":
     sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
     data = _get_data_loader(sampler, device, batch_size)
 
-    for i in range(6, 11):
-        for j in range(30, 41):
-            for k in range()
+    # for i in range(6, 11):
+    #     for j in range(30, 41):
+    #         for k in range()
 
-    args = {
-        "batch_size": 2**i,
-        "num_epochs": j,
-        "n_layers": k,
-        "fanout": l,
-        "droupout": m,
-        "eval_every": n,
-        "log_every": o
-    }
+    # args = {
+    #     "batch_size": 2**i,
+    #     "num_epochs": j,
+    #     "n_layers": k,
+    #     "fanout": l,
+    #     "droupout": m,
+    #     "eval_every": n,
+    #     "log_every": o
+    # }
 
     train(args, data, device)
 
