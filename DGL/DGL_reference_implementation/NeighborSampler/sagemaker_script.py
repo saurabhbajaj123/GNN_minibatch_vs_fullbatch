@@ -103,19 +103,13 @@ def _get_data_loader(sampler, device, batch_size=1024 , root="../dataset/", data
 
     return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
 
-def train(args):
-    batch_size = args.batch_size
+def train(args, data, device):
     n_layers = args.n_layers
-    fanout = args.fanout
-    n_hidden =args.n_hidden
+    n_hidden = args.n_hidden
     num_epochs = args.num_epochs
     dropout = args.dropout
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-
-    train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = _get_data_loader(sampler, device, batch_size)
+    train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = data
 
     input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
 
@@ -198,13 +192,13 @@ def train(args):
 
     logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
     logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
-
+    return best_eval_acc
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--batch-size",
+        "--batch_size",
         type=int,
         default=1024,
         metavar="N",
@@ -226,5 +220,29 @@ if __name__ == "__main__":
     parser.add_argument("--eval-every", type=int, default=1)
     parser.add_argument("--log-every", type=int, default=20)
     args = parser.parse_args()
-    train(args)
+
+
+    batch_size = args.batch_size
+    n_layers = args.n_layers
+    fanout = args.fanout
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
+    data = _get_data_loader(sampler, device, batch_size)
+
+    for i in range(6, 11):
+        for j in range(30, 41):
+            for k in range()
+
+    args = {
+        "batch_size": 2**i,
+        "num_epochs": j,
+        "n_layers": k,
+        "fanout": l,
+        "droupout": m,
+        "eval_every": n,
+        "log_every": o
+    }
+
+    train(args, data, device)
 
