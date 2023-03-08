@@ -53,9 +53,9 @@ class Model(nn.Module):
         return h
 
 
-def _get_data_loader(sampler, device, batch_size=1024 , root="../dataset/", dataset='ogbn-arxiv'):
+def _get_data_loader(sampler, device, dataset, batch_size=1024):
     logger.info("Get train-val-test data loader")
-    dataset = DglNodePropPredDataset(dataset, root=root)
+    
 
     idx_split = dataset.get_idx_split()
     train_nids = idx_split['train']
@@ -219,6 +219,13 @@ if __name__ == "__main__":
     parser.add_argument("--dropout", type=float, default=0.0)
     parser.add_argument("--eval-every", type=int, default=1)
     parser.add_argument("--log-every", type=int, default=20)
+
+    parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
+    parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
+    parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
+    parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
+    parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
+
     args = parser.parse_args()
 
 
@@ -228,7 +235,9 @@ if __name__ == "__main__":
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-    data = _get_data_loader(sampler, device, batch_size)
+    root="../dataset/"
+    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    data = _get_data_loader(sampler, device, dataset, batch_size)
 
     # for i in range(6, 11):
     #     for j in range(30, 41):
@@ -243,6 +252,7 @@ if __name__ == "__main__":
     #     "eval_every": n,
     #     "log_every": o
     # }
+        # Container environment
 
     train(args, data, device)
 
