@@ -161,9 +161,19 @@ def train(args, data, device):
                             epoch, step, loss.item(), accuracy.item()
                         )
                     )
+                print(
+                        "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
+                            epoch, step, loss.item(), accuracy.item()
+                        )
+                    )
         toc = time.time()
         total_time += toc - tic
         logger.debug(
+            "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
+                toc - tic, time_load, time_forward, time_backward
+            )
+        )        
+        print(
             "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
                 toc - tic, time_load, time_forward, time_backward
             )
