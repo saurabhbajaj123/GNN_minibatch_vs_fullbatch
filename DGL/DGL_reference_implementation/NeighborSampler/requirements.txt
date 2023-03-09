@@ -1,8 +1,7 @@
-ogb==1.3.5
+ogb
 torch-scatter
 torch-sparse
 torchaudio
 torchvision
-dgl==1.0.1
-dgl-cu116
-dglgo==0.0.2
+dgl
+dglgo
