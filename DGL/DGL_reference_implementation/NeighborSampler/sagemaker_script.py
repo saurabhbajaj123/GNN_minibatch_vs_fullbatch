@@ -3,11 +3,12 @@ import json
 import logging
 import os
 import sys
+import pickle
 
 import dgl
 import torch
 import numpy as np
-from ogb.nodeproppred import DglNodePropPredDataset
+# from ogb.nodeproppred import DglNodePropPredDataset
 import time 
 
 import torch.nn as nn
@@ -52,7 +53,57 @@ class Model(nn.Module):
         h = self.layers[-1](mfgs[-1], (h, h_dst))
         return h
 
+def parse_args_fn():
+    """
+    Parse arguments
+    """
+    parser = argparse.ArgumentParser()
 
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=1024,
+        metavar="N",
+        help="input batch size for training (default: 64)",
+    )
+
+    parser.add_argument(
+        "--num_epochs",
+        type=int,
+        default=10,
+        metavar="N",
+        help="number of epochs to train (default: 10)",
+    )
+
+    parser.add_argument("--n_layers", type=int, default=8)
+    parser.add_argument("--fanout", type=int, default=4)
+    parser.add_argument("--n_hidden", type=int, default=2**6)
+    parser.add_argument("--dropout", type=float, default=0.0)
+    parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--log-every", type=int, default=20)
+
+    parser.add_argument("--train", type=str, default=os.environ.get("SM_CHANNEL_TRAIN"))
+    parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
+    parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
+    parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
+    parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
+    parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
+
+    args = parser.parse_args()
+
+    return args
+
+def load_dataset(path):
+    """
+    Load entire dataset
+    """
+    # find all files with pkl extenstion and load the first one
+    files = [os.path.join(path, file) for file in os.listdir(path) if file.endswith("pkl")]
+
+    if len(files) == 0:
+        raise ValueError("Invalid # of files in dir: {}".format(path))
+
+    dataset = pickle.load(open(files[0], 'rb'))
 def _get_data_loader(sampler, device, dataset, batch_size=1024):
     logger.info("Get train-val-test data loader")
     
@@ -205,39 +256,8 @@ def train(args, data, device):
     return best_eval_acc
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--batch_size",
-        type=int,
-        default=1024,
-        metavar="N",
-        help="input batch size for training (default: 64)",
-    )
-
-    parser.add_argument(
-        "--num_epochs",
-        type=int,
-        default=10,
-        metavar="N",
-        help="number of epochs to train (default: 10)",
-    )
-
-    parser.add_argument("--n_layers", type=int, default=8)
-    parser.add_argument("--fanout", type=int, default=4)
-    parser.add_argument("--n_hidden", type=int, default=2**6)
-    parser.add_argument("--dropout", type=float, default=0.0)
-    parser.add_argument("--eval-every", type=int, default=1)
-    parser.add_argument("--log-every", type=int, default=20)
-
-    parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
-    parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
-    parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
-    parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
-    parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
-
-    args = parser.parse_args()
-
+    
+    args = parse_args_fn()
 
     batch_size = args.batch_size
     n_layers = args.n_layers
@@ -245,8 +265,9 @@ if __name__ == "__main__":
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-    root="../dataset/"
-    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    # root="../dataset/"
+    # dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    dataset = load_dataset(args.train)
     data = _get_data_loader(sampler, device, dataset, batch_size)
 
     # for i in range(6, 11):
