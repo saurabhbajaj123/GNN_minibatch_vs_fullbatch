@@ -4,5 +4,5 @@ torch-sparse
 torchaudio
 torchvision
 dgl==1.0.1
-dgl-cu116==0.9.1.post1
+dgl-cu116
 dglgo==0.0.2
