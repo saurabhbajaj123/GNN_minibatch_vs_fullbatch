@@ -175,7 +175,7 @@ def train(args, data, device):
     best_test_acc = 0
 
     best_model_path = 'model.pt'
-
+    best_model = None
     total_time = 0
 
     time_load = 0
@@ -248,12 +248,13 @@ def train(args, data, device):
                 eval_acc = sklearn.metrics.accuracy_score(labels, predictions)
                 if best_eval_acc < eval_acc:
                     best_eval_acc = eval_acc
-                    torch.save(model.state_dict(), best_model_path)
+                    best_model = model
+                    # torch.save(model.state_dict(), best_model_path)
                 logger.debug('Epoch {}, Val Acc {}, Best Val Acc {}'.format(epoch, eval_acc, best_eval_acc))
 
     logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
     logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
-    return best_eval_acc
+    return best_eval_acc, model
 
 if __name__ == "__main__":
     
@@ -270,20 +271,25 @@ if __name__ == "__main__":
     dataset = load_dataset(args.train)
     data = _get_data_loader(sampler, device, dataset, batch_size)
 
-    # for i in range(6, 11):
-    #     for j in range(30, 41):
-    #         for k in range()
 
-    # args = {
-    #     "batch_size": 2**i,
-    #     "num_epochs": j,
-    #     "n_layers": k,
-    #     "fanout": l,
-    #     "droupout": m,
-    #     "eval_every": n,
-    #     "log_every": o
-    # }
         # Container environment
 
-    train(args, data, device)
+    for k in range(3, 11):
+        for l in range(3, 6):
+                for m in [0.0, 0.25, 0.5, 0.75]:
+                    pass
+    args = {
+        "batch_size": 128,
+        "num_epochs": 50,
+        "n_layers": k,
+        "fanout": l,
+        "droupout": m,
+        "eval_every": 5,
+        "log_every": 20
+    }
+    curr_seed = torch.seed()
+    eval_acc, model = train(args, data, device)
+    best_model_path = ".".split(str(eval_acc))[1][:5] + ".pt"
+    torch.save(model.state_dict(), best_model_path)
+
 
