@@ -133,3 +133,5 @@ dmypy.json
 dataset/
 *.npy
 *.pt
+
+DGL/DGL_reference_implementation/fullBatch/wandb/
