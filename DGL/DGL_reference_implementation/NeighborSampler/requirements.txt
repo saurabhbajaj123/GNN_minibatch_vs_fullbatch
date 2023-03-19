@@ -1,7 +1,1 @@
 ogb
-torch-scatter
-torch-sparse
-torchaudio
-torchvision
-dgl
-dglgo

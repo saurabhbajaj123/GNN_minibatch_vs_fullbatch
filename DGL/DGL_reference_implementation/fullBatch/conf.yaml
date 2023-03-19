@@ -1,0 +1,24 @@
+project: full-batch
+program: main.py
+method: bayes
+metric:
+  name: val_acc
+  goal: maximize
+parameters:
+  num_hidden:
+    distribution: int_uniform
+    min: 64
+    max: 1024
+  num_layers:
+    distribution: int_uniform
+    min: 3
+    max: 10
+  lr:
+    distribution: log_uniform_values
+    min: 0.0001
+    max: 0.01
+
+command:
+  - ${env}
+  - python3
+  - main.py

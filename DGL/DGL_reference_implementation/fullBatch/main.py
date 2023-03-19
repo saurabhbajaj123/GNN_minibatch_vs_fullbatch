@@ -3,71 +3,38 @@ os.environ['DGLBACKEND'] = 'pytorch'
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
 
+import random
+import wandb
+wandb.login()
 import dgl
 import dgl.data
 import dgl.nn.pytorch as dglnn
 from ogb.nodeproppred import DglNodePropPredDataset
 
-root = "../dataset/"
-dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
-# device = "cuda" if torch.cuda.is_available() else "cpu"
-device = "cpu"
-
-
-graph, node_labels = dataset[0]
-# Add reverse edges since ogbn-arxiv is unidirectional.
-graph = dgl.add_reverse_edges(graph)
-print(f"graph data = {graph.ndata}")
-
-graph.ndata['label'] = node_labels[:, 0]
-
-print(f"graph data keys = {graph.ndata.keys()}")
-
-print(graph)
-print(node_labels)
-
-node_features = graph.ndata['feat']
-num_features = node_features.shape[1]
-num_classes = (node_labels.max() + 1).item()
-num_layers = 6
-num_hidden = 128
-activation = F.relu
-dropout = 0.5
-print('Number of classes:', num_classes)
-
-idx_split = dataset.get_idx_split()
-train_nids = idx_split['train']
-valid_nids = idx_split['valid']
-test_nids = idx_split['test']
-
-# print("len(train_nids) = {}, len(valid_nids) = {}, len(test_nids) = {} ".format(len(train_nids), len(valid_nids), len(test_nids)))
-# graph.ndata['train_mask'] = train_nids
-# graph.ndata['val_mask'] = valid_nids
-# graph.ndata['test_mask'] = test_nids
-
-
-
 class SAGE(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, agg
     ):
         super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
         self.layers = nn.ModuleList()
-        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, "mean"))
+        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, agg))
         for i in range(1, n_layers - 1):
-            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, "mean"))
-        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, "mean"))
-        # self.dropout = nn.Dropout(dropout)
+            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, agg))
+        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, agg))
+        self.dropout = nn.Dropout(dropout)
         self.activation = activation
+        # print(self.activation)
 
     def forward(self, g, x):
         h = x
         for l, conv in enumerate(self.layers):
             h = conv(g, h)
+            # print("self.activation = {}".format(type(self.activation)))
             if l != len(self.layers) - 1:
                 h = self.activation(h)
                 # h = self.dropout(h)
@@ -94,19 +61,64 @@ class SAGE(nn.Module):
 
         return h
 
-model = SAGE(num_features, num_hidden, num_classes, num_layers, activation, dropout).to(device)
-opt = torch.optim.Adam(model.parameters())
 
-def train(g, model, train_mask, val_mask, test_mask):
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+def train():
+    root = "../dataset/"
+    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # device = "cpu"
+    # train(dataset, device)
+
+    graph, node_labels = dataset[0]
+    graph = graph.to(device)
+    node_labels = node_labels.to(device)
+    # Add reverse edges since ogbn-arxiv is unidirectional.
+    graph = dgl.add_reverse_edges(graph)
+    print(f"graph data = {graph.ndata}")
+
+    graph.ndata['label'] = node_labels[:, 0]
+
+    print(f"graph data keys = {graph.ndata.keys()}")
+
+    print(graph)
+    print(node_labels)
+
+    node_features = graph.ndata['feat']
+    num_features = node_features.shape[1]
+    num_classes = (node_labels.max() + 1).item()
+    print('Number of classes:', num_classes)
+
+    idx_split = dataset.get_idx_split()
+    train_mask = idx_split['train']
+    val_mask = idx_split['valid']
+    test_mask = idx_split['test']
+
+    
+    wandb.init(
+        project="full-batch",
+        config={
+            "epochs": 10000,
+            "lr": 1e-2,
+            "dropout": random.uniform(0.5, 0.80),
+            "num_hidden": 512,
+            "num_layers": 3,
+            "agg": "gcn"
+            # "activation": F.relu,
+            })
+
+    config = wandb.config
+    print(config)
+    model = SAGE(num_features, config.num_hidden, num_classes, config.num_layers, F.relu, config.dropout, config.agg).to(device)
+
+    optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
     best_test_acc = 0
-
-    features = g.ndata["feat"]
-    labels = g.ndata["label"]
-    for e in range(1000):
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    features = graph.ndata["feat"].to(device)
+    labels = graph.ndata["label"].to(device)
+    for e in range(config.epochs):
         # Forward
-        logits = model(g, features)
+        logits = model(graph, features)
 
         # Compute prediction
         pred = logits.argmax(1)
@@ -125,10 +137,12 @@ def train(g, model, train_mask, val_mask, test_mask):
             best_val_acc = val_acc
             best_test_acc = test_acc
 
+        score = val_acc
         # Backward
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        scheduler.step()
 
         if e % 5 == 0:
             print(
@@ -137,6 +151,31 @@ def train(g, model, train_mask, val_mask, test_mask):
                 )
             )
 
+            wandb.log({'val_acc': val_acc,
+                        'test_acc': test_acc,
+                        'train_acc': train_acc,
+                        'lr': scheduler.get_last_lr()[0],
+            })
 
-# model = GCN(g.ndata["feat"].shape[1], 16, dataset.num_classes)
-train(graph, model, train_nids, valid_nids, test_nids)
+# train()
+
+sweep_configuration = {
+    'method': 'grid',
+    'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    'parameters': 
+    {
+        # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
+        # 'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+        # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+        # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
+        'num_hidden': {'values': [512, 1024]},
+        # "agg": {'values': ["mean", "gcn", "pool"]},
+        # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
+
+     }
+}
+sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch')
+
+wandb.agent(sweep_id, function=train, count=15)
+
+
