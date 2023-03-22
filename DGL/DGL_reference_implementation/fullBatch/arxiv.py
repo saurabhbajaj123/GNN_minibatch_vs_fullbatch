@@ -154,6 +154,8 @@ def train():
             wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
+                        'best_val_acc': best_val_acc,
+                        'best_test_acc': best_test_acc,
                         'lr': scheduler.get_last_lr()[0],
             })
 
