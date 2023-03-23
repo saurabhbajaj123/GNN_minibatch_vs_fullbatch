@@ -24,6 +24,9 @@ from dgl.nn import SAGEConv
 import tqdm
 import sklearn.metrics
 
+import warnings
+warnings.filterwarnings("ignore")
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -164,15 +167,15 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
 def train():
     
     wandb.init(
-        project="mini-batch",
+        project="mini-batch-products",
         config={
-            "num_epochs": 500,
-            "lr": 5*1e-3,
+            "num_epochs": 300,
+            "lr": 0.003,
             "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 1024,
-            "n_layers": 10,
+            "n_hidden": 256,
+            "n_layers": 3,
             "agg": "gcn",
-            "batch_size": 1024,
+            "batch_size": 4096,
             "fanout": 4,
             })
 
@@ -189,7 +192,7 @@ def train():
     agg = config.agg
     
     root="../dataset/"
-    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    dataset = DglNodePropPredDataset('ogbn-products', root=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
@@ -204,7 +207,7 @@ def train():
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
 
     best_train_acc = 0
     best_eval_acc = 0
@@ -331,27 +334,27 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    eval_acc, model = train()
+    # eval_acc, model = train()
         
     
-    # sweep_configuration = {
-    #     'method': 'grid',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 6, 'max': 9},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'values': [128, 256, 512]},
-    #         'fanout': {'distribution': 'int_uniform', 'min': 7, 'max': 9},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'values': [128, 256, 512]},
+            'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products')
 
-    # wandb.agent(sweep_id, function=train, count=10)
+    wandb.agent(sweep_id, function=train, count=10)
 
 #tmux
 # ctrl+b -> d
