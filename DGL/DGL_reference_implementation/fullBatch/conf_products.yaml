@@ -7,12 +7,14 @@ metric:
 parameters:
   num_hidden:
     distribution: int_uniform
-    min: 64
-    max: 512
+    min: 128
+    max: 1024
   num_layers:
     distribution: int_uniform
     min: 3
-    max: 5
+    max: 10
+  
+    
   # lr:
   #   distribution: log_uniform_values
   #   min: 0.0001

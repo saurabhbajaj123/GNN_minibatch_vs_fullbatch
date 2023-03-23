@@ -99,10 +99,10 @@ def train():
         project="full-batch",
         config={
             "epochs": 10,
-            "lr": 1e-2,
+            "lr": 5*1e-3,
             "dropout": random.uniform(0.5, 0.8),
-            "num_hidden": 512,
-            "num_layers": 3,
+            "num_hidden": 256,
+            "num_layers": 6,
             "agg": "gcn"
             # "activation": F.relu,
             })

@@ -97,8 +97,8 @@ def train():
     wandb.init(
         project="full-batch",
         config={
-            "epochs": 10000,
-            "lr": 1e-2,
+            "epochs": 1000,
+            "lr": 1e-3,
             "dropout": random.uniform(0.5, 0.80),
             "num_hidden": 512,
             "num_layers": 3,
@@ -168,9 +168,9 @@ sweep_configuration = {
     {
         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
         # 'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-        # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+        'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
         # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
-        'num_hidden': {'values': [512, 1024]},
+        # 'num_hidden': {'values': [512, 1024]},
         # "agg": {'values': ["mean", "gcn", "pool"]},
         # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
 
