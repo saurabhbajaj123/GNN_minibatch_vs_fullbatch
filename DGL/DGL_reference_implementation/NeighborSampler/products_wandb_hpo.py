@@ -169,14 +169,14 @@ def train():
     wandb.init(
         project="mini-batch-products",
         config={
-            "num_epochs": 300,
-            "lr": 0.003,
+            "num_epochs": 500,
+            "lr": 3*1e-3,
             "dropout": random.uniform(0.5, 0.80),
             "n_hidden": 256,
-            "n_layers": 3,
+            "n_layers": 7,
             "agg": "gcn",
-            "batch_size": 4096,
-            "fanout": 4,
+            "batch_size": 12,
+            "fanout": 3,
             })
 
 
@@ -186,7 +186,7 @@ def train():
     n_hidden = config.n_hidden
     num_epochs = config.num_epochs
     dropout = config.dropout
-    batch_size = config.batch_size
+    batch_size = 2**config.batch_size
     fanout = config.fanout
     lr = config.lr
     agg = config.agg
@@ -207,7 +207,7 @@ def train():
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
 
     best_train_acc = 0
     best_eval_acc = 0
@@ -338,23 +338,25 @@ if __name__ == "__main__":
         
     
     sweep_configuration = {
-        'method': 'bayes',
+        'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
             # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            'n_layers': {'values':[6, 7, 8]},
             # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
-            'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
+            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+            # 'batch_size': {'values':[7, 6, 5]},
+            # 'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products')
 
-    wandb.agent(sweep_id, function=train, count=10)
+    wandb.agent(sweep_id, function=train, count=50)
 
 #tmux
 # ctrl+b -> d

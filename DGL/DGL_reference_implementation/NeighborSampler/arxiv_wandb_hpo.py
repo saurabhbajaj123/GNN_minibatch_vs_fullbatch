@@ -127,7 +127,8 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
     n_classes = (node_labels.max() + 1).item()
-    
+
+    logger.info("Get train data loader")
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
     graph,              # The graph
@@ -140,7 +141,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     drop_last=False,    # Whether to drop the last incomplete batch
     num_workers=0       # Number of sampler processes
     )
-
+    logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
     graph, valid_nids, sampler,
     batch_size=batch_size,
@@ -150,6 +151,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     device=device
     )
 
+    logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
     graph, test_nids, sampler,
     batch_size=batch_size,
@@ -159,6 +161,8 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     device=device
     )
 
+    logger.info("Train-val-test data loader created")
+    
     return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
 
 def train():
