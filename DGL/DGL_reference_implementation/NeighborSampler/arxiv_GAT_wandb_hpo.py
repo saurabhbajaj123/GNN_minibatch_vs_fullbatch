@@ -1,0 +1,392 @@
+import argparse
+import json
+import logging
+import os
+import sys
+import pickle
+
+import dgl
+from dgl.nn import GATConv
+
+import torch
+import numpy as np
+from ogb.nodeproppred import DglNodePropPredDataset
+import time 
+import numpy as np
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+
+
+import random
+import wandb
+wandb.login()
+
+import torch.nn as nn
+import torch.nn.functional as F
+# from dgl.nn import SAGEConv
+import tqdm
+import sklearn.metrics
+
+
+import warnings
+warnings.filterwarnings("ignore")
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+
+
+class Model(nn.Module):
+    def __init__(
+        self, in_feats, num_heads, n_hidden, n_classes, n_layers
+    ):
+        super(Model, self).__init__()
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.n_classes = n_classes
+        self.num_heads = num_heads
+
+        self.layers = nn.ModuleList()
+        self.layers.append(GATConv(in_feats, n_hidden, num_heads=num_heads))
+        for _ in range(n_layers - 2):
+            self.layers.append(GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
+        self.layers.append(GATConv(n_hidden*num_heads, n_classes, num_heads=1))
+
+    def forward(self, mfgs, x):
+        # h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
+        # h = self.layers[0](mfgs[0], x)
+        h = x
+        for i in range(self.n_layers - 1):
+            # h_dst = h[:mfgs[i].num_dst_nodes()]  # <---
+            # print(mfgs[i], h.shape)
+            h = self.layers[i](mfgs[i], h)
+            # h = F.relu(h)
+            # h = self.activation(h)
+            # h = self.dropout(h)
+            h = h.flatten(1)
+
+        # h_dst = h[:mfgs[-1].num_dst_nodes()]  # <---
+        h = self.layers[-1](mfgs[-1], h)
+        # print(h.shape)
+        h = h.mean(1)
+        # print(h.shape)
+        return h
+
+    # def forward(self, g, x):
+    #     h = x
+    #     for l, conv in enumerate(self.layers):
+    #         h = conv(g, h)
+    #         if l < len(self.layers) - 1:
+    #             h = h.flatten(1)
+    #     h = h.mean(1)
+    #     return h.log_softmax(dim=-1)
+
+
+def parse_args_fn():
+    """
+    Parse arguments
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=1024,
+        metavar="N",
+        help="input batch size for training (default: 64)",
+    )
+
+    parser.add_argument(
+        "--num_epochs",
+        type=int,
+        default=10,
+        metavar="N",
+        help="number of epochs to train (default: 10)",
+    )
+
+    parser.add_argument("--n_layers", type=int, default=8)
+    parser.add_argument("--fanout", type=int, default=4)
+    parser.add_argument("--n_hidden", type=int, default=2**6)
+    parser.add_argument("--dropout", type=float, default=0.0)
+    parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--log-every", type=int, default=20)
+
+    # parser.add_argument("--train", type=str, default=os.environ.get("SM_CHANNEL_TRAIN"))
+    # parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
+    # parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
+    # parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
+    # # parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
+    # parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
+
+    args = parser.parse_args()
+
+    return args
+
+def load_dataset(path):
+    """
+    Load entire dataset
+    """
+    # find all files with pkl extenstion and load the first one
+    files = [os.path.join(path, file) for file in os.listdir(path) if file.endswith("pkl")]
+
+    if len(files) == 0:
+        raise ValueError("Invalid # of files in dir: {}".format(path))
+
+    dataset = pickle.load(open(files[0], 'rb'))
+def _get_data_loader(sampler, device, dataset, batch_size=1024):
+    logger.info("Get train-val-test data loader")
+    
+
+    idx_split = dataset.get_idx_split()
+    train_nids = idx_split['train']
+    valid_nids = idx_split['valid']
+    test_nids = idx_split['test']
+
+    graph, node_labels = dataset[0]
+    graph = dgl.add_reverse_edges(graph)
+    graph.ndata['label'] = node_labels[:, 0]
+
+    node_features = graph.ndata['feat']
+    in_feats = node_features.shape[1]
+    n_classes = (node_labels.max() + 1).item()
+
+    logger.info("Get train data loader")
+    train_dataloader = dgl.dataloading.DataLoader(
+    # The following arguments are specific to DGL's DataLoader.
+    graph,              # The graph
+    train_nids,         # The node IDs to iterate over in minibatches
+    sampler,            # The neighbor sampler
+    device=device,      # Put the sampled MFGs on CPU or GPU
+    # The following arguments are inherited from PyTorch DataLoader.
+    batch_size=batch_size,    # Batch size
+    shuffle=True,       # Whether to shuffle the nodes for every epoch
+    drop_last=False,    # Whether to drop the last incomplete batch
+    num_workers=0,       # Number of sampler processes
+    use_uva=True,
+    )
+    logger.info("Get val data loader")
+    valid_dataloader = dgl.dataloading.DataLoader(
+    graph, valid_nids, sampler,
+    batch_size=batch_size,
+    shuffle=False,
+    drop_last=False,
+    num_workers=0,
+    device=device,
+    use_uva=True,
+    )
+
+    logger.info("Get test data loader")
+    test_dataloader = dgl.dataloading.DataLoader(
+    graph, test_nids, sampler,
+    batch_size=batch_size,
+    shuffle=False,
+    drop_last=False,
+    num_workers=0,
+    device=device,
+    use_uva=True,
+    )
+
+    logger.info("Train-val-test data loader created")
+    
+    return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
+
+def train():
+    
+    wandb.init(
+        project="mini-batch",
+        config={
+            "num_epochs": 1000,
+            "lr": 5*1e-3,
+            "dropout": random.uniform(0.5, 0.80),
+            "n_hidden": 256,
+            "n_layers": 3,
+            "num_heads":2,
+            "agg": "gcn",
+            "batch_size": 2**10,
+            "fanout": 4,
+            })
+
+
+    config = wandb.config
+    
+    n_layers = config.n_layers
+    n_hidden = config.n_hidden
+    num_epochs = config.num_epochs
+    dropout = config.dropout
+    batch_size = config.batch_size
+    fanout = config.fanout
+    lr = config.lr
+    agg = config.agg
+    num_heads = config.num_heads
+    
+    root="../dataset/"
+    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
+
+    data = _get_data_loader(sampler, device, dataset, batch_size)
+
+    train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = data
+    print("in_feats = {}, n_classes = {}".format(in_feats, n_classes))
+    input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
+
+    activation = F.relu
+
+    model = Model(in_feats, num_heads, n_hidden, n_classes, n_layers).to(device)
+    # print("model = {}".format(model))
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+
+    best_train_acc = 0
+    best_eval_acc = 0
+    best_test_acc = 0
+
+    best_model_path = 'model.pt'
+    best_model = None
+    total_time = 0
+
+    time_load = 0
+    time_forward = 0
+    time_backward = 0
+    total_time = 0
+    for epoch in range(num_epochs):
+        model.train()
+        tic = time.time()
+        
+        
+
+        for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
+            tic_start = time.time()
+            inputs = mfgs[0].srcdata['feat']
+            labels = mfgs[-1].dstdata['label']
+            tic_step = time.time()
+            predictions = model(mfgs, inputs)
+            # print(predictions.shape, labels.shape)
+            loss = F.cross_entropy(predictions, labels)
+            optimizer.zero_grad()
+            tic_forward = time.time()
+            loss.backward()
+            optimizer.step()
+            scheduler.step()
+            tic_backward = time.time()
+
+            time_load += tic_step - tic_start
+            time_forward += tic_forward - tic_step
+            time_backward += tic_backward - tic_forward
+            
+            break
+            # accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
+            # if step % 100 == 0:
+            #     logger.debug(
+            #             "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
+            #                 epoch, step, loss.item(), accuracy.item()
+            #             )
+            #         )
+                # print(
+                #         "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
+                #             epoch, step, loss.item(), accuracy.item()
+                #         )
+                #     )
+        toc = time.time()
+        total_time += toc - tic
+        # logger.debug(
+        #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
+        #         toc - tic, time_load, time_forward, time_backward
+        #     )
+        # )        
+        # print(
+        #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
+        #         toc - tic, time_load, time_forward, time_backward
+        #     )
+        # )
+
+        if epoch % 5 == 0:
+            model.eval()
+
+            train_predictions = []
+            train_labels = []
+            val_predictions = []
+            val_labels = []
+            test_predictions = []
+            test_labels = []
+            # with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
+            with torch.no_grad():
+                # for input_nodes, output_nodes, mfgs in tq:
+                for input_nodes, output_nodes, mfgs in train_dataloader:
+                    inputs = mfgs[0].srcdata['feat']
+                    train_labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
+                    train_predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
+                train_predictions = np.concatenate(train_predictions)
+                train_labels = np.concatenate(train_labels)
+                train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
+                if best_train_acc < train_acc:
+                    best_train_acc = train_acc
+                    # best_model = model
+
+                for input_nodes, output_nodes, mfgs in valid_dataloader:
+                    inputs = mfgs[0].srcdata['feat']
+                    val_labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
+                    val_predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
+                val_predictions = np.concatenate(val_predictions)
+                val_labels = np.concatenate(val_labels)
+                eval_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
+                if best_eval_acc < eval_acc:
+                    best_eval_acc = eval_acc
+                    best_model = model
+
+                for input_nodes, output_nodes, mfgs in test_dataloader:
+                    inputs = mfgs[0].srcdata['feat']
+                    test_labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
+                    test_predictions.append(model(mfgs, inputs).argmax(1).cpu().numpy())
+                test_predictions = np.concatenate(test_predictions)
+                test_labels = np.concatenate(test_labels)
+                test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
+                if best_test_acc < test_acc:
+                    best_test_acc = test_acc
+                    # best_model = model
+                    # torch.save(model.state_dict(), best_model_path)
+                logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, eval_acc, best_eval_acc, test_acc, best_test_acc))
+            
+            wandb.log({'val_acc': eval_acc,
+                        'test_acc': test_acc,
+                        'train_acc': train_acc,
+                        'best_eval_acc': best_eval_acc,
+                        'best_test_acc': best_test_acc,
+                        'best_train_acc': best_train_acc,
+                        'lr': scheduler.get_last_lr()[0],
+            })
+            
+    logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
+    logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
+    return best_eval_acc, model
+
+if __name__ == "__main__":
+    
+    # args = parse_args_fn()
+
+    # eval_acc, model = train()
+        
+    
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 512},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'values': [128, 256, 512]},
+            'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 9},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
+
+    wandb.agent(sweep_id, function=train, count=30)
+
+#tmux
+# ctrl+b -> d
+# attach -t
+# tmux attach -t 0
