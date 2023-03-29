@@ -83,9 +83,9 @@ def train():
     print(node_labels)
 
     node_features = graph.ndata['feat']
-    num_features = node_features.shape[1]
-    num_classes = (node_labels.max() + 1).item()
-    print('Number of classes:', num_classes)
+    in_feats = node_features.shape[1]
+    n_classes = (node_labels.max() + 1).item()
+    print('Number of classes:', n_classes)
 
     idx_split = dataset.get_idx_split()
     train_mask = idx_split['train']
@@ -98,16 +98,15 @@ def train():
         config={
             "epochs": 1000,
             "lr": 1e-3,
-            "dropout": random.uniform(0.5, 0.80),
-            "num_hidden": 512,
-            "num_layers": 3,
-            "agg": "gcn"
-            # "activation": F.relu,
+            "n_hidden": 512,
+            "n_layers": 3,
+            "num_heads": 2,
+
             })
 
     config = wandb.config
     print(config)
-    model = SAGE(num_features, config.num_hidden, num_classes, config.num_layers, F.relu, config.dropout, config.agg).to(device)
+    model = SAGE(in_feats, num_heads, n_hidden, n_classes, n_layers).to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
@@ -166,13 +165,8 @@ sweep_configuration = {
     'parameters': 
     {
         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-        # 'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-        'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-        # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
-        # 'num_hidden': {'values': [512, 1024]},
-        # "agg": {'values': ["mean", "gcn", "pool"]},
-        # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
-
+        # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+        'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
      }
 }
 sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch')
