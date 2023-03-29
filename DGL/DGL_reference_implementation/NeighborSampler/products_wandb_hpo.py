@@ -136,7 +136,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     graph,              # The graph
     train_nids,         # The node IDs to iterate over in minibatches
     sampler,            # The neighbor sampler
-    device=device,      # Put the sampled MFGs on CPU or GPU
+    # device=device,      # Put the sampled MFGs on CPU or GPU
     # The following arguments are inherited from PyTorch DataLoader.
     batch_size=batch_size,    # Batch size
     shuffle=True,       # Whether to shuffle the nodes for every epoch
@@ -150,7 +150,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     shuffle=False,
     drop_last=False,
     num_workers=0,
-    device=device
+    # device=device
     )
 
     test_dataloader = dgl.dataloading.DataLoader(
@@ -159,7 +159,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     shuffle=False,
     drop_last=False,
     num_workers=0,
-    device=device
+    # device=device
     )
 
     return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
@@ -170,7 +170,7 @@ def train():
         project="mini-batch-products",
         config={
             "num_epochs": 500,
-            "lr": 3*1e-3,
+            "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.80),
             "n_hidden": 256,
             "n_layers": 7,
@@ -207,7 +207,7 @@ def train():
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=5*1e-4)
 
     best_train_acc = 0
     best_eval_acc = 0
@@ -229,10 +229,10 @@ def train():
 
         for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
             tic_start = time.time()
-            inputs = mfgs[0].srcdata['feat']
-            labels = mfgs[-1].dstdata['label']
+            inputs = mfgs[0].srcdata['feat'].to(device)
+            labels = mfgs[-1].dstdata['label'].to(device)
             tic_step = time.time()
-            predictions = model(mfgs, inputs)
+            predictions = model(mfgs.to(device), inputs)
             loss = F.cross_entropy(predictions, labels)
             optimizer.zero_grad()
             tic_forward = time.time()
