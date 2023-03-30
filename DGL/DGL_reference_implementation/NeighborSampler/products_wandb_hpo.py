@@ -289,8 +289,8 @@ def train():
                 train_predictions = np.concatenate(train_predictions)
                 train_labels = np.concatenate(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
-                if best_train_acc < train_acc:
-                    best_train_acc = train_acc
+                # if best_train_acc < train_acc:
+                #     best_train_acc = train_acc
                     # best_model = model
 
                 for input_nodes, output_nodes, mfgs in valid_dataloader:
@@ -300,9 +300,7 @@ def train():
                 val_predictions = np.concatenate(val_predictions)
                 val_labels = np.concatenate(val_labels)
                 eval_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
-                if best_eval_acc < eval_acc:
-                    best_eval_acc = eval_acc
-                    best_model = model
+
 
                 for input_nodes, output_nodes, mfgs in test_dataloader:
                     inputs = mfgs[0].srcdata['feat']
@@ -311,12 +309,18 @@ def train():
                 test_predictions = np.concatenate(test_predictions)
                 test_labels = np.concatenate(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
-                if best_test_acc < test_acc:
-                    best_test_acc = test_acc
+                # if best_test_acc < test_acc:
+                #     best_test_acc = test_acc
                     # best_model = model
                     # torch.save(model.state_dict(), best_model_path)
                 logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, eval_acc, best_eval_acc, test_acc, best_test_acc))
-            
+                
+                if best_eval_acc < eval_acc:
+                    best_eval_acc = eval_acc
+                    best_model = model
+                    best_test_acc = test_acc
+                    best_train_acc = train_acc
+
             wandb.log({'val_acc': eval_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,

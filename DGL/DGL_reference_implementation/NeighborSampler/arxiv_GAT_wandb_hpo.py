@@ -372,19 +372,15 @@ if __name__ == "__main__":
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-            'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 512},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 512},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
             'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 9},
+            'num_heads': {'distribution': 'int_uniform', 'min': 2, 'max': 10},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    wandb.agent(sweep_id, function=train, count=10)
 
 #tmux
 # ctrl+b -> d
