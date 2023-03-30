@@ -12,6 +12,7 @@ import dgl
 import dgl.data
 import dgl.nn.pytorch as dglnn
 from ogb.nodeproppred import DglNodePropPredDataset
+from dgl.nn import GATConv
 
 class SAGE(nn.Module):
     def __init__(
@@ -73,19 +74,12 @@ def train():
     node_labels = node_labels.to(device)
     # Add reverse edges since ogbn-arxiv is unidirectional.
     graph = dgl.add_reverse_edges(graph)
-    print(f"graph data = {graph.ndata}")
 
     graph.ndata['label'] = node_labels[:, 0]
-
-    print(f"graph data keys = {graph.ndata.keys()}")
-
-    print(graph)
-    print(node_labels)
 
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
     n_classes = (node_labels.max() + 1).item()
-    print('Number of classes:', n_classes)
 
     idx_split = dataset.get_idx_split()
     train_mask = idx_split['train']
@@ -97,7 +91,7 @@ def train():
         project="full-batch",
         config={
             "epochs": 1000,
-            "lr": 1e-3,
+            "lr": 5*1e-3,
             "n_hidden": 512,
             "n_layers": 3,
             "num_heads": 2,
@@ -106,11 +100,16 @@ def train():
 
     config = wandb.config
     print(config)
+    num_heads = config.num_heads
+    n_hidden = config.n_hidden
+    n_layers = config.n_layers
     model = SAGE(in_feats, num_heads, n_hidden, n_classes, n_layers).to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
     best_test_acc = 0
+    best_train_acc = 0
+
     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
@@ -134,7 +133,7 @@ def train():
         if best_val_acc < val_acc:
             best_val_acc = val_acc
             best_test_acc = test_acc
-
+            best_train_acc = train_acc
         score = val_acc
         # Backward
         optimizer.zero_grad()
@@ -152,6 +151,7 @@ def train():
             wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
+                        'best_train_acc': best_train_acc,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
                         'lr': scheduler.get_last_lr()[0],
@@ -160,17 +160,18 @@ def train():
 # train()
 
 sweep_configuration = {
-    'method': 'grid',
+    'method': 'bayes',
     'metric': {'goal': 'maximize', 'name': 'val_acc'},
     'parameters': 
     {
         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-        # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+        'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 512},
         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+        'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10}
      }
 }
 sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch')
 
-wandb.agent(sweep_id, function=train, count=15)
+wandb.agent(sweep_id, function=train, count=20)
 
 
