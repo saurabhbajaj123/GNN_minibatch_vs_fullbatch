@@ -13,54 +13,20 @@ import dgl.data
 import dgl.nn.pytorch as dglnn
 from ogb.nodeproppred import DglNodePropPredDataset
 from models import *
+from conf import *
 
-# class SAGE(nn.Module):
-#     def __init__(
-#         self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, agg
-#     ):
-#         super().__init__()
-#         self.n_layers = n_layers
-#         self.n_hidden = n_hidden
-#         self.n_classes = n_classes
-#         self.layers = nn.ModuleList()
-#         self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, agg))
-#         for i in range(1, n_layers - 1):
-#             self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, agg))
-#         self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, agg))
-#         self.dropout = nn.Dropout(dropout)
-#         self.activation = activation
-#         # print(self.activation)
 
-#     def forward(self, g, x):
-#         h = x
-#         for l, conv in enumerate(self.layers):
-#             h = conv(g, h)
-#             # print("self.activation = {}".format(type(self.activation)))
-#             if l != len(self.layers) - 1:
-#                 h = self.activation(h)
-#                 # h = self.dropout(h)
-#         return h
+def get_model_and_config(name):
+    name = name.lower()
+    if name == "gat":
+        return GAT, GAT_CONFIG
+    elif name == "graphsage":
+        return SAGE, GRAPHSAGE_CONFIG
+    
 
-#     def inference(self, g, x, batch_size, device):
-#         """
-#         Inference with the GraphSAGE model on full neighbors (i.e. without neighbor sampling).
-#         g : the entire graph.
-#         x : the input of entire node set.
-#         The inference code is written in a fashion that it could handle any number of nodes and
-#         layers.
-#         """
-#         # During inference with sampling, multi-layer blocks are very inefficient because
-#         # lots of computations in the first few layers are repeated.
-#         # Therefore, we compute the representation of all nodes layer by layer.  The nodes
-#         # on each layer are of course splitted in batches.
-#         # TODO: can we standardize this?
-#         h = x
-#         for l, conv in enumerate(self.layers):
-#             h = conv(g, h)
-#             if l != len(self.layers) - 1:
-#                 h = self.activation(h)
 
-#         return h
+
+
 
 
 def train():
@@ -86,9 +52,9 @@ def train():
     print(node_labels)
 
     node_features = graph.ndata['feat']
-    num_features = node_features.shape[1]
-    num_classes = (node_labels.max() + 1).item()
-    print('Number of classes:', num_classes)
+    in_feats = node_features.shape[1]
+    n_classes = (node_labels.max() + 1).item()
+    print('Number of classes:', n_classes)
 
     idx_split = dataset.get_idx_split()
     train_mask = idx_split['train']
@@ -99,25 +65,28 @@ def train():
     wandb.init(
         project="full-batch",
         config={
-            "model": "SAGE",
+            "model": "GAT",
             "epochs": 10,
             "lr": 5*1e-3,
-            "dropout": random.uniform(0.5, 0.8),
-            "num_hidden": 256,
-            "num_layers": 6,
-            "agg": "gcn"
+            # "dropout": random.uniform(0.5, 0.8),
+            "n_hidden": 256,
+            "n_layers": 6,
+            "num_heads": 2,
+            # "agg": "gcn"
             # "activation": F.relu,
             })
 
     config = wandb.config
     print(config)
+    GNN, extra_config = get_model_and_config(config.model)
+    extra_config['extra_args'] = [config.num_heads]
 
-
-    model = SAGE(num_features, config.num_hidden, num_classes, config.num_layers, F.relu, config.dropout, config.agg).to(device)
+    model = GNN(in_feats, n_classes, config.n_hidden, config.n_layers, *extra_config['extra_args']).to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
     best_test_acc = 0
+    best_train_acc = 0
     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
@@ -141,6 +110,7 @@ def train():
         if best_val_acc < val_acc:
             best_val_acc = val_acc
             best_test_acc = test_acc
+            best_train_acc = train_acc
 
         score = val_acc
         # Backward
@@ -161,6 +131,7 @@ def train():
                         'train_acc': train_acc,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
+                        'best_train_acc': best_train_acc,
                         'lr': scheduler.get_last_lr()[0],
             })
 
