@@ -82,7 +82,7 @@ def train():
     extra_config['extra_args'] = [config.num_heads]
 
     model = GNN(in_feats, n_classes, config.n_hidden, config.n_layers, *extra_config['extra_args']).to(device)
-
+    print(model)
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
     best_test_acc = 0
