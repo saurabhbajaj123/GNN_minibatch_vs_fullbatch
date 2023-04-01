@@ -23,15 +23,9 @@ def get_model_and_config(name):
     elif name == "graphsage":
         return SAGE, GRAPHSAGE_CONFIG
     
-
-
-
-
-
-
 def train():
     root = "../dataset/"
-    dataset = DglNodePropPredDataset('ogbn-products', root=root)
+    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("device = {}".format(device))
     # device = "cpu"
@@ -65,21 +59,24 @@ def train():
     wandb.init(
         project="full-batch",
         config={
-            "model": "GAT",
-            "epochs": 10,
+            "model": "Graphsage",
+            "epochs": 1000,
             "lr": 5*1e-3,
-            # "dropout": random.uniform(0.5, 0.8),
+            "dropout": random.uniform(0.5, 0.8),
             "n_hidden": 256,
             "n_layers": 6,
             "num_heads": 2,
-            # "agg": "gcn"
-            # "activation": F.relu,
+            "agg": "gcn",
+            "activation": F.relu,
             })
 
     config = wandb.config
     print(config)
     GNN, extra_config = get_model_and_config(config.model)
-    extra_config['extra_args'] = [config.num_heads]
+    if config.model.lower() == 'gat':
+        extra_config['extra_args'] = [config.num_heads]
+    elif config.model.lower() == "graphsage":
+        extra_config['extra_args'] = [F.relu, config.dropout, config.agg]
 
     model = GNN(in_feats, n_classes, config.n_hidden, config.n_layers, *extra_config['extra_args']).to(device)
     print(model)
