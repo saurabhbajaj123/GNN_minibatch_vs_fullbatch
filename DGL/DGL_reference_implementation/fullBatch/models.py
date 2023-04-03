@@ -19,6 +19,7 @@ class SAGE(nn.Module):
     def __init__(
         self, in_feats, n_classes, n_hidden, n_layers, activation, dropout, agg
     ):
+        print(activation)
         super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
