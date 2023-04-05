@@ -97,11 +97,11 @@ def train():
     wandb.init(
         project="full-batch",
         config={
-            "epochs": 1000,
+            "epochs": 5000,
             "lr": 1e-3,
-            "dropout": random.uniform(0.5, 0.80),
+            "dropout": random.uniform(0.4, 0.80),
             "num_hidden": 512,
-            "num_layers": 3,
+            "num_layers": 4,
             "agg": "gcn"
             # "activation": F.relu,
             })
@@ -113,7 +113,7 @@ def train():
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
     best_test_acc = 0
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-5)
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
     for e in range(config.epochs):
@@ -168,10 +168,10 @@ sweep_configuration = {
     {
         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
         # 'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-        'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+        # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
         # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
         # 'num_hidden': {'values': [512, 1024]},
-        # "agg": {'values': ["mean", "gcn", "pool"]},
+        "agg": {'values': ["mean", "gcn", "pool"]},
         # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
 
      }
