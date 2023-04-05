@@ -1,0 +1,125 @@
+{
+    "os": "Linux-5.15.0-1031-aws-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2023-04-05T11:37:47.592031",
+    "startedAt": "2023-04-05T11:37:47.155599",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "arxiv_saint.py",
+    "codePath": "DGL/DGL_reference_implementation/SaintSampler/arxiv_saint.py",
+    "git": {
+        "remote": "https://github.com/saurabhbajaj123/GNN_minibatch_vs_fullbatch.git",
+        "commit": "6789381e5b5f95329d6d538a2ec9493729e2f372"
+    },
+    "email": null,
+    "root": "/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch",
+    "host": "ip-172-31-79-39",
+    "username": "ubuntu",
+    "executable": "/home/ubuntu/GNN_mini_vs_full/GNNEnv/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 16,
+    "cpu_freq": {
+        "current": 3109.27975,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3294.376,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3294.641,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3293.835,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3295.331,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2799.976,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3294.922,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3295.478,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3295.092,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3294.841,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2799.976,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3294.97,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3295.134,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3293.517,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2799.976,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3294.53,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2799.976,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "total": 290.7472343444824,
+        "used": 43.10973358154297
+    },
+    "gpu": "NVIDIA A10G",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA A10G",
+            "memory_total": 24146608128
+        }
+    ],
+    "memory": {
+        "total": 62.12956619262695
+    }
+}

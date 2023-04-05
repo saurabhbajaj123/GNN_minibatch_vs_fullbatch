@@ -1,0 +1,10 @@
+wandb_version: 1
+
+agg:
+  value: gcn
+budget:
+  value: 2922
+n_hidden:
+  value: 871
+n_layers:
+  value: 3

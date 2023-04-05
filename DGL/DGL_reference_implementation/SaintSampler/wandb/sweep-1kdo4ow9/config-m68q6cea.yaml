@@ -1,0 +1,10 @@
+wandb_version: 1
+
+agg:
+  value: pool
+budget:
+  value: 7282
+n_hidden:
+  value: 350
+n_layers:
+  value: 9

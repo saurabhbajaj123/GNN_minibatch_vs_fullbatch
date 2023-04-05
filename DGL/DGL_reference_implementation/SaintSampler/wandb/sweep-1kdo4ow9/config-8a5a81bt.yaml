@@ -1,0 +1,10 @@
+wandb_version: 1
+
+agg:
+  value: mean
+budget:
+  value: 2912
+n_hidden:
+  value: 663
+n_layers:
+  value: 7
