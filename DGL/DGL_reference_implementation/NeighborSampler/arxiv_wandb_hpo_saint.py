@@ -136,7 +136,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     sampler,            # The neighbor sampler
     device=device,      # Put the sampled MFGs on CPU or GPU
     # The following arguments are inherited from PyTorch DataLoader.
-    batch_size=batch_size,    # Batch size
+    # batch_size=batch_size,    # Batch size
     shuffle=True,       # Whether to shuffle the nodes for every epoch
     drop_last=False,    # Whether to drop the last incomplete batch
     num_workers=0       # Number of sampler processes
@@ -144,7 +144,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
     graph, valid_nids, sampler,
-    batch_size=batch_size,
+    # batch_size=batch_size,
     shuffle=False,
     drop_last=False,
     num_workers=0,
@@ -154,7 +154,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
     graph, test_nids, sampler,
-    batch_size=batch_size,
+    # batch_size=batch_size,
     shuffle=False,
     drop_last=False,
     num_workers=0,
@@ -170,7 +170,7 @@ def train():
     wandb.init(
         project="mini-batch",
         config={
-            "num_epochs": 500,
+            "num_epochs": 10,
             "lr": 5*1e-3,
             "dropout": random.uniform(0.5, 0.80),
             "n_hidden": 1024,
@@ -197,7 +197,7 @@ def train():
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-    sampler = dgl.dataloading.SAINTSampler(mode='node', budget=10000)
+    sampler = dgl.dataloading.SAINTSampler(mode='node', budget=1000, output_device='cuda')
 
     data = _get_data_loader(sampler, device, dataset, batch_size)
 
