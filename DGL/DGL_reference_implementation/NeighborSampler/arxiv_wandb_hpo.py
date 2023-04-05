@@ -28,6 +28,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
+import warnings
+warnings.filterwarnings("ignore")
 
 class Model(nn.Module):
     def __init__(
@@ -170,14 +172,14 @@ def train():
     wandb.init(
         project="mini-batch",
         config={
-            "num_epochs": 500,
-            "lr": 5*1e-3,
+            "num_epochs": 10000,
+            "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 1024,
-            "n_layers": 10,
+            "n_hidden": 512,
+            "n_layers": 6,
             "agg": "gcn",
             "batch_size": 1024,
-            "fanout": 4,
+            "fanout": 9,
             })
 
 
@@ -208,7 +210,7 @@ def train():
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
 
     best_train_acc = 0
     best_eval_acc = 0
