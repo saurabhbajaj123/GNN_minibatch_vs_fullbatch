@@ -1,6 +1,0 @@
-wandb_version: 1
-
-n_hidden:
-  value: 1447
-n_layers:
-  value: 6

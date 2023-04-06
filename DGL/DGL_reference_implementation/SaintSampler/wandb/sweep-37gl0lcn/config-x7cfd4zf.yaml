@@ -1,8 +1,0 @@
-wandb_version: 1
-
-budget:
-  value: 7090
-n_hidden:
-  value: 577
-n_layers:
-  value: 6
