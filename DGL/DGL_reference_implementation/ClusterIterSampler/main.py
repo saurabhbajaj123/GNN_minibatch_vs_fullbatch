@@ -1,3 +1,4 @@
+
 import argparse
 import time
 import traceback
@@ -7,10 +8,6 @@ import dgl
 import dgl.function as fn
 import dgl.nn.pytorch as dglnn
 
-import random
-import wandb
-wandb.login()
-
 import numpy as np
 import torch as th
 import torch.multiprocessing as mp
@@ -18,26 +15,27 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import tqdm
-# from dgl.data import Reet
+from dgl.data import RedditDataset
 from ogb.nodeproppred import DglNodePropPredDataset
 from sampler import ClusterIter, subgraph_collate_fn
 from torch.utils.data import DataLoader
 
+#### Neighbor sampler
 
 
 class SAGE(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, aggregator_type="mean",
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout
     ):
         super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
         self.layers = nn.ModuleList()
-        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, aggregator_type="mean"))
+        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, "mean"))
         for i in range(1, n_layers - 1):
-            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, aggregator_type="mean"))
-        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, aggregator_type="mean"))
+            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, "mean"))
+        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, "mean"))
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 
@@ -71,7 +69,6 @@ class SAGE(nn.Module):
 
         return h
 
-#### Neighbor sampler
 
 def compute_acc(pred, labels):
     """
@@ -114,30 +111,6 @@ def load_subtensor(g, labels, seeds, input_nodes, device):
 
 #### Entry point
 def run(args, device, data):
-
-    wandb.init(
-        project="mini-batch-cluster",
-        config={
-            "num_epochs": 10000,
-            "lr": 2*1e-3,
-            "dropout": random.uniform(0.3, 0.6),
-            "n_hidden": 1024,
-            "n_layers": 10,
-            "agg": "mean",
-            "batch_size": 2**10,
-            "num_partitions": 1000,
-            })
-    
-    config = wandb.config
-    
-    args.num_hidden = config.n_hidden
-    args.num_layers = config.n_layers
-    args.dropout = config.dropout
-    args.lr = config.lr
-    args.num_epochs = config.num_epochs
-    args.num_partitions = config.num_partitions
-    args.batch_size = config.batch_size
-    args.agg = config.agg
     # Unpack data
     (
         train_nid,
@@ -158,7 +131,6 @@ def run(args, device, data):
         args.num_layers,
         F.relu,
         args.dropout,
-        args.agg,
     )
     model = model.to(device)
     loss_fcn = nn.CrossEntropyLoss()
@@ -203,50 +175,48 @@ def run(args, device, data):
             iter_back += tic_back - tic_far
 
             tic_start = time.time()
-            # if step % args.log_every == 0:
-            #     train_acc = compute_acc(batch_pred, batch_labels)
-            #     gpu_mem_alloc = (
-            #         th.cuda.max_memory_allocated() / 1000000
-            #         if th.cuda.is_available()
-            #         else 0
-            #     )
-                # print(
-                #     "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f} | GPU {:.1f} MB".format(
-                #         epoch, step, loss.item(), acc.item(), gpu_mem_alloc
-                #     )
-                # )
+            if step % args.log_every == 0:
+                acc = compute_acc(batch_pred, batch_labels)
+                gpu_mem_alloc = (
+                    th.cuda.max_memory_allocated() / 1000000
+                    if th.cuda.is_available()
+                    else 0
+                )
+                print(
+                    "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f} | GPU {:.1f} MB".format(
+                        epoch, step, loss.item(), acc.item(), gpu_mem_alloc
+                    )
+                )
 
         toc = time.time()
-        # print(
-        #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
-        #         toc - tic, iter_load, iter_far, iter_back
-        #     )
-        # )
+        print(
+            "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
+                toc - tic, iter_load, iter_far, iter_back
+            )
+        )
         if epoch >= 5:
             avg += toc - tic
 
         if epoch % args.eval_every == 0 and epoch != 0:
-            train_acc = compute_acc(batch_pred, batch_labels)
             eval_acc, test_acc, pred = evaluate(
                 model, g, labels, val_nid, test_nid, args.val_batch_size, device
             )
             model = model.to(device)
-            # if args.save_pred:
-            #     np.savetxt(
-            #         args.save_pred + "%02d" % epoch,
-            #         pred.argmax(1).cpu().numpy(),
-            #         "%d",
-            #     )
-            # print("Eval Acc {:.4f}".format(eval_acc))
+            if args.save_pred:
+                np.savetxt(
+                    args.save_pred + "%02d" % epoch,
+                    pred.argmax(1).cpu().numpy(),
+                    "%d",
+                )
+            print("Eval Acc {:.4f}".format(eval_acc))
             if eval_acc > best_eval_acc:
-                best_train_acc = train_acc
                 best_eval_acc = eval_acc
                 best_test_acc = test_acc
-            # print(
-            #     "Best Eval Acc {:.4f} Test Acc {:.4f}".format(
-            #         best_eval_acc, best_test_acc
-            #     )
-            # )
+            print(
+                "Best Eval Acc {:.4f} Test Acc {:.4f}".format(
+                    best_eval_acc, best_test_acc
+                )
+            )
     print("Avg epoch time: {}".format(avg / (epoch - 4)))
     return best_test_acc
 
@@ -265,7 +235,7 @@ if __name__ == "__main__":
     argparser.add_argument("--batch-size", type=int, default=32)
     argparser.add_argument("--val-batch-size", type=int, default=10000)
     argparser.add_argument("--log-every", type=int, default=20)
-    argparser.add_argument("--eval-every", type=int, default=5)
+    argparser.add_argument("--eval-every", type=int, default=1)
     argparser.add_argument("--lr", type=float, default=0.001)
     argparser.add_argument("--dropout", type=float, default=0.5)
     argparser.add_argument("--save-pred", type=str, default="")
@@ -279,8 +249,7 @@ if __name__ == "__main__":
         device = th.device("cpu")
 
     # load ogbn-products data
-    # root='../dataset/'
-    data = DglNodePropPredDataset(name="ogbn-arxiv")
+    data = DglNodePropPredDataset(name="ogbn-products")
     splitted_idx = data.get_idx_split()
     train_idx, val_idx, test_idx = (
         splitted_idx["train"],
@@ -288,10 +257,9 @@ if __name__ == "__main__":
         splitted_idx["test"],
     )
     graph, labels = data[0]
-    graph = dgl.add_reverse_edges(graph)
     labels = labels[:, 0]
     num_nodes = train_idx.shape[0] + val_idx.shape[0] + test_idx.shape[0]
-    assert num_nodes == graph.number_of_nodes()
+    assert num_nodes == graph.num_nodes()
     graph.ndata["labels"] = labels
     mask = th.zeros(num_nodes, dtype=th.bool)
     mask[train_idx] = True
@@ -308,7 +276,7 @@ if __name__ == "__main__":
     graph.find_edges(0)
 
     cluster_iter_data = ClusterIter(
-        "ogbn-arxiv",
+        "ogbn-products",
         graph,
         args.num_partitions,
         args.batch_size,
@@ -323,7 +291,7 @@ if __name__ == "__main__":
         num_workers=4,
         collate_fn=partial(subgraph_collate_fn, graph),
     )
-    print(graph.ndata.keys())
+
     in_feats = graph.ndata["feat"].shape[1]
     print(in_feats)
     n_classes = (labels.max() + 1).item()
@@ -339,31 +307,10 @@ if __name__ == "__main__":
         cluster_iterator,
     )
 
-
-    test_acc = run(args, device, data)
-
     # Run 10 times
-    # test_accs = []
-    # for i in range(10):
-    #     test_accs.append()
-    #     print(
-    #         "Average test accuracy:", np.mean(test_accs), "±", np.std(test_accs)
-    #     )
-
-    # sweep_configuration = {
-    #     'method': 'bayes',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'values': [128, 256, 512]},
-    #         # 'num_partitions': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
-
-    # wandb.agent(sweep_id, function=train, count=15)
+    test_accs = []
+    for i in range(10):
+        test_accs.append(run(args, device, data))
+        print(
+            "Average test accuracy:", np.mean(test_accs), "±", np.std(test_accs)
+        )
