@@ -47,6 +47,8 @@ class Model(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 
+
+
     def forward(self, g, x):
         h = x
         for l, conv in enumerate(self.layers):
@@ -140,9 +142,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     )
     logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
-    graph, 
-    valid_nids, 
-    sampler,
+    graph, valid_nids, sampler,
     batch_size=batch_size,
     shuffle=False,
     drop_last=False,
@@ -152,9 +152,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
 
     logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
-    graph, 
-    test_nids,
-    sampler,
+    graph, test_nids, sampler,
     batch_size=batch_size,
     shuffle=False,
     drop_last=False,
@@ -169,26 +167,28 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
 def train():
     
     wandb.init(
-        project="mini-batch-saint-products",
+        project="mini-batch-products-saint",
         config={
-            "num_epochs": 3000,
-            "lr": 3*1e-3,
-            "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 1024,
-            "n_layers": 10,
+            "num_epochs": 1000,
+            "lr": 5*1e-3,
+            "dropout": random.uniform(0.5, 0.60),
+            "n_hidden": 256,
+            "n_layers": 3,
             "agg": "gcn",
-            "batch_size": 2**15,
-            "budget": 10000,
+            "batch_size": 2**13,
+            # "fanout": 9,
+            "budget": 5000,
             })
 
 
     config = wandb.config
     
     n_layers = config.n_layers
-    n_hidden = config.n_hidden
+    n_hidden = 2**config.n_hidden
     num_epochs = config.num_epochs
     dropout = config.dropout
     batch_size = config.batch_size
+    # fanout = config.fanout
     lr = config.lr
     agg = config.agg
     budget = config.budget
@@ -203,12 +203,9 @@ def train():
     data = _get_data_loader(sampler, device, dataset, batch_size)
 
     train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = data
-    # for subg in train_dataloader:
-    #     print(subg)
-    #     break
+
     # input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
-    # print("input_nodes, output_nodes, mfgs")
-    # print(input_nodes, output_nodes, mfgs)
+
     activation = F.relu
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
@@ -228,29 +225,24 @@ def train():
     time_backward = 0
     total_time = 0
     for epoch in range(num_epochs):
-        # print("epoch = {}".format(epoch))
         model.train()
         tic = time.time()
         
         
 
         for step, subg in enumerate(train_dataloader):
-            # print(step)
             tic_start = time.time()
             inputs = subg.ndata['feat']
             labels = subg.ndata['label']
             tic_step = time.time()
-            # print("tic_step= {}".format(tic_step))
             predictions = model(subg, inputs)
             loss = F.cross_entropy(predictions, labels)
             optimizer.zero_grad()
             tic_forward = time.time()
-            # print("tic_forward = {}".format(tic_forward))
             loss.backward()
             optimizer.step()
             scheduler.step()
             tic_backward = time.time()
-            # print("tic_backward = {}".format(tic_backward))
 
             time_load += tic_step - tic_start
             time_forward += tic_forward - tic_step
@@ -268,7 +260,6 @@ def train():
                 #             epoch, step, loss.item(), accuracy.item()
                 #         )
                 #     )
-        # print("1 batch over")
         toc = time.time()
         total_time += toc - tic
         # logger.debug(
@@ -284,15 +275,16 @@ def train():
 
         if epoch % 5 == 0:
             model.eval()
-            # print("evalua")
+
             train_predictions = []
             train_labels = []
             val_predictions = []
             val_labels = []
             test_predictions = []
             test_labels = []
+            # with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
             with torch.no_grad():
-                # print('start evauation')
+                # for input_nodes, output_nodes, mfgs in tq:
                 for subg in train_dataloader:
                     inputs = subg.ndata['feat']
                     train_labels.append(subg.ndata['label'].cpu().numpy())
@@ -300,16 +292,15 @@ def train():
                 train_predictions = np.concatenate(train_predictions)
                 train_labels = np.concatenate(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
-
+                
                 for subg in valid_dataloader:
-                    # print(subg)
                     inputs = subg.ndata['feat']
                     val_labels.append(subg.ndata['label'].cpu().numpy())
                     val_predictions.append(model(subg, inputs).argmax(1).cpu().numpy())
                 val_predictions = np.concatenate(val_predictions)
                 val_labels = np.concatenate(val_labels)
                 eval_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
-
+                
                 for subg in test_dataloader:
                     inputs = subg.ndata['feat']
                     test_labels.append(subg.ndata['label'].cpu().numpy())
@@ -317,14 +308,16 @@ def train():
                 test_predictions = np.concatenate(test_predictions)
                 test_labels = np.concatenate(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
-
+                
                 if best_eval_acc < eval_acc:
                     best_eval_acc = eval_acc
                     best_model = model
                     best_test_acc = test_acc
                     best_train_acc = train_acc
+
                 logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, eval_acc, best_eval_acc, test_acc, best_test_acc))
-            
+                
+
             wandb.log({'val_acc': eval_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
@@ -342,26 +335,23 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    eval_acc, model = train()
+    # eval_acc, model = train()
         
     
-    # sweep_configuration = {
-    #     'method': 'random',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'values': [128, 256, 512]},
-    #         'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint-products')
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            'n_hidden': {'distribution': 'int_uniform', 'min': 8, 'max': 13},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'budget': {'distribution': 'int_uniform', 'min': 10, 'max': 5000},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products-saint')
 
-    # wandb.agent(sweep_id, function=train, count=30)
+    wandb.agent(sweep_id, function=train, count=30)
 
 #tmux
 # ctrl+b -> d

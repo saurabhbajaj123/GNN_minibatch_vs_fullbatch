@@ -108,8 +108,10 @@ def load_dataset(path):
         raise ValueError("Invalid # of files in dir: {}".format(path))
 
     dataset = pickle.load(open(files[0], 'rb'))
+
 def _get_data_loader(sampler, device, dataset, batch_size=1024):
     logger.info("Get train-val-test data loader")
+    
 
     idx_split = dataset.get_idx_split()
     train_nids = idx_split['train']
@@ -139,9 +141,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     )
     logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
-    graph, 
-    valid_nids, 
-    sampler,
+    graph, valid_nids, sampler,
     batch_size=batch_size,
     shuffle=False,
     drop_last=False,
@@ -151,9 +151,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
 
     logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
-    graph, 
-    test_nids,
-    sampler,
+    graph, test_nids, sampler,
     batch_size=batch_size,
     shuffle=False,
     drop_last=False,
@@ -176,7 +174,7 @@ def train():
             "n_hidden": 1024,
             "n_layers": 10,
             "agg": "mean",
-            "batch_size": 2**15,
+            "batch_size": 2**10,
             "budget": 1000,
             })
 
@@ -202,12 +200,9 @@ def train():
     data = _get_data_loader(sampler, device, dataset, batch_size)
 
     train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = data
-    # for subg in train_dataloader:
-    #     print(subg)
-    #     break
+
     # input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
-    # print("input_nodes, output_nodes, mfgs")
-    # print(input_nodes, output_nodes, mfgs)
+
     activation = F.relu
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
