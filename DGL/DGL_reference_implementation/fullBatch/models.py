@@ -40,7 +40,7 @@ class SAGE(nn.Module):
             # print("self.activation = {}".format(type(self.activation)))
             if l != len(self.layers) - 1:
                 h = self.activation(h)
-                # h = self.dropout(h)
+                h = self.dropout(h)
         return h
 
     def inference(self, g, x, batch_size, device):

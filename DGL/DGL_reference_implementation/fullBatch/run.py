@@ -25,7 +25,8 @@ def get_model_and_config(name):
     
 def train():
     root = "../dataset/"
-    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
+    dataset = DglNodePropPredDataset('ogbn-products', root=root)
+    torch.cuda.set_device(0)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("device = {}".format(device))
     # device = "cpu"
@@ -61,7 +62,7 @@ def train():
         config={
             "model": "Graphsage",
             "epochs": 1000,
-            "lr": 5*1e-3,
+            "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.8),
             "n_hidden": 256,
             "n_layers": 6,
@@ -84,7 +85,7 @@ def train():
     best_val_acc = 0
     best_test_acc = 0
     best_train_acc = 0
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
     for e in range(config.epochs):
