@@ -1,49 +1,46 @@
 import argparse
-import json
-import logging
-import os
-import sys
-import pickle
+import time
+import traceback
+from functools import partial
 
 import dgl
-import torch
-import numpy as np
-from ogb.nodeproppred import DglNodePropPredDataset
-import time 
-import numpy as np
-from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
-
+import dgl.function as fn
+import dgl.nn.pytorch as dglnn
 
 import random
 import wandb
 wandb.login()
 
+import numpy as np
+import torch as th
+import torch.multiprocessing as mp
 import torch.nn as nn
 import torch.nn.functional as F
-from dgl.nn import SAGEConv
+import torch.optim as optim
 import tqdm
-import sklearn.metrics
+from dgl.data import RedditDataset
+from ogb.nodeproppred import DglNodePropPredDataset
+from sampler import ClusterIter, subgraph_collate_fn
+from torch.utils.data import DataLoader
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler(sys.stdout))
+from .models import SAGE
+from .run import *
+from .utils import *
 
-import warnings
-warnings.filterwarnings("ignore")
 
-class Model(nn.Module):
+class SAGE(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, aggregator_type="mean",
     ):
-        super(Model, self).__init__()
+        super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
         self.layers = nn.ModuleList()
-        self.layers.append(SAGEConv(in_feats, n_hidden, aggregator_type=aggregator_type))
-        for _ in range(n_layers - 2):
-            self.layers.append(SAGEConv(n_hidden, n_hidden, aggregator_type=aggregator_type))
-        self.layers.append(SAGEConv(n_hidden, n_classes, aggregator_type=aggregator_type))
+        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, aggregator_type="mean"))
+        for i in range(1, n_layers - 1):
+            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, aggregator_type="mean"))
+        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, aggregator_type="mean"))
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 
@@ -51,314 +48,324 @@ class Model(nn.Module):
         h = x
         for l, conv in enumerate(self.layers):
             h = conv(g, h)
-            # print("self.activation = {}".format(type(self.activation)))
             if l != len(self.layers) - 1:
                 h = self.activation(h)
                 h = self.dropout(h)
         return h
 
-def parse_args_fn():
+    def inference(self, g, x, batch_size, device):
+        """
+        Inference with the GraphSAGE model on full neighbors (i.e. without neighbor sampling).
+        g : the entire graph.
+        x : the input of entire node set.
+        The inference code is written in a fashion that it could handle any number of nodes and
+        layers.
+        """
+        # During inference with sampling, multi-layer blocks are very inefficient because
+        # lots of computations in the first few layers are repeated.
+        # Therefore, we compute the representation of all nodes layer by layer.  The nodes
+        # on each layer are of course splitted in batches.
+        # TODO: can we standardize this?
+        h = x
+        for l, conv in enumerate(self.layers):
+            h = conv(g, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+
+        return h
+
+#### Neighbor sampler
+
+def compute_acc(pred, labels):
     """
-    Parse arguments
+    Compute the accuracy of prediction given the labels.
     """
-    parser = argparse.ArgumentParser()
+    return (th.argmax(pred, dim=1) == labels).float().sum() / len(pred)
 
-    parser.add_argument(
-        "--batch_size",
-        type=int,
-        default=1024,
-        metavar="N",
-        help="input batch size for training (default: 64)",
-    )
 
-    parser.add_argument(
-        "--num_epochs",
-        type=int,
-        default=10,
-        metavar="N",
-        help="number of epochs to train (default: 10)",
-    )
-
-    parser.add_argument("--n_layers", type=int, default=8)
-    parser.add_argument("--fanout", type=int, default=4)
-    parser.add_argument("--n_hidden", type=int, default=2**6)
-    parser.add_argument("--dropout", type=float, default=0.0)
-    parser.add_argument("--eval-every", type=int, default=1)
-    parser.add_argument("--log-every", type=int, default=20)
-
-    # parser.add_argument("--train", type=str, default=os.environ.get("SM_CHANNEL_TRAIN"))
-    # parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
-    # parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
-    # parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
-    # # parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
-    # parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
-
-    args = parser.parse_args()
-
-    return args
-
-def load_dataset(path):
+def evaluate(model, g, labels, val_nid, test_nid, batch_size, device):
     """
-    Load entire dataset
+    Evaluate the model on the validation set specified by ``val_mask``.
+    g : The entire graph.
+    inputs : The features of all the nodes.
+    labels : The labels of all the nodes.
+    val_mask : A 0-1 mask indicating which nodes do we actually compute the accuracy for.
+    batch_size : Number of nodes to compute at the same time.
+    device : The GPU device to evaluate on.
     """
-    # find all files with pkl extenstion and load the first one
-    files = [os.path.join(path, file) for file in os.listdir(path) if file.endswith("pkl")]
-
-    if len(files) == 0:
-        raise ValueError("Invalid # of files in dir: {}".format(path))
-
-    dataset = pickle.load(open(files[0], 'rb'))
-
-def _get_data_loader(graph, sampler, train_nids, valid_nids, test_nids, device, dataset, batch_size=1024):
-    logger.info("Get train-val-test data loader")
-
-    logger.info("Get train data loader")
-    train_dataloader = dgl.dataloading.DataLoader(
-    # The following arguments are specific to DGL's DataLoader.
-    graph,              # The graph
-    train_nids,         # The node IDs to iterate over in minibatches
-    sampler,            # The neighbor sampler
-    device=device,      # Put the sampled MFGs on CPU or GPU
-    # The following arguments are inherited from PyTorch DataLoader.
-    batch_size=batch_size,    # Batch size
-    shuffle=True,       # Whether to shuffle the nodes for every epoch
-    drop_last=False,    # Whether to drop the last incomplete batch
-    num_workers=0       # Number of sampler processes
-    )
-    logger.info("Get val data loader")
-    valid_dataloader = dgl.dataloading.DataLoader(
-    graph, valid_nids, sampler,
-    batch_size=batch_size,
-    shuffle=False,
-    drop_last=False,
-    num_workers=0,
-    device=device
+    model.eval()
+    with th.no_grad():
+        inputs = g.ndata["feat"]
+        model = model.cpu()
+        pred = model.inference(g, inputs, batch_size, device)
+    model.train()
+    return (
+        compute_acc(pred[val_nid], labels[val_nid]),
+        compute_acc(pred[test_nid], labels[test_nid]),
+        pred,
     )
 
-    logger.info("Get test data loader")
-    test_dataloader = dgl.dataloading.DataLoader(
-    graph, test_nids, sampler,
-    batch_size=batch_size,
-    shuffle=False,
-    drop_last=False,
-    num_workers=0,
-    device=device
-    )
 
-    logger.info("Train-val-test data loader created")
-    
-    return (train_dataloader, valid_dataloader, test_dataloader)
+def load_subtensor(g, labels, seeds, input_nodes, device):
+    """
+    Copys features and labels of a set of nodes onto GPU.
+    """
+    batch_inputs = g.ndata["feat"][input_nodes].to(device)
+    batch_labels = labels[seeds].to(device)
+    return batch_inputs, batch_labels
 
-def train():
-    
+
+#### Entry point
+def run(args, device, data):
+
     wandb.init(
-        project="mini-batch-saint",
+        project="mini-batch-cluster",
         config={
-            "num_epochs": 10,
+            "num_epochs": 10000,
             "lr": 2*1e-3,
             "dropout": random.uniform(0.3, 0.6),
-            "n_hidden": 256,
-            "n_layers": 3,
-            "agg": "gcn",
-            "batch_size": 2**9,
-            "num_clusters": 1000,
+            "n_hidden": 1024,
+            "n_layers": 10,
+            "agg": "mean",
+            "batch_size": 2**10,
+            "num_partitions": 1000,
             })
-
-
+    
     config = wandb.config
     
-    n_layers = config.n_layers
-    n_hidden = config.n_hidden
-    num_epochs = config.num_epochs
-    dropout = config.dropout
-    batch_size = config.batch_size
-    lr = config.lr
-    agg = config.agg
-    num_clusters = config.num_clusters
+    args.num_hidden = config.n_hidden
+    args.num_layers = config.n_layers
+    args.dropout = config.dropout
+    args.lr = config.lr
+    args.num_epochs = config.num_epochs
+    args.num_partitions = config.num_partitions
+    args.batch_size = config.batch_size
+    args.agg = config.agg
+    # Unpack data
+    (
+        train_nid,
+        val_nid,
+        test_nid,
+        in_feats,
+        labels,
+        n_classes,
+        g,
+        cluster_iterator,
+    ) = data
 
-    root="../dataset/"
-    dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # Define model and optimizer
+    model = SAGE(
+        in_feats,
+        args.num_hidden,
+        n_classes,
+        args.num_layers,
+        F.relu,
+        args.dropout,
+        args.agg,
+    )
+    model = model.to(device)
+    loss_fcn = nn.CrossEntropyLoss()
+    loss_fcn = loss_fcn.to(device)
+    optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
 
-    idx_split = dataset.get_idx_split()
-    train_nids = idx_split['train']
-    valid_nids = idx_split['valid']
-    test_nids = idx_split['test']
-
-    graph, node_labels = dataset[0]
-    graph = dgl.add_reverse_edges(graph)
-    graph.ndata['label'] = node_labels[:, 0]
-
-    node_features = graph.ndata['feat']
-    in_feats = node_features.shape[1]
-    n_classes = (node_labels.max() + 1).item()
-
-    # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-    # sampler = dgl.dataloading.SAINTSampler(mode='node', budget=budget)
-    sampler = dgl.dataloading.ClusterGCNSampler(graph, num_clusters)
-
-    data = _get_data_loader(graph, sampler, train_nids, valid_nids, test_nids, device, dataset, batch_size)
-
-    train_dataloader, valid_dataloader, test_dataloader = data
-
-    print(train_dataloader)
-    for input_nodes, output_nodes, mfgs in train_dataloader:
-        print(mfgs)
-    # input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
-
-    activation = F.relu
-
-    model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
-
-    best_train_acc = 0
+    # Training loop
+    avg = 0
+    iter_tput = []
     best_eval_acc = 0
     best_test_acc = 0
-
-    best_model_path = 'model.pt'
-    best_model = None
-    total_time = 0
-
-    time_load = 0
-    time_forward = 0
-    time_backward = 0
-    total_time = 0
-    for epoch in range(num_epochs):
-        # print("epoch = {}".format(epoch))
-        model.train()
+    for epoch in range(args.num_epochs):
+        iter_load = 0
+        iter_far = 0
+        iter_back = 0
+        iter_tl = 0
         tic = time.time()
 
-        for step, subg in enumerate(train_dataloader):
-            # print(step)
-            tic_start = time.time()
-            inputs = subg.ndata['feat']
-            labels = subg.ndata['label']
+        # Loop over the dataloader to sample the computation dependency graph as a list of
+        # blocks.
+        tic_start = time.time()
+        for step, cluster in enumerate(cluster_iterator):
+            cluster = cluster.int().to(device)
+            mask = cluster.ndata["train_mask"].to(device)
+            if mask.sum() == 0:
+                continue
+            feat = cluster.ndata["feat"].to(device)
+            batch_labels = cluster.ndata["labels"].to(device)
             tic_step = time.time()
-            # print("tic_step= {}".format(tic_step))
-            predictions = model(subg, inputs)
-            loss = F.cross_entropy(predictions, labels)
+
+            batch_pred = model(cluster, feat)
+            batch_pred = batch_pred[mask]
+            batch_labels = batch_labels[mask]
+            loss = loss_fcn(batch_pred, batch_labels)
             optimizer.zero_grad()
-            tic_forward = time.time()
-            # print("tic_forward = {}".format(tic_forward))
+            tic_far = time.time()
             loss.backward()
             optimizer.step()
-            scheduler.step()
-            tic_backward = time.time()
-            # print("tic_backward = {}".format(tic_backward))
+            tic_back = time.time()
+            iter_load += tic_step - tic_start
+            iter_far += tic_far - tic_step
+            iter_back += tic_back - tic_far
 
-            time_load += tic_step - tic_start
-            time_forward += tic_forward - tic_step
-            time_backward += tic_backward - tic_forward
-
-            # accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
-            # if step % 100 == 0:
-            #     logger.debug(
-            #             "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
-            #                 epoch, step, loss.item(), accuracy.item()
-            #             )
-            #         )
+            tic_start = time.time()
+            # if step % args.log_every == 0:
+            #     train_acc = compute_acc(batch_pred, batch_labels)
+            #     gpu_mem_alloc = (
+            #         th.cuda.max_memory_allocated() / 1000000
+            #         if th.cuda.is_available()
+            #         else 0
+            #     )
                 # print(
-                #         "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
-                #             epoch, step, loss.item(), accuracy.item()
-                #         )
+                #     "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f} | GPU {:.1f} MB".format(
+                #         epoch, step, loss.item(), acc.item(), gpu_mem_alloc
                 #     )
-        # print("1 batch over")
+                # )
+
         toc = time.time()
-        total_time += toc - tic
-        # logger.debug(
-        #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
-        #         toc - tic, time_load, time_forward, time_backward
-        #     )
-        # )        
         # print(
         #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
-        #         toc - tic, time_load, time_forward, time_backward
+        #         toc - tic, iter_load, iter_far, iter_back
         #     )
         # )
+        if epoch >= 5:
+            avg += toc - tic
 
-        if epoch % 5 == 0:
-            model.eval()
-            # print("evalua")
-            train_predictions = []
-            train_labels = []
-            val_predictions = []
-            val_labels = []
-            test_predictions = []
-            test_labels = []
-            with torch.no_grad():
-                # print('start evauation')
-                for subg in train_dataloader:
-                    inputs = subg.ndata['feat']
-                    train_labels.append(subg.ndata['label'].cpu().numpy())
-                    train_predictions.append(model(subg, inputs).argmax(1).cpu().numpy())
-                train_predictions = np.concatenate(train_predictions)
-                train_labels = np.concatenate(train_labels)
-                train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
+        if epoch % args.eval_every == 0 and epoch != 0:
+            train_acc = compute_acc(batch_pred, batch_labels)
+            eval_acc, test_acc, pred = evaluate(
+                model, g, labels, val_nid, test_nid, args.val_batch_size, device
+            )
+            model = model.to(device)
+            # if args.save_pred:
+            #     np.savetxt(
+            #         args.save_pred + "%02d" % epoch,
+            #         pred.argmax(1).cpu().numpy(),
+            #         "%d",
+            #     )
+            # print("Eval Acc {:.4f}".format(eval_acc))
+            if eval_acc > best_eval_acc:
+                best_train_acc = train_acc
+                best_eval_acc = eval_acc
+                best_test_acc = test_acc
+            # print(
+            #     "Best Eval Acc {:.4f} Test Acc {:.4f}".format(
+            #         best_eval_acc, best_test_acc
+            #     )
+            # )
+    print("Avg epoch time: {}".format(avg / (epoch - 4)))
+    return best_test_acc
 
-                for subg in valid_dataloader:
-                    # print(subg)
-                    inputs = subg.ndata['feat']
-                    val_labels.append(subg.ndata['label'].cpu().numpy())
-                    val_predictions.append(model(subg, inputs).argmax(1).cpu().numpy())
-                val_predictions = np.concatenate(val_predictions)
-                val_labels = np.concatenate(val_labels)
-                eval_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
-
-                for subg in test_dataloader:
-                    inputs = subg.ndata['feat']
-                    test_labels.append(subg.ndata['label'].cpu().numpy())
-                    test_predictions.append(model(subg, inputs).argmax(1).cpu().numpy())
-                test_predictions = np.concatenate(test_predictions)
-                test_labels = np.concatenate(test_labels)
-                test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
-
-                if best_eval_acc < eval_acc:
-                    best_eval_acc = eval_acc
-                    best_model = model
-                    best_test_acc = test_acc
-                    best_train_acc = train_acc
-                logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, eval_acc, best_eval_acc, test_acc, best_test_acc))
-            
-            wandb.log({'val_acc': eval_acc,
-                        'test_acc': test_acc,
-                        'train_acc': train_acc,
-                        'best_eval_acc': best_eval_acc,
-                        'best_test_acc': best_test_acc,
-                        'best_train_acc': best_train_acc,
-                        'lr': scheduler.get_last_lr()[0],
-            })
-            
-    logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
-    logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
-    return best_eval_acc, model
 
 if __name__ == "__main__":
-    
-    # args = parse_args_fn()
+    argparser = argparse.ArgumentParser("multi-gpu training")
+    argparser.add_argument(
+        "--gpu",
+        type=int,
+        default=0,
+        help="GPU device ID. Use -1 for CPU training",
+    )
+    argparser.add_argument("--num-epochs", type=int, default=30)
+    argparser.add_argument("--num-hidden", type=int, default=256)
+    argparser.add_argument("--num-layers", type=int, default=3)
+    argparser.add_argument("--batch-size", type=int, default=32)
+    argparser.add_argument("--val-batch-size", type=int, default=10000)
+    argparser.add_argument("--log-every", type=int, default=20)
+    argparser.add_argument("--eval-every", type=int, default=5)
+    argparser.add_argument("--lr", type=float, default=0.001)
+    argparser.add_argument("--dropout", type=float, default=0.5)
+    argparser.add_argument("--save-pred", type=str, default="")
+    argparser.add_argument("--wd", type=float, default=0)
+    argparser.add_argument("--num_partitions", type=int, default=15000)
+    args = argparser.parse_args()
 
-    eval_acc, model = train()
-        
-    
-    # sweep_configuration = {
-    #     'method': 'bayes',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'values': [128, 256, 512]},
-    #         # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
+    if args.gpu >= 0:
+        device = th.device("cuda:%d" % args.gpu)
+    else:
+        device = th.device("cpu")
 
-    # wandb.agent(sweep_id, function=train, count=15)
+    # load ogbn-arxiv data
+    # root='../../dataset/data'
+    data = DglNodePropPredDataset(name="ogbn-arxiv")
+    splitted_idx = data.get_idx_split()
+    train_idx, val_idx, test_idx = (
+        splitted_idx["train"],
+        splitted_idx["valid"],
+        splitted_idx["test"],
+    )
+    graph, labels = data[0]
+    labels = labels[:, 0]
+    num_nodes = train_idx.shape[0] + val_idx.shape[0] + test_idx.shape[0]
+    assert num_nodes == graph.number_of_nodes()
+    graph.ndata["labels"] = labels
+    mask = th.zeros(num_nodes, dtype=th.bool)
+    mask[train_idx] = True
+    graph.ndata["train_mask"] = mask
+    mask = th.zeros(num_nodes, dtype=th.bool)
+    mask[val_idx] = True
+    graph.ndata["valid_mask"] = mask
+    mask = th.zeros(num_nodes, dtype=th.bool)
+    mask[test_idx] = True
+    graph.ndata["test_mask"] = mask
 
-#tmux
-# ctrl+b -> d
-# attach -t
-# tmux attach -t 0
+    graph.in_degrees(0)
+    graph.out_degrees(0)
+    graph.find_edges(0)
+
+    cluster_iter_data = ClusterIter(
+        "ogbn-arxiv",
+        graph,
+        args.num_partitions,
+        args.batch_size,
+        th.cat([train_idx, val_idx, test_idx]),
+    )
+    idx = th.arange(args.num_partitions // args.batch_size)
+    cluster_iterator = DataLoader(
+        cluster_iter_data,
+        batch_size=32,
+        shuffle=True,
+        pin_memory=True,
+        num_workers=4,
+        collate_fn=partial(subgraph_collate_fn, graph),
+    )
+    print(graph.ndata.keys())
+    in_feats = graph.ndata["feat"].shape[1]
+    print(in_feats)
+    n_classes = (labels.max() + 1).item()
+    # Pack data
+    data = (
+        train_idx,
+        val_idx,
+        test_idx,
+        in_feats,
+        labels,
+        n_classes,
+        graph,
+        cluster_iterator,
+    )
+
+
+    test_acc = run(args, device, data)
+
+    # Run 10 times
+    # test_accs = []
+    # for i in range(10):
+    #     test_accs.append()
+    #     print(
+    #         "Average test accuracy:", np.mean(test_accs), "±", np.std(test_accs)
+    #     )
+
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'values': [128, 256, 512]},
+            # 'num_partitions': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
+
+    wandb.agent(sweep_id, function=train, count=15)
