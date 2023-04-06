@@ -136,3 +136,5 @@ dataset/
 
 DGL/DGL_reference_implementation/fullBatch/wandb/
 DGL/DGL_reference_implementation/NeighborSampler/wandb/
+DGL/DGL_reference_implementation/SaintSampler/wandb/
+DGL/DGL_reference_implementation/SaintSampler/wandb/latest-run/
