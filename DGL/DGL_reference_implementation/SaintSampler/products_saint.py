@@ -11,7 +11,7 @@ import numpy as np
 from ogb.nodeproppred import DglNodePropPredDataset
 import time 
 import numpy as np
-from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
 
 
 import random
@@ -119,6 +119,8 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     valid_nids = idx_split['valid']
     test_nids = idx_split['test']
 
+    print(train_nids, valid_nids, test_nids)
+    
     graph, node_labels = dataset[0]
     graph = dgl.add_reverse_edges(graph)
     graph.ndata['label'] = node_labels[:, 0]
@@ -169,13 +171,13 @@ def train():
     wandb.init(
         project="mini-batch-products-saint",
         config={
-            "num_epochs": 1000,
-            "lr": 5*1e-3,
+            "num_epochs": 2000,
+            "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.60),
-            "n_hidden": 256,
-            "n_layers": 3,
-            "agg": "gcn",
-            "batch_size": 2**13,
+            "n_hidden": 12,
+            "n_layers": 4,
+            "agg": "pool",
+            "batch_size": 2**10,
             # "fanout": 9,
             "budget": 5000,
             })
@@ -210,7 +212,8 @@ def train():
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
 
     best_train_acc = 0
     best_eval_acc = 0
@@ -228,8 +231,6 @@ def train():
         model.train()
         tic = time.time()
         
-        
-
         for step, subg in enumerate(train_dataloader):
             tic_start = time.time()
             inputs = subg.ndata['feat']
@@ -241,7 +242,8 @@ def train():
             tic_forward = time.time()
             loss.backward()
             optimizer.step()
-            scheduler.step()
+
+            
             tic_backward = time.time()
 
             time_load += tic_step - tic_start
@@ -260,6 +262,7 @@ def train():
                 #             epoch, step, loss.item(), accuracy.item()
                 #         )
                 #     )
+        scheduler.step(best_eval_acc)
         toc = time.time()
         total_time += toc - tic
         # logger.debug(
@@ -324,7 +327,8 @@ def train():
                         'best_eval_acc': best_eval_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
-                        'lr': scheduler.get_last_lr()[0],
+                        # 'lr': scheduler.get_last_lr()[0],
+                        'lr': optimizer.param_groups[0]['lr']
             })
             
     logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
@@ -335,23 +339,25 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    # eval_acc, model = train()
+    eval_acc, model = train()
         
     
-    sweep_configuration = {
-        'method': 'bayes',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 8, 'max': 13},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'budget': {'distribution': 'int_uniform', 'min': 10, 'max': 5000},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products-saint')
+    # sweep_configuration = {
+    #     'method': 'bayes',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {"distribution": 'uniform', 'max':5*1e-3, 'min':1e-5}
+    #         'n_hidden': {'distribution': 'int_uniform', 'min': 6, 'max': 12},
+    #         # 'n_hidden': {'values': [6, 8, 10, 12]},
+    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # "agg": {'values': ["gcn", "pool"]},
+    #         # 'budget': {'distribution': 'int_uniform', 'min': 10, 'max': 5000},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products-saint')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    # wandb.agent(sweep_id, function=train, count=25)
 
 #tmux
 # ctrl+b -> d

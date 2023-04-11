@@ -8,7 +8,7 @@ import pickle
 import dgl
 import torch
 import numpy as np
-from ogb.nodeproppred import DglNodePropPredDataset
+from ogb.nodeproppred import DglNodePropPredDataset, Evaluator
 import time 
 import numpy as np
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
@@ -294,7 +294,7 @@ def train():
                 train_predictions = np.concatenate(train_predictions)
                 train_labels = np.concatenate(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
-
+                
                 for subg in valid_dataloader:
                     # print(subg)
                     inputs = subg.ndata['feat']
@@ -336,26 +336,26 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    # eval_acc, model = train()
+    eval_acc, model = train()
         
     
-    sweep_configuration = {
-        'method': 'bayes',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
-            # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
+    # sweep_configuration = {
+    #     'method': 'bayes',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
+    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'values': [128, 256, 512]},
+    #         # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
 
-    wandb.agent(sweep_id, function=train, count=15)
+    # wandb.agent(sweep_id, function=train, count=15)
 
 #tmux
 # ctrl+b -> d
