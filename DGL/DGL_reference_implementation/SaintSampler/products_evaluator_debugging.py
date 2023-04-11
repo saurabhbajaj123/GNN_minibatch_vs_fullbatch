@@ -9,7 +9,6 @@ import dgl
 import torch
 import numpy as np
 from ogb.nodeproppred import DglNodePropPredDataset, Evaluator
-import torchmetrics.functional as MF
 import time 
 import numpy as np
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
@@ -129,7 +128,7 @@ def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
     graph, valid_nids, sampler,
-    batch_size=1e6,#batch_size
+    batch_size=batch_size,
     shuffle=False,
     drop_last=False,
     num_workers=0,
@@ -139,7 +138,7 @@ def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
     graph, test_nids, sampler,
-    batch_size=1e6,#batch_size
+    batch_size=batch_size,
     shuffle=False,
     drop_last=False,
     num_workers=0,
@@ -312,8 +311,7 @@ def train():
             test_labels = []
             with torch.no_grad():
 
-
-                # pred = model(graph.to(device), graph.ndata['feat'].to(device))
+                pred = model(graph.subgraph(train_nids).to(device), graph.ndata['feat'][train_nids].to(device))
                 for subg in train_dataloader:
                     inputs = subg.ndata['feat']
                     train_labels.append(subg.ndata['label'])
@@ -322,8 +320,9 @@ def train():
                 train_labels = torch.cat(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels.cpu().numpy(), train_predictions.cpu().numpy())
                 # train_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), train_nids)
-                # train_acc_thru_evaltr = evaluate3(train_predictions, train_labels)
+                train_acc_thru_evaltr = evaluate3(pred.argmax(1), graph.ndata['label'][train_nids].to(device))
                 
+                pred = model(graph.subgraph(valid_nids).to(device), graph.ndata['feat'][valid_nids].to(device))
                 for subg in valid_dataloader:
                     inputs = subg.ndata['feat']
                     val_labels.append(subg.ndata['label'])
@@ -332,9 +331,9 @@ def train():
                 val_labels = torch.cat(val_labels)
                 eval_acc = sklearn.metrics.accuracy_score(val_labels.cpu().numpy(), val_predictions.cpu().numpy())
                 # val_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), valid_nids)
-                # val_acc_thru_evaltr = evaluate3(val_predictions, val_labels)
+                val_acc_thru_evaltr = evaluate3(pred.argmax(1), graph.ndata['label'][valid_nids].to(device))
 
-
+                pred = model(graph.subgraph(test_nids).to(device), graph.ndata['feat'][test_nids].to(device))
                 for subg in test_dataloader:
                     inputs = subg.ndata['feat']
                     test_labels.append(subg.ndata['label'])
@@ -343,7 +342,7 @@ def train():
                 test_labels = torch.cat(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels.cpu().numpy(), test_predictions.cpu().numpy())
                 # test_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), test_nids)
-                # test_acc_thru_evaltr = evaluate3(test_predictions, test_labels)
+                test_acc_thru_evaltr = evaluate3(pred.argmax(1), graph.ndata['label'][test_nids].to(device))
 
                 if best_eval_acc < eval_acc:
                     best_eval_acc = eval_acc

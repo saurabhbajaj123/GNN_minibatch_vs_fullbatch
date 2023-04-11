@@ -9,7 +9,6 @@ import dgl
 import torch
 import numpy as np
 from ogb.nodeproppred import DglNodePropPredDataset, Evaluator
-import torchmetrics.functional as MF
 import time 
 import numpy as np
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
@@ -129,7 +128,7 @@ def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
     graph, valid_nids, sampler,
-    batch_size=1e6#batch_size,
+    batch_size=1e6,#batch_size,
     shuffle=False,
     drop_last=False,
     num_workers=0,
@@ -139,7 +138,7 @@ def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
     graph, test_nids, sampler,
-    batch_size=1e6#batch_size,
+    batch_size=1e6,#batch_size
     shuffle=False,
     drop_last=False,
     num_workers=0,
