@@ -111,12 +111,12 @@ def load_dataset(path):
 
 def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get train-val-test data loader")
-    train_nids, valid_nids, test_nids = nids
+    # train_nids, valid_nids, test_nids = nids
     logger.info("Get train data loader")
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
     graph,              # The graph
-    train_nids,         # The node IDs to iterate over in minibatches
+    nids,         # The node IDs to iterate over in minibatches
     sampler,            # The neighbor sampler
     device=device,      # Put the sampled MFGs on CPU or GPU
     # The following arguments are inherited from PyTorch DataLoader.
@@ -125,29 +125,29 @@ def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     drop_last=False,    # Whether to drop the last incomplete batch
     num_workers=0       # Number of sampler processes
     )
-    logger.info("Get val data loader")
-    valid_dataloader = dgl.dataloading.DataLoader(
-    graph, valid_nids, sampler,
-    batch_size=batch_size,
-    shuffle=False,
-    drop_last=False,
-    num_workers=0,
-    device=device
-    )
+    # logger.info("Get val data loader")
+    # valid_dataloader = dgl.dataloading.DataLoader(
+    # graph, valid_nids, sampler,
+    # batch_size=batch_size,
+    # shuffle=False,
+    # drop_last=False,
+    # num_workers=0,
+    # device=device
+    # )
 
-    logger.info("Get test data loader")
-    test_dataloader = dgl.dataloading.DataLoader(
-    graph, test_nids, sampler,
-    batch_size=batch_size,
-    shuffle=False,
-    drop_last=False,
-    num_workers=0,
-    device=device
-    )
+    # logger.info("Get test data loader")
+    # test_dataloader = dgl.dataloading.DataLoader(
+    # graph, test_nids, sampler,
+    # batch_size=batch_size,
+    # shuffle=False,
+    # drop_last=False,
+    # num_workers=0,
+    # device=device
+    # )
 
     logger.info("Train-val-test data loader created")
     
-    return (train_dataloader, valid_dataloader, test_dataloader)
+    return train_dataloader
 
 @torch.no_grad()
 def evaluate(evaluator, predictions, labels):
@@ -200,7 +200,7 @@ def train():
     
     root="../dataset/"
     dataset = DglNodePropPredDataset('ogbn-products', root=root)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
 
     
     idx_split = dataset.get_idx_split()
@@ -219,9 +219,9 @@ def train():
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
     sampler = dgl.dataloading.SAINTSampler(mode='node', budget=budget)
 
-    data = _get_data_loader(sampler, device, graph, (train_nids, valid_nids, test_nids), batch_size)
+    train_dataloader = _get_data_loader(sampler, device, graph, train_nids, batch_size)
 
-    train_dataloader, valid_dataloader, test_dataloader = data
+    # train_dataloader, valid_dataloader, test_dataloader = data
 
     # input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
 
@@ -247,6 +247,8 @@ def train():
     total_time = 0
     for epoch in range(num_epochs):
         # print("epoch = {}".format(epoch))
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        model = model.to(device)
         model.train()
         tic = time.time()
         
@@ -310,7 +312,8 @@ def train():
             test_predictions = []
             test_labels = []
             with torch.no_grad():
-
+                device = "cpu"
+                model = model.to(device)
                 pred = model(graph.subgraph(train_nids).to(device), graph.ndata['feat'][train_nids].to(device))
                 for subg in train_dataloader:
                     inputs = subg.ndata['feat']

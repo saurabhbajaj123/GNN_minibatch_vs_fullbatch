@@ -224,6 +224,7 @@ if __name__ == "__main__":
         {
             'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
             'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            'num_heads': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
             # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
