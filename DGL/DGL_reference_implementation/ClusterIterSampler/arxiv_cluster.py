@@ -136,13 +136,13 @@ def train():
         project="mini-batch-cluster-arxiv",
         config={
             "num_epochs": 2000,
-            "lr": 2*1e-3,
+            "lr": 1e-3,
             "dropout": random.uniform(0.3, 0.6),
             "n_hidden": 1024,
-            "n_layers": 10,
+            "n_layers": 8,
             "agg": "gcn",
             "batch_size": 20,
-            "num_parts": 1000,
+            "num_parts": 5000,
             })
 
 
@@ -312,23 +312,23 @@ if __name__ == "__main__":
         
     
     sweep_configuration = {
-        'method': 'bayes',
+        'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            'lr': {'distribution': 'uniform', 'max': 2e-3, 'min': 1e-4},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'lr': {'distribution': 'uniform', 'max': 2e-3, 'min': 1e-4},
             # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
+            "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
             # 'batch_size': {'values': [128, 256, 512]},
-            'num_parts': {'distribution': 'int_uniform', 'min': 1000, 'max': 10000},
+            # 'num_parts': {'distribution': 'int_uniform', 'min': 1000, 'max': 10000},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-cluster-arxiv')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    wandb.agent(sweep_id, function=train, count=3)
 
 #tmux
 # ctrl+b -> d
