@@ -66,9 +66,9 @@ from models import *
 def train():
     root = "../dataset/"
     dataset = DglNodePropPredDataset('ogbn-products', root=root)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cpu"
     print("device = {}".format(device))
-    # device = "cpu"
     # train(dataset, device)
 
     graph, node_labels = dataset[0]
@@ -97,11 +97,11 @@ def train():
 
     
     wandb.init(
-        project="full-batch",
+        project="full-batch-products",
         config={
             "model": "SAGE",
-            "epochs": 10,
-            "lr": 5*1e-3,
+            "epochs": 1000,
+            "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.8),
             "num_hidden": 256,
             "num_layers": 6,
@@ -165,25 +165,25 @@ def train():
             })
 
 if __name__ == "__main__":
-    train()
+    # train()
 
-    # sweep_configuration = {
-    #     'method': 'grid',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-    #         # 'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-    #         # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
-    #         'num_hidden': {'values': [512, 1024]},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
+            'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
+            # 'num_hidden': {'values': [512, 1024]},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
 
-    #      }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch')
+         }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch-products')
 
-    # wandb.agent(sweep_id, function=train, count=15)
+    wandb.agent(sweep_id, function=train, count=30)
 
 
