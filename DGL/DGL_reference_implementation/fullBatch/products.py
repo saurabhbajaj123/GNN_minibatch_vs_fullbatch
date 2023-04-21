@@ -3,7 +3,7 @@ os.environ['DGLBACKEND'] = 'pytorch'
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
 
 import random
 import wandb
@@ -100,11 +100,11 @@ def train():
         project="full-batch-products",
         config={
             "model": "SAGE",
-            "epochs": 1000,
+            "epochs": 10000,
             "lr": 2*1e-3,
-            "dropout": random.uniform(0.5, 0.8),
-            "num_hidden": 256,
-            "num_layers": 6,
+            "dropout": random.uniform(0.2, 0.3),
+            "num_hidden": 1024,
+            "num_layers": 4,
             "agg": "gcn"
             # "activation": F.relu,
             })
@@ -118,7 +118,10 @@ def train():
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
     best_val_acc = 0
     best_test_acc = 0
+    best_train_acc = 0
     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.97, patience=20, min_lr=1e-5)
+
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
     for e in range(config.epochs):
@@ -132,24 +135,25 @@ def train():
         # Note that you should only compute the losses of the nodes in the training set.
         loss = F.cross_entropy(logits[train_mask], labels[train_mask])
 
-        # Compute accuracy on training/validation/test
-        train_acc = (pred[train_mask] == labels[train_mask]).float().mean()
-        val_acc = (pred[val_mask] == labels[val_mask]).float().mean()
-        test_acc = (pred[test_mask] == labels[test_mask]).float().mean()
 
-        # Save the best validation accuracy and the corresponding test accuracy.
-        if best_val_acc < val_acc:
-            best_val_acc = val_acc
-            best_test_acc = test_acc
-
-        score = val_acc
         # Backward
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        scheduler.step()
+        scheduler.step(best_val_acc)
 
         if e % 5 == 0:
+            # Compute accuracy on training/validation/test
+            train_acc = (pred[train_mask] == labels[train_mask]).float().mean()
+            val_acc = (pred[val_mask] == labels[val_mask]).float().mean()
+            test_acc = (pred[test_mask] == labels[test_mask]).float().mean()
+
+            # Save the best validation accuracy and the corresponding test accuracy.
+            if best_val_acc < val_acc:
+                best_val_acc = val_acc
+                best_test_acc = test_acc
+                best_train_acc = train_acc
+
             print(
                 "In epoch {}, loss: {:.3f}, val acc: {:.3f} (best {:.3f}), test acc: {:.3f} (best {:.3f})".format(
                     e, loss, val_acc, best_val_acc, test_acc, best_test_acc
@@ -159,31 +163,34 @@ def train():
             wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
+                        'best_train_acc': best_train_acc,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
-                        'lr': scheduler.get_last_lr()[0],
+                        # 'lr': scheduler.get_last_lr()[0],
+                        'lr': optimizer.param_groups[0]['lr'],
+
             })
 
 if __name__ == "__main__":
-    # train()
+    train()
 
-    sweep_configuration = {
-        'method': 'bayes',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-            'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-            'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
-            # 'num_hidden': {'values': [512, 1024]},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
+    # sweep_configuration = {
+    #     'method': 'bayes',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
+    #         'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
+    #         # 'num_hidden': {'values': [512, 1024]},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
 
-         }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch-products')
+    #      }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch-products')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    # wandb.agent(sweep_id, function=train, count=30)
 
 
