@@ -57,58 +57,6 @@ class Model(nn.Module):
                 h = self.dropout(h)
         return h
 
-def parse_args_fn():
-    """
-    Parse arguments
-    """
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--batch_size",
-        type=int,
-        default=1024,
-        metavar="N",
-        help="input batch size for training (default: 64)",
-    )
-
-    parser.add_argument(
-        "--num_epochs",
-        type=int,
-        default=10,
-        metavar="N",
-        help="number of epochs to train (default: 10)",
-    )
-
-    parser.add_argument("--n_layers", type=int, default=8)
-    parser.add_argument("--fanout", type=int, default=4)
-    parser.add_argument("--n_hidden", type=int, default=2**6)
-    parser.add_argument("--dropout", type=float, default=0.0)
-    parser.add_argument("--eval-every", type=int, default=1)
-    parser.add_argument("--log-every", type=int, default=20)
-
-    # parser.add_argument("--train", type=str, default=os.environ.get("SM_CHANNEL_TRAIN"))
-    # parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
-    # parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
-    # parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
-    # # parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
-    # parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
-
-    args = parser.parse_args()
-
-    return args
-
-def load_dataset(path):
-    """
-    Load entire dataset
-    """
-    # find all files with pkl extenstion and load the first one
-    files = [os.path.join(path, file) for file in os.listdir(path) if file.endswith("pkl")]
-
-    if len(files) == 0:
-        raise ValueError("Invalid # of files in dir: {}".format(path))
-
-    dataset = pickle.load(open(files[0], 'rb'))
-
 def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get train-val-test data loader")
     train_nids, valid_nids, test_nids = nids
@@ -229,8 +177,8 @@ def train():
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
+    scheduler1 = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
+    scheduler2 = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
 
     evaluator = Evaluator(name='ogbn-arxiv')
     best_train_acc = 0
@@ -286,7 +234,8 @@ def train():
                 #         )
                 #     )
         # print("1 batch over")
-        scheduler.step(best_eval_acc)
+        scheduler2.step(best_eval_acc)
+        scheduler1.step()
         toc = time.time()
         total_time += toc - tic
         # logger.debug(
@@ -313,6 +262,7 @@ def train():
 
 
                 pred = model(graph.to(device), graph.ndata['feat'].to(device))
+
                 for subg in train_dataloader:
                     inputs = subg.ndata['feat']
                     train_labels.append(subg.ndata['label'])
@@ -320,7 +270,11 @@ def train():
                 train_predictions = torch.cat(train_predictions)
                 train_labels = torch.cat(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels.cpu().numpy(), train_predictions.cpu().numpy())
-                train_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), train_nids)
+                train_acc_thru_evaltr = evaluate(evaluator, pred[train_nids].argmax(1), graph.ndata['label'][train_nids])
+                
+                pred_train = model(graph.subgraph(train_nids).to(device), graph.ndata['feat'][train_nids].to(device))
+                train_acc_thru_evaltr = evaluate(evaluator, pred_train.argmax(1), graph.ndata['label'][train_nids])
+                # train_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), train_nids)
                 # train_acc_thru_evaltr = evaluate3(train_predictions, train_labels)
                 
                 for subg in valid_dataloader:
@@ -330,7 +284,12 @@ def train():
                 val_predictions = torch.cat(val_predictions)
                 val_labels = torch.cat(val_labels)
                 eval_acc = sklearn.metrics.accuracy_score(val_labels.cpu().numpy(), val_predictions.cpu().numpy())
-                val_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), valid_nids)
+                pred_train = model(graph.subgraph(train_nids).to(device), graph.ndata['feat'][train_nids].to(device))
+                val_acc_thru_evaltr = evaluate(evaluator, pred[valid_nids].argmax(1), graph.ndata['label'][valid_nids])
+
+                pred_valid = model(graph.subgraph(valid_nids).to(device), graph.ndata['feat'][valid_nids].to(device))
+                val_acc_thru_evaltr = evaluate(evaluator, pred_valid.argmax(1), graph.ndata['label'][valid_nids])
+                # val_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), valid_nids)
                 # val_acc_thru_evaltr = evaluate3(val_predictions, val_labels)
 
 
@@ -341,8 +300,14 @@ def train():
                 test_predictions = torch.cat(test_predictions)
                 test_labels = torch.cat(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels.cpu().numpy(), test_predictions.cpu().numpy())
-                test_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), test_nids)
+                test_acc_thru_evaltr = evaluate(evaluator, pred[test_nids].argmax(1), graph.ndata['label'][test_nids])
+
+                pred_test = model(graph.subgraph(test_nids).to(device), graph.ndata['feat'][test_nids].to(device))
+                test_acc_thru_evaltr = evaluate(evaluator, pred_test.argmax(1), graph.ndata['label'][test_nids])
+                # test_acc_thru_evaltr = evaluate2(pred, graph.ndata['label'].to(device), test_nids)
                 # test_acc_thru_evaltr = evaluate3(test_predictions, test_labels)
+
+
 
                 if best_eval_acc < eval_acc:
                     best_eval_acc = eval_acc
