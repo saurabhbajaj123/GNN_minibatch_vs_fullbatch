@@ -100,12 +100,12 @@ def train():
         project="full-batch-products",
         config={
             "model": "SAGE",
-            "epochs": 10000,
-            "lr": 2*1e-3,
-            "dropout": random.uniform(0.2, 0.3),
+            "epochs": 30000,
+            "lr": 1e-4,
+            "dropout": random.uniform(0.45, 0.5),
             "num_hidden": 1024,
-            "num_layers": 4,
-            "agg": "gcn"
+            "num_layers": 5,
+            "agg": "mean"
             # "activation": F.relu,
             })
 
@@ -120,7 +120,7 @@ def train():
     best_test_acc = 0
     best_train_acc = 0
     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.97, patience=20, min_lr=1e-5)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.9, patience=10, min_lr=1e-5)
 
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
@@ -140,7 +140,7 @@ def train():
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        scheduler.step(best_val_acc)
+        # scheduler.step(best_val_acc)
 
         if e % 5 == 0:
             # Compute accuracy on training/validation/test
