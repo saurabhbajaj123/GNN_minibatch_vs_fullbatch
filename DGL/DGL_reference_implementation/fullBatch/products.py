@@ -101,7 +101,7 @@ def train():
         config={
             "model": "SAGE",
             "epochs": 30000,
-            "lr": 1e-4,
+            "lr": 2.5*1e-4,
             "dropout": random.uniform(0.45, 0.5),
             "num_hidden": 1024,
             "num_layers": 5,
