@@ -130,19 +130,29 @@ def _get_data_loader(graph, num_parts, sampler, device, shuffle=True, batch_size
     
     return dataloader
 
+
+@torch.no_grad()
+def evaluate(evaluator, predictions, labels):
+    acc = evaluator.eval({
+        'y_true': torch.reshape(labels, (-1, 1)),
+        'y_pred': torch.reshape(predictions, (-1, 1)),
+    })['acc']
+    # eacc = sklearn.metrics.accuracy_score(labels, predictions)
+    return acc
+
 def train():
     
     wandb.init(
         project="mini-batch-cluster-products",
         config={
-            "num_epochs": 2000,
-            "lr": 1e-4,
-            "dropout": random.uniform(0.3, 0.6),
+            "num_epochs": 500,
+            "lr": 2.5*1e-4,
+            "dropout": random.uniform(0.0, 0.5),
             "n_hidden": 256,
-            "n_layers": 10,
-            "agg": "gcn",
-            "batch_size": 20,
-            "num_parts": 7000,
+            "n_layers": 3,
+            "agg": "mean",
+            "batch_size": 256,
+            "num_parts": 8000,
             })
 
 
@@ -160,6 +170,8 @@ def train():
     root="../dataset/"
     dataset = DglNodePropPredDataset('ogbn-products', root=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    evaluator = Evaluator(name='ogbn-products')
 
     idx_split = dataset.get_idx_split()
     train_nids = idx_split['train']
@@ -189,7 +201,7 @@ def train():
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.95, patience=10, min_lr=1e-5)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', cooldown=10, factor=0.95, patience=30, min_lr=1e-4)
 
     best_train_acc = 0
     best_eval_acc = 0
@@ -204,6 +216,8 @@ def train():
     time_backward = 0
     total_time = 0
     for epoch in range(num_epochs):
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        model = model.to(device)
         model.train()
         tic = time.time()
 
@@ -224,31 +238,9 @@ def train():
             time_forward += tic_forward - tic_step
             time_backward += tic_backward - tic_forward
 
-            # accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
-            # if step % 100 == 0:
-            #     logger.debug(
-            #             "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
-            #                 epoch, step, loss.item(), accuracy.item()
-            #             )
-            #         )
-                # print(
-                #         "Epoch {:05d} | Step {:05d} | Loss {:.4f} | Train Acc {:.4f}".format(
-                #             epoch, step, loss.item(), accuracy.item()
-                #         )
-                #     )
         scheduler.step(best_eval_acc)
         toc = time.time()
         total_time += toc - tic
-        # logger.debug(
-        #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
-        #         toc - tic, time_load, time_forward, time_backward
-        #     )
-        # )        
-        # print(
-        #     "Epoch Time(s): {:.4f} Load {:.4f} Forward {:.4f} Backward {:.4f}".format(
-        #         toc - tic, time_load, time_forward, time_backward
-        #     )
-        # )
 
         if epoch % 5 == 0:
             model.eval()
@@ -258,6 +250,7 @@ def train():
             val_labels = []
             test_predictions = []
             test_labels = []
+
             with torch.no_grad():
                 for subg in train_dataloader:
                     inputs = subg.ndata['feat']
@@ -282,6 +275,13 @@ def train():
                 test_predictions = np.concatenate(test_predictions)
                 test_labels = np.concatenate(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
+                
+                device = "cpu"
+                model = model.to(device)
+                pred = model(graph.to(device), graph.ndata['feat'].to(device))
+                train_acc_fullgraph_no_sample = evaluate(evaluator, pred[train_nids].argmax(1), graph.ndata['label'][train_nids].to(device))
+                val_acc_fullgraph_no_sample = evaluate(evaluator, pred[valid_nids].argmax(1), graph.ndata['label'][valid_nids].to(device))
+                test_acc_fullgraph_no_sample = evaluate(evaluator, pred[test_nids].argmax(1), graph.ndata['label'][test_nids].to(device))
 
                 if best_eval_acc < eval_acc:
                     best_eval_acc = eval_acc
@@ -296,6 +296,9 @@ def train():
                         'best_eval_acc': best_eval_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
+                        'train_acc_fullgraph_no_sample': train_acc_fullgraph_no_sample,
+                        'val_acc_fullgraph_no_sample': val_acc_fullgraph_no_sample,
+                        'test_acc_fullgraph_no_sample': test_acc_fullgraph_no_sample,
                         # 'lr': scheduler.get_last_lr()[0],
                         'lr': optimizer.param_groups[0]['lr'],
             })
@@ -308,27 +311,27 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    # eval_acc, model = train()
+    eval_acc, model = train()
         
     
-    sweep_configuration = {
-        'method': 'random',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 2048},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 20},
-            # 'lr': {'distribution': 'uniform', 'max': 2e-3, 'min': 1e-4},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
-            # 'num_parts': {'distribution': 'int_uniform', 'min': 1000, 'max': 10000},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-cluster-products')
+    # sweep_configuration = {
+    #     'method': 'grid',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 2048},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 20},
+    #         # 'lr': {'distribution': 'uniform', 'max': 2e-3, 'min': 1e-4},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         'batch_size': {'values': [256, 512, 1024]},
+    #         # 'num_parts': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-cluster-products')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    # wandb.agent(sweep_id, function=train, count=3)
 
 #tmux
 # ctrl+b -> d
