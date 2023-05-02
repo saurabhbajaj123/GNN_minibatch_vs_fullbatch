@@ -134,7 +134,8 @@ def train():
                         'best_train_acc': best_train_acc,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
-                        'lr': scheduler.get_last_lr()[0],
+                        # 'lr': scheduler.get_last_lr()[0],
+                        'lr': optimizer.param_groups[0]['lr'],
             })
 
 # train()
@@ -145,13 +146,13 @@ sweep_configuration = {
     'parameters': 
     {
         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-        'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
+        # 'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-        'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+        # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
      }
 }
 sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch-arxiv-gat')
 
-wandb.agent(sweep_id, function=train, count=30)
+wandb.agent(sweep_id, function=train, count=10)
 
 
