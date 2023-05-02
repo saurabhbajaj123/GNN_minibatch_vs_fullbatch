@@ -111,14 +111,14 @@ def train():
     wandb.init(
         project="debugging",
         config={
-            "num_epochs": 10000,
-            "lr": 2*1e-3,
+            "num_epochs": 1000,
+            "lr": 1e-3,
             "dropout": random.uniform(0.3, 0.6),
-            "n_hidden": 1400,
+            "n_hidden": 1024,
             "n_layers": 3,
             "agg": "mean",
-            "batch_size": 2**12,
-            "budget": 1000,
+            "batch_size": 2**10,
+            "budget": 5000,
             })
 
 
@@ -156,7 +156,7 @@ def train():
     # creating the sampler
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-    sampler = dgl.dataloading.SAINTSampler(mode='node', budget=budget)
+    sampler = dgl.dataloading.SAINTSampler(mode='walk', budget=(256, 512))
 
     data = _get_data_loader(sampler, device, graph, (train_nids, valid_nids, test_nids), batch_size)
 

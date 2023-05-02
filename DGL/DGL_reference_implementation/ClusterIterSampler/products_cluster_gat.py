@@ -20,7 +20,7 @@ wandb.login()
 
 import torch.nn as nn
 import torch.nn.functional as F
-from dgl.nn import SAGEConv
+from dgl.nn import GATConv
 import tqdm
 import sklearn.metrics
 
@@ -34,81 +34,30 @@ warnings.filterwarnings("ignore")
 
 class Model(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
+        self, in_feats, num_heads, n_hidden, n_classes, n_layers
     ):
-        super(Model, self).__init__()
+        super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
+        self.num_heads = num_heads
+
         self.layers = nn.ModuleList()
-        self.layers.append(SAGEConv(in_feats, n_hidden, aggregator_type=aggregator_type))
+        self.layers.append(GATConv(in_feats, n_hidden, num_heads=num_heads))
         for _ in range(n_layers - 2):
-            self.layers.append(SAGEConv(n_hidden, n_hidden, aggregator_type=aggregator_type))
-        self.layers.append(SAGEConv(n_hidden, n_classes, aggregator_type=aggregator_type))
-        self.dropout = nn.Dropout(dropout)
-        self.activation = activation
+            self.layers.append(GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
+        self.layers.append(GATConv(n_hidden*num_heads, n_classes, num_heads=1))
+
 
     def forward(self, g, x):
         h = x
-        for l, conv in enumerate(self.layers):
-            h = conv(g, h)
-            # print("self.activation = {}".format(type(self.activation)))
-            if l != len(self.layers) - 1:
-                h = self.activation(h)
-                h = self.dropout(h)
+        for i in range(self.n_layers - 1):
+            h = self.layers[i](g, h)
+            h = h.flatten(1)
+        h = self.layers[-1](g, h)
+        h = h.mean(1)
         return h
 
-def parse_args_fn():
-    """
-    Parse arguments
-    """
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--batch_size",
-        type=int,
-        default=1024,
-        metavar="N",
-        help="input batch size for training (default: 64)",
-    )
-
-    parser.add_argument(
-        "--num_epochs",
-        type=int,
-        default=10,
-        metavar="N",
-        help="number of epochs to train (default: 10)",
-    )
-
-    parser.add_argument("--n_layers", type=int, default=8)
-    parser.add_argument("--fanout", type=int, default=4)
-    parser.add_argument("--n_hidden", type=int, default=2**6)
-    parser.add_argument("--dropout", type=float, default=0.0)
-    parser.add_argument("--eval-every", type=int, default=1)
-    parser.add_argument("--log-every", type=int, default=20)
-
-    # parser.add_argument("--train", type=str, default=os.environ.get("SM_CHANNEL_TRAIN"))
-    # parser.add_argument("--hosts", type=list, default=json.loads(os.environ["SM_HOSTS"]))
-    # parser.add_argument("--current-host", type=str, default=os.environ["SM_CURRENT_HOST"])
-    # parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
-    # # parser.add_argument("--data-dir", type=str, default=os.environ["SM_CHANNEL_TRAINING"])
-    # parser.add_argument("--num-gpus", type=int, default=os.environ["SM_NUM_GPUS"])
-
-    args = parser.parse_args()
-
-    return args
-
-def load_dataset(path):
-    """
-    Load entire dataset
-    """
-    # find all files with pkl extenstion and load the first one
-    files = [os.path.join(path, file) for file in os.listdir(path) if file.endswith("pkl")]
-
-    if len(files) == 0:
-        raise ValueError("Invalid # of files in dir: {}".format(path))
-
-    dataset = pickle.load(open(files[0], 'rb'))
 
 def _get_data_loader(graph, num_parts, sampler, device, shuffle=True, batch_size=1024):
     logger.info("Get data loader")
@@ -143,13 +92,14 @@ def evaluate(evaluator, predictions, labels):
 def train():
     
     wandb.init(
-        project="mini-batch-cluster-products",
+        project="mini-batch-cluster-products-gat",
         config={
-            "num_epochs": 500,
+            "num_epochs": 10,
             "lr": 2.5*1e-4,
             "dropout": random.uniform(0.0, 0.5),
             "n_hidden": 256,
             "n_layers": 3,
+            "num_heads":2,
             "agg": "mean",
             "batch_size": 256,
             "num_parts": 8000,
@@ -166,6 +116,8 @@ def train():
     lr = config.lr
     agg = config.agg
     num_parts = config.num_parts
+    num_heads = config.num_heads
+
     
     root="../dataset/"
     dataset = DglNodePropPredDataset('ogbn-products', root=root)
@@ -179,6 +131,12 @@ def train():
     test_nids = idx_split['test']
 
     graph, node_labels = dataset[0]
+
+    # zero_in_deg = (graph.in_degrees() == 0).nonzero()[0]
+    # Add self-loops for nodes with zero in-degree
+    graph = dgl.add_self_loop(graph)
+
+
     graph = dgl.add_reverse_edges(graph)
     graph.ndata['label'] = node_labels[:, 0]
     
@@ -198,7 +156,7 @@ def train():
 
     activation = F.relu
 
-    model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
+    model = Model(in_feats, num_heads, n_hidden, n_classes, n_layers).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
     scheduler = ReduceLROnPlateau(optimizer, mode='max', cooldown=10, factor=0.95, patience=30, min_lr=1e-4)
