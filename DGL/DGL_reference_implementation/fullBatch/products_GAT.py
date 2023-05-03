@@ -48,10 +48,22 @@ def train():
     # train(dataset, device)
 
     graph, node_labels = dataset[0]
+    print(graph.ndata.keys())
     graph = graph.to(device)
     node_labels = node_labels.to(device)
-    # # Add reverse edges since ogbn-products is unidirectional.
+    # Add reverse edges since ogbn-products is unidirectional.
     graph = dgl.add_reverse_edges(graph)
+
+    in_degrees = graph.in_degrees()
+    out_degrees = graph.out_degrees()
+
+    zero_indegree = torch.where(in_degrees == 0)[0]
+    zero_outdegree = torch.where(out_degrees == 0)[0]
+
+    graph.add_edges(zero_indegree, zero_indegree)
+    graph.add_edges(zero_outdegree, zero_outdegree)
+
+    # graph = dgl.add_self_loop(graph)
 
     graph.ndata['label'] = node_labels[:, 0]
 
@@ -68,9 +80,9 @@ def train():
     wandb.init(
         project="full-batch-products-gat",
         config={
-            "epochs": 500,
+            "epochs": 200,
             "lr": 1e-3,
-            "n_hidden": 512,
+            "n_hidden": 256,
             "n_layers": 3,
             "num_heads": 2,
             })
