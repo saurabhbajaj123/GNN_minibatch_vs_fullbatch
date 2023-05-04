@@ -8,10 +8,10 @@ import pickle
 import dgl
 import torch
 import numpy as np
-from ogb.nodeproppred import DglNodePropPredDataset
+from ogb.nodeproppred import DglNodePropPredDataset, Evaluator
 import time 
 import numpy as np
-from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
 
 
 import random
@@ -114,22 +114,11 @@ def load_dataset(path):
         raise ValueError("Invalid # of files in dir: {}".format(path))
 
     dataset = pickle.load(open(files[0], 'rb'))
-def _get_data_loader(sampler, device, dataset, batch_size=1024):
+def _get_data_loader(sampler, device, graph, nids, batch_size=1024):
     logger.info("Get train-val-test data loader")
+    train_nids, valid_nids, test_nids = nids
     
 
-    idx_split = dataset.get_idx_split()
-    train_nids = idx_split['train']
-    valid_nids = idx_split['valid']
-    test_nids = idx_split['test']
-
-    graph, node_labels = dataset[0]
-    graph = dgl.add_reverse_edges(graph)
-    graph.ndata['label'] = node_labels[:, 0]
-
-    node_features = graph.ndata['feat']
-    in_feats = node_features.shape[1]
-    n_classes = (node_labels.max() + 1).item()
     
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
@@ -162,7 +151,16 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     # device=device
     )
 
-    return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
+    return (train_dataloader, valid_dataloader, test_dataloader)
+
+@torch.no_grad()
+def evaluate(evaluator, predictions, labels):
+    acc = evaluator.eval({
+        'y_true': torch.reshape(labels, (-1, 1)),
+        'y_pred': torch.reshape(predictions, (-1, 1)),
+    })['acc']
+    # eacc = sklearn.metrics.accuracy_score(labels, predictions)
+    return acc
 
 def train():
     
@@ -170,13 +168,13 @@ def train():
         project="mini-batch-products",
         config={
             "num_epochs": 500,
-            "lr": 2*1e-3,
-            "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 256,
-            "n_layers": 7,
+            "lr": 1e-3,
+            "dropout": random.uniform(0.6, 0.70),
+            "n_hidden": 512,
+            "n_layers": 3,
             "agg": "gcn",
-            "batch_size": 12,
-            "fanout": 3,
+            "batch_size": 10,
+            "fanout": 8,
             })
 
 
@@ -193,13 +191,29 @@ def train():
     
     root="../dataset/"
     dataset = DglNodePropPredDataset('ogbn-products', root=root)
+
+    
+    idx_split = dataset.get_idx_split()
+    train_nids = idx_split['train']
+    valid_nids = idx_split['valid']
+    test_nids = idx_split['test']
+
+    graph, node_labels = dataset[0]
+    graph = dgl.add_reverse_edges(graph)
+    graph.ndata['label'] = node_labels[:, 0]
+
+    node_features = graph.ndata['feat']
+    in_feats = node_features.shape[1]
+    n_classes = (node_labels.max() + 1).item()
+
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
 
-    data = _get_data_loader(sampler, device, dataset, batch_size)
+    data = _get_data_loader(sampler, device, graph, (train_nids, valid_nids, test_nids), batch_size)
 
-    train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes) = data
+    train_dataloader, valid_dataloader, test_dataloader = data
 
     input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
 
@@ -208,7 +222,9 @@ def train():
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=5*1e-4)
+    scheduler2 = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
 
+    evaluator = Evaluator(name='ogbn-products')
     best_train_acc = 0
     best_eval_acc = 0
     best_test_acc = 0
@@ -222,6 +238,8 @@ def train():
     time_backward = 0
     total_time = 0
     for epoch in range(num_epochs):
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        model = model.to(device)
         model.train()
         tic = time.time()
         
@@ -257,6 +275,7 @@ def train():
                 #             epoch, step, loss.item(), accuracy.item()
                 #         )
                 #     )
+        scheduler2.step(best_eval_acc)
         toc = time.time()
         total_time += toc - tic
         # logger.debug(
@@ -320,6 +339,14 @@ def train():
                     best_model = model
                     best_test_acc = test_acc
                     best_train_acc = train_acc
+                
+                
+                device = "cpu"
+                model = model.to(device)
+                pred = model(graph.to(device), graph.ndata['feat'].to(device))
+                train_acc_fullgraph_no_sample = evaluate(evaluator, pred[train_nids].argmax(1), graph.ndata['label'][train_nids].to(device))
+                val_acc_fullgraph_no_sample = evaluate(evaluator, pred[valid_nids].argmax(1), graph.ndata['label'][valid_nids].to(device))
+                test_acc_fullgraph_no_sample = evaluate(evaluator, pred[test_nids].argmax(1), graph.ndata['label'][test_nids].to(device))
 
             wandb.log({'val_acc': eval_acc,
                         'test_acc': test_acc,
@@ -327,6 +354,9 @@ def train():
                         'best_eval_acc': best_eval_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
+                        'train_acc_fullgraph_no_sample': train_acc_fullgraph_no_sample,
+                        'val_acc_fullgraph_no_sample': val_acc_fullgraph_no_sample,
+                        'test_acc_fullgraph_no_sample': test_acc_fullgraph_no_sample,
                         'lr': scheduler.get_last_lr()[0],
             })
             
@@ -338,29 +368,29 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    # eval_acc, model = train()
+    eval_acc, model = train()
         
     
-    sweep_configuration = {
-        'method': 'grid',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            'n_layers': {'values':[6, 7, 8]},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-            # 'batch_size': {'values':[7, 6, 5]},
-            # 'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products')
+    # sweep_configuration = {
+    #     'method': 'grid',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'n_layers': {'values':[6, 7, 8]},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+    #         # 'batch_size': {'values':[7, 6, 5]},
+    #         # 'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-products')
 
-    wandb.agent(sweep_id, function=train, count=50)
+    # wandb.agent(sweep_id, function=train, count=50)
 
 #tmux
 # ctrl+b -> d
