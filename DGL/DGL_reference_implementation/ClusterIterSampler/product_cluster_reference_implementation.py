@@ -11,7 +11,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchmetrics.functional as MF
-from ogb.nodeproppred import DglNodePropPredDataset
+from ogb.nodeproppred import DglNodePropPredDataset, Evaluator
 import wandb
 wandb.login()
 import random
@@ -61,19 +61,27 @@ class SAGE(nn.Module):
                 h = F.relu(h)
                 h = self.dropout(h)
         return h
+@torch.no_grad()
+def evaluate(evaluator, predictions, labels):
+    acc = evaluator.eval({
+        'y_true': torch.reshape(labels, (-1, 1)),
+        'y_pred': torch.reshape(predictions, (-1, 1)),
+    })['acc']
+    # eacc = sklearn.metrics.accuracy_score(labels, predictions)
+    return acc
 
 def train():
     wandb.init(
         project="mini-batch-cluster-products",
         config={
-            "num_epochs": 500,
-            "lr": 1e-3,
-            "dropout": random.uniform(0.0, 0.5),
-            "n_hidden": 256,
-            "n_layers": 3,
+            "num_epochs": 2000,
+            "lr": 5*1e-4,
+            "dropout": random.uniform(0.0, 0.2),
+            "n_hidden": 706,
+            "n_layers": 7,
             "agg": "mean",
-            "batch_size": 256,
-            "num_parts": 1000,
+            "batch_size": 128,
+            "num_parts": 1264,
             })
     
     config = wandb.config
@@ -89,10 +97,21 @@ def train():
     activation = F.relu
 
     root=".././dataset/"
-    dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset("ogbn-products", root=root))
+    dataset = DglNodePropPredDataset("ogbn-products", root=root)
+    
+    idx_split = dataset.get_idx_split()
+    train_nids = idx_split['train']
+    valid_nids = idx_split['valid']
+    test_nids = idx_split['test']
+    
+    dataset = dgl.data.AsNodePredDataset(dataset)
+
     graph = dataset[
         0
     ]  # already prepares ndata['label'/'train_mask'/'val_mask'/'test_mask']
+    
+    evaluator = Evaluator(name='ogbn-products')
+
     graph = dgl.add_reverse_edges(graph)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -106,12 +125,13 @@ def train():
 
     # model = SAGE(graph.ndata["feat"].shape[1], n_hidden, dataset.num_classes).cuda()
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=5e-4)
-    scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.95, patience=10, min_lr=1e-5)
+    scheduler = ReduceLROnPlateau(opt, mode='max', cooldown=10, factor=0.95, patience=10, min_lr=1e-4)
 
     sampler = dgl.dataloading.ClusterGCNSampler(
         graph,
         num_partitions,
         prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
+        cache_path='train_cluster_gcn_{}_{}_{}.pkl'.format(n_layers, n_hidden, num_partitions),
     )
     # DataLoader for generic dataloading with a graph, a set of indices (any indices, like
     # partition IDs here), and a graph sampler.
@@ -119,8 +139,8 @@ def train():
         graph,
         torch.arange(num_partitions).to("cuda"),
         sampler,
-        device="cuda",
-        batch_size=100,
+        device=device,
+        batch_size=batch_size,
         shuffle=True,
         drop_last=False,
         num_workers=0,
@@ -135,6 +155,8 @@ def train():
 
     for epoch in range(num_epochs):
         t0 = time.time()
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        model = model.to(device)
         model.train()
         for it, sg in enumerate(dataloader):
             x = sg.ndata["feat"]
@@ -210,17 +232,42 @@ def train():
                     best_test_acc = test_acc
                     best_train_acc = train_acc
                 print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc, best_eval_acc, test_acc, best_test_acc))
-                    
+                
+                device = "cpu"
+                model = model.to(device)
+                pred = model(graph.to(device), graph.ndata['feat'].to(device))
+                train_acc_fullgraph_no_sample = evaluate(evaluator, pred[train_nids].argmax(1), graph.ndata['label'][train_nids].to(device))
+                val_acc_fullgraph_no_sample = evaluate(evaluator, pred[valid_nids].argmax(1), graph.ndata['label'][valid_nids].to(device))
+                test_acc_fullgraph_no_sample = evaluate(evaluator, pred[test_nids].argmax(1), graph.ndata['label'][test_nids].to(device))
+
                 wandb.log({'val_acc': val_acc,
                     'test_acc': test_acc,
                     'train_acc': train_acc,
                     'best_eval_acc': best_eval_acc,
                     'best_test_acc': best_test_acc,
                     'best_train_acc': best_train_acc,
+                    'train_acc_fullgraph_no_sample': train_acc_fullgraph_no_sample,
+                    'val_acc_fullgraph_no_sample': val_acc_fullgraph_no_sample,
+                    'test_acc_fullgraph_no_sample': test_acc_fullgraph_no_sample,
                     'lr': opt.param_groups[0]['lr'],
                 })
-    print(np.mean(durations[4:]), np.std(durations[4:]))
+    # print(np.mean(durations[4:]), np.std(durations[4:]))
 
 if __name__ == "__main__":
     
     train()
+    
+    # sweep_configuration = {
+    #     'method': 'bayes',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         'num_parts': {'distribution': 'int_uniform', 'min': 1000, 'max': 10000}
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-cluster-products')
+
+    # wandb.agent(sweep_id, function=train, count=50)
