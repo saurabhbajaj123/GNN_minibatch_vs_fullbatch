@@ -29,6 +29,7 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
+
 class Model(nn.Module):
     def __init__(
         self, in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
@@ -112,8 +113,13 @@ def load_dataset(path):
 
     dataset = pickle.load(open(files[0], 'rb'))
 def _get_data_loader(sampler, device, dataset, batch_size=1024):
-    logger.info("Get train-val-test data loader")
     
+    logger.info("Get train-val-test data loader")
+
+    dgl.distributed.initialize('ip_config.txt')
+    torch.distributed.init_process_group(backend='gloo')
+
+
 
     idx_split = dataset.get_idx_split()
     train_nids = idx_split['train']
@@ -122,12 +128,23 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
 
     graph, node_labels = dataset[0]
     graph = dgl.add_reverse_edges(graph)
+
+    dgl.distributed.partition_graph(g, 'test', 4, num_hops=1, part_method='metis',
+                                out_path='output/part_config.json', reshuffle=True,
+                                balance_ntypes=g.ndata['train_mask'],
+                                balance_edges=True)
+
+    g = dgl.distributed.DistGraph('graph_name', 'output/part_config.json')
+    pb = g.get_partition_book()
+    train_nid = dgl.distributed.node_split(g.ndata['train_mask'], pb, force_even=True)
+
     graph.ndata['label'] = node_labels[:, 0]
 
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
     n_classes = (node_labels.max() + 1).item()
-    
+
+    logger.info("Get train data loader")
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
     graph,              # The graph
@@ -140,7 +157,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     drop_last=False,    # Whether to drop the last incomplete batch
     num_workers=0       # Number of sampler processes
     )
-
+    logger.info("Get val data loader")
     valid_dataloader = dgl.dataloading.DataLoader(
     graph, valid_nids, sampler,
     batch_size=batch_size,
@@ -150,6 +167,7 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     device=device
     )
 
+    logger.info("Get test data loader")
     test_dataloader = dgl.dataloading.DataLoader(
     graph, test_nids, sampler,
     batch_size=batch_size,
@@ -159,6 +177,8 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     device=device
     )
 
+    logger.info("Train-val-test data loader created")
+    
     return (train_dataloader, valid_dataloader, test_dataloader, (in_feats, n_classes))
 
 def train():
@@ -169,8 +189,8 @@ def train():
             "num_epochs": 500,
             "lr": 5*1e-3,
             "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 512,
-            "n_layers": 3,
+            "n_hidden": 1024,
+            "n_layers": 10,
             "agg": "gcn",
             "batch_size": 1024,
             "fanout": 4,
@@ -331,27 +351,27 @@ if __name__ == "__main__":
     
     # args = parse_args_fn()
 
-    # eval_acc, model = train()
+    eval_acc, model = train()
         
     
-    sweep_configuration = {
-        'method': 'grid',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-            'n_layers': {'distribution': 'int_uniform', 'min': 6, 'max': 9},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
-            'fanout': {'distribution': 'int_uniform', 'min': 7, 'max': 9},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
+    # sweep_configuration = {
+    #     'method': 'grid',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+    #         'n_layers': {'distribution': 'int_uniform', 'min': 6, 'max': 9},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'values': [128, 256, 512]},
+    #         'fanout': {'distribution': 'int_uniform', 'min': 7, 'max': 9},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
 
-    wandb.agent(sweep_id, function=train, count=10)
+    # wandb.agent(sweep_id, function=train, count=10)
 
 #tmux
 # ctrl+b -> d

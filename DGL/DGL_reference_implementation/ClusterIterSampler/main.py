@@ -1,3 +1,4 @@
+
 import argparse
 import time
 import traceback
@@ -247,9 +248,8 @@ if __name__ == "__main__":
     else:
         device = th.device("cpu")
 
-    # load ogbn-papers100M data
-    # root='../../dataset/data'
-    data = DglNodePropPredDataset(name="ogbn-papers100M")
+    # load ogbn-products data
+    data = DglNodePropPredDataset(name="ogbn-products")
     splitted_idx = data.get_idx_split()
     train_idx, val_idx, test_idx = (
         splitted_idx["train"],
@@ -259,7 +259,7 @@ if __name__ == "__main__":
     graph, labels = data[0]
     labels = labels[:, 0]
     num_nodes = train_idx.shape[0] + val_idx.shape[0] + test_idx.shape[0]
-    assert num_nodes == graph.number_of_nodes()
+    assert num_nodes == graph.num_nodes()
     graph.ndata["labels"] = labels
     mask = th.zeros(num_nodes, dtype=th.bool)
     mask[train_idx] = True
@@ -276,7 +276,7 @@ if __name__ == "__main__":
     graph.find_edges(0)
 
     cluster_iter_data = ClusterIter(
-        "ogbn-papers100M",
+        "ogbn-products",
         graph,
         args.num_partitions,
         args.batch_size,
@@ -291,7 +291,7 @@ if __name__ == "__main__":
         num_workers=4,
         collate_fn=partial(subgraph_collate_fn, graph),
     )
-    print(graph.ndata.keys())
+
     in_feats = graph.ndata["feat"].shape[1]
     print(in_feats)
     n_classes = (labels.max() + 1).item()
