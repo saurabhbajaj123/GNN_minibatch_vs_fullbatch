@@ -122,13 +122,17 @@ def _get_data_loader(sampler, device, dataset, batch_size=1024):
     valid_nids = idx_split['valid']
     test_nids = idx_split['test']
 
+    print("nids obtained")
+    
     graph, node_labels = dataset[0]
-    graph = dgl.add_reverse_edges(graph)
+    # graph = dgl.add_reverse_edges(graph)
     graph.ndata['label'] = node_labels[:, 0]
 
+    print("reverse edges added")
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
     n_classes = (node_labels.max() + 1).item()
+
 
     logger.info("Get train data loader")
     train_dataloader = dgl.dataloading.DataLoader(
@@ -178,7 +182,7 @@ def train():
             "n_hidden": 256,
             "n_layers": 3,
             "agg": "mean",
-            "batch_size": 1024,
+            "batch_size": 512,
             "fanout": 4,
             })
 
@@ -207,6 +211,8 @@ def train():
     input_nodes, output_nodes, mfgs = example_minibatch = next(iter(train_dataloader))
 
     activation = F.relu
+    # print(in_feats, n_hidden, n_classes, n_layers, dropout, activation)
+    n_classes = 172
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -236,7 +242,7 @@ def train():
             labels = mfgs[-1].dstdata['label']
             tic_step = time.time()
             predictions = model(mfgs, inputs)
-            loss = F.cross_entropy(predictions, labels)
+            loss = F.cross_entropy(predictions, int(labels))
             optimizer.zero_grad()
             tic_forward = time.time()
             loss.backward()
