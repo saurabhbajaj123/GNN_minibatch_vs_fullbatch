@@ -141,7 +141,7 @@ def train():
             "n_hidden": 256,
             "n_layers": 3,
             "agg": "mean",
-            "batch_size": 512,
+            "batch_size": 1024,
             "fanout": 4,
             })
 
@@ -159,7 +159,7 @@ def train():
     
     root="../dataset/"
     # dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
-    torch.cuda.set_device(3)
+    # torch.cuda.set_device(3)
 
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -239,7 +239,7 @@ def train():
                 train_labels = np.concatenate(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
 
-                train_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.subgraph(train_nids).ndata['label'].cpu().numpy(), pred[train_nids].argmax(1).cpu().numpy())
+                train_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][train_nids].cpu().numpy(), pred[train_nids].argmax(1).cpu().numpy())
 
 
                 for input_nodes, output_nodes, mfgs in valid_dataloader:
@@ -250,7 +250,7 @@ def train():
                 val_labels = np.concatenate(val_labels)
                 val_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
 
-                val_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.subgraph(valid_nids).ndata['label'].cpu().numpy(), pred[valid_nids].argmax(1).cpu().numpy())
+                val_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][valid_nids].cpu().numpy(), pred[valid_nids].argmax(1).cpu().numpy())
 
                 for input_nodes, output_nodes, mfgs in test_dataloader:
                     inputs = mfgs[0].srcdata['feat']
@@ -260,7 +260,7 @@ def train():
                 test_labels = np.concatenate(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
 
-                test_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.subgraph(test_nids).ndata['label'].cpu().numpy(), pred[test_nids].argmax(1).cpu().numpy())
+                test_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][test_nids].cpu().numpy(), pred[test_nids].argmax(1).cpu().numpy())
 
                 if best_val_acc < val_acc:
                     best_val_acc = val_acc
@@ -293,23 +293,23 @@ if __name__ == "__main__":
         
     
     sweep_configuration = {
-        'method': 'grid',
+        'method': 'random',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
             # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 6, 'max': 9},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 6, 'max': 9},
             # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
             "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
             # 'batch_size': {'values': [128, 256, 512, 1024]},
-            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 25},
+            'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 25},
         }
     }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='pubmed_NS_sage')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    wandb.agent(sweep_id, function=train, count=50)
 
 #tmux
 # ctrl+b -> d
