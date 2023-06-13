@@ -90,24 +90,24 @@ def train():
     wandb.init(
         project="pubmed-full-batch",
         config={
-            "epochs": 100,
-            "lr": 5*1e-4,
-            "dropout": random.uniform(0.0, 0.5),
+            "epochs": 1000,
+            "lr": 1e-4,
+            "weight_decay":5e-4,
+            "dropout": random.uniform(0.5, 0.55),
             "num_hidden": 512,
-            "num_layers": 3,
-            "agg": "mean"
-            # "activation": F.relu,
+            "num_layers": 10,
+            "agg": "gcn"
             })
 
     config = wandb.config
     print(config)
     model = SAGE(num_features, config.num_hidden, num_classes, config.num_layers, F.relu, config.dropout, config.agg).to(device)
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=config.lr, weight_decay=config.weight_decay)
     best_val_acc = 0
     best_test_acc = 0
     # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-5)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.95, cooldown=10, patience=30, min_lr=1e-4)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.95, cooldown=10, patience=30, min_lr=1e-5)
 
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
@@ -160,16 +160,16 @@ def train():
 train()
 
 # sweep_configuration = {
-#     'method': 'random',
+#     'method': 'bayes',
 #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
 #     'parameters': 
 #     {
 #         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-#         'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-#         # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-#         'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
+#         # 'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+#         # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 15},
+#         # 'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
 #         # 'num_hidden': {'values': [512, 1024]},
-#         "agg": {'values': ["mean", "gcn", "pool"]},
+#         # "agg": {'values': ["mean", "gcn", "pool"]},
 #         # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
 
 #      }
