@@ -307,7 +307,7 @@ if __name__ == "__main__":
             # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 25},
         }
     }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch')
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='pubmed_NS_sage')
 
     wandb.agent(sweep_id, function=train, count=30)
 
