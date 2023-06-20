@@ -8,11 +8,13 @@ import warnings
 if __name__ == '__main__':
 
     args = create_parser()
+    print(args.fix_seed)
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:
             warnings.warn('Please enable `--fix-seed` for multi-node training.')
         args.seed = random.randint(0, 1 << 31)
 
+    print(args.graph_name)
     if args.graph_name == '':
         if args.inductive:
             args.graph_name = '%s-%d-%s-%s-induc' % (args.dataset, args.n_partitions,
@@ -20,7 +22,7 @@ if __name__ == '__main__':
         else:
             args.graph_name = '%s-%d-%s-%s-trans' % (args.dataset, args.n_partitions,
                                                      args.partition_method, args.partition_obj)
-
+    print(args.skip_partition)
     if args.skip_partition:
         if args.n_feat == 0 or args.n_class == 0 or args.n_train == 0:
             warnings.warn('Specifying `--n-feat`, `--n-class` and `--n-train` saves data loading time.')

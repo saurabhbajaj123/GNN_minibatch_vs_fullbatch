@@ -366,7 +366,7 @@ def run(graph, node_dict, gpb, args):
             comm_dur.append(ctx.comm_timer.tot_time())
             reduce_dur.append(reduce_time)
 
-        if (epoch + 1) % 10 == 0:
+        if (epoch + 1) % args.log_every == 0:
             print("Process {:03d} | Epoch {:05d} | Time(s) {:.4f} | Comm(s) {:.4f} | Reduce(s) {:.4f} | Loss {:.4f}".format(
                   rank, epoch, np.mean(train_dur), np.mean(comm_dur), np.mean(reduce_dur), loss.item() / part_train))
 
