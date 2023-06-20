@@ -142,3 +142,7 @@ DGL/DGL_reference_implementation/ClusterIterSampler/wandb/
 DGL/DGL_reference_implementation/Debugging/wandb
 DGL/DGL_reference_implementation/ClusterIterSampler/arxiv_cluster/wandb
 *.pkl
+
+PipeGCN/dataset
+PipeGCN/partitions
+

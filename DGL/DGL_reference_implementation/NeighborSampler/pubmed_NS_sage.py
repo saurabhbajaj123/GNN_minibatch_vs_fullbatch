@@ -136,13 +136,14 @@ def train():
         project="pubmed_NS_sage",
         config={
             "num_epochs": 1000,
-            "lr": 2*1e-3,
-            "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 256,
+            "lr": 1e-3,
+            'weight_decay':5e-4,
+            "dropout": 0.6,#random.uniform(0.5, 0.7),
+            "n_hidden": 512,
             "n_layers": 3,
             "agg": "mean",
-            "batch_size": 512,
-            "fanout": 4,
+            "batch_size": 1024,
+            "fanout": 16,
             })
 
 
@@ -155,11 +156,12 @@ def train():
     batch_size = config.batch_size
     fanout = config.fanout
     lr = config.lr
+    weight_decay=config.weight_decay
     agg = config.agg
     
     root="../dataset/"
     # dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
-    torch.cuda.set_device(3)
+    # torch.cuda.set_device(3)
 
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -189,9 +191,9 @@ def train():
     activation = F.relu
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.95, patience=10, min_lr=1e-5)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
 
     best_train_acc = 0
     best_val_acc = 0
@@ -230,7 +232,6 @@ def train():
                 # Inference on entire graph
                 pred = model.inference(graph.to(device), graph.ndata['feat'].to(device))
 
-
                 for input_nodes, output_nodes, mfgs in train_dataloader:
                     inputs = mfgs[0].srcdata['feat']
                     train_labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
@@ -239,7 +240,7 @@ def train():
                 train_labels = np.concatenate(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
 
-                train_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.subgraph(train_nids).ndata['label'].cpu().numpy(), pred[train_nids].argmax(1).cpu().numpy())
+                train_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][train_nids].cpu().numpy(), pred[train_nids].argmax(1).cpu().numpy())
 
 
                 for input_nodes, output_nodes, mfgs in valid_dataloader:
@@ -250,7 +251,7 @@ def train():
                 val_labels = np.concatenate(val_labels)
                 val_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
 
-                val_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.subgraph(valid_nids).ndata['label'].cpu().numpy(), pred[valid_nids].argmax(1).cpu().numpy())
+                val_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][valid_nids].cpu().numpy(), pred[valid_nids].argmax(1).cpu().numpy())
 
                 for input_nodes, output_nodes, mfgs in test_dataloader:
                     inputs = mfgs[0].srcdata['feat']
@@ -260,7 +261,7 @@ def train():
                 test_labels = np.concatenate(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
 
-                test_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.subgraph(test_nids).ndata['label'].cpu().numpy(), pred[test_nids].argmax(1).cpu().numpy())
+                test_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][test_nids].cpu().numpy(), pred[test_nids].argmax(1).cpu().numpy())
 
                 if best_val_acc < val_acc:
                     best_val_acc = val_acc
@@ -283,33 +284,39 @@ def train():
                         'lr': optimizer.param_groups[0]['lr'],
             })
             
-    return best_val_acc, model
+    return best_train_acc, best_val_acc, best_test_acc, model
 
 if __name__ == "__main__":
     
     # args = parse_args_fn()
+    train_val, val_acc, test_acc, model = train()
+    # runs = 2
+    # avg_train_acc = avg_val_acc = avg_test_acc = 0
+    # for _ in range(runs):
+    #     train_acc, val_acc, test_acc, model = train()
+    #     avg_train_acc += train_acc
+    #     avg_val_acc += val_acc
+    #     avg_test_acc += test_acc
+    # print(avg_train_acc/runs, avg_val_acc/runs, avg_test_acc/runs)
 
-    # val_acc, model = train()
-        
-    
-    sweep_configuration = {
-        'method': 'grid',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 6, 'max': 9},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512, 1024]},
-            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 25},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='pubmed_NS_sage')
+    # sweep_configuration = {
+    #     'method': 'random',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+    #         'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'values': [128, 256, 512, 1024]},
+    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 25},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='pubmed_NS_sage')
 
-    wandb.agent(sweep_id, function=train, count=30)
+    # wandb.agent(sweep_id, function=train, count=30)
 
 #tmux
 # ctrl+b -> d
