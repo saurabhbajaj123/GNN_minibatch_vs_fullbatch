@@ -344,7 +344,7 @@ def main(args):
     print(f"{host_name}: Initializing DistDGL.")
     dgl.distributed.initialize(args.ip_config)
     print(f"{host_name}: Initializing PyTorch process group.")
-    th.distributed.init_process_group(backend=args.backend, rank=args.local_rank, world_size=4)
+    th.distributed.init_process_group(backend=args.backend, rank=args.local_rank, world_size=2)
     print(f"{host_name}: Initializing DistGraph.")
     g = dgl.distributed.DistGraph(args.graph_name, part_config=args.part_config)
     print(f"Rank of {host_name}: {g.rank()}")
