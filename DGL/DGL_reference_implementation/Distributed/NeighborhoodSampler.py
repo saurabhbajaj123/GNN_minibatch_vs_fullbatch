@@ -2,6 +2,7 @@ import argparse
 import socket
 import time
 
+import os 
 import dgl
 import dgl.nn.pytorch as dglnn
 import numpy as np
@@ -11,6 +12,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import tqdm
 
+LOCAL_RANK = int(os.environ['LOCAL_RANK'])
 
 class DistSAGE(nn.Module):
     """
@@ -342,7 +344,7 @@ def main(args):
     print(f"{host_name}: Initializing DistDGL.")
     dgl.distributed.initialize(args.ip_config)
     print(f"{host_name}: Initializing PyTorch process group.")
-    th.distributed.init_process_group(backend=args.backend)
+    th.distributed.init_process_group(backend=args.backend, rank=args.local_rank, world_size=2)
     print(f"{host_name}: Initializing DistGraph.")
     g = dgl.distributed.DistGraph(args.graph_name, part_config=args.part_config)
     print(f"Rank of {host_name}: {g.rank()}")
@@ -417,7 +419,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Distributed GraphSAGE.")
     parser.add_argument("--graph_name", type=str, help="graph name")
     parser.add_argument(
-        "--ip_config", type=str, help="The file for IP configuration"
+        "--ip_config", type=str, help="The file for IP configuration", default="ip_config.txt"
     )
     parser.add_argument(
         "--part_config", type=str, help="The path to the partition config file"
@@ -458,5 +460,6 @@ if __name__ == "__main__":
         "of batches to be the same.",
     )
     args = parser.parse_args()
+    args.local_rank = LOCAL_RANK
     print(f"Arguments: {args}")
     main(args)
