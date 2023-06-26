@@ -145,4 +145,6 @@ DGL/DGL_reference_implementation/ClusterIterSampler/arxiv_cluster/wandb
 
 PipeGCN/dataset
 PipeGCN/partitions
-
+PipeGCN/model
+PipeGCN/results
+PipeGCN/wandb
