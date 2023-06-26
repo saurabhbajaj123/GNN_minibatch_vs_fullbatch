@@ -7,6 +7,9 @@ import copy
 from multiprocessing.pool import ThreadPool
 from sklearn.metrics import f1_score
 
+import random
+import wandb
+# wandb.login()
 
 def calc_acc(logits, labels):
     if labels.dim() == 1:
@@ -24,20 +27,41 @@ def evaluate_induc(name, model, g, mode, result_file_name=None):
     """
     model.eval()
     model.cpu()
-    feat, labels = g.ndata['feat'], g.ndata['label']
-    mask = g.ndata[mode + '_mask']
-    logits = model(g, feat)
-    logits = logits[mask]
-    labels = labels[mask]
-    acc = calc_acc(logits, labels)
-    buf = "{:s} | Accuracy {:.2%}".format(name, acc)
+    train_g, val_g, test_g = g
+    val_feat, val_labels = val_g.ndata['feat'], val_g.ndata['label']
+    train_feat, train_labels = train_g.ndata['feat'], train_g.ndata['label']
+    test_feat, test_labels = test_g.ndata['feat'], test_g.ndata['label']
+    val_mask = val_g.ndata["val" + '_mask']
+    train_mask = train_g.ndata["train" + '_mask']
+    test_mask = test_g.ndata["test" + '_mask']
+
+    val_logits = model(val_g, val_feat)
+    train_logits = model(train_g, train_feat)
+    test_logits = model(test_g, test_feat)
+    val_logits = val_logits[val_mask]
+    val_labels = val_labels[val_mask]
+    train_logits = train_logits[train_mask]
+    train_labels = train_labels[train_mask]
+    test_logits = test_logits[test_mask]
+    test_labels = test_labels[test_mask]
+    val_acc = calc_acc(val_logits, val_labels)
+    train_acc = calc_acc(train_logits, train_labels)
+    print(f"test_logits = {test_logits}, test_labels={test_labels}")
+    test_acc = calc_acc(test_logits, test_labels)
+    buf = "{:s} | Accuracy {:.2%}".format(name, val_acc)
     if result_file_name is not None:
         with open(result_file_name, 'a+') as f:
             f.write(buf + '\n')
             print(buf)
     else:
         print(buf)
-    return model, acc
+    
+    wandb.log({'val_acc': val_acc,
+                'test_acc': test_acc,
+                'train_acc': train_acc,
+            })
+        
+    return model, val_acc
 
 
 @torch.no_grad()
@@ -240,8 +264,14 @@ def extract(graph, node_dict):
 
 
 def run(graph, node_dict, gpb, args):
-    
+        
     rank, size = dist.get_rank(), dist.get_world_size()
+    if rank == 0:
+        wandb.init(
+            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}",
+            notes="HPO by varying only the n_hidden and n_layers"
+        # project="PipeGCN-{}-{}".format(args.dataset, args.model),
+        )
 
     torch.autograd.set_detect_anomaly(False)
     torch.autograd.profiler.profile(False)
@@ -250,7 +280,7 @@ def run(graph, node_dict, gpb, args):
     if rank == 0 and args.eval:
         full_g, n_feat, n_class = load_data(args.dataset)
         if args.inductive:
-            _, val_g, test_g = inductive_split(full_g)
+            train_g, val_g, test_g = inductive_split(full_g)
         else:
             val_g, test_g = full_g.clone(), full_g.clone()
         del full_g
@@ -386,7 +416,7 @@ def run(graph, node_dict, gpb, args):
                                                                 val_g, result_file_name))
             else:
                 thread = pool.apply_async(evaluate_induc, args=('Epoch %05d' % epoch, model_copy,
-                                                                val_g, 'val', result_file_name))
+                                                                (train_g, val_g, test_g), 'val', result_file_name))
 
     if args.eval and rank == 0:
         if thread is not None:
@@ -394,10 +424,10 @@ def run(graph, node_dict, gpb, args):
             if val_acc > best_acc:
                 best_acc = val_acc
                 best_model = model_copy
-        torch.save(best_model.state_dict(), 'model/' + args.graph_name + '_final.pth.tar')
-        print('model saved')
+        # torch.save(best_model.state_dict(), 'model/' + args.graph_name + '_final.pth.tar')
+        # print('model saved')
         print("Validation accuracy {:.2%}".format(best_acc))
-        _, acc = evaluate_induc('Test Result', best_model, test_g, 'test')
+        _, acc = evaluate_induc('Test Result', best_model, (train_g, val_g, test_g), 'test')
 
 
 def check_parser(args):
@@ -414,3 +444,4 @@ def init_processes(rank, size, args):
     check_parser(args)
     g, node_dict, gpb = load_partition(args, rank)
     run(g, node_dict, gpb, args)
+    

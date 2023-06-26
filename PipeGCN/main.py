@@ -5,9 +5,23 @@ from helper.utils import *
 import train
 import warnings
 
-if __name__ == '__main__':
 
+import random
+import wandb
+wandb.login()
+
+def main():
+    
     args = create_parser()
+    # if rank == 0:
+    wandb.init()
+
+    config = wandb.config
+
+    args.n_hidden = config.n_hidden
+    args.n_layers = config.n_layers
+
+    print()
     print(args.fix_seed)
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:
@@ -40,28 +54,59 @@ if __name__ == '__main__':
         args.n_class = n_class
         args.n_feat = n_feat
         args.n_train = g.ndata['train_mask'].int().sum().item()
-
-    print(args)
+    
+    print(f"args = {args}")
 
     if args.backend == 'gloo':
         processes = []
         if 'CUDA_VISIBLE_DEVICES' in os.environ:
             devices = os.environ['CUDA_VISIBLE_DEVICES'].split(',')
+            # print("if statement")
         else:
             n = torch.cuda.device_count()
+            # print(f"n = {n}")
             devices = [f'{i}' for i in range(n)]
+            # print(f"devices = {devices}")
         mp.set_start_method('spawn', force=True)
         start_id = args.node_rank * args.parts_per_node
+        # print(start_id + args.parts_per_node, args.n_partitions)
         for i in range(start_id, min(start_id + args.parts_per_node, args.n_partitions)):
+            
             os.environ['CUDA_VISIBLE_DEVICES'] = devices[i % len(devices)]
+            # print("CUDA_VISIBLE_DEVICES = {}".format(os.environ['CUDA_VISIBLE_DEVICES']))
             p = mp.Process(target=train.init_processes, args=(i, args.n_partitions, args))
             p.start()
             processes.append(p)
         for p in processes:
             p.join()
+        del os.environ['CUDA_VISIBLE_DEVICES']
     elif args.backend == 'nccl':
         raise NotImplementedError
     elif args.backend == 'mpi':
         raise NotImplementedError
     else:
         raise ValueError
+
+if __name__ == '__main__':
+    dataset = 'ogbn-products'
+    model = 'graphsage'
+    sweep_configuration = {
+        'name': "n_layers, n_hidden",
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            'n_hidden': {'distribution': 'int_uniform', 'min': 16, 'max': 2048},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'values': [128, 256, 512]},
+            # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration,
+                           project="PipeGCN-{}-{}".format(dataset, model))
+
+    wandb.agent(sweep_id, function=main, count=30)
+

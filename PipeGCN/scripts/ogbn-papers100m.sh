@@ -10,3 +10,5 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py 
   --log-every 10 \
   --enable-pipeline \
   --use-pp
+
+  # --partition-method parmetis \

@@ -38,7 +38,7 @@ def create_parser():
 
     parser.add_argument("--partition-obj", "--partition_obj", choices=['vol', 'cut'], default='vol',
                         help="partition objective function ('vol' or 'cut')")
-    parser.add_argument("--partition-method", "--partition_method", choices=['metis', 'random'], default='metis',
+    parser.add_argument("--partition-method", "--partition_method", choices=['metis', 'random', 'parmetis'], default='metis',
                         help="the method for graph partition ('metis' or 'random')")
 
     parser.add_argument("--enable-pipeline", "--enable_pipeline", action='store_true')

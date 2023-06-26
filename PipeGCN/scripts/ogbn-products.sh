@@ -3,10 +3,14 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py 
   --dropout 0.3 \
   --lr 0.003 \
   --n-partitions 7 \
-  --n-epochs 20 \
+  --n-epochs 10 \
   --model graphsage \
-  --n-layers 3 \
-  --n-hidden 128 \
-  --log-every 10 \
+  --n-layers 2 \
+  --n-hidden 16 \
+  --log-every 5 \
+  --use-pp \
+  --fix-seed \
   --enable-pipeline \
-  --use-pp
+  --inductive \
+  # --parts-per-node 2 \
+  # --backend nccl \

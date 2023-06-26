@@ -102,7 +102,7 @@ def load_partition(args, rank):
     graph_dir = 'partitions/' + args.graph_name + '/'
     part_config = graph_dir + args.graph_name + '.json'
 
-    print('loading partitions')
+    # print('loading partitions')
 
     subg, node_feat, _, gpb, _, node_type, _ = dgl.distributed.load_partition(part_config, rank)
     node_type = node_type[0]
@@ -142,9 +142,9 @@ def graph_partition(g, args):
                 g.ndata.pop('val_mask')
                 g.ndata.pop('test_mask')
             g.ndata['in_degree'] = g.in_degrees()
-            print("now partitioning")
+            # print("now partitioning")
             partition_graph(g, args.graph_name, args.n_partitions, graph_dir, part_method=args.partition_method, balance_edges=False, objtype=args.partition_obj)
-            print('partition done')
+            # print('partition done')
 
 def get_layer_size(n_feat, n_hidden, n_class, n_layers):
     layer_size = [n_feat]
