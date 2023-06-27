@@ -148,3 +148,9 @@ PipeGCN/partitions
 PipeGCN/model
 PipeGCN/results
 PipeGCN/wandb
+
+PipeGCNv1/dataset
+PipeGCNv1/partitions
+PipeGCNv1/model
+PipeGCNv1/results
+PipeGCNv1/wandb
