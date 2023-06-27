@@ -5,30 +5,28 @@ from helper.utils import *
 import train
 import warnings
 
-
 import random
 import wandb
 wandb.login()
 
 def main():
-    
     args = create_parser()
-    # if rank == 0:
-    wandb.init()
-
+    wandb.init(
+        project="PipeGCN-{}-{}".format(args.dataset, args.model),
+        config={
+            "n_hidden": args.n_hidden,
+            "n_layers": args.n_layers,
+            }
+    )
     config = wandb.config
-
     args.n_hidden = config.n_hidden
     args.n_layers = config.n_layers
 
-    print()
-    print(args.fix_seed)
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:
             warnings.warn('Please enable `--fix-seed` for multi-node training.')
         args.seed = random.randint(0, 1 << 31)
 
-    print(args.graph_name)
     if args.graph_name == '':
         if args.inductive:
             args.graph_name = '%s-%d-%s-%s-induc' % (args.dataset, args.n_partitions,
@@ -36,7 +34,7 @@ def main():
         else:
             args.graph_name = '%s-%d-%s-%s-trans' % (args.dataset, args.n_partitions,
                                                      args.partition_method, args.partition_obj)
-    print(args.skip_partition)
+
     if args.skip_partition:
         if args.n_feat == 0 or args.n_class == 0 or args.n_train == 0:
             warnings.warn('Specifying `--n-feat`, `--n-class` and `--n-train` saves data loading time.')
@@ -54,26 +52,20 @@ def main():
         args.n_class = n_class
         args.n_feat = n_feat
         args.n_train = g.ndata['train_mask'].int().sum().item()
-    
+
     print(f"args = {args}")
 
     if args.backend == 'gloo':
         processes = []
         if 'CUDA_VISIBLE_DEVICES' in os.environ:
             devices = os.environ['CUDA_VISIBLE_DEVICES'].split(',')
-            # print("if statement")
         else:
             n = torch.cuda.device_count()
-            # print(f"n = {n}")
             devices = [f'{i}' for i in range(n)]
-            # print(f"devices = {devices}")
         mp.set_start_method('spawn', force=True)
         start_id = args.node_rank * args.parts_per_node
-        # print(start_id + args.parts_per_node, args.n_partitions)
         for i in range(start_id, min(start_id + args.parts_per_node, args.n_partitions)):
-            
             os.environ['CUDA_VISIBLE_DEVICES'] = devices[i % len(devices)]
-            # print("CUDA_VISIBLE_DEVICES = {}".format(os.environ['CUDA_VISIBLE_DEVICES']))
             p = mp.Process(target=train.init_processes, args=(i, args.n_partitions, args))
             p.start()
             processes.append(p)
@@ -90,14 +82,15 @@ def main():
 if __name__ == '__main__':
     dataset = 'ogbn-products'
     model = 'graphsage'
+    # main()
     sweep_configuration = {
         'name': "n_layers, n_hidden",
         'method': 'bayes',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 16, 'max': 2048},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 16, 'max': 128},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 7},
             # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},

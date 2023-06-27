@@ -1,116 +1,12 @@
-Create sweep with ID: acu8k00r
-Sweep URL: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/sweeps/acu8k00r
-
-True
 
 False
-args = Namespace(backend='gloo', corr_momentum=0.95, dataset='ogbn-products', dropout=0.3, enable_pipeline=True, eval=True, feat_corr=False, fix_seed=True, grad_corr=False, graph_name='ogbn-products-7-metis-vol-induc', inductive=True, log_every=5, lr=0.003, master_addr='127.0.0.1', model='graphsage', n_class=47, n_epochs=10, n_feat=100, n_hidden=16, n_layers=3, n_linear=0, n_partitions=7, n_train=196615, node_rank=0, norm='layer', partition_method='metis', partition_obj='vol', parts_per_node=10, port=18118, seed=0, skip_partition=False, use_pp=True, weight_decay=0)
-Process 4 has 50216 nodes, 1481337 edges 27413 inner nodes, and 1229639 inner edges.
-Process 004 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.4971
-Process 004 | Epoch 00009 | Time(s) 0.0237 | Comm(s) 0.0003 | Reduce(s) 0.0061 | Loss 3.1733
-Process 3 has 65245 nodes, 1914416 edges 28042 inner nodes, and 1430828 inner edges.
-Process 003 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.7235
-Process 003 | Epoch 00009 | Time(s) 0.0237 | Comm(s) 0.0003 | Reduce(s) 0.0051 | Loss 3.4420
-Process 5 has 71971 nodes, 2100789 edges 28905 inner nodes, and 1404093 inner edges.
-Process 005 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.3824
-Process 005 | Epoch 00009 | Time(s) 0.0237 | Comm(s) 0.0003 | Reduce(s) 0.0065 | Loss 3.0777
-Process 6 has 62663 nodes, 1990404 edges 28876 inner nodes, and 1399608 inner edges.
-Process 006 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.7382
-Process 006 | Epoch 00009 | Time(s) 0.0238 | Comm(s) 0.0003 | Reduce(s) 0.0054 | Loss 3.4138
-Process 2 has 52040 nodes, 1751347 edges 28839 inner nodes, and 1308019 inner edges.
-Process 002 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.4979
-Process 002 | Epoch 00009 | Time(s) 0.0237 | Comm(s) 0.0005 | Reduce(s) 0.0039 | Loss 2.7573
-Process 1 has 66205 nodes, 1784796 edges 27268 inner nodes, and 1335702 inner edges.
-Process 001 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.1785
-Process 001 | Epoch 00009 | Time(s) 0.0239 | Comm(s) 0.0003 | Reduce(s) 0.0038 | Loss 2.4098
-Process 0 has 66232 nodes, 1827430 edges 27272 inner nodes, and 1241274 inner edges.
-Process 000 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.5985
-Process 000 | Epoch 00009 | Time(s) 0.0237 | Comm(s) 0.0004 | Reduce(s) 0.0053 | Loss 2.8843
-test_logits = tensor([[ 0.3668,  0.9196, -0.0858,  ..., -0.7673, -0.8067, -0.4987],
-        [ 0.1934,  0.4288, -0.2946,  ..., -0.4694, -1.3866, -0.5232],
-        [ 0.2199,  0.4734, -0.2647,  ..., -0.5807, -1.1921,  0.0186],
-        ...,
-        [-0.0350, -0.1549, -0.4935,  ...,  0.1349, -1.5040, -0.4952],
-        [ 0.7839,  1.7216, -0.1674,  ..., -0.4291, -0.6487,  0.2651],
-        [-0.0839,  0.9675, -0.8139,  ..., -0.5223, -0.8095,  0.0728]]), test_labels=tensor([ 2, 16, 11,  ...,  8,  2,  4])
-Epoch 00004 | Accuracy 15.75%
-test_logits = tensor([[ 0.5883,  1.0324,  0.4627,  ..., -1.1576, -1.0495, -0.2874],
-        [ 0.0911,  0.4270, -0.2072,  ..., -0.4808, -1.6472, -0.4698],
-        [ 0.3473,  0.4013,  0.1382,  ..., -0.7172, -1.5797, -0.0068],
-        ...,
-        [ 0.2082,  0.1013, -0.3470,  ..., -0.4644, -1.5887, -0.4350],
-        [ 0.8256,  1.6500,  0.4371,  ..., -0.5639, -0.8201,  0.3693],
-        [ 0.2154,  0.9931, -0.7059,  ..., -1.0195, -0.5669, -0.0503]]), test_labels=tensor([ 2, 16, 11,  ...,  8,  2,  4])
-Epoch 00009 | Accuracy 42.52%
-Validation accuracy 42.52%
-test_logits = tensor([[ 0.5883,  1.0324,  0.4627,  ..., -1.1576, -1.0495, -0.2874],
-        [ 0.0911,  0.4270, -0.2072,  ..., -0.4808, -1.6472, -0.4698],
-        [ 0.3473,  0.4013,  0.1382,  ..., -0.7172, -1.5797, -0.0068],
-        ...,
-        [ 0.2082,  0.1013, -0.3470,  ..., -0.4644, -1.5887, -0.4350],
-        [ 0.8256,  1.6500,  0.4371,  ..., -0.5639, -0.8201,  0.3693],
-        [ 0.2154,  0.9931, -0.7059,  ..., -1.0195, -0.5669, -0.0503]]), test_labels=tensor([ 2, 16, 11,  ...,  8,  2,  4])
-Test Result | Accuracy 42.52%
-
-True
 
 False
-args = Namespace(backend='gloo', corr_momentum=0.95, dataset='ogbn-products', dropout=0.3, enable_pipeline=True, eval=True, feat_corr=False, fix_seed=True, grad_corr=False, graph_name='ogbn-products-7-metis-vol-induc', inductive=True, log_every=5, lr=0.003, master_addr='127.0.0.1', model='graphsage', n_class=47, n_epochs=10, n_feat=100, n_hidden=16, n_layers=4, n_linear=0, n_partitions=7, n_train=196615, node_rank=0, norm='layer', partition_method='metis', partition_obj='vol', parts_per_node=10, port=18118, seed=0, skip_partition=False, use_pp=True, weight_decay=0)
-Process 1 has 66205 nodes, 1784796 edges 27268 inner nodes, and 1335702 inner edges.
-Process 001 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.3369
-Process 001 | Epoch 00009 | Time(s) 0.0328 | Comm(s) 0.0006 | Reduce(s) 0.0067 | Loss 2.8364
-Process 4 has 50216 nodes, 1481337 edges 27413 inner nodes, and 1229639 inner edges.
-Process 004 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.3588
-Process 004 | Epoch 00009 | Time(s) 0.0322 | Comm(s) 0.0005 | Reduce(s) 0.0057 | Loss 3.1383
-Process 2 has 52040 nodes, 1751347 edges 28839 inner nodes, and 1308019 inner edges.
-Process 002 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 2.2463
-Process 002 | Epoch 00009 | Time(s) 0.0328 | Comm(s) 0.0003 | Reduce(s) 0.0069 | Loss 1.8246
-Process 6 has 62663 nodes, 1990404 edges 28876 inner nodes, and 1399608 inner edges.
-Process 006 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.8983
-Process 006 | Epoch 00009 | Time(s) 0.0328 | Comm(s) 0.0004 | Reduce(s) 0.0065 | Loss 3.3849
-Process 3 has 65245 nodes, 1914416 edges 28042 inner nodes, and 1430828 inner edges.
-Process 003 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.5258
-Process 003 | Epoch 00009 | Time(s) 0.0328 | Comm(s) 0.0005 | Reduce(s) 0.0039 | Loss 3.1634
-Process 5 has 71971 nodes, 2100789 edges 28905 inner nodes, and 1404093 inner edges.
-Process 005 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 3.7174
-Process 005 | Epoch 00009 | Time(s) 0.0326 | Comm(s) 0.0004 | Reduce(s) 0.0047 | Loss 3.3492
-Process 0 has 66232 nodes, 1827430 edges 27272 inner nodes, and 1241274 inner edges.
-Process 000 | Epoch 00004 | Time(s) nan | Comm(s) nan | Reduce(s) nan | Loss 2.9646
-Process 000 | Epoch 00009 | Time(s) 0.0327 | Comm(s) 0.0005 | Reduce(s) 0.0037 | Loss 2.5698
-test_logits = tensor([[-0.2261, -0.2368,  0.8548,  ..., -0.9249, -0.2549, -0.7111],
-        [-0.4630, -0.1130,  0.1198,  ...,  0.0106, -0.7167, -0.7832],
-        [-0.5354, -0.0426,  0.4838,  ..., -0.0226, -0.7949, -0.6268],
-        ...,
-        [-0.3804, -0.2549,  0.5073,  ..., -0.9955, -0.2728, -0.7972],
-        [-0.2870, -0.0424,  0.6580,  ...,  0.4226, -0.6557, -0.8383],
-        [-0.1749,  0.2244,  0.3563,  ...,  0.0963, -0.5251, -0.3308]]), test_labels=tensor([ 2, 16, 11,  ...,  8,  2,  4])
-Epoch 00004 | Accuracy 30.85%
-test_logits = tensor([[ 0.3200,  0.1481,  1.8653,  ..., -0.5839, -0.1685, -0.9091],
-        [ 0.1298, -0.0064,  0.1580,  ...,  0.0218, -0.5866, -1.3662],
-        [-0.0504,  0.2957,  1.2071,  ...,  0.0579, -0.8302, -0.8439],
-        ...,
-        [-0.0994, -0.1344,  0.3911,  ..., -1.0930, -0.4255, -1.2607],
-        [ 0.0897,  0.3139,  1.8517,  ...,  0.3223, -0.4751, -0.8588],
-        [ 0.3172,  0.2890,  0.5006,  ...,  0.1766, -0.5523, -0.9875]]), test_labels=tensor([ 2, 16, 11,  ...,  8,  2,  4])
-Epoch 00009 | Accuracy 34.65%
-Validation accuracy 34.65%
-test_logits = tensor([[ 0.3200,  0.1481,  1.8653,  ..., -0.5839, -0.1685, -0.9091],
-        [ 0.1298, -0.0064,  0.1580,  ...,  0.0218, -0.5866, -1.3662],
-        [-0.0504,  0.2957,  1.2071,  ...,  0.0579, -0.8302, -0.8439],
-        ...,
-        [-0.0994, -0.1344,  0.3911,  ..., -1.0930, -0.4255, -1.2607],
-        [ 0.0897,  0.3139,  1.8517,  ...,  0.3223, -0.4751, -0.8588],
-        [ 0.3172,  0.2890,  0.5006,  ...,  0.1766, -0.5523, -0.9875]]), test_labels=tensor([ 2, 16, 11,  ...,  8,  2,  4])
-Test Result | Accuracy 34.65%
-
-True
-
-False
-args = Namespace(backend='gloo', corr_momentum=0.95, dataset='ogbn-products', dropout=0.3, enable_pipeline=True, eval=True, feat_corr=False, fix_seed=True, grad_corr=False, graph_name='ogbn-products-7-metis-vol-induc', inductive=True, log_every=5, lr=0.003, master_addr='127.0.0.1', model='graphsage', n_class=47, n_epochs=10, n_feat=100, n_hidden=16, n_layers=5, n_linear=0, n_partitions=7, n_train=196615, node_rank=0, norm='layer', partition_method='metis', partition_obj='vol', parts_per_node=10, port=18118, seed=0, skip_partition=False, use_pp=True, weight_decay=0)
-Process 1 has 66205 nodes, 1784796 edges 27268 inner nodes, and 1335702 inner edges.
-Process 2 has 52040 nodes, 1751347 edges 28839 inner nodes, and 1308019 inner edges.
-Process 4 has 50216 nodes, 1481337 edges 27413 inner nodes, and 1229639 inner edges.
-Process 3 has 65245 nodes, 1914416 edges 28042 inner nodes, and 1430828 inner edges.
-Process 6 has 62663 nodes, 1990404 edges 28876 inner nodes, and 1399608 inner edges.
-Process 5 has 71971 nodes, 2100789 edges 28905 inner nodes, and 1404093 inner edges.
-Process 0 has 66232 nodes, 1827430 edges 27272 inner nodes, and 1241274 inner edges.
+args = Namespace(backend='gloo', corr_momentum=0.95, dataset='ogbn-products', dropout=0.3, enable_pipeline=True, eval=True, feat_corr=False, fix_seed=False, grad_corr=False, graph_name='ogbn-products-7-metis-vol-trans', inductive=False, log_every=5, lr=0.003, master_addr='127.0.0.1', model='graphsage', n_class=47, n_epochs=10, n_feat=100, n_hidden=1400, n_layers=3, n_linear=0, n_partitions=7, n_train=196615, node_rank=0, norm='layer', partition_method='metis', partition_obj='vol', parts_per_node=10, port=18118, seed=394807355, skip_partition=False, use_pp=True, weight_decay=0)
+Process 6 has 578483 nodes, 22807747 edges 360239 inner nodes, and 18954523 inner edges.
+Process 5 has 584046 nodes, 23879713 edges 356747 inner nodes, and 20317495 inner edges.
+Process 4 has 676020 nodes, 21981864 edges 351508 inner nodes, and 17091428 inner edges.
+Process 3 has 523846 nodes, 22256533 edges 342213 inner nodes, and 19440817 inner edges.
+Process 2 has 489387 nodes, 15461144 edges 359014 inner nodes, and 13402564 inner edges.
+Process 0 has 590283 nodes, 16629718 edges 339654 inner nodes, and 13517828 inner edges.
+Process 1 has 581681 nodes, 14803384 edges 339654 inner nodes, and 11789348 inner edges.

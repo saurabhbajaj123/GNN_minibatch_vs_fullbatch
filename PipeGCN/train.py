@@ -9,8 +9,6 @@ from sklearn.metrics import f1_score
 
 import random
 import wandb
-# wandb.login()
-
 def calc_acc(logits, labels):
     if labels.dim() == 1:
         _, indices = torch.max(logits, dim=1)
@@ -27,41 +25,20 @@ def evaluate_induc(name, model, g, mode, result_file_name=None):
     """
     model.eval()
     model.cpu()
-    train_g, val_g, test_g = g
-    val_feat, val_labels = val_g.ndata['feat'], val_g.ndata['label']
-    train_feat, train_labels = train_g.ndata['feat'], train_g.ndata['label']
-    test_feat, test_labels = test_g.ndata['feat'], test_g.ndata['label']
-    val_mask = val_g.ndata["val" + '_mask']
-    train_mask = train_g.ndata["train" + '_mask']
-    test_mask = test_g.ndata["test" + '_mask']
-
-    val_logits = model(val_g, val_feat)
-    train_logits = model(train_g, train_feat)
-    test_logits = model(test_g, test_feat)
-    val_logits = val_logits[val_mask]
-    val_labels = val_labels[val_mask]
-    train_logits = train_logits[train_mask]
-    train_labels = train_labels[train_mask]
-    test_logits = test_logits[test_mask]
-    test_labels = test_labels[test_mask]
-    val_acc = calc_acc(val_logits, val_labels)
-    train_acc = calc_acc(train_logits, train_labels)
-    print(f"test_logits = {test_logits}, test_labels={test_labels}")
-    test_acc = calc_acc(test_logits, test_labels)
-    buf = "{:s} | Accuracy {:.2%}".format(name, val_acc)
+    feat, labels = g.ndata['feat'], g.ndata['label']
+    mask = g.ndata[mode + '_mask']
+    logits = model(g, feat)
+    logits = logits[mask]
+    labels = labels[mask]
+    acc = calc_acc(logits, labels)
+    buf = "{:s} | Accuracy {:.2%}".format(name, acc)
     if result_file_name is not None:
         with open(result_file_name, 'a+') as f:
             f.write(buf + '\n')
             print(buf)
     else:
         print(buf)
-    
-    wandb.log({'val_acc': val_acc,
-                'test_acc': test_acc,
-                'train_acc': train_acc,
-            })
-        
-    return model, val_acc
+    return model, acc
 
 
 @torch.no_grad()
@@ -70,11 +47,14 @@ def evaluate_trans(name, model, g, result_file_name=None):
     model.cpu()
     feat, labels = g.ndata['feat'], g.ndata['label']
     val_mask, test_mask = g.ndata['val_mask'], g.ndata['test_mask']
+    train_mask = g.ndata['train_mask']
     logits = model(g, feat)
     val_logits, test_logits = logits[val_mask], logits[test_mask]
     val_labels, test_labels = labels[val_mask], labels[test_mask]
+    train_logits, train_labels = logits[train_mask], labels[train_mask]
     val_acc = calc_acc(val_logits, val_labels)
     test_acc = calc_acc(test_logits, test_labels)
+    train_acc = calc_acc(train_logits, train_labels)
     buf = "{:s} | Validation Accuracy {:.2%} | Test Accuracy {:.2%}".format(name, val_acc, test_acc)
     if result_file_name is not None:
         with open(result_file_name, 'a+') as f:
@@ -82,7 +62,7 @@ def evaluate_trans(name, model, g, result_file_name=None):
             print(buf)
     else:
         print(buf)
-    return model, val_acc
+    return model, val_acc, test_acc, train_acc
 
 
 def average_gradients(model, n_train):
@@ -264,7 +244,7 @@ def extract(graph, node_dict):
 
 
 def run(graph, node_dict, gpb, args):
-        
+    
     rank, size = dist.get_rank(), dist.get_world_size()
     if rank == 0:
         wandb.init(
@@ -272,7 +252,6 @@ def run(graph, node_dict, gpb, args):
             notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
-
     torch.autograd.set_detect_anomaly(False)
     torch.autograd.profiler.profile(False)
     torch.autograd.profiler.emit_nvtx(False)
@@ -280,7 +259,7 @@ def run(graph, node_dict, gpb, args):
     if rank == 0 and args.eval:
         full_g, n_feat, n_class = load_data(args.dataset)
         if args.inductive:
-            train_g, val_g, test_g = inductive_split(full_g)
+            _, val_g, test_g = inductive_split(full_g)
         else:
             val_g, test_g = full_g.clone(), full_g.clone()
         del full_g
@@ -334,7 +313,7 @@ def run(graph, node_dict, gpb, args):
     for i, (name, param) in enumerate(model.named_parameters()):
         param.register_hook(reduce_hook(param, name, args.n_train))
 
-    best_model, best_acc = None, 0
+    best_model, best_val_acc, best_test_acc, best_train_acc = None, 0, 0, 0
 
     if args.grad_corr and args.feat_corr:
         result_file_name = 'results/%s_n%d_p%d_grad_feat.txt' % (args.dataset, args.n_partitions, int(args.enable_pipeline))
@@ -406,29 +385,65 @@ def run(graph, node_dict, gpb, args):
 
         if rank == 0 and args.eval and (epoch + 1) % args.log_every == 0:
             if thread is not None:
-                model_copy, val_acc = thread.get()
-                if val_acc > best_acc:
-                    best_acc = val_acc
-                    best_model = model_copy
+                if args.inductive:
+                    model_copy, val_acc = thread.get()
+                    if val_acc > best_val_acc:
+                        best_val_acc = val_acc
+                        best_model = model_copy
+                    wandb.log({'val_acc': val_acc,
+                        # 'test_acc': test_acc,
+                        # 'train_acc': train_acc,
+                        'best_val_acc': best_val_acc,
+                    })
+                else:
+                    model_copy, val_acc, test_acc, train_acc = thread.get()
+                    if val_acc > best_val_acc:
+                        best_val_acc = val_acc
+                        best_test_acc = test_acc
+                        best_train_acc = train_acc
+                        best_model = model_copy
+                    wandb.log({'val_acc': val_acc,
+                        'test_acc': test_acc,
+                        'train_acc': train_acc,
+                        'best_val_acc': best_val_acc,
+                        'best_test_acc': best_test_acc,
+                        'best_train_acc': best_train_acc,
+                    })
+                    
             model_copy = copy.deepcopy(model)
             if not args.inductive:
                 thread = pool.apply_async(evaluate_trans, args=('Epoch %05d' % epoch, model_copy,
                                                                 val_g, result_file_name))
             else:
                 thread = pool.apply_async(evaluate_induc, args=('Epoch %05d' % epoch, model_copy,
-                                                                (train_g, val_g, test_g), 'val', result_file_name))
+                                                                val_g, 'val', result_file_name))
 
     if args.eval and rank == 0:
         if thread is not None:
-            model_copy, val_acc = thread.get()
-            if val_acc > best_acc:
-                best_acc = val_acc
-                best_model = model_copy
+            if args.inductive:
+                model_copy, val_acc = thread.get()
+                if val_acc > best_val_acc:
+                    best_val_acc = val_acc
+                    best_model = model_copy
+            else:
+                model_copy, val_acc, test_acc, train_acc = thread.get()
+                if val_acc > best_val_acc:
+                    best_val_acc = val_acc
+                    best_test_acc = test_acc
+                    best_train_acc = train_acc
+                    best_model = model_copy
         # torch.save(best_model.state_dict(), 'model/' + args.graph_name + '_final.pth.tar')
         # print('model saved')
-        print("Validation accuracy {:.2%}".format(best_acc))
-        _, acc = evaluate_induc('Test Result', best_model, (train_g, val_g, test_g), 'test')
-
+        print("Validation accuracy {:.2%}".format(best_val_acc))
+        # _, final_test_acc = evaluate_induc('Test Result', best_model, test_g, 'test')
+        wandb.log({'val_acc': val_acc,
+                'test_acc': test_acc,
+                'train_acc': train_acc,
+                'best_test_acc': best_test_acc,
+                'best_val_acc': best_val_acc,
+                'best_train_acc': best_train_acc,
+                # 'final_test_acc': final_test_acc,
+        })
 
 def check_parser(args):
     if args.norm == 'none':
@@ -444,4 +459,3 @@ def init_processes(rank, size, args):
     check_parser(args)
     g, node_dict, gpb = load_partition(args, rank)
     run(g, node_dict, gpb, args)
-    
