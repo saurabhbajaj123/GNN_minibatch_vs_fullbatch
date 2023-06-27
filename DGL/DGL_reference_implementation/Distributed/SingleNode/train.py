@@ -12,29 +12,33 @@ from dgl.nn import SAGEConv
 from model import SAGE
 from ogb.nodeproppred import DglNodePropPredDataset
 
-root = "../dataset/"
-dataset = DglNodePropPredDataset("ogbn-products", root=root)
+def load_ogb_dataset(dataset="ogbn-products"):
+    root = "../../dataset/"
+    dataset = DglNodePropPredDataset(dataset, root=root)
 
-graph, node_labels = dataset[0]
-# Add reverse edges since ogbn-arxiv is unidirectional.
-graph = dgl.add_reverse_edges(graph)
-graph.ndata["label"] = node_labels[:, 0]
+    graph, node_labels = dataset[0]
+    # Add reverse edges since ogbn-arxiv is unidirectional.
+    graph = dgl.add_reverse_edges(graph)
+    graph.ndata["label"] = node_labels[:, 0]
 
-node_features = graph.ndata["feat"]
-num_features = node_features.shape[1]
-num_classes = (node_labels.max() + 1).item()
+    node_features = graph.ndata["feat"]
+    in_feats = node_features.shape[1]
+    n_classes = (node_labels.max() + 1).item()
 
-idx_split = dataset.get_idx_split()
-train_nids = idx_split["train"]
-valid_nids = idx_split["valid"]
-test_nids = idx_split["test"]
+    idx_split = dataset.get_idx_split()
+    train_nids = idx_split["train"]
+    valid_nids = idx_split["valid"]
+    test_nids = idx_split["test"]
+    return graph, in_feats, n_classes, train_nids, valid_nids, test_nids
 
-def run(proc_id, devices):
+def run(proc_id, devices, args):
+    print(proc_id, devices, args)
     # Initialize distributed training context.
     dev_id = devices[proc_id]
     dist_init_method = "tcp://{master_ip}:{master_port}".format(
-        master_ip="127.0.0.1", master_port="12345"
+        master_ip=args.master_addr, master_port= '%d' % args.port
     )
+    graph, in_feats, n_classes, train_nids, valid_nids, test_nids = load_ogb_dataset(args.dataset)
     if torch.cuda.device_count() < 1:
         device = torch.device("cpu")
         torch.distributed.init_process_group(
@@ -82,9 +86,19 @@ def run(proc_id, devices):
         drop_last=False,
         num_workers=0,
     )
-
-    model = SAGE(num_features, 128, num_classes).to(device)
-    # Wrap the model with distributed data parallel module.
+    test_dataloader = dgl.dataloading.DataLoader(
+        graph,
+        test_nids,
+        sampler,
+        device=device,
+        use_ddp=False,
+        batch_size=1024,
+        shuffle=False,
+        drop_last=False,
+        num_workers=0,
+    )
+    model = SAGE(in_feats, 128, n_classes).to(device)
+    # Wrap the model nh distributed data parallel module.
     if device == torch.device("cpu"):
         model = torch.nn.parallel.DistributedDataParallel(
             model, device_ids=None, output_device=None
@@ -95,13 +109,13 @@ def run(proc_id, devices):
         )
 
     # Define optimizer
-    opt = torch.optim.Adam(model.parameters())
+    opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
     best_val_accuracy, best_test_accuracy = 0, 0
     best_model_path = "./model.pt"
 
     # Copied from previous tutorial with changes highlighted.
-    for epoch in range(10):
+    for epoch in range(args.n_epochs):
         model.train()
 
         # with tqdm.tqdm(train_dataloader) as tq:
@@ -126,6 +140,7 @@ def run(proc_id, devices):
             #     {"loss": "%.03f" % loss.item(), "acc": "%.03f" % accuracy},
             #     refresh=False,
             # )
+        if epoch % args.log_every == 0:
             print("Epoch: {} | Step: {} | Loss: {}".format(epoch, step, "%.03f" % loss.item()))
 
 

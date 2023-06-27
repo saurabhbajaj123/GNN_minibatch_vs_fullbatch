@@ -1,9 +1,16 @@
 import torch.multiprocessing as mp
 from train import run
-def main()
-    num_gpus = 7
-    mp.spawn(run, args=(list(range(num_gpus)),), nprocs=num_gpus)
+from parser import *
+import signal
+
+def main():
+    args = create_parser()
+    print(f"args = {args}")
+    num_gpus = 4
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    mp.spawn(run, args=(list(range(num_gpus)), args), nprocs=num_gpus)
 
 
 # Say you have four GPUs.
 if __name__ == '__main__':
+    main()
