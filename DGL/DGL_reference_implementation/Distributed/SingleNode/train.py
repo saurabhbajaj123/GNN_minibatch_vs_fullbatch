@@ -97,59 +97,68 @@ def run(proc_id, devices):
     # Define optimizer
     opt = torch.optim.Adam(model.parameters())
 
-    best_accuracy = 0
+    best_val_accuracy, best_test_accuracy = 0, 0
     best_model_path = "./model.pt"
 
     # Copied from previous tutorial with changes highlighted.
     for epoch in range(10):
         model.train()
 
-        with tqdm.tqdm(train_dataloader) as tq:
-            for step, (input_nodes, output_nodes, mfgs) in enumerate(tq):
-                # feature copy from CPU to GPU takes place here
-                inputs = mfgs[0].srcdata["feat"]
-                labels = mfgs[-1].dstdata["label"]
+        # with tqdm.tqdm(train_dataloader) as tq:
+        for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
+            # feature copy from CPU to GPU takes place here
+            inputs = mfgs[0].srcdata["feat"]
+            labels = mfgs[-1].dstdata["label"]
 
-                predictions = model(mfgs, inputs)
+            predictions = model(mfgs, inputs)
 
-                loss = F.cross_entropy(predictions, labels)
-                opt.zero_grad()
-                loss.backward()
-                opt.step()
+            loss = F.cross_entropy(predictions, labels)
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
 
-                accuracy = sklearn.metrics.accuracy_score(
-                    labels.cpu().numpy(),
-                    predictions.argmax(1).detach().cpu().numpy(),
-                )
+            # accuracy = sklearn.metrics.accuracy_score(
+            #     labels.cpu().numpy(),
+            #     predictions.argmax(1).detach().cpu().numpy(),
+            # )
 
-                tq.set_postfix(
-                    {"loss": "%.03f" % loss.item(), "acc": "%.03f" % accuracy},
-                    refresh=False,
-                )
+            # tq.set_postfix(
+            #     {"loss": "%.03f" % loss.item(), "acc": "%.03f" % accuracy},
+            #     refresh=False,
+            # )
+            print("Epoch: {} | Step: {} | Loss: {}".format(epoch, step, "%.03f" % loss.item()))
 
-        model.eval()
 
         # Evaluate on only the first GPU.
-        if proc_id == 0:
-            predictions = []
-            labels = []
-            with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
-                for input_nodes, output_nodes, mfgs in tq:
+        if proc_id == 0 and epoch % args.log_every == 0:
+            model.eval()
+            val_predictions = []
+            val_labels = []
+            test_predictions = []
+            test_labels = []
+            with torch.no_grad():
+                for input_nodes, output_nodes, mfgs in valid_dataloader:
                     inputs = mfgs[0].srcdata["feat"]
-                    labels.append(mfgs[-1].dstdata["label"].cpu().numpy())
-                    predictions.append(
+                    val_labels.append(mfgs[-1].dstdata["label"].cpu().numpy())
+                    val_predictions.append(
                         model(mfgs, inputs).argmax(1).cpu().numpy()
                     )
-                predictions = np.concatenate(predictions)
-                labels = np.concatenate(labels)
-                accuracy = sklearn.metrics.accuracy_score(labels, predictions)
-                print("Epoch {} Validation Accuracy {}".format(epoch, accuracy))
-                if best_accuracy < accuracy:
-                    best_accuracy = accuracy
-                    # torch.save(model.state_dict(), best_model_path)
+                val_predictions = np.concatenate(val_predictions)
+                val_labels = np.concatenate(val_labels)
+                val_accuracy = sklearn.metrics.accuracy_score(val_labels, val_predictions)
+                print("Epoch {} Validation Accuracy {}".format(epoch, val_accuracy))
 
-# Say you have four GPUs.
-if __name__ == '__main__':
-    num_gpus = 4
-    import torch.multiprocessing as mp
-    mp.spawn(run, args=(list(range(num_gpus)),), nprocs=num_gpus)
+                
+                for input_nodes, output_nodes, mfgs in test_dataloader:
+                    inputs = mfgs[0].srcdata["feat"]
+                    test_labels.append(mfgs[-1].dstdata["label"].cpu().numpy())
+                    test_predictions.append(
+                        model(mfgs, inputs).argmax(1).cpu().numpy()
+                    )
+                test_predictions = np.concatenate(test_predictions)
+                test_labels = np.concatenate(test_labels)
+                test_accuracy = sklearn.metrics.accuracy_score(test_labels, test_predictions)
+                print("Epoch {} Test Accuracy {}".format(epoch, test_accuracy))
+                if best_val_accuracy < val_accuracy:
+                    best_val_accuracy = val_accuracy
+                    best_test_accuracy = test_accuracy
