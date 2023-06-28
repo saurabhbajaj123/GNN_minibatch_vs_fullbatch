@@ -69,7 +69,7 @@ class Model(nn.Module):
         for i in range(self.n_layers - 1):
             h = self.layers[i](g, h)
             h = self.activation(h)
-            h = self.dropout(h)
+            # h = self.dropout(h)
         h = self.layers[-1](g, h)
         return h
 
