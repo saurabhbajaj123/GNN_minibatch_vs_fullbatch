@@ -1,13 +1,11 @@
-python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py \
+python3 main.py \
   --dataset reddit \
-  --dropout 0.5 \
-  --lr 0.01 \
-  --n-partitions 8 \
-  --n-epochs 3000 \
+  --dropout 0.3 \
+  --lr 0.003 \
+  --n-gpus 4 \
+  --n-epochs 16 \
   --model graphsage \
-  --n-layers 4 \
-  --n-hidden 256 \
+  --n-layers 3 \
+  --n-hidden 128 \
   --log-every 5 \
-  --inductive \
-  --enable-pipeline \
-  --use-pp
+  --batch-size 2048 \

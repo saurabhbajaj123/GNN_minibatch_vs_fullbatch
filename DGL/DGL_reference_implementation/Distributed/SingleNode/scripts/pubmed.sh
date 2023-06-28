@@ -1,5 +1,5 @@
 python3 main.py \
-  --dataset ogbn-papers100M \
+  --dataset pubmed \
   --dropout 0.3 \
   --lr 0.003 \
   --n-gpus 4 \

@@ -23,12 +23,18 @@ def create_parser():
                         help="the number of hidden units")
     parser.add_argument("--n-layers", "--n_layers", type=int, default=2,
                         help="the number of GCN layers")
+    parser.add_argument("--batch-size", "--batch_size", type=int, default=1024,
+                        help="batch size for each GPU")
     # parser.add_argument("--n-linear", "--n_linear", type=int, default=0,
     #                     help="the number of linear layers")
     # parser.add_argument("--norm", choices=['layer', 'batch'], default='layer',
     #                     help="normalization method")
-    parser.add_argument("--weight-decay", "--weight_decay", type=float, default=0,
+    parser.add_argument("--weight-decay", "--weight_decay", type=float, default=5e-4,
                         help="weight for L2 loss")
+    parser.add_argument("--fanout", "--fanout", type=float, default=4,
+                        help="fanout for each layer")
+    parser.add_argument("--agg", "--agg", type=str, default='mean',
+                        help="fanout for each layer")
 
     # parser.add_argument("--n-feat", "--n_feat", type=int, default=0)
     # parser.add_argument("--n-class", "--n_class", type=int, default=0)

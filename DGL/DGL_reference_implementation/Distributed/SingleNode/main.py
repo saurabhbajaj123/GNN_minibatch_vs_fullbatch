@@ -6,7 +6,7 @@ import signal
 def main():
     args = create_parser()
     print(f"args = {args}")
-    num_gpus = 4
+    num_gpus = args.n_gpus
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     mp.spawn(run, args=(list(range(num_gpus)), args), nprocs=num_gpus)
 
