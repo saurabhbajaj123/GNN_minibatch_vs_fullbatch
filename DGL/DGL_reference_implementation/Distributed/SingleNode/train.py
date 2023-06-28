@@ -9,21 +9,26 @@ import torch.nn as nn
 import torch.nn.functional as F
 import tqdm
 from dgl.nn import SAGEConv
-from model import SAGE
+from model import SAGE, GAT
 # from dgl.data import RedditDataset
 from ogb.nodeproppred import DglNodePropPredDataset
 from utils import *
+import wandb
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
+graph, n_classes, in_feats, train_nids, valid_nids, test_nids = load_data('ogbn-products')
 def run(proc_id, devices, args):
     # print(proc_id, devices, args)
     # Initialize distributed training context.
+    if proc_id == 0:
+        wandb.init(
+            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
+        )
     dev_id = devices[proc_id]
     dist_init_method = "tcp://{master_ip}:{master_port}".format(
         master_ip=args.master_addr, master_port= '%d' % args.port
     )
-    graph, n_classes, in_feats, train_nids, valid_nids, test_nids = load_data(args.dataset)
-    # train_nids, valid_nids, test_nids = graph.ndata['train_nids'], graph.ndata['val_nids'], graph.ndata['test_nids']
     
     if torch.cuda.device_count() < 1:
         device = torch.device("cpu")
@@ -87,7 +92,14 @@ def run(proc_id, devices, args):
     activation=F.relu
     # in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
     # print(args.dropout)
-    model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
+    if args.model == 'graphsage':
+        Model = SAGE
+    elif args.model == 'gat':
+        Model = GAT
+    else:
+        ValueError('Unknown model: {}'.format(args.model))
+
+    model = Model(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
 
     # Wrap the model nh distributed data parallel module.
     if device == torch.device("cpu"):
@@ -101,6 +113,8 @@ def run(proc_id, devices, args):
 
     # Define optimizer
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+
+    scheduler = ReduceLROnPlateau(opt, mode='max', cooldown=10, factor=0.95, patience=20, min_lr=1e-5)
 
     best_val_acc, best_test_acc, best_train_acc = 0, 0, 0
     best_model_path = "./model.pt"
@@ -121,7 +135,7 @@ def run(proc_id, devices, args):
             opt.zero_grad()
             loss.backward()
             opt.step()
-
+        scheduler.step(best_val_acc)
         # if epoch % args.log_every == 0:
             # print("Epoch: {} | Step: {} | Loss: {}".format(epoch, step, "%.03f" % loss.item()))
 
@@ -178,5 +192,15 @@ def run(proc_id, devices, args):
                     best_val_acc = val_acc
                     best_test_acc = test_acc
                     best_train_acc = train_acc
+                wandb.log({'val_acc': val_acc,
+                        'test_acc': test_acc,
+                        'train_acc': train_acc,
+                        'best_val_acc': best_val_acc,
+                        'best_test_acc': best_test_acc,
+                        'best_train_acc': best_train_acc,
+                        'lr': opt.param_groups[0]['lr'],
+                })
+                print("Epoch: {} | Test Acc {} | Val Acc {}".format(epoch,"%.04f" % test_acc,"%.04f" % val_acc))
 
-                print("Epoch: {} | Test Acc {} | Val Acc {} | Train Acc {}".format(epoch,"%.04f" % test_acc,"%.04f" % val_acc, "%.04f" % train_acc))
+
+

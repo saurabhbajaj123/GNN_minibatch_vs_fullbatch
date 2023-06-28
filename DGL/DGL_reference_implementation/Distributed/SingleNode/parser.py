@@ -7,8 +7,6 @@ def create_parser():
 
     parser.add_argument("--dataset", type=str, default='ogbn-products',
                         help="the input dataset")
-    # parser.add_argument("--graph-name", "--graph_name", type=str, default='')
-
     parser.add_argument("--model", type=str, default='graphsage',
                         help="model for training")
     parser.add_argument("--dropout", type=float, default=0.5,
@@ -25,53 +23,16 @@ def create_parser():
                         help="the number of GCN layers")
     parser.add_argument("--batch-size", "--batch_size", type=int, default=1024,
                         help="batch size for each GPU")
-    # parser.add_argument("--n-linear", "--n_linear", type=int, default=0,
-    #                     help="the number of linear layers")
-    # parser.add_argument("--norm", choices=['layer', 'batch'], default='layer',
-    #                     help="normalization method")
     parser.add_argument("--weight-decay", "--weight_decay", type=float, default=5e-4,
                         help="weight for L2 loss")
     parser.add_argument("--fanout", "--fanout", type=float, default=4,
                         help="fanout for each layer")
     parser.add_argument("--agg", "--agg", type=str, default='mean',
                         help="fanout for each layer")
-
-    # parser.add_argument("--n-feat", "--n_feat", type=int, default=0)
-    # parser.add_argument("--n-class", "--n_class", type=int, default=0)
-    # parser.add_argument("--n-train", "--n_train", type=int, default=0)
-    # parser.add_argument('--skip-partition', action='store_true',
-    #                     help="skip graph partition")
-
-    # parser.add_argument("--partition-obj", "--partition_obj", choices=['vol', 'cut'], default='vol',
-                        # help="partition objective function ('vol' or 'cut')")
-    # parser.add_argument("--partition-method", "--partition_method", choices=['metis', 'random'], default='metis',
-                        # help="the method for graph partition ('metis' or 'random')")
-
-    # parser.add_argument("--enable-pipeline", "--enable_pipeline", action='store_true')
-    # parser.add_argument("--feat-corr", "--feat_corr", action='store_true')
-    # parser.add_argument("--grad-corr", "--grad_corr", action='store_true')
-    # parser.add_argument("--corr-momentum", "--corr_momentum", type=float, default=0.95)
-
-    # parser.add_argument("--use-pp", "--use_pp", action='store_true',
-    #                     help="whether to use precomputation")
-    # parser.add_argument("--inductive", action='store_true',
-    #                     help="inductive learning setting")
-    # parser.add_argument("--fix-seed", "--fix_seed", action='store_true',
-    #                     help="fix random seed")
-    # parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--log-every", "--log_every", type=int, default=10)
-
     parser.add_argument("--backend", type=str, default='gloo')
     parser.add_argument("--port", type=int, default=12345,
                         help="the network port for communication")
     parser.add_argument("--master-addr", "--master_addr", type=str, default="127.0.0.1")
-    # parser.add_argument("--node-rank", "--node_rank", type=int, default=0)
-    # parser.add_argument("--parts-per-node", "--parts_per_node", type=int, default=10)
-
-    # parser.add_argument('--eval', action='store_true',
-    #                     help="enable evaluation")
-    # parser.add_argument('--no-eval', action='store_false', dest='eval',
-    #                     help="disable evaluation")
-    # parser.set_defaults(eval=True)
 
     return parser.parse_args()
