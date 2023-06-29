@@ -6,8 +6,8 @@ python3 main.py \
   --n-epochs 6 \
   --model graphsage \
   --log-every 5 \
-  --n-layers 5 \
-  --n-hidden 512 \
+  --n-layers 3 \
+  --n-hidden 128 \
   --batch-size 2048 \
   --fanout 4 \
   --agg mean \

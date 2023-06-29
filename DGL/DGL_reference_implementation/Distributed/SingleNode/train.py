@@ -17,8 +17,8 @@ import wandb
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
-graph, n_classes, in_feats, train_nids, valid_nids, test_nids = load_data('ogbn-products')
 def run(proc_id, devices, args):
+    graph, n_classes, in_feats, train_nids, valid_nids, test_nids = load_data(args.dataset)
     # print(proc_id, devices, args)
     # Initialize distributed training context.
     if proc_id == 0:
