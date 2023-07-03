@@ -10,15 +10,16 @@ import torch.nn.functional as F
 import tqdm
 from dgl.nn import SAGEConv
 from model import SAGE, GAT
+import time
 # from dgl.data import RedditDataset
 from ogb.nodeproppred import DglNodePropPredDataset
 from utils import *
 import wandb
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-
-def run(proc_id, devices, args):
-    graph, n_classes, in_feats, train_nids, valid_nids, test_nids = load_data(args.dataset)
+import torch.distributed as dist
+def run(proc_id, devices, args, dataset_args):
+    start_time = time.time()
+    graph, n_classes, in_feats, train_nids, valid_nids, test_nids = dataset_args
     # print(proc_id, devices, args)
     # Initialize distributed training context.
     if proc_id == 0:
@@ -42,7 +43,7 @@ def run(proc_id, devices, args):
         torch.cuda.set_device(dev_id)
         device = torch.device("cuda:" + str(dev_id))
         torch.distributed.init_process_group(
-            backend="nccl",
+            backend="gloo",
             init_method=dist_init_method,
             world_size=len(devices),
             rank=proc_id,
@@ -51,6 +52,8 @@ def run(proc_id, devices, args):
     # Define training and validation dataloader, copied from the previous tutorial
     # but with one line of difference: use_ddp to enable distributed data parallel
     # data loading.
+
+    
     sampler = dgl.dataloading.NeighborSampler([args.fanout for _ in range(args.n_layers)])
     train_dataloader = dgl.dataloading.DataLoader(
         # The following arguments are specific to DataLoader.
@@ -65,29 +68,34 @@ def run(proc_id, devices, args):
         shuffle=True,  # Whether to shuffle the nodes for every epoch
         drop_last=False,  # Whether to drop the last incomplete batch
         num_workers=0,  # Number of sampler processes
+        # timeout=60,
+        use_uva=True,
+        # use_prefetch_thread=True,
     )
-    valid_dataloader = dgl.dataloading.DataLoader(
-        graph,
-        valid_nids,
-        sampler,
-        device=device,
-        use_ddp=False,
-        batch_size=args.batch_size,
-        shuffle=False,
-        drop_last=False,
-        num_workers=0,
-    )
-    test_dataloader = dgl.dataloading.DataLoader(
-        graph,
-        test_nids,
-        sampler,
-        device=device,
-        use_ddp=False,
-        batch_size=args.batch_size,
-        shuffle=False,
-        drop_last=False,
-        num_workers=0,
-    )
+
+    if proc_id == 0 :
+        valid_dataloader = dgl.dataloading.DataLoader(
+            graph,
+            valid_nids,
+            sampler,
+            device=device,
+            use_ddp=False,
+            batch_size=args.batch_size,
+            shuffle=False,
+            drop_last=False,
+            num_workers=0,
+        )
+        test_dataloader = dgl.dataloading.DataLoader(
+            graph,
+            test_nids,
+            sampler,
+            device=device,
+            use_ddp=False,
+            batch_size=args.batch_size,
+            shuffle=False,
+            drop_last=False,
+            num_workers=0,
+        )
     # model = SAGE(in_feats, 128, n_classes).to(device)
     activation=F.relu
     # in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
@@ -119,10 +127,16 @@ def run(proc_id, devices, args):
     best_val_acc, best_test_acc, best_train_acc = 0, 0, 0
     best_model_path = "./model.pt"
 
-    # Copied from previous tutorial with changes highlighted.
-    for epoch in range(args.n_epochs):
-        model.train()
+    # Synchronize the model parameters across processes
+    torch.cuda.synchronize()
+    running_time = 0
 
+    training_time = 0
+    for epoch in range(args.n_epochs):
+        
+        model.train()
+        epoch_start_time = time.time()
+        running_loss = 0.0
         # with tqdm.tqdm(train_dataloader) as tq:
         for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
             # feature copy from CPU to GPU takes place here
@@ -135,9 +149,28 @@ def run(proc_id, devices, args):
             opt.zero_grad()
             loss.backward()
             opt.step()
+
+            running_loss += loss.item()
+
         scheduler.step(best_val_acc)
+        training_time += time.time() - epoch_start_time
+
         # if epoch % args.log_every == 0:
             # print("Epoch: {} | Step: {} | Loss: {}".format(epoch, step, "%.03f" % loss.item()))
+
+
+        # avg_loss = running_loss / len(train_dataloader)
+        # # Synchronize the loss across processes
+        # avg_loss_tensor = torch.tensor(avg_loss).to(proc_id)
+        # dist.all_reduce(avg_loss_tensor)
+        # avg_loss = avg_loss_tensor.item() / len(devices)
+
+        # print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {avg_loss:.4f}")
+        # if epoch > 0:
+        #     if abs(avg_loss - prev_loss) < convergence_threshold:
+        #         break
+        # prev_loss = avg_loss
+
 
 
         # Evaluate on only the first GPU.
@@ -201,6 +234,30 @@ def run(proc_id, devices, args):
                         'lr': opt.param_groups[0]['lr'],
                 })
                 print("Epoch: {} | Test Acc {} | Val Acc {}".format(epoch,"%.04f" % test_acc,"%.04f" % val_acc))
+ 
+    end_time = time.time()
+    total_time = end_time - start_time
 
+    # Synchronize the total time across processes
+    total_time_tensor = torch.tensor(total_time).to(proc_id)
+    dist.all_reduce(total_time_tensor)
+    total_time = total_time_tensor.item()
 
+    print(f"Rank {proc_id}: Time taken for training: {training_time:.2f} seconds")
+
+    total_training_time_tensor = torch.tensor(training_time).to(proc_id)
+    dist.all_reduce(total_training_time_tensor)
+    total_training_time = total_training_time_tensor.item()
+
+    # # Synchronize the number of epochs across processes
+    # num_epochs_tensor = torch.tensor(epoch + 1).to(proc_id)
+    # dist.all_reduce(num_epochs_tensor)
+    # num_epochs = num_epochs_tensor.item()
+    if proc_id == 0:    
+        print(f"Total time taken: {total_time:.2f} seconds")
+        print(f"Time taken for training: {total_training_time:.2f} seconds")
+    # print(f"Rank {rank}: Number of epochs: {num_epochs}")
+    dist.destroy_process_group()
+
+    
 
