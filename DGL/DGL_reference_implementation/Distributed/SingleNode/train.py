@@ -18,7 +18,6 @@ import wandb
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.distributed as dist
 def run(proc_id, devices, args, dataset_args):
-    start_time = time.time()
     graph, n_classes, in_feats, train_nids, valid_nids, test_nids = dataset_args
     # print(proc_id, devices, args)
     # Initialize distributed training context.
@@ -131,6 +130,7 @@ def run(proc_id, devices, args, dataset_args):
     torch.cuda.synchronize()
     running_time = 0
 
+    start_time = time.time()
     training_time = 0
     for epoch in range(args.n_epochs):
         
@@ -259,5 +259,5 @@ def run(proc_id, devices, args, dataset_args):
     # print(f"Rank {rank}: Number of epochs: {num_epochs}")
     dist.destroy_process_group()
 
-    
+
 
