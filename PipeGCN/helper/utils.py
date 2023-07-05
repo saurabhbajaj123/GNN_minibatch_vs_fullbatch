@@ -29,6 +29,12 @@ def load_ogb_dataset(name):
     node_data['test_mask'][split_idx["test"]] = True
     return g
 
+def load_ogb_arxiv_dataset(name):
+    dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset(name=name, root='./dataset/'))
+    g = dataset[0]
+    g = dgl.add_reverse_edges(g)
+    return g
+
 
 def load_yelp():
     prefix = './dataset/yelp/'
@@ -79,12 +85,15 @@ def load_data(dataset):
         g = load_ogb_dataset('ogbn-products')
     elif dataset == 'ogbn-papers100m':
         g = load_ogb_dataset('ogbn-papers100M')
+    elif dataset == 'ogbn-arxiv':
+        g = load_ogb_arxiv_dataset('ogbn-arxiv')
     elif dataset == 'yelp':
         g = load_yelp()
     else:
         raise ValueError('Unknown dataset: {}'.format(dataset))
 
     n_feat = g.ndata['feat'].shape[1]
+    print(n_feat)
     if g.ndata['label'].dim() == 1:
         n_class = g.ndata['label'].max().item() + 1
     else:
