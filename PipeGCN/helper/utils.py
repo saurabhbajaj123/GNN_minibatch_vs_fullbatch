@@ -70,6 +70,21 @@ def load_yelp():
 
     return g
 
+def load_pubmed():
+    root = "./dataset"
+    dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
+    # split_idx = dataset.get_idx_split()
+    g = dataset[0]
+    # n_node = g.num_nodes()
+    # node_data = g.ndata
+    # node_data['label'] = label.view(-1).long()
+    # node_data['train_mask'] = torch.zeros(n_node, dtype=torch.bool)
+    # node_data['val_mask'] = torch.zeros(n_node, dtype=torch.bool)
+    # node_data['test_mask'] = torch.zeros(n_node, dtype=torch.bool)
+    # node_data['train_mask'][split_idx["train"]] = True
+    # node_data['val_mask'][split_idx["valid"]] = True
+    # node_data['test_mask'][split_idx["test"]] = True
+    return g
 
 def load_data(dataset):
     if dataset == 'reddit':
@@ -79,6 +94,8 @@ def load_data(dataset):
         g = load_ogb_dataset('ogbn-products')
     elif dataset == 'ogbn-papers100m':
         g = load_ogb_dataset('ogbn-papers100M')
+    elif dataset == 'pubmed':
+        g = load_pubmed()
     elif dataset == 'yelp':
         g = load_yelp()
     else:
@@ -94,6 +111,8 @@ def load_data(dataset):
     g = dgl.remove_self_loop(g)
     g = dgl.add_self_loop(g)
     return g, n_feat, n_class
+
+
 
 
 def load_partition(args, rank):

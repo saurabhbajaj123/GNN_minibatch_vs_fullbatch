@@ -8,6 +8,8 @@ import warnings
 import random
 import wandb
 wandb.login()
+import warnings
+warnings.filterwarnings("ignore")
 
 def main():
     args = create_parser()
@@ -16,11 +18,15 @@ def main():
         config={
             "n_hidden": args.n_hidden,
             "n_layers": args.n_layers,
+            "dropout": args.dropout,
+            "n_partitions": args.n_partitions,
             }
     )
     config = wandb.config
     args.n_hidden = config.n_hidden
     args.n_layers = config.n_layers
+    args.dropout = config.dropout
+    args.n_partitions = config.n_partitions
 
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:
@@ -82,24 +88,25 @@ def main():
 if __name__ == '__main__':
     dataset = 'ogbn-products'
     model = 'graphsage'
-    # main()
-    sweep_configuration = {
-        'name': "n_layers, n_hidden",
-        'method': 'bayes',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 16, 'max': 128},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 7},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
-            # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration,
-                           project="PipeGCN-{}-{}".format(dataset, model))
+    main()
+    # sweep_configuration = {
+    #     'name': "n_layers, n_hidden, dropout",
+    #     'method': 'bayes',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 1024},
+    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+    #         # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'values': [128, 256, 512]},
+    #         # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration,
+    #                        project="PipeGCN-{}-{}".format(dataset, model))
 
-    wandb.agent(sweep_id, function=main, count=30)
+    # wandb.agent(sweep_id, function=main, count=15)
 
