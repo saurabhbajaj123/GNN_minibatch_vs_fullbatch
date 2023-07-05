@@ -79,17 +79,7 @@ def load_yelp():
 def load_pubmed():
     root = "./dataset"
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
-    # split_idx = dataset.get_idx_split()
     g = dataset[0]
-    # n_node = g.num_nodes()
-    # node_data = g.ndata
-    # node_data['label'] = label.view(-1).long()
-    # node_data['train_mask'] = torch.zeros(n_node, dtype=torch.bool)
-    # node_data['val_mask'] = torch.zeros(n_node, dtype=torch.bool)
-    # node_data['test_mask'] = torch.zeros(n_node, dtype=torch.bool)
-    # node_data['train_mask'][split_idx["train"]] = True
-    # node_data['val_mask'][split_idx["valid"]] = True
-    # node_data['test_mask'][split_idx["test"]] = True
     return g
 
 def load_data(dataset):
