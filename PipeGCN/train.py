@@ -248,8 +248,9 @@ def run(graph, node_dict, gpb, args):
     rank, size = dist.get_rank(), dist.get_world_size()
     if rank == 0:
         wandb.init(
-            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}",
-            notes="HPO by varying only the n_hidden and n_layers"
+            project="PipeGCN-{}-{}".format(args.dataset, args.model),
+            name=f"enable_pipeline-{args.enable_pipeline}, n_hidden-{args.n_hidden}, n_layers-{args.n_layers}",
+            # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
     torch.autograd.set_detect_anomaly(False)
@@ -346,10 +347,12 @@ def run(graph, node_dict, gpb, args):
     if not args.eval:
         node_dict.pop('val_mask')
         node_dict.pop('test_mask')
-
+    
+    prev_loss = float('inf')
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
+        running_loss = 0.0
         if args.model == 'graphsage':
             logits = model(graph, feat, in_deg)
         else:
@@ -370,7 +373,9 @@ def run(graph, node_dict, gpb, args):
         reduce_time = time.time() - pre_reduce
         optimizer.step()
 
-        if epoch >= 5 and epoch % args.log_every != 0:
+        avg_loss = loss.item() / len(labels)
+
+        if epoch % args.log_every != 0:
             train_dur.append(time.time() - t0)
             comm_dur.append(ctx.comm_timer.tot_time())
             reduce_dur.append(reduce_time)
@@ -417,7 +422,20 @@ def run(graph, node_dict, gpb, args):
             else:
                 thread = pool.apply_async(evaluate_induc, args=('Epoch %05d' % epoch, model_copy,
                                                                 val_g, 'val', result_file_name))
+        dist.barrier()
+        break_condition = False
+        if abs(avg_loss - prev_loss) < args.convergence_threshold:
+            break_condition = True
+        dist.barrier()
 
+        break_condition_tensor = torch.tensor(int(break_condition)).cuda()
+        dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.PRODUCT)
+        break_condition = bool(break_condition_tensor.item())
+
+        if break_condition:
+            break
+
+        prev_loss = avg_loss
     if args.eval and rank == 0:
         if thread is not None:
             if args.inductive:
@@ -443,6 +461,21 @@ def run(graph, node_dict, gpb, args):
                 'best_val_acc': best_val_acc,
                 'best_train_acc': best_train_acc,
                 # 'final_test_acc': final_test_acc,
+        })
+    
+    # total_training_time_tensor = torch.tensor(np.sum(train_dur)).to(rank)
+    # dist.all_reduce(total_training_time_tensor, op=dist.ReduceOp.SUM)
+    # total_training_time = total_training_time_tensor.item()
+    # print(f"total_training_time = {total_training_time}")
+    if rank == 0:
+        wandb.log({
+            'torch_seed': torch.initial_seed(),
+            'total train time per GPU': np.sum(train_dur),
+            'total train time': np.sum(train_dur) * args.n_partitions,
+            'train time per epoch': (np.sum(train_dur) * args.n_partitions) / epoch,
+            'num epochs': epoch,
+
+            # 'total_training_time': total_training_time,
         })
 
 def check_parser(args):
