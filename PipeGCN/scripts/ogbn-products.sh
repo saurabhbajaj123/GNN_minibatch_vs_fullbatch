@@ -12,7 +12,7 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py 
   --convergence-threshold 0.0001\
   --fix-seed \
   --seed 837330801 \
-  --norm layer\
+  # --norm layer\
   # --enable-pipeline \
   # --inductive \
   # --parts-per-node 2 \
