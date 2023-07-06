@@ -472,8 +472,8 @@ def run(graph, node_dict, gpb, args):
             'torch_seed': torch.initial_seed(),
             'total train time per GPU': np.sum(train_dur),
             'total train time': np.sum(train_dur) * args.n_partitions,
-            'train time per epoch': (np.sum(train_dur) * args.n_partitions) / epoch,
-            'num epochs': epoch,
+            'train time per epoch': (np.sum(train_dur) * args.n_partitions) / (epoch+1),
+            'num epochs': (epoch+1),
 
             # 'total_training_time': total_training_time,
         })
