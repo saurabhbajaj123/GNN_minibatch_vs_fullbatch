@@ -5,6 +5,7 @@ import time
 import dgl
 import dgl.nn as dglnn
 
+import numpy as np
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
@@ -48,6 +49,8 @@ def layerwise_infer(
     model.eval()
     with torch.no_grad():
         pred = model.module.inference(g, device, batch_size, use_uva)
+        # print(pred.device)
+        nid = nid.to(pred.device)
         pred = pred[nid]
         labels = g.ndata["label"][nid].to(pred.device)
     if proc_id == 0:
@@ -123,6 +126,8 @@ def train(
         use_ddp=True,
         use_uva=use_uva,
     )
+    train_dur = []
+    eval_dur = []
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     for epoch in range(n_epochs):
         t0 = time.time()
@@ -139,6 +144,8 @@ def train(
             total_loss += loss
         t1 = time.time()
 
+        train_dur.append(t1-t0)
+
         if (epoch + 1) % args.log_every == 0:
             acc = (
                 evaluate(model, g, n_classes, val_dataloader).to(device) / nprocs
@@ -151,6 +158,8 @@ def train(
             #     evaluate(model, g, n_classes, test_dataloader).to(device) / nprocs
             # )
             t2 = time.time()
+
+            eval_dur.append(t2 - t1)
             dist.reduce(acc, 0)
             # dist.reduce(test_acc_1, 0)
 
@@ -161,7 +170,24 @@ def train(
                         epoch, total_loss / (it + 1), acc.item(), t1 - t0, t2 - t1
                     )
                 )
+    dist.barrier()
+    train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
+    dist.reduce(train_dur_sum_tensor, 0)
+    train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
 
+    train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
+    dist.reduce(train_dur_mean_tensor, 0)
+    train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
+    
+    eval_dur_tensor = torch.tensor(np.sum(eval_dur)).cuda()
+    dist.reduce(eval_dur_tensor, 0)
+    eval_dur_sum = eval_dur_tensor.item() / args.n_gpus
+
+    # print(train_dur_sum)
+    if proc_id == 0:
+        print(
+            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
+        )
 
 def run(proc_id, nprocs, devices, g, data, args):
     # find corresponding device for my rank
@@ -179,7 +205,7 @@ def run(proc_id, nprocs, devices, g, data, args):
     n_classes, train_idx, val_idx, test_idx = data
     train_idx = train_idx.to(device)
     val_idx = val_idx.to(device)
-    # test_idx = test_idx.to(device)
+    test_idx = test_idx.to(device)
     g = g.to(device if args.mode == "puregpu" else "cpu")
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
