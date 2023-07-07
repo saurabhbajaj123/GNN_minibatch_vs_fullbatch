@@ -1,19 +1,19 @@
 python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py \
-  --dataset ogbn-products \
-  --dropout 0.3 \
-  --lr 0.003 \
+  --dataset pubmed \
+  --dropout 0.5 \
+  --lr 0.0001 \
   --n-partitions 4 \
-  --n-epochs 500 \
+  --n-epochs 1000 \
   --model graphsage \
-  --n-layers 4 \
-  --n-hidden 127 \
+  --n-layers 5 \
+  --n-hidden 256 \
   --log-every 5 \
   --use-pp \
   --convergence-threshold 0.0001\
-  --fix-seed \
-  --seed 837330801 \
-  # --norm layer\
   # --enable-pipeline \
+  # --norm layer\
+  # --seed 837330801 \
+  # --fix-seed \
   # --inductive \
   # --parts-per-node 2 \
   # --backend nccl \
