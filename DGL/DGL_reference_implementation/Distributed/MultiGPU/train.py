@@ -138,27 +138,29 @@ def train(
             opt.step()
             total_loss += loss
         t1 = time.time()
-        acc = (
-            evaluate(model, g, n_classes, val_dataloader).to(device) / nprocs
-        )
-        test_acc = 0
-        # test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
-        # test_acc = whole_infer(proc_id, device, model, g, test_idx, n_classes)
-        
-        # test_acc_1 = (
-        #     evaluate(model, g, n_classes, test_dataloader).to(device) / nprocs
-        # )
-        t2 = time.time()
-        dist.reduce(acc, 0)
-        # dist.reduce(test_acc_1, 0)
 
-        if proc_id == 0:
-            print(
-                "Epoch {:05d} | Loss {:.4f} | Val Acc {:.4f} | "
-                "Train Time {:.4f} | Eval Time {:.4f}".format(
-                    epoch, total_loss / (it + 1), acc.item(), t1 - t0, t2 - t1
-                )
+        if (epoch + 1) % args.log_every == 0:
+            acc = (
+                evaluate(model, g, n_classes, val_dataloader).to(device) / nprocs
             )
+            test_acc = 0
+            # test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
+            # test_acc = whole_infer(proc_id, device, model, g, test_idx, n_classes)
+            
+            # test_acc_1 = (
+            #     evaluate(model, g, n_classes, test_dataloader).to(device) / nprocs
+            # )
+            t2 = time.time()
+            dist.reduce(acc, 0)
+            # dist.reduce(test_acc_1, 0)
+
+            if proc_id == 0:
+                print(
+                    "Epoch {:05d} | Loss {:.4f} | Val Acc {:.4f} | "
+                    "Train Time {:.4f} | Eval Time {:.4f}".format(
+                        epoch, total_loss / (it + 1), acc.item(), t1 - t0, t2 - t1
+                    )
+                )
 
 
 def run(proc_id, nprocs, devices, g, data, args):
