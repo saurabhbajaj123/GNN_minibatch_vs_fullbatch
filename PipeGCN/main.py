@@ -88,7 +88,7 @@ def main():
         raise ValueError
 
 if __name__ == '__main__':
-    dataset = 'reddit'
+    dataset = 'pubmed'
     model = 'graphsage'
     # main()
     sweep_configuration = {
@@ -97,10 +97,10 @@ if __name__ == '__main__':
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 512},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 7},
             'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
-            'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
+            # 'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
             # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
