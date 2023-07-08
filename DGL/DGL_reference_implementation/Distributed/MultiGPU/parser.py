@@ -23,7 +23,7 @@ def create_parser():
     parser.add_argument(
         "--seed",
         type=int,
-        default=42,
+        default=None,
         help="Manual seed.",
     )
     parser.add_argument("--dataset", type=str, default='ogbn-products',
@@ -35,6 +35,10 @@ def create_parser():
         default="../../dataset",
         help="Root directory of dataset.",
     )
+    parser.add_argument("--model", type=str, default='graphsage',
+                        help="model for training")
+    parser.add_argument("--sampling", type=str, default='NS',
+                        help="model for training")
     parser.add_argument("--dropout", type=float, default=0.5,
                         help="dropout probability")
     parser.add_argument("--lr", type=float, default=1e-3,
