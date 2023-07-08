@@ -341,7 +341,7 @@ def run(graph, node_dict, gpb, args):
 
     node_dict.pop('train_mask')
     node_dict.pop('inner_node')
-    node_dict.pop('part_id')
+    # node_dict.pop('part_id')
     node_dict.pop(dgl.NID)
 
     if not args.eval:
@@ -474,8 +474,7 @@ def run(graph, node_dict, gpb, args):
             'total train time': np.sum(train_dur) * args.n_partitions,
             'train time per epoch': (np.sum(train_dur) * args.n_partitions) / (epoch+1),
             'num epochs': (epoch+1),
-
-            # 'total_training_time': total_training_time,
+            'average train time per epoch': np.mean(train_dur),
         })
 
 def check_parser(args):
