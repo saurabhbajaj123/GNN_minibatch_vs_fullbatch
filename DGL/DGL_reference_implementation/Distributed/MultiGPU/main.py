@@ -27,6 +27,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from train import *
+from utils import load_data
 
 import wandb
 wandb.login()
@@ -65,14 +66,23 @@ def main():
 
     # load and preprocess dataset
     print("Loading data")
-    dataset = AsNodePredDataset(
-        DglNodePropPredDataset(args.dataset, root=args.dataset_dir)
-    )
+    dataset = load_data(args.dataset)
+
+
+    # dataset = AsNodePredDataset(
+    #     DglNodePropPredDataset(args.dataset, root=args.dataset_dir)
+    # )
     g = dataset[0]
     # avoid creating certain graph formats in each sub-process to save momory
     g.create_formats_()
     if args.dataset == "ogbn-arxiv":
+        g.edata.clear()
         g = dgl.to_bidirected(g, copy_ndata=True)
+        g = dgl.remove_self_loop(g)
+        g = dgl.add_self_loop(g)
+    else:
+        g.edata.clear()
+        g = dgl.remove_self_loop(g)
         g = dgl.add_self_loop(g)
     # thread limiting to avoid resource competition
     os.environ["OMP_NUM_THREADS"] = str(mp.cpu_count() // 2 // nprocs)

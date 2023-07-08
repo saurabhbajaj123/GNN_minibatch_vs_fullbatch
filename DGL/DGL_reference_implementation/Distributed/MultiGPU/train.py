@@ -172,8 +172,8 @@ def train(
                 evaluate(model, g, n_classes, val_dataloader).to(device) / nprocs
             )
             test_acc = 0
-            # test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
-            test_acc = whole_infer(proc_id, device, model, g, test_idx, n_classes)
+            test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
+            # test_acc = whole_infer(proc_id, device, model, g, test_idx, n_classes)
             
             # test_acc_1 = (
             #     evaluate(model, g, n_classes, test_dataloader).to(device) / nprocs
