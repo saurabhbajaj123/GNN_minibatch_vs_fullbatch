@@ -253,6 +253,10 @@ def run(graph, node_dict, gpb, args):
             # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
+
+        wandb.log({
+            'torch_seed': torch.initial_seed() & ((1<<63)-1) ,
+        })
     torch.autograd.set_detect_anomaly(False)
     torch.autograd.profiler.profile(False)
     torch.autograd.profiler.emit_nvtx(False)
