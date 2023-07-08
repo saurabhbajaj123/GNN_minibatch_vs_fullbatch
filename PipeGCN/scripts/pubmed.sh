@@ -9,7 +9,7 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py 
   --n-hidden 256 \
   --log-every 5 \
   --use-pp \
-  --convergence-threshold 0.0001\
+  --convergence-threshold 1e-8 \
   # --enable-pipeline \
   # --norm layer\
   # --seed 837330801 \

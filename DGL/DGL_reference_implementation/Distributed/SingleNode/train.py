@@ -42,12 +42,13 @@ def run(proc_id, devices, args, dataset_args):
         torch.cuda.set_device(dev_id)
         device = torch.device("cuda:" + str(dev_id))
         torch.distributed.init_process_group(
-            backend="gloo",
+            backend="nccl",
             init_method=dist_init_method,
             world_size=len(devices),
             rank=proc_id,
         )
-
+    print(torch.distributed.is_nccl_available())
+    print(torch.distributed.get_backend())
     # Define training and validation dataloader, copied from the previous tutorial
     # but with one line of difference: use_ddp to enable distributed data parallel
     # data loading.

@@ -23,7 +23,7 @@ def create_parser():
     parser.add_argument(
         "--seed",
         type=int,
-        default=42,
+        default=None,
         help="Manual seed.",
     )
     parser.add_argument("--dataset", type=str, default='ogbn-products',
@@ -35,13 +35,17 @@ def create_parser():
         default="../../dataset",
         help="Root directory of dataset.",
     )
+    parser.add_argument("--model", type=str, default='graphsage',
+                        help="model for training")
+    parser.add_argument("--sampling", type=str, default='NS',
+                        help="model for training")
     parser.add_argument("--dropout", type=float, default=0.5,
                         help="dropout probability")
-    parser.add_argument("--lr", type=float, default=1e-2,
+    parser.add_argument("--lr", type=float, default=1e-3,
                         help="learning rate")
-    parser.add_argument("--n-epochs", "--n_epochs", type=int, default=20,
+    parser.add_argument("--n-epochs", "--n_epochs", type=int, default=10,
                         help="the number of training epochs")
-    parser.add_argument("--n-gpus", "--n_gpus", type=int, default=2,
+    parser.add_argument("--n-gpus", "--n_gpus", type=int, default=4,
                         help="the number of partitions")
     parser.add_argument("--n-hidden", "--n_hidden", type=int, default=256,
                         help="the number of hidden units")
@@ -55,7 +59,7 @@ def create_parser():
                         help="fanout for each layer")
     parser.add_argument("--agg", "--agg", type=str, default='mean',
                         help="fanout for each layer")
-    parser.add_argument("--log-every", "--log_every", type=int, default=10)
+    parser.add_argument("--log-every", "--log_every", type=int, default=5)
     parser.add_argument("--backend", type=str, default='gloo')
     parser.add_argument("--port", type=int, default=12345,
                         help="the network port for communication")

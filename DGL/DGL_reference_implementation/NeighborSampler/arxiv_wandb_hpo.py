@@ -61,7 +61,14 @@ class Model(nn.Module):
         h_dst = h[:mfgs[-1].num_dst_nodes()]  # <---
         h = self.layers[-1](mfgs[-1], (h, h_dst))
         return h
-
+    # def forward(self, blocks, x):
+    #     h = x
+    #     for l, (layer, block) in enumerate(zip(self.layers, blocks)):
+    #         h = layer(block, h)
+    #         if l != len(self.layers) - 1:
+    #             h = self.activation(h)
+    #             h = self.dropout(h)
+    #     return h
 def parse_args_fn():
     """
     Parse arguments
@@ -172,16 +179,15 @@ def train():
     wandb.init(
         project="mini-batch",
         config={
-            "num_epochs": 10000,
+            "num_epochs": 10,
             "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 512,
-            "n_layers": 6,
+            "n_hidden": 256,
+            "n_layers": 3,
             "agg": "gcn",
             "batch_size": 1024,
-            "fanout": 9,
+            "fanout": 10,
             })
-
 
     config = wandb.config
     
