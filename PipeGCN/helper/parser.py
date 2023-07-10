@@ -25,7 +25,7 @@ def create_parser():
                         help="the number of GCN layers")
     parser.add_argument("--n-linear", "--n_linear", type=int, default=0,
                         help="the number of linear layers")
-    parser.add_argument("--norm", choices=['layer', 'batch'], default='layer',
+    parser.add_argument("--norm", choices=['layer', 'batch', 'none'], default='none',
                         help="normalization method")
     parser.add_argument("--weight-decay", "--weight_decay", type=float, default=0,
                         help="weight for L2 loss")
@@ -45,6 +45,7 @@ def create_parser():
     parser.add_argument("--feat-corr", "--feat_corr", action='store_true')
     parser.add_argument("--grad-corr", "--grad_corr", action='store_true')
     parser.add_argument("--corr-momentum", "--corr_momentum", type=float, default=0.95)
+    parser.add_argument("--convergence-threshold", "--convergence_threshold", type=float, default=1e-8)
 
     parser.add_argument("--use-pp", "--use_pp", action='store_true',
                         help="whether to use precomputation")

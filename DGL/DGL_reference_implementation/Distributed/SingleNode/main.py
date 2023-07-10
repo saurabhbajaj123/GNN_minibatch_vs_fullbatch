@@ -5,6 +5,8 @@ from utils import *
 import signal
 import wandb
 wandb.login()
+import warnings
+warnings.filterwarnings("ignore")
 def main():
     args = create_parser()
     wandb.init(

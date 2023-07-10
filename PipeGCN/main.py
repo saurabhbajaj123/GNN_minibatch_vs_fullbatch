@@ -8,6 +8,8 @@ import warnings
 import random
 import wandb
 wandb.login()
+import warnings
+warnings.filterwarnings("ignore")
 
 def main():
     args = create_parser()
@@ -16,11 +18,17 @@ def main():
         config={
             "n_hidden": args.n_hidden,
             "n_layers": args.n_layers,
+            "dropout": args.dropout,
+            "n_partitions": args.n_partitions,
+            "lr": args.lr,
             }
     )
     config = wandb.config
     args.n_hidden = config.n_hidden
     args.n_layers = config.n_layers
+    args.dropout = config.dropout
+    args.n_partitions = config.n_partitions
+    args.lr = config.lr
 
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:
@@ -80,18 +88,20 @@ def main():
         raise ValueError
 
 if __name__ == '__main__':
-    dataset = 'ogbn-products'
+    dataset = 'pubmed'
     model = 'graphsage'
     # main()
     sweep_configuration = {
-        'name': "n_layers, n_hidden",
+        'name': "n_layers, n_hidden, dropout, lr",
         'method': 'bayes',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 16, 'max': 128},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 7},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+            'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
+            # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
             # 'batch_size': {'values': [128, 256, 512]},
@@ -101,5 +111,5 @@ if __name__ == '__main__':
     sweep_id = wandb.sweep(sweep=sweep_configuration,
                            project="PipeGCN-{}-{}".format(dataset, model))
 
-    wandb.agent(sweep_id, function=main, count=30)
+    # wandb.agent(sweep_id, function=main, count=3)
 
