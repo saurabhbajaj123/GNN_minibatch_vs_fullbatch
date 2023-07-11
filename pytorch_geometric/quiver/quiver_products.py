@@ -10,8 +10,6 @@ from torch.nn.parallel import DistributedDataParallel
 
 from torch_geometric.nn import SAGEConv
 from torch_geometric.datasets import Reddit
-from torch_geometric.datasets import Planetoid
-
 from torch_geometric.loader import NeighborSampler
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 import time
@@ -103,8 +101,13 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
     y = y.to(rank)
+    eval_dur = []
+    train_dur = []
 
-    for epoch in range(1, 21):
+
+    for epoch in range(1, 51):
+        t0 = time.time()
+        
         model.train()
 
         epoch_start = time.time()
@@ -117,13 +120,17 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
             loss = F.nll_loss(out, y[n_id[:batch_size]])
             loss.backward()
             optimizer.step()
+        t1 = time.time()
 
         dist.barrier()
+        train_dur.append(t1-t0)
 
-        # if rank == 0:
-        #     print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, Epoch Time: {time.time() - epoch_start}')
+        if rank == 0:
+            print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, Epoch Time: {time.time() - epoch_start}')
 
         if rank == 0 and epoch % 5 == 0:  # We evaluate on a single GPU for now
+            t2 = time.time()
+            
             model.eval()
             with torch.no_grad():
                 out = model.module.inference(quiver_feature, rank, subgraph_loader)
@@ -131,16 +138,34 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
             acc1 = int(res[train_idx].sum()) / train_idx.numel()
             acc2 = int(res[val_idx].sum()) / val_idx.numel()
             acc3 = int(res[test_idx].sum()) / test_idx.numel()
-            print(f'Epoch: {epoch:03d}, Train: {acc1:.4f}, Val: {acc2:.4f}, Test: {acc3:.4f}')
+            t3 = time.time()
+
+            eval_dur.append(t3-t2)
+
+            print(f'Train: {acc1:.4f}, Val: {acc2:.4f}, Test: {acc3:.4f}')
 
         dist.barrier()
+
+    train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
+    dist.reduce(train_dur_sum_tensor, 0)
+    train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
+
+    train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
+    dist.reduce(train_dur_mean_tensor, 0)
+    train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
+
+    if rank == 0:
+        eval_dur_sum = np.sum(eval_dur)
+        print(
+            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
+        )
 
     dist.destroy_process_group()
 
 
 if __name__ == '__main__':
-    root = "../dataset"
-    dataset = PygNodePropPredDataset('ogbn-products', root=root)
+    root = "../dataset/"
+    dataset = PygNodePropPredDataset('ogbn-products', root)
     data = dataset[0]
 
     split_idx = dataset.get_idx_split()
