@@ -63,14 +63,14 @@ def _get_data_loader(sampler, device, graph, train_nids, batch_size=1024):
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
     graph,              # The graph
-    train_nids,         # The node IDs to iterate over in minibatches
+    torch.arange(len(train_nids)/batch_size),         # The node IDs to iterate over in minibatches
     sampler,            # The neighbor sampler
     device=device,      # Put the sampled MFGs on CPU or GPU
     # The following arguments are inherited from PyTorch DataLoader.
     batch_size=batch_size,    # Batch size
     shuffle=True,       # Whether to shuffle the nodes for every epoch
     drop_last=False,    # Whether to drop the last incomplete batch
-    num_workers=0,       # Number of sampler processes
+    num_workers=4,      # Number of sampler processes
     # use_uva=True,
     )    
     return train_dataloader
@@ -90,14 +90,14 @@ def train():
     wandb.init(
         project="mini-batch-saint",
         config={
-            "num_epochs": 2000,
-            "lr": 1e-3,
+            "num_epochs": 1000,
+            "lr": 1e-2,
             "dropout": random.uniform(0.3, 0.6),
             "n_hidden": 256,
             "n_layers": 3,
             "agg": "mean",
-            "batch_size": 2**10,
-            "budget": (256, 512),
+            "batch_size": 2**9,
+            "budget": 512,
             })
 
 
@@ -136,17 +136,17 @@ def train():
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
     sampler = dgl.dataloading.SAINTSampler(
-        mode='walk', 
+        mode='node', 
         budget=budget, 
         # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
         )
 
-    train_dataloader = _get_data_loader(sampler, device, graph, train_nids, batch_size)
+    train_dataloader = _get_data_loader(sampler, device, graph.subgraph(train_nids), train_nids, batch_size)
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     # scheduler1 = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
-    scheduler2 = ReduceLROnPlateau(optimizer, mode='max', cooldown=10, factor=0.99, patience=20, min_lr=1e-5)
+    scheduler2 = ReduceLROnPlateau(optimizer, mode='max', cooldown=20, factor=0.99, patience=30, min_lr=1e-5)
 
     evaluator = Evaluator(name='ogbn-arxiv')
     best_train_acc = 0
@@ -260,26 +260,26 @@ def train():
 
 if __name__ == "__main__":
 
-    val_acc, model = train()
+    # val_acc, model = train()
         
     
-    # sweep_configuration = {
-    #     'method': 'bayes',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'n_layers': {'values':[6, 7, 8]},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-    #         # 'batch_size': {'values':[7, 6, 5]},
-    #         # 'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'values':[6, 7, 8]},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+            # 'batch_size': {'values':[7, 6, 5]},
+            'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
 
-    # wandb.agent(sweep_id, function=train, count=50)
+    wandb.agent(sweep_id, function=train, count=50)
