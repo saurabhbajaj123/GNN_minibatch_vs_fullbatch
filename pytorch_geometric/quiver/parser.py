@@ -39,6 +39,8 @@ def create_parser():
                         help="the number of GCN layers")
     parser.add_argument("--batch-size", "--batch_size", type=int, default=1024,
                         help="batch size for each GPU")
+    parser.add_argument("--eval-batch-size", "--eval_batch_size", type=int, default=1024,
+                        help="batch size for eval")
     parser.add_argument("--weight-decay", "--weight_decay", type=float, default=5e-4,
                         help="weight for L2 loss")
     parser.add_argument("--fanout", "--fanout", type=int, default=10,

@@ -1,4 +1,3 @@
-# Reaches around 0.7870 ± 0.0036 test accuracy.
 import os
 
 import torch
@@ -9,19 +8,15 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel
 
 from torch_geometric.nn import SAGEConv
-from torch_geometric.datasets import Reddit
-from torch_geometric.datasets import Planetoid
-
+from torch_geometric.datasets import Reddit, Planetoid
 from torch_geometric.loader import NeighborSampler
-from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
+
 import time
-from parser import create_parser
-
-
 import numpy as np
-####################
-# Import Quiver
-####################
+
+######################
+# Import From Quiver
+######################
 import quiver
 
 import wandb
@@ -31,29 +26,19 @@ warnings.filterwarnings("ignore")
 
 
 class SAGE(torch.nn.Module):
-    def __init__(self, in_channels, hidden_channels, out_channels, num_layers, dropout):
+    def __init__(self, in_channels, hidden_channels, out_channels,
+                 num_layers=2, dropout):
         super(SAGE, self).__init__()
-
         self.num_layers = num_layers
 
         self.convs = torch.nn.ModuleList()
         self.convs.append(SAGEConv(in_channels, hidden_channels))
-        for _ in range(num_layers - 2):
+        for _ in range(self.num_layers - 2):
             self.convs.append(SAGEConv(hidden_channels, hidden_channels))
         self.convs.append(SAGEConv(hidden_channels, out_channels))
         self.dropout = dropout
 
-    def reset_parameters(self):
-        for conv in self.convs:
-            conv.reset_parameters()
-
     def forward(self, x, adjs):
-        # `train_loader` computes the k-hop neighborhood of a batch of nodes,
-        # and returns, for each layer, a bipartite graph object, holding the
-        # bipartite edges `edge_index`, the index `e_id` of the original edges,
-        # and the size/shape `size` of the bipartite graph.
-        # Target nodes are also included in the source nodes so that one can
-        # easily apply skip-connections or add self-loops.
         for i, (edge_index, _, size) in enumerate(adjs):
             x_target = x[:size[1]]  # Target nodes are always placed first.
             x = self.convs[i]((x, x_target), edge_index)
@@ -62,25 +47,21 @@ class SAGE(torch.nn.Module):
                 x = F.dropout(x, p=self.dropout, training=self.training)
         return x.log_softmax(dim=-1)
 
+    @torch.no_grad()
     def inference(self, x_all, device, subgraph_loader):
         # pbar = tqdm(total=x_all.size(0) * self.num_layers)
         # pbar.set_description('Evaluating')
 
-        # Compute representations of nodes layer by layer, using *all*
-        # available edges. This leads to faster computation in contrast to
-        # immediately computing the final representations of each batch.
-        total_edges = 0
         for i in range(self.num_layers):
             xs = []
             for batch_size, n_id, adj in subgraph_loader:
                 edge_index, _, size = adj.to(device)
-                total_edges += edge_index.size(1)
                 x = x_all[n_id].to(device)
                 x_target = x[:size[1]]
                 x = self.convs[i]((x, x_target), edge_index)
                 if i != self.num_layers - 1:
                     x = F.relu(x)
-                xs.append(x.cpu())
+                xs.append(x)
 
                 # pbar.update(batch_size)
 
@@ -91,22 +72,23 @@ class SAGE(torch.nn.Module):
         return x_all
 
 
-def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_idx, num_features, num_classes, args):
+def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_features, num_classes, args):
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = '12355'
     dist.init_process_group('nccl', rank=rank, world_size=world_size)
-    torch.cuda.set_device(rank)
 
-    train_idx, val_idx, test_idx = split_idx['train'], split_idx['valid'], split_idx['test']
+    torch.torch.cuda.set_device(rank)
 
+    train_mask, val_mask, test_mask = data_split    
+    train_idx = train_mask.nonzero(as_tuple=False).view(-1)
     train_idx = train_idx.split(train_idx.size(0) // world_size)[rank]
-    train_loader = torch.utils.data.DataLoader(train_idx, batch_size=args.batch_size, pin_memory=True)
+
+    train_loader = torch.utils.data.DataLoader(train_idx, batch_size=args.batch_size, shuffle=True, drop_last=True)
     if rank == 0:
         wandb.init(
             project="Quiver-{}-{}-{}".format(args.dataset, args.model, args.sampling),
             name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
         )
-
     if rank == 0:
         subgraph_loader = NeighborSampler(edge_index, node_idx=None,
                                           sizes=[-1], batch_size=args.eval_batch_size,
@@ -118,6 +100,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     model = DistributedDataParallel(model, device_ids=[rank])
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
+    # Simulate cases those data can not be fully stored by GPU memory
     y = y.to(rank)
     train_dur = []
     eval_dur = []
@@ -126,15 +109,15 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     for epoch in range(args.n_epochs):
         t0 = time.time()
         total_loss = 0
-        model.train()
 
+        model.train()
         epoch_start = time.time()
         for seeds in train_loader:
             n_id, batch_size, adjs = quiver_sampler.sample(seeds)
             adjs = [adj.to(rank) for adj in adjs]
 
             optimizer.zero_grad()
-            out = model(quiver_feature[n_id], adjs)
+            out = model(x[n_id].to(rank), adjs)
             loss = F.nll_loss(out, y[n_id[:batch_size]])
             loss.backward()
             optimizer.step()
@@ -146,21 +129,21 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
 
         if rank == 0:
             print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, Epoch Time: {time.time() - epoch_start}')
+
         if rank == 0 and (epoch+1) % args.log_every == 0:  # We evaluate on a single GPU for now
-            
             t2 = time.time()
+
             model.eval()
             with torch.no_grad():
-                out = model.module.inference(quiver_feature, rank, subgraph_loader)
-            res = out.argmax(dim=-1) == y.cpu()
-            acc1 = int(res[train_idx].sum()) / train_idx.numel()
-            acc2 = int(res[val_idx].sum()) / val_idx.numel()
-            acc3 = int(res[test_idx].sum()) / test_idx.numel()
+                out = model.module.inference(x, rank, subgraph_loader)
+            res = out.argmax(dim=-1) == y
+            acc1 = int(res[train_mask].sum()) / int(train_mask.sum())
+            acc2 = int(res[val_mask].sum()) / int(val_mask.sum())
+            acc3 = int(res[test_mask].sum()) / int(test_mask.sum())
             t3 = time.time()
-            
             eval_dur.append(t3-t2)
-
-            print(f'Epoch: {epoch:03d}, Train: {acc1:.4f}, Val: {acc2:.4f}, Test: {acc3:.4f}')
+            
+            print(f'Train: {acc1:.4f}, Val: {acc2:.4f}, Test: {acc3:.4f}')
             if best_val_acc < acc2:
                 best_train_acc = acc1
                 best_val_acc = acc2
@@ -173,7 +156,6 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
                 'best_test_acc': best_test_acc,
                 'best_train_acc': best_train_acc,
             })
-
         dist.barrier()
     train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
     dist.reduce(train_dur_sum_tensor, 0)
@@ -201,7 +183,8 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
         })
     dist.destroy_process_group()
 
-def main():
+
+def main()
     args = create_parser()
     
     wandb.init(
@@ -226,32 +209,36 @@ def main():
     args.agg = config.agg
 
     root = args.dataset_dir
-    dataset = PygNodePropPredDataset(args.dataset, root=root)
+
+
+    # root= '../dataset' 
+    if args.dataset == 'reddit':
+        dataset = Reddit(root)
+    elif args.dataset == 'pubmed':
+        dataset = Planetoid(root=root, name='PubMed')
+
+    world_size = torch.cuda.device_count()
+
     data = dataset[0]
 
-    split_idx = dataset.get_idx_split()
-    world_size = torch.cuda.device_count()
+    csr_topo = quiver.CSRTopo(data.edge_index)
     
     ##############################
     # Create Sampler And Feature
     ##############################
-    csr_topo = quiver.CSRTopo(data.edge_index)
-    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
-    feature = torch.zeros(data.x.shape)
-    feature[:] = data.x
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [25, 10], 0, mode='GPU')
+
     quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
-    quiver_feature.from_cpu_tensor(feature)
+    quiver_feature.from_cpu_tensor(data.x)
 
     print('Let\'s use', world_size, 'GPUs!')
+    data_split = (data.train_mask, data.val_mask, data.test_mask)
     mp.spawn(
-        run,
-        args=(world_size, quiver_sampler, quiver_feature, data.y.squeeze(), data.edge_index, split_idx, dataset.num_features, dataset.num_classes, args),
+        run, 
+        args=(world_size, data_split, data.edge_index, quiver_feature, quiver_sampler, data.y, dataset.num_features, dataset.num_classes, args),
         nprocs=world_size,
         join=True
     )
-
-
 if __name__ == '__main__':
     wandb.login()
     main()

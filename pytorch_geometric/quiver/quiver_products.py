@@ -13,6 +13,7 @@ from torch_geometric.datasets import Reddit
 from torch_geometric.loader import NeighborSampler
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 import time
+import numpy as np
 
 ####################
 # Import Quiver
@@ -51,8 +52,8 @@ class SAGE(torch.nn.Module):
         return x.log_softmax(dim=-1)
 
     def inference(self, x_all, device, subgraph_loader):
-        # pbar = tqdm(total=x_all.size(0) * self.num_layers)
-        # pbar.set_description('Evaluating')
+        pbar = tqdm(total=x_all.size(0) * self.num_layers)
+        pbar.set_description('Evaluating')
 
         # Compute representations of nodes layer by layer, using *all*
         # available edges. This leads to faster computation in contrast to
@@ -70,11 +71,11 @@ class SAGE(torch.nn.Module):
                     x = F.relu(x)
                 xs.append(x.cpu())
 
-                # pbar.update(batch_size)
+                pbar.update(batch_size)
 
             x_all = torch.cat(xs, dim=0)
 
-        # pbar.close()
+        pbar.close()
 
         return x_all
 
@@ -105,7 +106,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     train_dur = []
 
 
-    for epoch in range(1, 51):
+    for epoch in range(1, 11):
         t0 = time.time()
         
         model.train()
@@ -148,16 +149,18 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
 
     train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
     dist.reduce(train_dur_sum_tensor, 0)
-    train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
+    train_dur_sum = train_dur_sum_tensor.item() / world_size 
 
     train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
     dist.reduce(train_dur_mean_tensor, 0)
-    train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
+    train_dur_mean = train_dur_mean_tensor.item() / world_size
 
     if rank == 0:
         eval_dur_sum = np.sum(eval_dur)
+        eval_dur_mean = np.mean(eval_dur)
+
         print(
-            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
+            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f} | Avg time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum, eval_dur_mean)
         )
 
     dist.destroy_process_group()

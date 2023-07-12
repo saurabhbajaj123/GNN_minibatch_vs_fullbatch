@@ -1,9 +1,9 @@
 python quiver_ogbn.py \
-  --dataset ogbn-products \
+  --dataset ogbn-arxiv \
   --model graphsage \
   --sampling NS \
   --dropout 0.5 \
-  --lr 0.01 \
+  --lr 0.001 \
   --n-epochs 101 \
   --n-gpus 4 \
   --n-layers 3 \
