@@ -7,10 +7,10 @@ python quiver_ogbn.py \
   --n-epochs 101 \
   --n-gpus 4 \
   --n-layers 3 \
-  --n-hidden 256 \
+  --n-hidden 512 \
   --batch-size 4096 \
   --eval-batch-size 4096 \
-  --weight-decay 0 \
+  --weight-decay 5e-4 \
   --fanout 5 \
   --agg mean \
   --log-every 5 \
