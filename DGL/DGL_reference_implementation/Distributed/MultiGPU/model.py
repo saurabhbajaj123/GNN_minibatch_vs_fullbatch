@@ -19,6 +19,55 @@ from dgl.dataloading import (
 )
 from dgl.multiprocessing import shared_tensor
 
+
+class ClusterSAGE(nn.Module):
+    def __init__(
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout
+    ):
+        super().__init__()
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.n_classes = n_classes
+        self.layers = nn.ModuleList()
+        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, "mean"))
+        for i in range(1, n_layers - 1):
+            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, "mean"))
+        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, "mean"))
+        self.dropout = nn.Dropout(dropout)
+        self.activation = activation
+
+    def forward(self, g, x):
+        h = x
+        for l, conv in enumerate(self.layers):
+            h = conv(g, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+                h = self.dropout(h)
+        return h
+
+    def inference(self, g, x, batch_size, device):
+        """
+        Inference with the GraphSAGE model on full neighbors (i.e. without neighbor sampling).
+        g : the entire graph.
+        x : the input of entire node set.
+        The inference code is written in a fashion that it could handle any number of nodes and
+        layers.
+        """
+        # During inference with sampling, multi-layer blocks are very inefficient because
+        # lots of computations in the first few layers are repeated.
+        # Therefore, we compute the representation of all nodes layer by layer.  The nodes
+        # on each layer are of course splitted in batches.
+        # TODO: can we standardize this?
+        h = x
+        for l, conv in enumerate(self.layers):
+            h = conv(g, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+
+        return h
+
+
+
 class SAGE(nn.Module):
     def __init__(
         self, in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean',
@@ -69,51 +118,6 @@ class SAGE(nn.Module):
                 h = self.activation(h)
 
         return h
-    # def inference(self, g, device, batch_size, use_uva):
-    #     g.ndata["h"] = g.ndata["feat"]
-    #     sampler = MultiLayerFullNeighborSampler(1, prefetch_node_feats=["h"])
-    #     for l, layer in enumerate(self.layers):
-    #         dataloader = DataLoader(
-    #             g,
-    #             torch.arange(g.num_nodes(), device=device),
-    #             sampler,
-    #             device=device,
-    #             batch_size=batch_size,
-    #             shuffle=False,
-    #             drop_last=False,
-    #             num_workers=0,
-    #             use_ddp=True,
-    #             use_uva=use_uva,
-    #         )
-    #         # in order to prevent running out of GPU memory, allocate a
-    #         # shared output tensor 'y' in host memory
-    #         y = shared_tensor(
-    #             (
-    #                 g.num_nodes(),
-    #                 self.n_hidden
-    #                 if l != len(self.layers) - 1
-    #                 else self.n_classes,
-    #             )
-    #         )
-    #         # for input_nodes, output_nodes, blocks in (
-    #         #     tqdm.tqdm(dataloader) if dist.get_rank() == 0 else dataloader
-    #         # ):
-    #         for input_nodes, output_nodes, blocks in (dataloader):
-    #             x = blocks[0].srcdata["h"]
-    #             h = layer(blocks[0], x)  # len(blocks) = 1
-    #             if l != len(self.layers) - 1:
-    #                 h = F.relu(h)
-    #                 h = self.dropout(h)
-    #             # non_blocking (with pinned memory) to accelerate data transfer
-    #             y[output_nodes] = h.to(y.device, non_blocking=True)
-    #         # make sure all GPUs are done writing to 'y'
-    #         dist.barrier()
-    #         g.ndata["h"] = y if use_uva else y.to(device)
-
-    #     g.ndata.pop("h")
-    #     return y
-
-
 
 class GAT(nn.Module):
     def __init__(
