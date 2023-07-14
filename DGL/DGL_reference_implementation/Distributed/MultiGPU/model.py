@@ -20,19 +20,63 @@ from dgl.dataloading import (
 from dgl.multiprocessing import shared_tensor
 
 
-class ClusterSAGE(nn.Module):
+class SaintSAGE(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout
-    ):
+        self, in_feats, n_hidden, n_classes, n_layers, dropout, activation):
         super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
         self.layers = nn.ModuleList()
-        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, "mean"))
+        self.layers.append(SAGEConv(in_feats, n_hidden, "mean"))
         for i in range(1, n_layers - 1):
-            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, "mean"))
-        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, "mean"))
+            self.layers.append(SAGEConv(n_hidden, n_hidden, "mean"))
+        self.layers.append(SAGEConv(n_hidden, n_classes, "mean"))
+        self.dropout = nn.Dropout(dropout)
+        self.activation = activation
+
+    def forward(self, g, x):
+        h = x
+        for l, conv in enumerate(self.layers):
+            h = conv(g, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+                h = self.dropout(h)
+        return h
+
+    def inference(self, g, x, batch_size, device):
+        """
+        Inference with the GraphSAGE model on full neighbors (i.e. without neighbor sampling).
+        g : the entire graph.
+        x : the input of entire node set.
+        The inference code is written in a fashion that it could handle any number of nodes and
+        layers.
+        """
+        # During inference with sampling, multi-layer blocks are very inefficient because
+        # lots of computations in the first few layers are repeated.
+        # Therefore, we compute the representation of all nodes layer by layer.  The nodes
+        # on each layer are of course splitted in batches.
+        # TODO: can we standardize this?
+        h = x
+        for l, conv in enumerate(self.layers):
+            h = conv(g, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+
+        return h
+
+class ClusterSAGE(nn.Module):
+    def __init__(
+        self, in_feats, n_hidden, n_classes, n_layers, dropout, activation):
+        super().__init__()
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.n_classes = n_classes
+        self.layers = nn.ModuleList()
+        self.layers.append(SAGEConv(in_feats, n_hidden, "mean"))
+        for i in range(1, n_layers - 1):
+            self.layers.append(SAGEConv(n_hidden, n_hidden, "mean"))
+        self.layers.append(SAGEConv(n_hidden, n_classes, "mean"))
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 

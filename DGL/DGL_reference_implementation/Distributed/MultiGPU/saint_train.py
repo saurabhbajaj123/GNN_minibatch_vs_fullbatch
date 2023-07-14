@@ -16,12 +16,12 @@ import tqdm
 from dgl.data import AsNodePredDataset
 from dgl.dataloading import (
     DataLoader,
-    ClusterGCNSampler,
+    SAINTSampler,
 )
 from dgl.multiprocessing import shared_tensor
 from ogb.nodeproppred import DglNodePropPredDataset
 from torch.nn.parallel import DistributedDataParallel
-from model import GraphSAGE, SAGE, ClusterSAGE
+from model import GraphSAGE, SAGE, SaintSAGE
 from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
@@ -94,7 +94,7 @@ def train(
     if proc_id == 0:
         wandb.init(
             project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling),
-            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
+            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, batch_size-{args.batch_size},budget-{args.budget_node_edge}",
             # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
@@ -102,19 +102,22 @@ def train(
         wandb.log({
             "torch seed": torch.initial_seed()  & ((1<<63)-1)
         })
-    num_partitions = args.num_partitions
-    sampler = ClusterGCNSampler(
-        g,
-        num_partitions,
-        cache_path=f'cluster_gcn_{args.dataset}.pkl',
+    if args.mode_saint == 'walk':
+        budget = (args.budget_rw_0,args.budget_rw_1) 
+    else:
+        budget = args.budget_node_edge 
+    # print(budget)
+    sampler = SAINTSampler(
+        mode=args.mode_saint,
+        budget=budget,
         prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
     )
     # sampler = NeighborSampler(
     #     [args.fanout for _ in range(args.n_layers)], prefetch_node_feats=["feat"], prefetch_labels=["label"]
     # )
     dataloader = DataLoader(
-        g,
-        torch.arange(num_partitions).to(device),
+        g.subgraph(train_idx.to('cpu')),
+        torch.arange(len(train_idx)/args.batch_size).to(device),
         sampler,
         device=device,
         batch_size=args.batch_size,
@@ -124,6 +127,23 @@ def train(
         use_ddp=True,
         use_uva=use_uva,
     )
+    # print(val_idx)
+    eval_dataloader = DataLoader(
+        g,
+        torch.arange((len(train_idx))/args.batch_size).to(device),
+        sampler,
+        device=device,
+        batch_size=args.batch_size,
+        shuffle=True,
+        drop_last=False,
+        num_workers=0,
+        use_ddp=True,
+        use_uva=use_uva,
+    )
+    # for sg in eval_dataloader:
+    #     print(sg.ndata['val_mask'])
+    # print(len(eval_dataloader))
+
     train_dur = []
     eval_dur = []
     best_val_acc = 0
@@ -137,10 +157,10 @@ def train(
         for it, sg in enumerate(dataloader):
             x = sg.ndata["feat"]
             y = sg.ndata["label"]
-            m = sg.ndata["train_mask"].bool()
+            # m = sg.ndata["train_mask"].bool()
             
             y_hat = model(sg, x)
-            loss = F.cross_entropy(y_hat[m], y[m])
+            loss = F.cross_entropy(y_hat, y)
 
             opt.zero_grad()
             loss.backward()
@@ -155,7 +175,7 @@ def train(
             with torch.no_grad():
                 train_preds, val_preds, test_preds = [], [], []
                 train_labels, val_labels, test_labels = [], [], []
-                for it, sg in enumerate(dataloader):
+                for it, sg in enumerate(eval_dataloader):
                     x = sg.ndata["feat"]
                     y = sg.ndata["label"]
                     m_train = sg.ndata["train_mask"].bool()
@@ -182,12 +202,14 @@ def train(
                     num_classes=n_classes,
                 ).to(device) / nprocs
                 
+                # print(val_preds, val_labels)
                 val_acc = MF.accuracy(
                     val_preds,
                     val_labels,
                     task="multiclass",
                     num_classes=n_classes,
                 ).to(device) / nprocs
+
                 test_acc = MF.accuracy(
                     test_preds,
                     test_labels,
@@ -279,7 +301,7 @@ def run(proc_id, nprocs, devices, g, data, args):
     activation = F.relu
     # model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     # model = GraphSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
-    model = ClusterSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation).to(device)
+    model = SaintSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation).to(device)
     model = DistributedDataParallel(
         model, device_ids=[device], output_device=device
     )

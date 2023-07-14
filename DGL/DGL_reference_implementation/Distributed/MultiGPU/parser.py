@@ -57,13 +57,17 @@ def create_parser():
                         help="weight for L2 loss")
     parser.add_argument("--fanout", "--fanout", type=float, default=10,
                         help="fanout for each layer")
-    parser.add_argument("--agg", "--agg", type=str, default='mean',
-                        help="fanout for each layer")
+    parser.add_argument("--agg", "--agg", type=str, default='mean')
     parser.add_argument("--log-every", "--log_every", type=int, default=5)
     parser.add_argument("--backend", type=str, default='gloo')
     parser.add_argument("--port", type=int, default=12345,
                         help="the network port for communication")
     parser.add_argument("--master-addr", "--master_addr", type=str, default="127.0.0.1")
+    parser.add_argument("--num-partitions", "--num_partitions", type=int, default=5000)
+    parser.add_argument("--budget-node-edge", "--budget_node_edge", type=int, default=256)
+    parser.add_argument("--budget-rw-0", "--budget_rw_0", type=int, default=256)
+    parser.add_argument("--budget-rw-1", "--budget_rw_1", type=int, default=256)
+    parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
 
 
 
