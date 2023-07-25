@@ -4,14 +4,14 @@ python cluster_main.py \
   --sampling cluster \
   --dropout 0.3 \
   --lr 0.003 \
-  --n-epochs 500 \
+  --n-epochs 2000 \
   --n-gpus 4 \
-  --n-layers 3 \
-  --n-hidden 128 \
+  --n-layers 4 \
+  --n-hidden 512 \
   --batch-size 1024 \
-  --num-partitions 5000 \
+  --num-partitions 8000 \
   --agg mean \
   --log-every 5 \
-#   --seed 10245829 \
+  --seed 42 \
 #   --mode puregpu \
   # --seed \

@@ -106,7 +106,7 @@ def train(
     sampler = ClusterGCNSampler(
         g,
         num_partitions,
-        cache_path=f'cluster_gcn_{args.dataset}.pkl',
+        cache_path=f'cluster_gcn_{args.dataset}_{args.n_hidden}_{args.n_layers}_{args.num_partitions}.pkl',
         prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
     )
     # sampler = NeighborSampler(

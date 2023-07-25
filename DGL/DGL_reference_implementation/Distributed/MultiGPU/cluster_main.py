@@ -43,7 +43,7 @@ def main():
             "lr": args.lr,
             "fanout": args.fanout,
             "batch_size": args.batch_size,
-            "agg": args.agg,
+            "num_partitions": args.num_partitions,
             }
     )
 
@@ -54,7 +54,7 @@ def main():
     args.lr = config.lr
     args.fanout = config.fanout 
     args.batch_size = config.batch_size
-    args.agg = config.agg
+    args.num_partitions = config.num_partitions
 
     devices = list(map(int, args.gpu.split(",")))
     nprocs = len(devices)
@@ -110,18 +110,18 @@ if __name__ == "__main__":
 
 
     sweep_configuration = {
-        'name': "n_layers, n_hidden, dropout, lr, batch_size, num_partitions",
+        'name': "n_layers, n_hidden, num_partitions",
         'method': 'bayes',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
             'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
             'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
             'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'batch_size': {'values': [128, 256, 512, 1024]},
-            "batch_size": {'distribution': 'int_uniform', 'min': 100, 'max': 2000}
+            # "batch_size": {'distribution': 'int_uniform', 'min': 512, 'max': 2000},
             # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
             "num_partitions": {'distribution': 'int_uniform', 'min': 1000, 'max': 10000}
         }
