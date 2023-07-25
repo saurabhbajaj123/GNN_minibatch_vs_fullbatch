@@ -4,13 +4,13 @@ python quiver_ogbn.py \
   --sampling NS \
   --dropout 0.5 \
   --lr 0.001 \
-  --n-epochs 101 \
+  --n-epochs 20 \
   --n-gpus 4 \
   --n-layers 3 \
-  --n-hidden 512 \
-  --batch-size 4096 \
-  --eval-batch-size 4096 \
-  --weight-decay 5e-4 \
+  --n-hidden 256 \
+  --batch-size 1024 \
+  --eval-batch-size 1024 \
+  --weight-decay 0 \
   --fanout 5 \
   --agg mean \
   --log-every 5 \
