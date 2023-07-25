@@ -163,3 +163,8 @@ DGL/DGL_reference_implementation/Distributed/SingleNodeClusterIter/wandb
 DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb
 
 pytorch_geometric/quiver/wandb/
+
+
+partitions/
+results/
+wandb/
