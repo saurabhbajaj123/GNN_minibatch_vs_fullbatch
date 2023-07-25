@@ -88,28 +88,33 @@ def main():
         raise ValueError
 
 if __name__ == '__main__':
-    dataset = 'pubmed'
-    model = 'graphsage'
+    # dataset = 'pubmed'
+    # model = 'graphsage'
     # main()
+    args = create_parser() 
     sweep_configuration = {
-        'name': "n_layers, n_hidden, dropout, lr",
-        'method': 'bayes',
+        'name': f"n_layers vary - enable_pipeline {args.enable_pipeline}",
+        'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
-            'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
-            'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
+            # 'n_hidden': {'values': [128, 256, 512, 728, 1024]},
+            'n_layers': {'values': [2, 3, 5, 7, 9]},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
             # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
+            # 'n_partitions': {'values': [4,3,2,1]},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
             # 'batch_size': {'values': [128, 256, 512]},
             # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+            # 'dummy': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration,
-                           project="PipeGCN-{}-{}".format(dataset, model))
+                           project="PipeGCN-{}-{}".format(args.dataset, args.model))
 
-    # wandb.agent(sweep_id, function=main, count=3)
+    wandb.agent(sweep_id, function=main, count=5)
 
