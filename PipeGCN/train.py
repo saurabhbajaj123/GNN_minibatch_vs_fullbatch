@@ -353,6 +353,7 @@ def run(graph, node_dict, gpb, args):
         node_dict.pop('test_mask')
     
     prev_loss = float('inf')
+    train_time = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
@@ -376,7 +377,7 @@ def run(graph, node_dict, gpb, args):
         ctx.reducer.synchronize()
         reduce_time = time.time() - pre_reduce
         optimizer.step()
-
+        train_time += time.time() - t0
         avg_loss = loss.item() / len(labels)
 
         if epoch % args.log_every != 0:
@@ -417,6 +418,7 @@ def run(graph, node_dict, gpb, args):
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
+                        'train_time': train_time,
                     })
                     
             model_copy = copy.deepcopy(model)
