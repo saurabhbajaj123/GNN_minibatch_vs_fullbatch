@@ -123,6 +123,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     eval_dur = []
     best_val_acc = 0
     best_test_acc = 0
+    train_time = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         total_loss = 0
@@ -140,7 +141,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
             optimizer.step()
             total_loss += loss
         t1 = time.time()
-
+        train_time += t1 - t0
         dist.barrier()
         train_dur.append(t1-t0)
 
@@ -172,6 +173,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
                 'best_val_acc': best_val_acc,
                 'best_test_acc': best_test_acc,
                 'best_train_acc': best_train_acc,
+                'train_time': train_time,
             })
 
         dist.barrier()
@@ -254,4 +256,26 @@ def main():
 
 if __name__ == '__main__':
     wandb.login()
-    main()
+    # main()
+    args = create_parser()
+    sweep_configuration = {
+        'name': "n_hidden, agg, batch_size, fanout",
+        'method': 'random',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'lr': {'distribution': 'uniform', 'min': 5e-4, 'max': 1e-2},
+            "agg": {'values': ["mean", "max", "lstm"]},
+            'batch_size': {'values': [256, 512, 1024]},
+            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration,
+                           project="Quiver-{}-{}-{}".format(args.dataset, args.model, args.sampling))
+
+    wandb.agent(sweep_id, function=main, count=10)
+
+
