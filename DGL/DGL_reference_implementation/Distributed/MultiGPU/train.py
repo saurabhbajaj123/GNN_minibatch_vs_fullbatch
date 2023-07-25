@@ -12,6 +12,8 @@ import torch.multiprocessing as mp
 import torch.nn as nn
 import torch.nn.functional as F
 import torchmetrics.functional as MF
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+
 import tqdm
 from dgl.data import AsNodePredDataset
 from dgl.dataloading import (
@@ -95,7 +97,7 @@ def train(
     if proc_id == 0:
         wandb.init(
             project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling),
-            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
+            name=f"n_gpus-{args.n_gpus}, n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
             # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
@@ -147,6 +149,9 @@ def train(
     best_val_acc = 0
     best_test_acc = 0
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+
+    scheduler2 = ReduceLROnPlateau(opt, mode='max', cooldown=10, factor=0.99, patience=20, min_lr=1e-5)
+    train_time = 0
     for epoch in range(n_epochs):
         t0 = time.time()
         model.train()
@@ -161,9 +166,10 @@ def train(
             opt.step()
             total_loss += loss
         t1 = time.time()
-
+        train_time += t1 - t0
         train_dur.append(t1-t0)
 
+        # scheduler2.step(best_val_acc)
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
                 evaluate(model, g, n_classes, train_dataloader).to(device) / nprocs
@@ -204,7 +210,11 @@ def train(
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
+                        'train_time': train_time,
+                        'lr': opt.param_groups[0]['lr'],
+
                     })
+
 
     dist.barrier()
     train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
@@ -232,6 +242,8 @@ def train(
             "Time_per_epoch": train_dur_mean,
             "Time_to_train": train_dur_sum,
             "Time_to_eval": eval_dur_sum,
+            "torch seed": torch.initial_seed()  & ((1<<63)-1),
+
         })
 
 def run(proc_id, nprocs, devices, g, data, args):
