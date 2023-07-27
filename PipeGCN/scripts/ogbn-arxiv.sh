@@ -1,8 +1,8 @@
 python main.py \
   --dataset ogbn-arxiv \
   --dropout 0.3 \
-  --lr 0.003 \
-  --n-partitions 8 \
+  --lr 0.0006 \
+  --n-partitions 4 \
   --n-epochs 2000 \
   --model graphsage \
   --n-layers 3 \

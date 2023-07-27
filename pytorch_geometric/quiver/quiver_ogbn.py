@@ -16,7 +16,7 @@ from torch_geometric.loader import NeighborSampler
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 import time
 from parser import create_parser
-
+from torch_geometric.utils import add_remaining_self_loops, to_undirected
 
 import numpy as np
 ####################
@@ -230,6 +230,12 @@ def main():
     root = args.dataset_dir
     dataset = PygNodePropPredDataset(args.dataset, root=root)
     data = dataset[0]
+    print(data)
+    # add_remaining_self_loops(data.edge_index)
+    print(data)
+    if args.dataset == "ogbn-arxiv":
+        # to_undirected(data.edge_index)
+        print(data)
 
     split_idx = dataset.get_idx_split()
     world_size = torch.cuda.device_count()
@@ -238,8 +244,8 @@ def main():
     # Create Sampler And Feature
     ##############################
     csr_topo = quiver.CSRTopo(data.edge_index)
-    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
+    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
     feature = torch.zeros(data.x.shape)
     feature[:] = data.x
     quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
@@ -259,18 +265,19 @@ if __name__ == '__main__':
     # main()
     args = create_parser()
     sweep_configuration = {
-        'name': "n_hidden, agg, batch_size, fanout",
+        'name': "multiple runs",
         'method': 'random',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
             # 'lr': {'distribution': 'uniform', 'min': 5e-4, 'max': 1e-2},
             "agg": {'values': ["mean", "max", "lstm"]},
-            'batch_size': {'values': [256, 512, 1024]},
-            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'batch_size': {'values': [256, 512, 1024]},
+            'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 15},
+            # 'dummy': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration,
@@ -278,4 +285,4 @@ if __name__ == '__main__':
 
     wandb.agent(sweep_id, function=main, count=10)
 
-
+f
