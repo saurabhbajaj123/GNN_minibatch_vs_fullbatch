@@ -138,4 +138,4 @@ if __name__ == "__main__":
                            project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
     wandb.agent(sweep_id, function=main, count=5)
-
+DGL/DGL_reference_implementation/Distributed/MultiGPU/scripts/multiple_runs.sh
