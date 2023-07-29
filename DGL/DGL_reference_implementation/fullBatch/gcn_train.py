@@ -46,44 +46,51 @@ def train(g, features, labels, masks, model, args):
         t0 = time.time()
         model.train()
         logits = model(g, features)
-        pred = torch.max(logits, dim=1)[1]
+        # pred = torch.max(logits, dim=1)[1]
         loss = loss_fcn(logits[train_mask], labels[train_mask])
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         t1 = time.time()
-        # acc = evaluate(g, features, labels, val_mask, model)
+        acc = evaluate(g, features, labels, val_mask, model)
+        print(
+            "Epoch {:05d} | Loss {:.4f} | Accuracy {:.4f} ".format(
+                epoch, loss.item(), acc
+            )
+        )
         train_time += t1 - t0
 
-        if epoch % args.log_every == 0:
+        # if epoch % args.log_every == 0:
+        #     with torch.no_grad():
+        #         logits = model(g, features)
+        #         pred = torch.max(logits, dim=1)[1]
+        #         # train_acc = torch.sum(pred[train_mask] == labels[train_mask]).item() * 1.0 / len(labels)
+        #         # val_acc = torch.sum(pred[val_mask] == labels[val_mask]).item() * 1.0 / len(labels)
+        #         # test_acc = torch.sum(pred[test_mask] == labels[test_mask]).item() * 1.0 / len(labels)
+        #         train_acc = (pred[train_mask] == labels[train_mask]).float().mean()
+        #         val_acc = (pred[val_mask] == labels[val_mask]).float().mean()
+        #         test_acc = (pred[test_mask] == labels[test_mask]).float().mean()
 
-            # train_acc = torch.sum(pred[train_mask] == labels[train_mask]).item() * 1.0 / len(labels)
-            # val_acc = torch.sum(pred[val_mask] == labels[val_mask]).item() * 1.0 / len(labels)
-            # test_acc = torch.sum(pred[test_mask] == labels[test_mask]).item() * 1.0 / len(labels)
-            train_acc = (pred[train_mask] == labels[train_mask]).float().mean()
-            val_acc = (pred[val_mask] == labels[val_mask]).float().mean()
-            test_acc = (pred[test_mask] == labels[test_mask]).float().mean()
+        #     print(
+        #         "Epoch {:05d} | Loss {:.4f} | Train Acc {:.4f} | Val Acc {:.4f} | Test Acc {:.4f}".format(
+        #             epoch, loss.item(), train_acc, val_acc, test_acc
+        #         )
+        #     )
 
-            print(
-                "Epoch {:05d} | Loss {:.4f} | Train Acc {:.4f} | Val Acc {:.4f} | Test Acc {:.4f}".format(
-                    epoch, loss.item(), train_acc, val_acc, test_acc
-                )
-            )
+        #     if best_val_acc < val_acc:
+        #         best_val_acc = val_acc
+        #         best_test_acc = test_acc
+        #         best_train_acc = train_acc
 
-            if best_val_acc < val_acc:
-                best_val_acc = val_acc
-                best_test_acc = test_acc
-                best_train_acc = train_acc
-
-            wandb.log({'val_acc': val_acc,
-                    'test_acc': test_acc,
-                    'train_acc': train_acc,
-                    'best_val_acc': best_val_acc,
-                    'best_test_acc': best_test_acc,
-                    'best_train_acc': best_train_acc,
-                    'train_time': train_time,
-                    'lr': optimizer.param_groups[0]['lr'],
-            })
+        #     wandb.log({'val_acc': val_acc,
+        #             'test_acc': test_acc,
+        #             'train_acc': train_acc,
+        #             'best_val_acc': best_val_acc,
+        #             'best_test_acc': best_test_acc,
+        #             'best_train_acc': best_train_acc,
+        #             'train_time': train_time,
+        #             'lr': optimizer.param_groups[0]['lr'],
+        #     })
 
 def main():
     args = create_parser()
@@ -105,6 +112,10 @@ def main():
 
     
     data = load_data(args.dataset)
+    # transform = (
+    #     AddSelfLoop()
+    # )  # by default, it will first remove self-loops to prevent duplication
+    # data = PubmedGraphDataset(transform=transform)
     g = data[0]
     if args.dataset == "ogbn-arxiv":
         g.edata.clear()
@@ -131,10 +142,10 @@ def main():
     print("Training...")
     train(g, features, labels, masks, model, args)
 
-    # # test the model
-    # print("Testing...")
-    # acc = evaluate(g, features, labels, masks[2], model)
-    # print("Test accuracy {:.4f}".format(acc))
+    # test the model
+    print("Testing...")
+    acc = evaluate(g, features, labels, masks[2], model)
+    print("Test accuracy {:.4f}".format(acc))
 
 
 if __name__ == "__main__":
