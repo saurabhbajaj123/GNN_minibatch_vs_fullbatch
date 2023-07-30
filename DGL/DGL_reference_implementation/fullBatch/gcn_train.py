@@ -17,15 +17,35 @@ wandb.login()
 import warnings
 warnings.filterwarnings("ignore")
 
-def evaluate(g, features, labels, mask, model):
+def evaluate(g, features, labels, masks, model):
     model.eval()
     with torch.no_grad():
+        train_mask = masks[0]
+        val_mask = masks[1]
+        test_mask = masks[2]
         logits = model(g, features)
-        logits = logits[mask]
-        labels = labels[mask]
-        _, indices = torch.max(logits, dim=1)
-        correct = torch.sum(indices == labels)
-        return correct.item() * 1.0 / len(labels)
+
+        val_logits = logits[val_mask]
+        val_labels = labels[val_mask]
+        train_logits = logits[train_mask]
+        train_labels = labels[train_mask]
+        test_logits = logits[test_mask]
+        test_labels = labels[test_mask]
+
+
+        _, val_indices = torch.max(val_logits, dim=1)
+        val_correct = torch.sum(val_indices == val_labels)
+        val_acc = val_correct.item() * 1.0 / len(val_labels)
+
+        _, train_indices = torch.max(train_logits, dim=1)
+        train_correct = torch.sum(train_indices == train_labels)
+        train_acc = train_correct.item() * 1.0 / len(train_labels)
+
+        _, test_indices = torch.max(test_logits, dim=1)
+        test_correct = torch.sum(test_indices == test_labels)
+        test_acc = test_correct.item() * 1.0 / len(test_labels)
+
+        return train_acc, val_acc, test_acc
 
 
 def train(g, features, labels, masks, model, args):
@@ -52,45 +72,36 @@ def train(g, features, labels, masks, model, args):
         loss.backward()
         optimizer.step()
         t1 = time.time()
-        acc = evaluate(g, features, labels, val_mask, model)
-        print(
-            "Epoch {:05d} | Loss {:.4f} | Accuracy {:.4f} ".format(
-                epoch, loss.item(), acc
-            )
-        )
+        # acc = evaluate(g, features, labels, val_mask, model)
+        # print(
+        #     "Epoch {:05d} | Loss {:.4f} | Accuracy {:.4f} ".format(
+        #         epoch, loss.item(), acc
+        #     )
+        # )
         train_time += t1 - t0
 
-        # if epoch % args.log_every == 0:
-        #     with torch.no_grad():
-        #         logits = model(g, features)
-        #         pred = torch.max(logits, dim=1)[1]
-        #         # train_acc = torch.sum(pred[train_mask] == labels[train_mask]).item() * 1.0 / len(labels)
-        #         # val_acc = torch.sum(pred[val_mask] == labels[val_mask]).item() * 1.0 / len(labels)
-        #         # test_acc = torch.sum(pred[test_mask] == labels[test_mask]).item() * 1.0 / len(labels)
-        #         train_acc = (pred[train_mask] == labels[train_mask]).float().mean()
-        #         val_acc = (pred[val_mask] == labels[val_mask]).float().mean()
-        #         test_acc = (pred[test_mask] == labels[test_mask]).float().mean()
+        if epoch % args.log_every == 0:
+            train_acc, val_acc, test_acc = evaluate(g, features, labels, masks, model)
+            print(
+                "Epoch {:05d} | Loss {:.4f} | Train Acc {:.4f} | Val Acc {:.4f} | Test Acc {:.4f}".format(
+                    epoch, loss.item(), train_acc, val_acc, test_acc
+                )
+            )
 
-        #     print(
-        #         "Epoch {:05d} | Loss {:.4f} | Train Acc {:.4f} | Val Acc {:.4f} | Test Acc {:.4f}".format(
-        #             epoch, loss.item(), train_acc, val_acc, test_acc
-        #         )
-        #     )
+            if best_val_acc < val_acc:
+                best_val_acc = val_acc
+                best_test_acc = test_acc
+                best_train_acc = train_acc
 
-        #     if best_val_acc < val_acc:
-        #         best_val_acc = val_acc
-        #         best_test_acc = test_acc
-        #         best_train_acc = train_acc
-
-        #     wandb.log({'val_acc': val_acc,
-        #             'test_acc': test_acc,
-        #             'train_acc': train_acc,
-        #             'best_val_acc': best_val_acc,
-        #             'best_test_acc': best_test_acc,
-        #             'best_train_acc': best_train_acc,
-        #             'train_time': train_time,
-        #             'lr': optimizer.param_groups[0]['lr'],
-        #     })
+            wandb.log({'val_acc': val_acc,
+                    'test_acc': test_acc,
+                    'train_acc': train_acc,
+                    'best_val_acc': best_val_acc,
+                    'best_test_acc': best_test_acc,
+                    'best_train_acc': best_train_acc,
+                    'train_time': train_time,
+                    'lr': optimizer.param_groups[0]['lr'],
+            })
 
 def main():
     args = create_parser()
@@ -136,16 +147,16 @@ def main():
     # create GCN model
     in_size = features.shape[1]
     out_size = data.num_classes
-    model = GCN(in_size, args.n_hidden, out_size, args.n_layers).to(device)
+    model = GCN(in_size, args.n_hidden, out_size, args.n_layers, args.dropout).to(device)
 
     # model training
     print("Training...")
     train(g, features, labels, masks, model, args)
 
-    # test the model
-    print("Testing...")
-    acc = evaluate(g, features, labels, masks[2], model)
-    print("Test accuracy {:.4f}".format(acc))
+    # # test the model
+    # print("Testing...")
+    # _, _, acc = evaluate(g, features, labels, masks, model)
+    # print("Test accuracy {:.4f}".format(acc))
 
 
 if __name__ == "__main__":
