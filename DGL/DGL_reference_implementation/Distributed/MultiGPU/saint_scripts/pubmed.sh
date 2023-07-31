@@ -15,5 +15,3 @@ python saint_main.py \
   --mode_saint node \
   --log-every 5 \
 #   --seed 10245829 \
-#   --mode puregpu \
-  # --seed \

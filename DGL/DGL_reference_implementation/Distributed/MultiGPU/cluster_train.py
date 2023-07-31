@@ -27,6 +27,7 @@ import warnings
 warnings.filterwarnings("ignore")
 import wandb
 
+
 def evaluate(model, g, n_classes, dataloader):
     model.eval()
     ys = []
@@ -94,7 +95,7 @@ def train(
     if proc_id == 0:
         wandb.init(
             project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling),
-            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
+            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, num_partitions-{args.num_partitions}",
             # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
@@ -130,6 +131,7 @@ def train(
     best_test_acc = 0
     best_train_acc = 0
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    train_time = 0
     for epoch in range(n_epochs):
         t0 = time.time()
         model.train()
@@ -147,10 +149,12 @@ def train(
             opt.step()
             total_loss += loss
         t1 = time.time()
-
+        train_time += t1 - t0
         train_dur.append(t1-t0)
 
         if (epoch + 1) % args.log_every == 0:
+
+
             model.eval()
             with torch.no_grad():
                 train_preds, val_preds, test_preds = [], [], []
@@ -225,6 +229,7 @@ def train(
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
+                        'train_time': train_time,
                     })
 
     dist.barrier()

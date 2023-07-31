@@ -4,7 +4,7 @@ python cluster_main.py \
   --sampling cluster \
   --dropout 0.3 \
   --lr 0.003 \
-  --n-epochs 2000 \
+  --n-epochs 1000 \
   --n-gpus 4 \
   --n-layers 4 \
   --n-hidden 512 \

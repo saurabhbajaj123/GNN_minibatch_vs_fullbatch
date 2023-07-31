@@ -127,7 +127,7 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_referenc
   --model graphsage \
   --sampling NS \
   --dropout 0.3 \
-  --lr 0.001 \
+  --lr 0.0005 \
   --n-epochs 1000 \
   --n-gpus 4 \
   --n-layers 9 \
@@ -146,7 +146,7 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_referenc
   --model graphsage \
   --sampling NS \
   --dropout 0.3 \
-  --lr 0.001 \
+  --lr 0.0005 \
   --n-epochs 500 \
   --n-gpus 4 \
   --n-layers 5 \
@@ -165,7 +165,7 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_referenc
   --model graphsage \
   --sampling NS \
   --dropout 0.3 \
-  --lr 0.001 \
+  --lr 0.01 \
   --n-epochs 300 \
   --n-gpus 4 \
   --n-layers 4 \
