@@ -27,21 +27,59 @@ import warnings
 warnings.filterwarnings("ignore")
 import wandb
 
-def evaluate(model, g, n_classes, dataloader):
+
+
+
+def evaluate(g, features, labels, masks, model):
+    print(f"graph = {g.device}")
+    print(f"features = {features.device}")
+    print(f"labels = {labels.device}")
+    model = model.to(g.device)
+    print(f"model = {model.device}")
     model.eval()
-    ys = []
-    y_hats = []
-    for it, (input_nodes, output_nodes, blocks) in enumerate(dataloader):
-        with torch.no_grad():
-            x = blocks[0].srcdata["feat"]
-            ys.append(blocks[-1].dstdata["label"])
-            y_hats.append(model(blocks, x))
-    return MF.accuracy(
-        torch.cat(y_hats),
-        torch.cat(ys),
-        task="multiclass",
-        num_classes=n_classes,
-    )
+    with torch.no_grad():
+        train_mask = masks[0]
+        val_mask = masks[1]
+        test_mask = masks[2]
+        logits = model(g, features)
+
+        val_logits = logits[val_mask]
+        val_labels = labels[val_mask]
+        train_logits = logits[train_mask]
+        train_labels = labels[train_mask]
+        test_logits = logits[test_mask]
+        test_labels = labels[test_mask]
+
+
+        _, val_indices = torch.max(val_logits, dim=1)
+        val_correct = torch.sum(val_indices == val_labels)
+        val_acc = val_correct.item() * 1.0 / len(val_labels)
+
+        _, train_indices = torch.max(train_logits, dim=1)
+        train_correct = torch.sum(train_indices == train_labels)
+        train_acc = train_correct.item() * 1.0 / len(train_labels)
+
+        _, test_indices = torch.max(test_logits, dim=1)
+        test_correct = torch.sum(test_indices == test_labels)
+        test_acc = test_correct.item() * 1.0 / len(test_labels)
+
+        return train_acc, val_acc, test_acc
+
+# def evaluate(model, g, n_classes, dataloader):
+#     model.eval()
+#     ys = []
+#     y_hats = []
+#     for it, (input_nodes, output_nodes, blocks) in enumerate(dataloader):
+#         with torch.no_grad():
+#             x = blocks[0].srcdata["feat"]
+#             ys.append(blocks[-1].dstdata["label"])
+#             y_hats.append(model(blocks, x))
+#     return MF.accuracy(
+#         torch.cat(y_hats),
+#         torch.cat(ys),
+#         task="multiclass",
+#         num_classes=n_classes,
+#     )
 
 
 def layerwise_infer(
@@ -150,7 +188,11 @@ def train(
     best_test_acc = 0
     best_train_acc = 0
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+
+    masks = (train_idx, val_idx, test_idx)
+
     for epoch in range(n_epochs):
+        model = model.to(device)
         t0 = time.time()
         model.train()
         total_loss = 0
@@ -171,51 +213,54 @@ def train(
         train_dur.append(t1-t0)
 
         if (epoch + 1) % args.log_every == 0:
-            model.eval()
-            with torch.no_grad():
-                train_preds, val_preds, test_preds = [], [], []
-                train_labels, val_labels, test_labels = [], [], []
-                for it, sg in enumerate(eval_dataloader):
-                    x = sg.ndata["feat"]
-                    y = sg.ndata["label"]
-                    m_train = sg.ndata["train_mask"].bool()
-                    m_val = sg.ndata["val_mask"].bool()
-                    m_test = sg.ndata["test_mask"].bool()
-                    y_hat = model(sg, x)
-                    train_preds.append(y_hat[m_train])
-                    train_labels.append(y[m_train])
-                    val_preds.append(y_hat[m_val])
-                    val_labels.append(y[m_val])
-                    test_preds.append(y_hat[m_test])
-                    test_labels.append(y[m_test])
-                train_preds = torch.cat(train_preds, 0)
-                train_labels = torch.cat(train_labels, 0)
-                val_preds = torch.cat(val_preds, 0)
-                val_labels = torch.cat(val_labels, 0)
-                test_preds = torch.cat(test_preds, 0)
-                test_labels = torch.cat(test_labels, 0)
+            model = model.to('cpu')
+            train_acc, val_acc, test_acc = evaluate(g, g.ndata["feat"], g.ndata["label"], masks, model)
+            train_acc, val_acc, test_acc = train_acc/nprocs, val_acc/nprocs, test_acc/nprocs
+            # model.eval()
+            # with torch.no_grad():
+            #     train_preds, val_preds, test_preds = [], [], []
+            #     train_labels, val_labels, test_labels = [], [], []
+            #     for it, sg in enumerate(eval_dataloader):
+            #         x = sg.ndata["feat"]
+            #         y = sg.ndata["label"]
+            #         m_train = sg.ndata["train_mask"].bool()
+            #         m_val = sg.ndata["val_mask"].bool()
+            #         m_test = sg.ndata["test_mask"].bool()
+            #         y_hat = model(sg, x)
+            #         train_preds.append(y_hat[m_train])
+            #         train_labels.append(y[m_train])
+            #         val_preds.append(y_hat[m_val])
+            #         val_labels.append(y[m_val])
+            #         test_preds.append(y_hat[m_test])
+            #         test_labels.append(y[m_test])
+            #     train_preds = torch.cat(train_preds, 0)
+            #     train_labels = torch.cat(train_labels, 0)
+            #     val_preds = torch.cat(val_preds, 0)
+            #     val_labels = torch.cat(val_labels, 0)
+            #     test_preds = torch.cat(test_preds, 0)
+            #     test_labels = torch.cat(test_labels, 0)
 
-                train_acc = MF.accuracy(
-                    train_preds,
-                    train_labels,
-                    task="multiclass",
-                    num_classes=n_classes,
-                ).to(device) / nprocs
+            #     train_acc = MF.accuracy(
+            #         train_preds,
+            #         train_labels,
+            #         task="multiclass",
+            #         num_classes=n_classes,
+            #     ).to(device) / nprocs
                 
-                # print(val_preds, val_labels)
-                val_acc = MF.accuracy(
-                    val_preds,
-                    val_labels,
-                    task="multiclass",
-                    num_classes=n_classes,
-                ).to(device) / nprocs
+            #     # print(val_preds, val_labels)
+            #     val_acc = MF.accuracy(
+            #         val_preds,
+            #         val_labels,
+            #         task="multiclass",
+            #         num_classes=n_classes,
+            #     ).to(device) / nprocs
 
-                test_acc = MF.accuracy(
-                    test_preds,
-                    test_labels,
-                    task="multiclass",
-                    num_classes=n_classes,
-                ).to(device) / nprocs
+            #     test_acc = MF.accuracy(
+            #         test_preds,
+            #         test_labels,
+            #         task="multiclass",
+            #         num_classes=n_classes,
+            #     ).to(device) / nprocs
 
 
             t2 = time.time()
