@@ -110,24 +110,27 @@ if __name__ == "__main__":
 
 
     sweep_configuration = {
-        'name': "n_layers, n_hidden, num_partitions",
-        'method': 'bayes',
+        'name': "lr",
+        'method': 'random',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            # 'n_hidden': {'values': [128, 256, 512, 728, 1024]},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'values': [2,4,6,8,10]},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
             'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'batch_size': {'values': [128, 256, 512, 1024]},
             # "batch_size": {'distribution': 'int_uniform', 'min': 512, 'max': 2000},
             # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            "num_partitions": {'distribution': 'int_uniform', 'min': 1000, 'max': 10000}
+            # "num_partitions": {'distribution': 'int_uniform', 'min': 1000, 'max': 10000}
+            # "num_partitions": {'values': [2000, 4000, 8000, 10000]},
+            # 'dummy': {'distribution': 'uniform', 'min': 1000, 'max': 10000}
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration,
                            project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
-    wandb.agent(sweep_id, function=main, count=30)
-
+    wandb.agent(sweep_id, function=main, count=5)
