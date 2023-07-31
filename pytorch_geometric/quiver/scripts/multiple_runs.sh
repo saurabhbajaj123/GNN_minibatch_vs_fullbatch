@@ -1,28 +1,28 @@
-python quiver_ogbn.py \
-  --dataset ogbn-arxiv \
-  --model graphsage \
-  --sampling NS \
-  --dropout 0.5 \
-  --lr 0.001 \
-  --n-epochs 20 \
-  --n-gpus 4 \
-  --n-layers 3 \
-  --n-hidden 256 \
-  --batch-size 1024 \
-  --eval-batch-size 1024 \
-  --weight-decay 0 \
-  --fanout 5 \
-  --agg mean \
-  --log-every 5 \
-  --seed 12345 \
+# python quiver_ogbn.py \
+#   --dataset ogbn-arxiv \
+#   --model graphsage \
+#   --sampling NS \
+#   --dropout 0.5 \
+#   --lr 0.001 \
+#   --n-epochs 1000 \
+#   --n-gpus 4 \
+#   --n-layers 3 \
+#   --n-hidden 256 \
+#   --batch-size 1024 \
+#   --eval-batch-size 1024 \
+#   --weight-decay 0 \
+#   --fanout 5 \
+#   --agg mean \
+#   --log-every 50 \
+#   --seed 12345 \
 
 python quiver_ogbn.py \
   --dataset ogbn-products \
   --model graphsage \
   --sampling NS \
   --dropout 0.5 \
-  --lr 0.01 \
-  --n-epochs 101 \
+  --lr 0.001 \
+  --n-epochs 1001 \
   --n-gpus 4 \
   --n-layers 3 \
   --n-hidden 256 \
@@ -31,7 +31,7 @@ python quiver_ogbn.py \
   --weight-decay 0 \
   --fanout 5 \
   --agg mean \
-  --log-every 5 \
+  --log-every 50 \
   --seed 12345 \
 
 
@@ -50,7 +50,7 @@ python quiver_reddit_pubmed.py \
   --weight-decay 5e-4 \
   --fanout 10 \
   --agg mean \
-  --log-every 5 \
+  --log-every 25 \
   --seed 12345 \
 
 
@@ -69,5 +69,5 @@ python quiver_reddit_pubmed.py \
   --weight-decay 0 \
   --fanout 5 \
   --agg mean \
-  --log-every 5 \
+  --log-every 25 \
   --seed 12345 \

@@ -258,7 +258,7 @@ if __name__ == '__main__':
     args = create_parser()
 
     sweep_configuration = {
-        'name': "multiple runs",
+        'name': "multiple runs for best params",
         'method': 'random',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
@@ -274,7 +274,7 @@ if __name__ == '__main__':
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration,
-                           project="Quiver-{}-{}-{}".format(dataset, model, sampling))
+                           project="Quiver-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
     wandb.agent(sweep_id, function=main, count=5)
 
