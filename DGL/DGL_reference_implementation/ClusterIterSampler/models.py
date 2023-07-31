@@ -93,3 +93,24 @@ class GAT(nn.Module):
         h = self.layers[-1](g, h)
         h = h.mean(1)
         return h
+
+
+class GCN(nn.Module):
+    def __init__(self, in_feats, n_hidden, n_classes, n_layers, dropout=0.5):
+        super().__init__()
+        self.layers = nn.ModuleList()
+        # two-layer GCN
+        self.layers.append(dglnn.GraphConv(in_feats, n_hidden, activation=F.relu))
+        for i in range(n_layers - 1):
+            self.layers.append(dglnn.GraphConv(n_hidden, n_hidden, activation=F.relu))
+
+        self.layers.append(dglnn.GraphConv(n_hidden, n_classes))
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, g, features):
+        h = features
+        for i, layer in enumerate(self.layers):
+            if i != 0:
+                h = self.dropout(h)
+            h = layer(g, h)
+        return h
