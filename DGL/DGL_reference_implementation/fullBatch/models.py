@@ -99,7 +99,7 @@ class GCN(nn.Module):
         self.layers = nn.ModuleList()
         # two-layer GCN
         self.layers.append(dglnn.GraphConv(in_feats, n_hidden, activation=F.relu))
-        for i in range(n_layers - 1):
+        for i in range(1, n_layers - 1):
             self.layers.append(dglnn.GraphConv(n_hidden, n_hidden, activation=F.relu))
 
         self.layers.append(dglnn.GraphConv(n_hidden, n_classes))
