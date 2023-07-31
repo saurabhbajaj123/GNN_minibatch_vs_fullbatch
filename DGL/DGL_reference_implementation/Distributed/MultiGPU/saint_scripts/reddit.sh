@@ -14,5 +14,3 @@ python saint_main.py \
   --agg mean \
   --log-every 5 \
 #   --seed 10245829 \
-#   --mode puregpu \
-  # --seed \
