@@ -1,10 +1,10 @@
 
 python3 gcn_train.py \
   --dataset ogbn-arxiv \
-  --dropout 0.3 \
-  --lr 0.003 \
-  --n-epochs 200 \
-  --n-layers 2 \
-  --n-hidden 16 \
+  --dropout 0.5 \
+  --lr 0.0005 \
+  --n-epochs 20 \
+  --n-layers 7 \
+  --n-hidden 1024 \
   --log-every 5 \
-#   --seed 42 \
+  --seed 42 \
