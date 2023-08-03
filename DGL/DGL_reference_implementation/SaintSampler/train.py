@@ -101,6 +101,8 @@ def main():
             "agg": args.agg,
             "batch_size": args.batch_size,
             "budget_node_edge": args.budget_node_edge,
+            "budget_rw_1": args.budget_rw_1,
+            "budget_rw_0": args.budget_rw_0
             })
 
 
@@ -113,6 +115,8 @@ def main():
     args.lr = config.lr
     args.agg = config.agg
     args.budget_node_edge = config.budget_node_edge
+    args.budget_rw_0 = config.budget_rw_0 
+    args.budget_rw_1 = config.budget_rw_1 
     activation = F.relu
     
         
@@ -154,11 +158,22 @@ def train(graph, dataset, node_features, device, model, args):
     # creating the sampler
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
+    # sampler = dgl.dataloading.SAINTSampler(
+    #     mode='edge', 
+    #     budget=args.budget_node_edge, 
+    #     # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
+    #     )
+    if args.mode_saint == 'walk':
+        budget = (args.budget_rw_0,args.budget_rw_1) 
+    else:
+        budget = args.budget_node_edge 
+    print(args.mode_saint, budget)
     sampler = dgl.dataloading.SAINTSampler(
-        mode='node', 
-        budget=args.budget_node_edge, 
-        # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
-        )
+        mode=args.mode_saint,
+        budget=budget,
+        # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
+    )
+
 
     # getting train, test, val splits
     train_nids = np.where(graph.ndata['train_mask'])[0]
@@ -201,7 +216,7 @@ def train(graph, dataset, node_features, device, model, args):
         # scheduler1.step()
 
         # Evaluating
-        if epoch % 5 == 0:
+        if (epoch + 1) % args.log_every == 0:
             model.eval()
             train_predictions = []
             train_labels = []
@@ -294,25 +309,26 @@ def train(graph, dataset, node_features, device, model, args):
 if __name__ == "__main__":
 
     # val_acc, model = train()
-    main()
-    # args = create_parser()
-    # sweep_configuration = {
-    #     'method': 'bayes',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'n_layers': {'values':[6, 7, 8]},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-    #         # 'batch_size': {'values':[7, 6, 5]},
-    #         'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
+    # main()
+    args = create_parser()
+    sweep_configuration = {
+        "name": "HPO",
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'values':[6, 7, 8]},
+            'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+            # 'batch_size': {'values':[7, 6, 5]},
+            'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
 
-    # wandb.agent(sweep_id, function=train, count=50)
+    wandb.agent(sweep_id, function=main, count=20)
