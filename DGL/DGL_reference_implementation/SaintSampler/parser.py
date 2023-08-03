@@ -31,6 +31,7 @@ def create_parser():
     parser.add_argument("--batch-size", "--batch_size", type=int, default=1024,
                         help="batch size for each GPU")
     parser.add_argument("--num-partitions", "--num_partitions", type=int, default=5000)
+    parser.add_argument("--num-heads", "--num_heads", type=int, default=2)
     parser.add_argument("--budget-node-edge", "--budget_node_edge", type=int, default=256)
     parser.add_argument("--budget-rw-0", "--budget_rw_0", type=int, default=256)
     parser.add_argument("--budget-rw-1", "--budget_rw_1", type=int, default=256)

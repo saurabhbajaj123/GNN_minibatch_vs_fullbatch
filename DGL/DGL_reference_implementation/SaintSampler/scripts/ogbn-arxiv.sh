@@ -1,9 +1,10 @@
 python train.py \
   --dataset ogbn-arxiv \
-  --model SAGE \
+  --model GAT \
   --n-epochs 50 \
   --n-layers 2 \
-  --n-hidden 16 \
+  --n-hidden 256 \
+  --num-heads 3 \
   --lr 0.001 \
   --dropout 0.5 \
   --seed 42 \
@@ -11,6 +12,6 @@ python train.py \
   --budget_node_edge 1220 \
   --budget_rw_0 256 \
   --budget_rw_1 16 \
-  --mode_saint walk \
+  --mode_saint node \
   --batch_size 1024 \
   --log_every 5 \

@@ -33,31 +33,7 @@ warnings.filterwarnings("ignore")
 
 from parser import create_parser
 from utils import load_data
-class SAGE(nn.Module):
-    def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type='mean'
-    ):
-        super(SAGE, self).__init__()
-        self.n_layers = n_layers
-        self.n_hidden = n_hidden
-        self.n_classes = n_classes
-        self.layers = nn.ModuleList()
-        self.layers.append(SAGEConv(in_feats, n_hidden, aggregator_type=aggregator_type))
-        for _ in range(n_layers - 2):
-            self.layers.append(SAGEConv(n_hidden, n_hidden, aggregator_type=aggregator_type))
-        self.layers.append(SAGEConv(n_hidden, n_classes, aggregator_type=aggregator_type))
-        self.dropout = nn.Dropout(dropout)
-        self.activation = activation
-
-    def forward(self, g, x):
-        h = x
-        for l, conv in enumerate(self.layers):
-            h = conv(g, h)
-            # print("self.activation = {}".format(type(self.activation)))
-            if l != len(self.layers) - 1:
-                h = self.activation(h)
-                h = self.dropout(h)
-        return h
+from models import *
 
 def _get_data_loader(sampler, device, graph, train_nids, batch_size=1024):
     
@@ -147,9 +123,12 @@ def main():
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
     n_classes = dataset.num_classes
-
-    model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
-
+    if "sage" in args.model.lower():
+        model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
+    elif "gcn" in args.model.lower():
+        model = GCN(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout)
+    elif "gat" in args.model.lower():
+        model = GAT(in_feats, args.n_hidden, n_classes, args.n_layers, args.num_heads)
     train(graph, dataset, node_features, device, model, args)
 
 
@@ -287,7 +266,7 @@ def train(graph, dataset, node_features, device, model, args):
                     best_model = model
                     best_test_acc = test_acc_fullgraph_no_sample
                     best_train_acc = train_acc_fullgraph_no_sample
-                logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc_fullgraph_no_sample, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
+                print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc_fullgraph_no_sample, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
                 print(f"Train time = {t1-t0}, Eval time = {t2-t1}")
 
             wandb.log({'val_acc': val_acc_fullgraph_no_sample,
@@ -309,26 +288,26 @@ def train(graph, dataset, node_features, device, model, args):
 if __name__ == "__main__":
 
     # val_acc, model = train()
-    # main()
-    args = create_parser()
-    sweep_configuration = {
-        "name": "HPO",
-        'method': 'bayes',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # 'n_layers': {'values':[6, 7, 8]},
-            'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-            # 'batch_size': {'values':[7, 6, 5]},
-            'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
+    main()
+    # args = create_parser()
+    # sweep_configuration = {
+    #     "name": "HPO",
+    #     'method': 'bayes',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+    #         'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'n_layers': {'values':[6, 7, 8]},
+    #         'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+    #         # 'batch_size': {'values':[7, 6, 5]},
+    #         'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
 
-    wandb.agent(sweep_id, function=main, count=20)
+    # wandb.agent(sweep_id, function=main, count=20)
