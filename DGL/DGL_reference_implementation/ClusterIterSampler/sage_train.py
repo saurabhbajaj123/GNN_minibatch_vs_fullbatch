@@ -22,10 +22,10 @@ from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-def train(graph, dataset, node_features, node_labels, model, args):
+def train(graph, dataset, node_features, node_labels, model, device, args):
 
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=5e-4)
-    scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.95, patience=10, min_lr=1e-5)
+    scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.99, patience=20, min_lr=1e-4)
 
     sampler = dgl.dataloading.ClusterGCNSampler(
         graph,
@@ -37,9 +37,9 @@ def train(graph, dataset, node_features, node_labels, model, args):
     # partition IDs here), and a graph sampler.
     dataloader = dgl.dataloading.DataLoader(
         graph,
-        torch.arange(args.num_partitions).to("cuda"),
+        torch.arange(args.num_partitions).to(device),
         sampler,
-        device="cuda",
+        device=device,
         batch_size=args.batch_size,
         shuffle=True,
         drop_last=False,
@@ -147,7 +147,7 @@ def train(graph, dataset, node_features, node_labels, model, args):
 def main():
     args = create_parser()
     wandb.init(
-        project="GCN-SingleGPU-cluster-{}".format(args.dataset),
+        project="SAGE-SingleGPU-cluster-{}".format(args.dataset),
         config={
             "n_epochs": args.n_epochs,
             "lr": args.lr,
@@ -155,6 +155,7 @@ def main():
             "n_hidden": args.n_hidden,
             "n_layers": args.n_layers,
             "batch_size": args.batch_size,
+            "agg": args.agg,
             "num_partitions": args.num_partitions,
             })
     
@@ -166,6 +167,7 @@ def main():
     args.dropout = config.dropout
     args.batch_size = config.batch_size
     args.lr = config.lr
+    args.agg = config.agg
     args.num_partitions = config.num_partitions
 
     # root="../dataset/"
@@ -184,41 +186,42 @@ def main():
         graph.edata.clear()
         graph = dgl.remove_self_loop(graph)
         graph = dgl.add_self_loop(graph)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu"
 
     node_labels = graph.ndata['label']
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
     num_classes = dataset.num_classes # (node_labels.max() + 1).item()
 
-    model = GCN(in_feats, args.n_hidden, num_classes, args.n_layers, args.dropout).to(device)
+    model = SAGE(in_feats, args.n_hidden, num_classes, args.n_layers, F.relu, args.dropout, args.agg).to(device)
 
     # model = SAGE(graph.ndata["feat"].shape[1], n_hidden, dataset.num_classes).cuda()
     
-    train(graph, dataset, node_features, node_labels, model, args)
+    train(graph, dataset, node_features, node_labels, model, device, args)
     
 if __name__ == "__main__":
     
     # main()
     args = create_parser()
     sweep_configuration = {
-        'name': "lr, dropout and num partitions",
-        'method': 'bayes',
+        'name': "num_partitions",
+        'method': 'random',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
-            # 'n_hidden': {'values': [16, 32, 64, 128, 256, 512, 1024]},
+            # 'n_hidden': {'values': [256, 512, 728, 1024]},
             # 'n_layers': {'values': [2, 4, 6, 8, 10]},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            'lr': {'distribution': 'uniform', 'max': 5e-2, 'min': 5*1e-4},
-            'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+            # 'lr': {'distribution': 'uniform', 'max': 5e-3, 'min': 5e-4},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
             # 'batch_size': {'values': [128, 256, 512]},
-            'num_partitions': {'distribution': 'int_uniform', 'min': 4000, 'max': 10000},
+            'num_partitions': {'distribution': 'int_uniform', 'min': 2000, 'max': 10000},
+            # 'num_partitions': {'values': [4000, 6000, 8000]},
         }
     }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='GCN-SingleGPU-cluster-{}'.format(args.dataset))
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='SAGE-SingleGPU-cluster-{}'.format(args.dataset))
 
     wandb.agent(sweep_id, function=main, count=10)

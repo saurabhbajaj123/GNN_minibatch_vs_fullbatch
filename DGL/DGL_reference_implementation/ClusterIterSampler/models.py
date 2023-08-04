@@ -23,17 +23,17 @@ from torch.utils.data import DataLoader
 
 class SAGE(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, aggregator_type
     ):
         super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
         self.layers = nn.ModuleList()
-        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, "mean"))
+        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, aggregator_type=aggregator_type))
         for i in range(1, n_layers - 1):
-            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, "mean"))
-        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, "mean"))
+            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, aggregator_type=aggregator_type))
+        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, aggregator_type=aggregator_type))
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 

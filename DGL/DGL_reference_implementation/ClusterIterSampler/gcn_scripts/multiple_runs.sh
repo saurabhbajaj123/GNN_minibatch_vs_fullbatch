@@ -1,0 +1,47 @@
+python gcn_train.py \
+  --dataset ogbn-products \
+  --n-epochs 500 \
+  --n-layers 5 \
+  --n-hidden 512 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --num_partitions 4000 \
+  --batch_size 1024 \
+  --log_every 5 \
+
+python gcn_train.py \
+  --dataset ogbn-arxiv \
+  --n-epochs 2000 \
+  --n-layers 6 \
+  --n-hidden 512 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --num_partitions 4000 \
+  --batch_size 2048 \
+  --log_every 5 \
+
+python gcn_train.py \
+  --dataset reddit \
+  --n-epochs 1000 \
+  --n-layers 5 \
+  --n-hidden 512 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --num_partitions 4000 \
+  --batch_size 1024 \
+  --log_every 5 \
+
+python gcn_train.py \
+  --dataset pubmed \
+  --n-epochs 500 \
+  --n-layers 5 \
+  --n-hidden 512 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --num_partitions 4000 \
+  --batch_size 2048 \
+  --log_every 5 \
