@@ -1,11 +1,11 @@
 python train.py \
-  --dataset reddit \
+  --dataset ogbn-products \
   --model GAT \
-  --dropout 0.5 \
-  --lr 0.003 \
-  --n-epochs 200 \
+  --dropout 0.6 \
+  --lr 0.0005 \
+  --n-epochs 100 \
   --n-layers 3 \
-  --n-hidden 256 \
+  --n-hidden 128 \
   --batch-size 1024 \
   --fanout 4 \
   --num-heads 7 \

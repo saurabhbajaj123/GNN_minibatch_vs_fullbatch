@@ -3,7 +3,8 @@ python train.py \
   --model GAT \
   --dropout 0.5 \
   --lr 0.0005 \
-  --n-epochs 200 \
+  --device_id 1 \
+  --n-epochs 1000 \
   --n-layers 7 \
   --n-hidden 329 \
   --batch-size 1024 \
