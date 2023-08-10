@@ -288,26 +288,26 @@ def train(graph, dataset, node_features, device, model, args):
 if __name__ == "__main__":
 
     # val_acc, model = train()
-    main()
-    # args = create_parser()
-    # sweep_configuration = {
-    #     "name": "HPO",
-    #     'method': 'bayes',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'n_layers': {'values':[6, 7, 8]},
-    #         'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-    #         # 'batch_size': {'values':[7, 6, 5]},
-    #         'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
+    # main()
+    args = create_parser()
+    sweep_configuration = {
+        "name": "HPO",
+        'method': 'random',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-4, 'max': 1e-1},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'values':[6, 7, 8]},
+            'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+            # 'batch_size': {'values':[7, 6, 5]},
+            # 'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
 
-    # wandb.agent(sweep_id, function=main, count=20)
+    wandb.agent(sweep_id, function=main, count=20)
