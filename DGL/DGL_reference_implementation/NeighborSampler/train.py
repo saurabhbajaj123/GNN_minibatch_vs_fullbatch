@@ -186,13 +186,15 @@ def train(graph, dataset, node_features, device, model, args):
     
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
+    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
+    # scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
 
     best_train_acc = 0
     best_val_acc = 0
     best_test_acc = 0
-
+    train_acc = 0
+    val_acc = 0
+    test_acc = 0
     # best_model_path = 'model.pt'
     # best_model = None
     train_time = 0
@@ -338,7 +340,7 @@ def main():
         graph = dgl.remove_self_loop(graph)
         graph = dgl.add_self_loop(graph)
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu"
 
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
@@ -346,6 +348,7 @@ def main():
     activation = F.relu
 
     if 'sage' in args.model.lower():
+        print("using graphsage model")
         model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     elif 'gat' in args.model.lower():
         model = GAT(in_feats, args.n_hidden, n_classes, args.n_layers, args.num_heads).to(device)
@@ -355,31 +358,34 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    args = create_parser()
+    main()
 
-    sweep_configuration = {
-        'name': 'HPO-n_hidden',
-        'method': 'random',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'lr': {'distribution': 'uniform', 'min': 5*1e-4, 'max': 1e-2},
-            'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 2, 'max': 10},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512, 1024]},
-            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # 'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
-            # 'num_heads': {'values': [1,2,3,4,5,6,7,8,9,10]},
+    # args = create_parser()
+    # sweep_configuration = {
+    #     'name': 'HPO-HPO',
+    #     'method': 'grid',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'lr': {'distribution': 'uniform', 'min': 5*1e-4, 'max': 1e-2},
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         'n_hidden': {'values': [256, 512, 728, 1024, 2048]},
+    #         'n_layers': {'values': [2,4,6,8,10]},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 2, 'max': 10},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'values': [128, 256, 512, 1024]},
+    #         'fanout': {'values': [5,  6, 8, 10]},
+    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
+    #         'num_heads': {'values': [2,5,8,10]},
             
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-NS-{}".format(args.model, args.dataset))
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-NS-{}".format(args.model, args.dataset))
 
-    wandb.agent(sweep_id, function=main, count=20)
+    # wandb.agent(sweep_id, function=main, count=5000)
 
 #tmux
 # ctrl+b -> d
