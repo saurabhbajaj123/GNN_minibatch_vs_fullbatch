@@ -1,6 +1,6 @@
-python train.py \
+python train_gat.py \
   --dataset ogbn-arxiv \
-  --model GCN \
+  --model GAT \
   --n-epochs 1000 \
   --n-layers 2 \
   --n-hidden 16 \
@@ -8,7 +8,7 @@ python train.py \
   --lr 0.001 \
   --dropout 0.5 \
   --seed 42 \
-  --device_id 1 \
+  --device_id 3 \
   --budget_node_edge 256 \
   --budget_rw_0 256 \
   --budget_rw_1 16 \
@@ -16,9 +16,9 @@ python train.py \
   --batch_size 1024 \
   --log_every 5 \
 
-python train.py \
+python train_gat.py \
   --dataset ogbn-products \
-  --model GCN \
+  --model GAT \
   --n-epochs 1000 \
   --n-layers 2 \
   --n-hidden 16 \
@@ -26,7 +26,7 @@ python train.py \
   --lr 0.001 \
   --dropout 0.5 \
   --seed 42 \
-  --device_id 1 \
+  --device_id 3 \
   --budget_node_edge 256 \
   --budget_rw_0 256 \
   --budget_rw_1 16 \
@@ -34,9 +34,9 @@ python train.py \
   --batch_size 1024 \
   --log_every 5 \
 
-python train.py \
+python train_gat.py \
   --dataset pubmed \
-  --model GCN \
+  --model GAT \
   --n-epochs 1000 \
   --n-layers 2 \
   --n-hidden 16 \
@@ -44,7 +44,7 @@ python train.py \
   --lr 0.001 \
   --dropout 0.5 \
   --seed 42 \
-  --device_id 1 \
+  --device_id 3 \
   --budget_node_edge 256 \
   --budget_rw_0 256 \
   --budget_rw_1 16 \
@@ -52,9 +52,9 @@ python train.py \
   --batch_size 1024 \
   --log_every 5 \
 
-python train.py \
+python train_gat.py \
   --dataset reddit \
-  --model GCN \
+  --model GAT \
   --n-epochs 1000 \
   --n-layers 2 \
   --n-hidden 16 \
@@ -62,7 +62,7 @@ python train.py \
   --lr 0.001 \
   --dropout 0.5 \
   --seed 42 \
-  --device_id 1 \
+  --device_id 3 \
   --budget_node_edge 256 \
   --budget_rw_0 256 \
   --budget_rw_1 16 \
