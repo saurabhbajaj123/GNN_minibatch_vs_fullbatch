@@ -115,17 +115,18 @@ if __name__ == "__main__":
 
     sweep_configuration = {
         # 'name': f"Multiple runs best parameters {args.n_gpus}",
-        'name': f"fanout vary",
+        'name': f"n_layers vary",
         # 'name': "checking if 5 layers is the best",
         'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
             # 'n_hidden': {'values': [128, 256, 512, 728, 1024]},
-            # 'n_layers': {'values': [2, 3, 5, 7, 9]},
+            'n_layers': {'values': [2, 3, 5, 7, 9]},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'dropout': {'values': [0.3, 0.5, 0.7]},
             # 'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
@@ -139,5 +140,5 @@ if __name__ == "__main__":
     sweep_id = wandb.sweep(sweep=sweep_configuration,
                            project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
-    wandb.agent(sweep_id, function=main, count=5)
+    wandb.agent(sweep_id, function=main, count=5000)
 

@@ -1,0 +1,38 @@
+program: train.py
+method: grid
+metric:
+  goal: maximize
+  name: val_acc
+name: HPO-HPO
+parameters:
+  fanout:
+    values:
+      - 5
+      - 6
+      - 8
+  n_hidden:
+    values:
+      - 256
+      - 512
+  n_layers:
+    values:
+      - 2
+      - 3
+      - 4
+  num_heads:
+    values:
+      - 2
+      - 4
+      - 8
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - --dataset=ogbn-products 
+  - --model=GAT 
+  - --dropout=0.6 
+  - --lr=0.001 
+  - --n-epochs=1000 
+  - --batch-size=1024 
+  - --agg=mean 
+  - --log-every=5 

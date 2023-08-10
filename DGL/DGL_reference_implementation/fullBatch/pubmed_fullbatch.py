@@ -66,7 +66,7 @@ def train():
     root = "../dataset/"
     # dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda:1" if torch.cuda.is_available() else "cpu"
     # device = "cpu"
     # train(dataset, device)
 

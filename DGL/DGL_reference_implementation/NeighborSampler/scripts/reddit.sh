@@ -2,8 +2,8 @@ python train.py \
   --dataset reddit \
   --model GAT \
   --dropout 0.5 \
-  --lr 0.0005 \
-  --n-epochs 500 \
+  --lr 0.003 \
+  --n-epochs 200 \
   --n-layers 3 \
   --n-hidden 256 \
   --batch-size 1024 \

@@ -49,6 +49,7 @@ def create_parser():
     parser.add_argument("--budget-rw-1", "--budget_rw_1", type=int, default=256)
     parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
 
+    parser.add_argument("--device-id", "--device_id", type=int, default=0)
 
 
     return parser.parse_args()

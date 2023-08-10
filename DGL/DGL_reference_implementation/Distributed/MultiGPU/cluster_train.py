@@ -21,7 +21,9 @@ from dgl.dataloading import (
 from dgl.multiprocessing import shared_tensor
 from ogb.nodeproppred import DglNodePropPredDataset
 from torch.nn.parallel import DistributedDataParallel
-from model import GraphSAGE, SAGE, ClusterSAGE
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+
+from model import *
 from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
@@ -131,6 +133,8 @@ def train(
     best_test_acc = 0
     best_train_acc = 0
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.99, patience=30, cooldown=10, min_lr=1e-4)
+
     train_time = 0
     for epoch in range(n_epochs):
         t0 = time.time()
@@ -151,7 +155,7 @@ def train(
         t1 = time.time()
         train_time += t1 - t0
         train_dur.append(t1-t0)
-
+        # scheduler.step(best_val_acc)
         if (epoch + 1) % args.log_every == 0:
 
 
@@ -230,6 +234,7 @@ def train(
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
                         'train_time': train_time,
+                        'lr': opt.param_groups[0]['lr'],
                     })
 
     dist.barrier()
@@ -284,7 +289,10 @@ def run(proc_id, nprocs, devices, g, data, args):
     activation = F.relu
     # model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     # model = GraphSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
-    model = ClusterSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation).to(device)
+    if args.model == "graphsage":
+        model = ClusterSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation).to(device)
+    elif args.model == "gcn":
+        model = GCN(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout).to(device)
     model = DistributedDataParallel(
         model, device_ids=[device], output_device=device
     )

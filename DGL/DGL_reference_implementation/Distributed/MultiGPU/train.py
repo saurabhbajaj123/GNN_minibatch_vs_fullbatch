@@ -24,7 +24,7 @@ from dgl.dataloading import (
 from dgl.multiprocessing import shared_tensor
 from ogb.nodeproppred import DglNodePropPredDataset
 from torch.nn.parallel import DistributedDataParallel
-from model import GraphSAGE, SAGE
+from model import *
 from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
@@ -269,7 +269,11 @@ def run(proc_id, nprocs, devices, g, data, args):
     in_feats = g.ndata["feat"].shape[1]
     activation = F.relu
     # model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
-    model = GraphSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
+    if "sage" in args.model.lower():
+        model = GraphSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
+    elif args.model == "gcn":
+        model = NSGCN(in_feats, args.n_hidden, n_classes, args.n_layers, activation=F.elu, dropout=args.dropout).to(device)
+    
     model = DistributedDataParallel(
         model, device_ids=[device], output_device=device
     )

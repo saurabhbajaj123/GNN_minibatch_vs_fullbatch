@@ -12,6 +12,9 @@ def create_parser():
         help="Manual seed.",
     )
 
+    parser.add_argument("--model", type=str, default='SAGE')
+    parser.add_argument("--device-id", "--device_id", type=int, default=0)
+    parser.add_argument("--agg", "--agg", type=str, default='mean')
     parser.add_argument("--dataset", type=str, default='ogbn-arxiv',
                         help="the input dataset")
     parser.add_argument("--dropout", type=float, default=0.5,

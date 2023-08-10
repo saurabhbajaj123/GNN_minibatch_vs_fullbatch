@@ -11,6 +11,8 @@ import tqdm
 from dgl.nn import SAGEConv
 import torch.distributed as dist
 import dgl.nn
+import dgl.nn.pytorch as dglnn
+
 from ogb.nodeproppred import DglNodePropPredDataset
 from dgl.dataloading import (
     DataLoader,
@@ -206,16 +208,6 @@ class GraphSAGE(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 
-
-        # self.layers = nn.ModuleList()
-        # three-layer GraphSAGE-mean
-        # self.layers.append(dglnn.SAGEConv(in_size, hid_size, "mean"))
-        # self.layers.append(dglnn.SAGEConv(hid_size, hid_size, "mean"))
-        # self.layers.append(dglnn.SAGEConv(hid_size, out_size, "mean"))
-        # self.dropout = nn.Dropout(0.5)
-        self.hid_size = n_hidden
-        self.out_size = n_classes
-
     def forward(self, blocks, x):
         h = x
         for l, (layer, block) in enumerate(zip(self.layers, blocks)):
@@ -260,9 +252,9 @@ class GraphSAGE(nn.Module):
             y = shared_tensor(
                 (
                     g.num_nodes(),
-                    self.hid_size
+                    self.n_hidden
                     if l != len(self.layers) - 1
-                    else self.out_size,
+                    else self.n_classes,
                 )
             )
             # for input_nodes, output_nodes, blocks in (
@@ -303,3 +295,109 @@ class GraphSAGE(nn.Module):
     #             h = self.activation(h)
 
     #     return h
+
+
+class GCN(nn.Module):
+    def __init__(self, in_feats, n_hidden, n_classes, n_layers, dropout=0.5):
+        super().__init__()
+        
+        self.layers = nn.ModuleList()
+        # two-layer GCN
+        self.layers.append(dglnn.GraphConv(in_feats, n_hidden, activation=F.relu))
+        for i in range(1, n_layers - 1):
+            self.layers.append(dglnn.GraphConv(n_hidden, n_hidden, activation=F.relu))
+
+        self.layers.append(dglnn.GraphConv(n_hidden, n_classes))
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, g, features):
+        h = features
+        for i, layer in enumerate(self.layers):
+            if i != 0:
+                h = self.dropout(h)
+            h = layer(g, h)
+        return h
+
+
+class NSGCN(nn.Module):
+    def __init__(self, in_feats, n_hidden, n_classes, n_layers, activation, dropout=0.5):
+        super().__init__()
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.n_classes = n_classes
+        self.layers = nn.ModuleList()
+        # two-layer GCN
+        self.layers.append(dglnn.GraphConv(in_feats, n_hidden, activation=F.relu))
+        for i in range(1, n_layers - 1):
+            self.layers.append(dglnn.GraphConv(n_hidden, n_hidden, activation=F.relu))
+
+        self.layers.append(dglnn.GraphConv(n_hidden, n_classes))
+        self.dropout = nn.Dropout(dropout)
+        self.activation = activation
+    
+    def forward(self, blocks, x):
+        h = x
+        for l, (layer, block) in enumerate(zip(self.layers, blocks)):
+            h = layer(block, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+                h = self.dropout(h)
+        return h
+
+    # def forward(self, mfgs, x):
+    #     h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
+    #     h = self.layers[0](mfgs[0], (x, h_dst))
+    #     for i in range(1, self.n_layers - 1):
+    #         h_dst = h[:mfgs[i].num_dst_nodes()]  # <---
+    #         h = self.layers[i](mfgs[i], (h, h_dst))
+    #         # h = F.relu(h)
+    #         h = self.activation(h)
+    #         h = self.dropout(h)
+    #     h_dst = h[:mfgs[-1].num_dst_nodes()]  # <---
+    #     h = self.layers[-1](mfgs[-1], (h, h_dst))
+    #     return h
+
+
+    def inference(self, g, device, batch_size, use_uva):
+        g.ndata["h"] = g.ndata["feat"]
+        sampler = MultiLayerFullNeighborSampler(1, prefetch_node_feats=["h"])
+        for l, layer in enumerate(self.layers):
+            dataloader = DataLoader(
+                g,
+                torch.arange(g.num_nodes(), device=device),
+                sampler,
+                device=device,
+                batch_size=batch_size,
+                shuffle=False,
+                drop_last=False,
+                num_workers=0,
+                use_ddp=True,
+                use_uva=use_uva,
+            )
+            # in order to prevent running out of GPU memory, allocate a
+            # shared output tensor 'y' in host memory
+            y = shared_tensor(
+                (
+                    g.num_nodes(),
+                    self.n_hidden
+                    if l != len(self.layers) - 1
+                    else self.n_classes,
+                )
+            )
+            # for input_nodes, output_nodes, blocks in (
+            #     tqdm.tqdm(dataloader) if dist.get_rank() == 0 else dataloader
+            # ):
+            for input_nodes, output_nodes, blocks in (dataloader):
+                x = blocks[0].srcdata["h"]
+                h = layer(blocks[0], x)  # len(blocks) = 1
+                if l != len(self.layers) - 1:
+                    h = F.relu(h)
+                    h = self.dropout(h)
+                # non_blocking (with pinned memory) to accelerate data transfer
+                y[output_nodes] = h.to(y.device, non_blocking=True)
+            # make sure all GPUs are done writing to 'y'
+            dist.barrier()
+            g.ndata["h"] = y if use_uva else y.to(device)
+
+        g.ndata.pop("h")
+        return y

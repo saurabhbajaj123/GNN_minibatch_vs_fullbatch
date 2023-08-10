@@ -292,7 +292,7 @@ if __name__ == "__main__":
     args = create_parser()
     sweep_configuration = {
         "name": "HPO",
-        'method': 'random',
+        'method': 'bayes',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
@@ -306,6 +306,7 @@ if __name__ == "__main__":
             # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
             # 'batch_size': {'values':[7, 6, 5]},
             # 'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+            'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
