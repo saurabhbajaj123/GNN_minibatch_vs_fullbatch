@@ -17,7 +17,7 @@ from dgl.nn import GATConv
 
 class SAGE(nn.Module):
     def __init__(
-        self, in_feats, n_classes, n_hidden, n_layers, activation, dropout, agg
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, agg
     ):
         print(activation)
         super().__init__()
