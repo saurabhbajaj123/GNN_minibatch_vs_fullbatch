@@ -29,6 +29,8 @@ import warnings
 warnings.filterwarnings("ignore")
 import wandb
 
+from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
+
 
 def evaluate(model, g, n_classes, dataloader):
     model.eval()
@@ -109,7 +111,7 @@ def train(
     sampler = ClusterGCNSampler(
         g,
         num_partitions,
-        cache_path=f'cluster_gcn_{args.dataset}_{args.n_hidden}_{args.n_layers}_{args.num_partitions}.pkl',
+        cache_path=f'cluster_{args.model}_{args.dataset}_{args.n_hidden}_{args.n_layers}_{args.num_partitions}.pkl',
         prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
     )
     # sampler = NeighborSampler(
@@ -133,7 +135,8 @@ def train(
     best_test_acc = 0
     best_train_acc = 0
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.99, patience=30, cooldown=10, min_lr=1e-4)
+    # scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.99, patience=30, cooldown=10, min_lr=1e-4)
+    scheduler = CosineAnnealingWarmRestarts(opt, T_0=50, T_mult=1, eta_min=1e-4)
 
     train_time = 0
     for epoch in range(n_epochs):
@@ -152,6 +155,7 @@ def train(
             loss.backward()
             opt.step()
             total_loss += loss
+            scheduler.step()
         t1 = time.time()
         train_time += t1 - t0
         train_dur.append(t1-t0)
@@ -293,6 +297,8 @@ def run(proc_id, nprocs, devices, g, data, args):
         model = ClusterSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation).to(device)
     elif args.model == "gcn":
         model = GCN(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout).to(device)
+    elif args.model == "gat":
+        model = GAT(in_feats, args.num_heads, args.n_hidden, n_classes, args.n_layers).to(device)
     model = DistributedDataParallel(
         model, device_ids=[device], output_device=device
     )
