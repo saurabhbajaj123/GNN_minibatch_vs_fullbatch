@@ -117,7 +117,7 @@ if __name__ == "__main__":
         # 'name': f"Multiple runs best parameters {args.n_gpus}",
         'name': f"HPO",
         # 'name': "checking if 5 layers is the best",
-        'method': 'grid',
+        'method': 'bayes',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
@@ -126,7 +126,7 @@ if __name__ == "__main__":
             'n_hidden': {'values': [64, 128, 256]},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
             # 'dropout': {'values': [0.3, 0.5, 0.7]},
             # 'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
             # "agg": {'values': ["mean", "gcn", "pool"]},
@@ -142,5 +142,5 @@ if __name__ == "__main__":
     sweep_id = wandb.sweep(sweep=sweep_configuration,
                            project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
-    wandb.agent(sweep_id, function=main, count=5000)
+    wandb.agent(sweep_id, function=main, count=50)
 

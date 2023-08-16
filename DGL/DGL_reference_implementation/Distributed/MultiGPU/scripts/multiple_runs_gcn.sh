@@ -73,7 +73,7 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 1000 \
+  --n-epochs 200 \
   --n-gpus 4 \
   --n-layers 4 \
   --n-hidden 256 \
@@ -90,7 +90,7 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 1000 \
+  --n-epochs 200 \
   --n-gpus 4 \
   --n-layers 3 \
   --n-hidden 256 \
@@ -106,7 +106,7 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 1000 \
+  --n-epochs 200 \
   --n-gpus 4 \
   --n-layers 3 \
   --n-hidden 256 \

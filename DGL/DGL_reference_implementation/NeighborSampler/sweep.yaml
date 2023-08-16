@@ -7,7 +7,6 @@ name: HPO
 parameters:
   fanout:
     values:
-      - 4
       - 5
       - 6
       - 8
@@ -18,23 +17,22 @@ parameters:
       - 512
   n_layers:
     values:
-      - 2
       - 3
       - 4
+      - 5
   num_heads:
     values:
-      - 2
       - 4
       - 8
 command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - --dataset=reddit 
+  - --dataset=ogbn-products 
   - --model=GAT 
   - --dropout=0.6 
-  - --lr=0.001
-  - --n-epochs=300
+  - --lr=0.001 
+  - --n-epochs=1000 
   - --batch-size=1024 
   - --agg=mean 
   - --log-every=5 

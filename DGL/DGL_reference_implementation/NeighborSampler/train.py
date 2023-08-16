@@ -186,8 +186,8 @@ def train(graph, dataset, node_features, device, model, args):
     
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
-    # scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-5)
+    # scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-4)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.99, patience=20, min_lr=1e-4)
 
     best_train_acc = 0
     best_val_acc = 0
@@ -215,7 +215,7 @@ def train(graph, dataset, node_features, device, model, args):
         train_time += t1 - t0
 
         scheduler.step(best_val_acc)
-
+        # scheduler.step()
         if (epoch+1) % args.log_every == 0:
             model.eval()
 
@@ -369,17 +369,17 @@ if __name__ == "__main__":
     #     {
     #         # 'lr': {'distribution': 'uniform', 'min': 5*1e-4, 'max': 1e-2},
     #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-    #         'n_hidden': {'values': [256, 512, 728, 1024, 2048]},
-    #         'n_layers': {'values': [2,4,6,8,10]},
+    #         # 'n_hidden': {'values': [256]},
+    #         'n_layers': {'values': [2,3,4,5]},
     #         # 'n_layers': {'distribution': 'int_uniform', 'min': 2, 'max': 10},
     #         # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
     #         # "agg": {'values': ["mean", "gcn", "pool"]},
     #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
     #         # 'batch_size': {'values': [128, 256, 512, 1024]},
-    #         'fanout': {'values': [5,  6, 8, 10]},
+    #         'fanout': {'values': [8, 10, 15]},
     #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
     #         # 'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
-    #         'num_heads': {'values': [2,5,8,10]},
+    #         'num_heads': {'values': [4, 6, 8]},
             
     #     }
     # }
