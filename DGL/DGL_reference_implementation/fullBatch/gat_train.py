@@ -8,7 +8,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from dgl import AddSelfLoop
 from dgl.data import CiteseerGraphDataset, CoraGraphDataset, PubmedGraphDataset
-
+from ogb.nodeproppred import DglNodePropPredDataset
+from dgl.data import AsNodePredDataset
 
 class GAT(nn.Module):
     def __init__(self, in_size, hid_size, out_size, heads):
@@ -64,9 +65,10 @@ def train(g, features, labels, masks, model):
     val_mask = masks[1]
     loss_fcn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=5e-3, weight_decay=5e-4)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=1e-2, weight_decay=5e-4)
 
     # training loop
-    for epoch in range(200):
+    for epoch in range(1000):
         model.train()
         logits = model(g, features)
         loss = loss_fcn(logits[train_mask], labels[train_mask])
@@ -112,9 +114,24 @@ if __name__ == "__main__":
     elif args.dataset == "reddit":
         root = "/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
         data = dgl.data.RedditDataset(raw_dir=root, transform=transform)
+    elif "ogbn" in args.dataset:
+        root = "/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
+        data = AsNodePredDataset(DglNodePropPredDataset(name=args.dataset, root=root))
     else:
         raise ValueError("Unknown dataset: {}".format(args.dataset))
+    
+
     g = data[0]
+    if args.dataset == "ogbn-arxiv":
+        g.edata.clear()
+        g = dgl.to_bidirected(g, copy_ndata=True)
+        g = dgl.remove_self_loop(g)
+        g = dgl.add_self_loop(g)
+    else:
+        g.edata.clear()
+        g = dgl.remove_self_loop(g)
+        g = dgl.add_self_loop(g)
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     g = g.int().to(device)
     features = g.ndata["feat"]
@@ -125,6 +142,7 @@ if __name__ == "__main__":
     in_size = features.shape[1]
     out_size = data.num_classes
     model = GAT(in_size, 8, out_size, heads=[8, 1]).to(device)
+    model = GAT(in_size, 8, out_size, heads=[1, 1]).to(device)
 
     # convert model and graph to bfloat16 if needed
     if args.dt == "bfloat16":
