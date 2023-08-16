@@ -3,7 +3,7 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py 
   --dropout 0.3 \
   --lr 0.001 \
   --n-partitions 4 \
-  --n-epochs 3000 \
+  --n-epochs 1000 \
   --model graphsage \
   --n-layers 4 \
   --n-hidden 312 \

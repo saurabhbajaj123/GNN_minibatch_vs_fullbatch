@@ -5,12 +5,12 @@ python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py 
   --n-partitions 4 \
   --n-epochs 1000 \
   --model graphsage \
-  --n-layers 5 \
-  --n-hidden 256 \
+  --n-layers 3 \
+  --n-hidden 187 \
   --log-every 5 \
   --use-pp \
-  --convergence-threshold 1e-8 \
-  # --enable-pipeline \
+  --enable-pipeline \
+  # --convergence-threshold 1e-8 \
   # --norm layer\
   # --seed 837330801 \
   # --fix-seed \
