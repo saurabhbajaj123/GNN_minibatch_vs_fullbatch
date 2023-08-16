@@ -67,6 +67,7 @@ def create_parser():
     parser.add_argument("--budget-node-edge", "--budget_node_edge", type=int, default=256)
     parser.add_argument("--budget-rw-0", "--budget_rw_0", type=int, default=256)
     parser.add_argument("--budget-rw-1", "--budget_rw_1", type=int, default=256)
+    parser.add_argument("--num-heads", "--num_heads", type=int, default=1)
     parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
 
 
