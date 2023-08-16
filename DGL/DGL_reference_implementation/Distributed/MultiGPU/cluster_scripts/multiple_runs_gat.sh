@@ -1,20 +1,20 @@
-python cluster_main.py \
-  --dataset ogbn-products \
-  --model gcn \
-  --sampling cluster \
-  --dropout 0.2 \
-  --lr 0.0005 \
-  --n-epochs 300 \
-  --n-gpus 4 \
-  --n-layers 7 \
-  --n-hidden 706 \
-  --batch-size 128 \
-  --num-partitions 2000 \
-  --agg mean \
-  --log-every 5 \
-#   --seed 3485963027166655500 \
-#   --mode puregpu \
-  # --seed \
+# python cluster_main.py \
+#   --dataset ogbn-products \
+#   --model gcn \
+#   --sampling cluster \
+#   --dropout 0.2 \
+#   --lr 0.0005 \
+#   --n-epochs 300 \
+#   --n-gpus 4 \
+#   --n-layers 7 \
+#   --n-hidden 706 \
+#   --batch-size 128 \
+#   --num-partitions 2000 \
+#   --agg mean \
+#   --log-every 5 \
+# #   --seed 3485963027166655500 \
+# #   --mode puregpu \
+#   # --seed \
 
 
 # python cluster_main.py \
