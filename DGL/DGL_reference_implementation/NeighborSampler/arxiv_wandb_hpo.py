@@ -179,14 +179,14 @@ def train():
     wandb.init(
         project="mini-batch",
         config={
-            "num_epochs": 10,
+            "num_epochs": 250,
             "lr": 2*1e-3,
             "dropout": random.uniform(0.5, 0.80),
-            "n_hidden": 256,
-            "n_layers": 3,
+            "n_hidden": 512,
+            "n_layers": 6,
             "agg": "gcn",
             "batch_size": 1024,
-            "fanout": 10,
+            "fanout": 9,
             })
 
     config = wandb.config
@@ -202,7 +202,7 @@ def train():
     
     root="../dataset/"
     dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda:1" if torch.cuda.is_available() else "cpu"
 
     sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
 
@@ -231,11 +231,8 @@ def train():
     time_backward = 0
     total_time = 0
     for epoch in range(num_epochs):
-        model.train()
         tic = time.time()
-        
-        
-
+        model.train()
         for step, (input_nodes, output_nodes, mfgs) in enumerate(train_dataloader):
             tic_start = time.time()
             inputs = mfgs[0].srcdata['feat']
@@ -250,9 +247,9 @@ def train():
             scheduler.step()
             tic_backward = time.time()
 
-            time_load += tic_step - tic_start
-            time_forward += tic_forward - tic_step
-            time_backward += tic_backward - tic_forward
+            # time_load += tic_step - tic_start
+            # time_forward += tic_forward - tic_step
+            # time_backward += tic_backward - tic_forward
 
             # accuracy = sklearn.metrics.accuracy_score(labels.cpu().numpy(), predictions.argmax(1).detach().cpu().numpy())
             # if step % 100 == 0:
@@ -288,9 +285,8 @@ def train():
             val_labels = []
             test_predictions = []
             test_labels = []
-            # with tqdm.tqdm(valid_dataloader) as tq, torch.no_grad():
+
             with torch.no_grad():
-                # for input_nodes, output_nodes, mfgs in tq:
                 for input_nodes, output_nodes, mfgs in train_dataloader:
                     inputs = mfgs[0].srcdata['feat']
                     train_labels.append(mfgs[-1].dstdata['label'].cpu().numpy())
@@ -298,9 +294,6 @@ def train():
                 train_predictions = np.concatenate(train_predictions)
                 train_labels = np.concatenate(train_labels)
                 train_acc = sklearn.metrics.accuracy_score(train_labels, train_predictions)
-                if best_train_acc < train_acc:
-                    best_train_acc = train_acc
-                    # best_model = model
 
                 for input_nodes, output_nodes, mfgs in valid_dataloader:
                     inputs = mfgs[0].srcdata['feat']
@@ -309,9 +302,6 @@ def train():
                 val_predictions = np.concatenate(val_predictions)
                 val_labels = np.concatenate(val_labels)
                 eval_acc = sklearn.metrics.accuracy_score(val_labels, val_predictions)
-                if best_eval_acc < eval_acc:
-                    best_eval_acc = eval_acc
-                    best_model = model
 
                 for input_nodes, output_nodes, mfgs in test_dataloader:
                     inputs = mfgs[0].srcdata['feat']
@@ -320,10 +310,12 @@ def train():
                 test_predictions = np.concatenate(test_predictions)
                 test_labels = np.concatenate(test_labels)
                 test_acc = sklearn.metrics.accuracy_score(test_labels, test_predictions)
-                if best_test_acc < test_acc:
+                
+                if best_eval_acc < eval_acc:
+                    best_train_acc = train_acc
+                    best_eval_acc = eval_acc
                     best_test_acc = test_acc
-                    # best_model = model
-                    # torch.save(model.state_dict(), best_model_path)
+
                 logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, eval_acc, best_eval_acc, test_acc, best_test_acc))
             
             wandb.log({'val_acc': eval_acc,
@@ -333,10 +325,11 @@ def train():
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
                         'lr': scheduler.get_last_lr()[0],
+                        'train_time': total_time,
             })
             
-    logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
-    logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
+    # logger.debug("total time for {} epochs = {}".format(num_epochs, total_time))
+    # logger.debug("avg time per epoch = {}".format(total_time/num_epochs))
     return best_eval_acc, model
 
 if __name__ == "__main__":
