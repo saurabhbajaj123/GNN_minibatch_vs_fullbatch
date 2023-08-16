@@ -178,6 +178,7 @@ def train(
                 evaluate(model, g, n_classes, val_dataloader).to(device) / nprocs
             )
             test_acc = 0
+            
             test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
             # test_acc = whole_infer(proc_id, device, model, g, test_idx, n_classes)
             
@@ -273,7 +274,9 @@ def run(proc_id, nprocs, devices, g, data, args):
         model = GraphSAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     elif args.model == "gcn":
         model = NSGCN(in_feats, args.n_hidden, n_classes, args.n_layers, activation=F.elu, dropout=args.dropout).to(device)
-    
+    elif args.model == "gat":
+        model = NSGAT(in_feats, args.num_heads, args.n_hidden, n_classes, args.n_layers, dropout=args.dropout).to(device)
+
     model = DistributedDataParallel(
         model, device_ids=[device], output_device=device
     )
