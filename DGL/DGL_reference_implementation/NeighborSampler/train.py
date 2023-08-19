@@ -21,7 +21,7 @@ wandb.login()
 
 import torch.nn as nn
 import torch.nn.functional as F
-from dgl.nn import SAGEConv, GATConv
+from dgl.nn import SAGEConv, GraphConv
 import tqdm
 import sklearn.metrics
 from parser import create_parser
@@ -108,6 +108,32 @@ class GAT(nn.Module):
         # print(h.shape)
         h = h.mean(1)
         # print(h.shape)
+        return h
+
+
+class NSGCN(nn.Module):
+    def __init__(self, in_feats, n_hidden, n_classes, n_layers, activation, dropout=0.5):
+        super().__init__()
+        self.n_layers = n_layers
+        self.n_hidden = n_hidden
+        self.n_classes = n_classes
+        self.layers = nn.ModuleList()
+        # two-layer GCN
+        self.layers.append(GraphConv(in_feats, n_hidden, activation=F.relu))
+        for i in range(1, n_layers - 1):
+            self.layers.append(GraphConv(n_hidden, n_hidden, activation=F.relu))
+
+        self.layers.append(GraphConv(n_hidden, n_classes))
+        self.dropout = nn.Dropout(dropout)
+        self.activation = activation
+    
+    def forward(self, blocks, x):
+        h = x
+        for l, (layer, block) in enumerate(zip(self.layers, blocks)):
+            h = layer(block, h)
+            if l != len(self.layers) - 1:
+                h = self.activation(h)
+                h = self.dropout(h)
         return h
 
 
@@ -352,6 +378,9 @@ def main():
         model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     elif 'gat' in args.model.lower():
         model = GAT(in_feats, args.n_hidden, n_classes, args.n_layers, args.num_heads).to(device)
+
+    elif 'gcn' in args.model.lower():
+        model = NSGCN(in_feats, args.n_hidden, n_classes, args.n_layers, activation, args.dropout).to(device)
     train(graph, dataset, node_features, device, model, args)
 
 

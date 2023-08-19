@@ -1,38 +1,58 @@
 program: train.py
-method: grid
+method: bayes
 metric:
   goal: maximize
   name: val_acc
 name: HPO
 parameters:
+  # batch_size:
+  #   values:
+  #   - 1024
+  #   - 2048
+  #   - 4096
+  #   - 8000
+  #   - 12000
+  # agg:
+  #   values:
+  #   - mean
+  #   - gcn
+  #   - pool
   fanout:
-    values:
-      - 5
-      - 6
-      - 8
+    distribution: int_uniform
+    min: 4
+    max: 10
   n_hidden:
-    values:
-      - 128
-      - 256
-      - 512
+    distribution: int_uniform
+    min: 64
+    max: 512
   n_layers:
-    values:
-      - 3
-      - 4
-      - 5
-  num_heads:
-    values:
-      - 4
-      - 8
+    distribution: int_uniform
+    min: 2
+    max: 5
+  dropout:
+    distribution: uniform
+    min: 0.2
+    max: 0.8
+  lr:
+    distribution: uniform
+    min: 1e-4
+    max: 1e-2
+early_terminate:
+  type: hyperband
+  min_iter: 5
 command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - --dataset=ogbn-products 
-  - --model=GAT 
-  - --dropout=0.6 
-  - --lr=0.001 
-  - --n-epochs=1000 
-  - --batch-size=1024 
-  - --agg=mean 
+  - --dataset=ogbn-products
+  - --model=GCN
+  - --dropout=0.3
+  - --lr=0.0005
+  - --n-epochs=250
   - --log-every=5 
+  - --agg=mean
+  - --batch-size=1024
+
+  # - --fanout=10 
+  # - --n_layers=4
+  # - --n_hidden=1024
