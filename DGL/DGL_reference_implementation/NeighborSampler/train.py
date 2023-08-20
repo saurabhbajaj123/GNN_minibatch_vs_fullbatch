@@ -240,7 +240,7 @@ def train(graph, dataset, node_features, device, model, args):
         t1 = time.time()
         train_time += t1 - t0
 
-        scheduler.step(best_val_acc)
+        # scheduler.step(best_val_acc)
         # scheduler.step()
         if (epoch+1) % args.log_every == 0:
             model.eval()

@@ -1,15 +1,14 @@
 python train.py \
   --dataset reddit \
-  --model GAT \
+  --model GCN \
   --dropout 0.5 \
-  --lr 0.005 \
-  --n-epochs 100 \
-  --n-layers 5 \
-  --n-hidden 64 \
-  --batch-size 256 \
-  --fanout 8 \
-  --num-heads 12 \
-  --device_id 0 \
-  --agg gcn \
+  --lr 0.001 \
+  --n-epochs 1000 \
+  --n-layers 3 \
+  --n-hidden 256 \
+  --batch-size 2048 \
+  --fanout 50 \
+  --device_id 3 \
+  --agg mean \
   --log-every 5 \
-#   --seed 3485963027166655500 \
+  --seed 42 \
