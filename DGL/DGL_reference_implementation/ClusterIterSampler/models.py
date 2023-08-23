@@ -79,10 +79,10 @@ class GAT(nn.Module):
         self.num_heads = num_heads
 
         self.layers = nn.ModuleList()
-        self.layers.append(GATConv(in_feats, n_hidden, num_heads=num_heads))
+        self.layers.append(dglnn.GATConv(in_feats, n_hidden, num_heads=num_heads))
         for _ in range(n_layers - 2):
-            self.layers.append(GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
-        self.layers.append(GATConv(n_hidden*num_heads, n_classes, num_heads=1))
+            self.layers.append(dglnn.GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
+        self.layers.append(dglnn.GATConv(n_hidden*num_heads, n_classes, num_heads=1))
 
 
     def forward(self, g, x):

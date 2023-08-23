@@ -15,6 +15,9 @@ def create_parser():
     parser.add_argument("--dataset", type=str, default='ogbn-arxiv',
                         help="the input dataset")
     
+    parser.add_argument("--model", type=str, default='SAGE',
+                        help="the input dataset")
+
     parser.add_argument("--dropout", type=float, default=0.5,
                         help="dropout probability")
     parser.add_argument("--lr", type=float, default=1e-3,
@@ -31,7 +34,10 @@ def create_parser():
     parser.add_argument("--agg", type=str, default='mean')
     parser.add_argument("--batch-size", "--batch_size", type=int, default=1024,
                         help="batch size for each GPU")
+    parser.add_argument("--fanout", "--fanout", type=int, default=4,
+                        help="the number of training epochs")
     parser.add_argument("--num-partitions", "--num_partitions", type=int, default=5000)
+    parser.add_argument("--num-heads", "--num_heads", type=int, default=1)
     parser.add_argument("--device-id", "--device_id", type=int, default=0,
                         help="the number of training epochs")
     return parser.parse_args()
