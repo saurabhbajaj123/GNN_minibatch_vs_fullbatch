@@ -21,7 +21,7 @@ wandb.login()
 
 import torch.nn as nn
 import torch.nn.functional as F
-from dgl.nn import SAGEConv, GraphConv
+from dgl.nn import SAGEConv, GraphConv, GATConv
 import tqdm
 import sklearn.metrics
 from parser import create_parser

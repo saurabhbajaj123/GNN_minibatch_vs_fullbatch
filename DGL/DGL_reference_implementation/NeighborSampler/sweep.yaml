@@ -1,5 +1,5 @@
 program: train.py
-method: bayes
+method: grid
 metric:
   goal: maximize
   name: val_acc
@@ -18,25 +18,33 @@ parameters:
   #   - gcn
   #   - pool
   fanout:
-    distribution: int_uniform
-    min: 4
-    max: 10
-  n_hidden:
-    distribution: int_uniform
-    min: 64
-    max: 512
-  n_layers:
-    distribution: int_uniform
-    min: 2
-    max: 5
-  dropout:
-    distribution: uniform
-    min: 0.2
-    max: 0.8
-  lr:
-    distribution: uniform
-    min: 1e-4
-    max: 1e-2
+    values:
+    - 5
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+  # num_heads:
+  #   distribution: int_uniform
+  #   min: 3
+  #   max: 6
+  # n_hidden:
+  #   distribution: int_uniform
+  #   min: 64
+  #   max: 128
+  # n_layers:
+  #   distribution: int_uniform
+  #   min: 1
+  #   max: 5
+  # dropout:
+  #   distribution: uniform
+  #   min: 0.2
+  #   max: 0.8
+  # lr:
+  #   distribution: uniform
+  #   min: 1e-4
+  #   max: 1e-2
 early_terminate:
   type: hyperband
   min_iter: 5
@@ -44,15 +52,18 @@ command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - --dataset=ogbn-products
-  - --model=GCN
-  - --dropout=0.3
+  - --dataset=reddit
+  - --model=GAT
+  - --dropout=0.5
   - --lr=0.0005
   - --n-epochs=250
   - --log-every=5 
-  - --agg=mean
   - --batch-size=1024
+  - --agg=mean
+  - --num-heads=4
+  - --fanout=5
+  - --n-hidden=256
+  - --n-layers=3
 
-  # - --fanout=10 
   # - --n_layers=4
   # - --n_hidden=1024
