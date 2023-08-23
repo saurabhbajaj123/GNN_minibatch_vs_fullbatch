@@ -12,44 +12,45 @@ parameters:
   #   - 4096
   #   - 8000
   #   - 12000
-  num_partitions:
-    values:
-    # - 1000
-    # - 2000
-    - 4000
-    - 6000
-    - 8000
+  # num_partitions:
+  #   values:
+  #   # - 1000
+  #   # - 2000
+  #   - 4000
+  #   - 6000
+  #   - 8000
   num_heads:
     values:
-    - 2
-    - 4
-    - 8
-    - 12
-  n_hidden:
-    values:
-    - 64
-    - 128
-    - 256
-    # - 512
-    # - 1024
-  n_layers:
-    values:
-    - 2
-    - 3
-    - 5
-    # - 7
-    # - 9
+    - 15
+    - 20
+    - 25
+  # n_hidden:
+  #   values:
+  #   - 64
+  #   - 128
+  #   - 256
+  #   # - 512
+  #   # - 1024
+  # n_layers:
+  #   values:
+  #   - 2
+  #   - 3
+  #   - 5
+  #   # - 7
+  #   # - 9
   # dropout:
   #   distribution: uniform
   #   min: 0.2
   #   max: 0.8
-  # lr:
-  #   distribution: uniform
-  #   min: 1e-4
-  #   max: 1e-2
-early_terminate:
-  type: hyperband
-  min_iter: 5
+  lr:
+    values:
+    - 0.0005
+    - 0.001
+    - 0.002
+    - 0.003
+# early_terminate:
+#   type: hyperband
+#   min_iter: 5
 command:
   - ${env}
   - ${interpreter}
@@ -58,7 +59,7 @@ command:
   - --model=GAT
   - --dropout=0.5
   - --lr=0.0005
-  - --n-epochs=50
+  - --n-epochs=2000
   - --log-every=5 
   - --batch-size=1024
   - --agg=mean

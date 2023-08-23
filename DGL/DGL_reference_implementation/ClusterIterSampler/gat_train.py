@@ -21,11 +21,12 @@ from utils import load_data
 from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
-from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingWarmRestarts
 def train(graph, dataset, node_features, node_labels, model, device, args):
 
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=5e-4)
-    scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.99, patience=20, min_lr=1e-4)
+    # scheduler = ReduceLROnPlateau(opt, mode='max', factor=0.99, patience=20, min_lr=1e-4)
+    scheduler = CosineAnnealingWarmRestarts(opt, T_0=50, T_mult=1, eta_min=1e-4)
 
     sampler = dgl.dataloading.ClusterGCNSampler(
         graph,
@@ -80,7 +81,7 @@ def train(graph, dataset, node_features, node_labels, model, device, args):
         # durations.append(tt - t0)
         train_time += t1 - t0
         # scheduler.step(best_eval_acc)
-
+        scheduler.step()
         if epoch % args.log_every == 0:
             model.eval()
             with torch.no_grad():
@@ -208,7 +209,7 @@ if __name__ == "__main__":
     main()
     args = create_parser()
     # sweep_configuration = {
-    #     'name': "num_partitions",
+    #     'name': "lr & num_heads",
     #     'method': 'random',
     #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
     #     'parameters': 
@@ -218,12 +219,14 @@ if __name__ == "__main__":
     #         # 'n_layers': {'values': [2, 4, 6, 8, 10]},
     #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
     #         # 'lr': {'distribution': 'uniform', 'max': 5e-3, 'min': 5e-4},
+    #         'lr': {'values': [0.0005, 0.001, 0.002, 0.003]},
     #         # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
     #         # "agg": {'values': ["mean", "gcn", "pool"]},
     #         # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
     #         # 'batch_size': {'values': [128, 256, 512]},
     #         # 'num_partitions': {'distribution': 'int_uniform', 'min': 2000, 'max': 10000},
     #         # 'num_partitions': {'values': [4000, 6000, 8000]},
+    #         'num_heads': {'values': [15, 20, 25]},
     #     }
     # }
     # sweep_id = wandb.sweep(sweep=sweep_configuration, project='SAGE-SingleGPU-cluster-{}'.format(args.dataset))
