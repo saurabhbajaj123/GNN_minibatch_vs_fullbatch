@@ -23,17 +23,17 @@ from torch.utils.data import DataLoader
 
 class SAGE(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout
+        self, in_feats, n_hidden, n_classes, n_layers, activation, dropout, aggregator_type
     ):
         super().__init__()
         self.n_layers = n_layers
         self.n_hidden = n_hidden
         self.n_classes = n_classes
         self.layers = nn.ModuleList()
-        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, "mean"))
+        self.layers.append(dglnn.SAGEConv(in_feats, n_hidden, aggregator_type=aggregator_type))
         for i in range(1, n_layers - 1):
-            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, "mean"))
-        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, "mean"))
+            self.layers.append(dglnn.SAGEConv(n_hidden, n_hidden, aggregator_type=aggregator_type))
+        self.layers.append(dglnn.SAGEConv(n_hidden, n_classes, aggregator_type=aggregator_type))
         self.dropout = nn.Dropout(dropout)
         self.activation = activation
 
@@ -79,10 +79,10 @@ class GAT(nn.Module):
         self.num_heads = num_heads
 
         self.layers = nn.ModuleList()
-        self.layers.append(GATConv(in_feats, n_hidden, num_heads=num_heads))
+        self.layers.append(dglnn.GATConv(in_feats, n_hidden, num_heads=num_heads))
         for _ in range(n_layers - 2):
-            self.layers.append(GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
-        self.layers.append(GATConv(n_hidden*num_heads, n_classes, num_heads=1))
+            self.layers.append(dglnn.GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
+        self.layers.append(dglnn.GATConv(n_hidden*num_heads, n_classes, num_heads=1))
 
 
     def forward(self, g, x):
@@ -92,4 +92,25 @@ class GAT(nn.Module):
             h = h.flatten(1)
         h = self.layers[-1](g, h)
         h = h.mean(1)
+        return h
+
+
+class GCN(nn.Module):
+    def __init__(self, in_feats, n_hidden, n_classes, n_layers, dropout=0.5):
+        super().__init__()
+        self.layers = nn.ModuleList()
+        # two-layer GCN
+        self.layers.append(dglnn.GraphConv(in_feats, n_hidden, activation=F.relu))
+        for i in range(n_layers - 1):
+            self.layers.append(dglnn.GraphConv(n_hidden, n_hidden, activation=F.relu))
+
+        self.layers.append(dglnn.GraphConv(n_hidden, n_classes))
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, g, features):
+        h = features
+        for i, layer in enumerate(self.layers):
+            if i != 0:
+                h = self.dropout(h)
+            h = layer(g, h)
         return h

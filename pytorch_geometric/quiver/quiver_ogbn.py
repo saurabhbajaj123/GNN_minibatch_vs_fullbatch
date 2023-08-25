@@ -16,7 +16,7 @@ from torch_geometric.loader import NeighborSampler
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 import time
 from parser import create_parser
-
+from torch_geometric.utils import add_remaining_self_loops, to_undirected
 
 import numpy as np
 ####################
@@ -123,6 +123,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     eval_dur = []
     best_val_acc = 0
     best_test_acc = 0
+    train_time = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         total_loss = 0
@@ -140,7 +141,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
             optimizer.step()
             total_loss += loss
         t1 = time.time()
-
+        train_time += t1 - t0
         dist.barrier()
         train_dur.append(t1-t0)
 
@@ -172,6 +173,7 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
                 'best_val_acc': best_val_acc,
                 'best_test_acc': best_test_acc,
                 'best_train_acc': best_train_acc,
+                'train_time': train_time,
             })
 
         dist.barrier()
@@ -228,6 +230,12 @@ def main():
     root = args.dataset_dir
     dataset = PygNodePropPredDataset(args.dataset, root=root)
     data = dataset[0]
+    print(data)
+    # add_remaining_self_loops(data.edge_index)
+    print(data)
+    if args.dataset == "ogbn-arxiv":
+        # to_undirected(data.edge_index)
+        print(data)
 
     split_idx = dataset.get_idx_split()
     world_size = torch.cuda.device_count()
@@ -236,8 +244,8 @@ def main():
     # Create Sampler And Feature
     ##############################
     csr_topo = quiver.CSRTopo(data.edge_index)
-    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
+    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
     feature = torch.zeros(data.x.shape)
     feature[:] = data.x
     quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
@@ -255,3 +263,24 @@ def main():
 if __name__ == '__main__':
     wandb.login()
     main()
+    # args = create_parser()
+    # sweep_configuration = {
+    #     'name': "multiple runs for best params",
+    #     'method': 'random',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+    #         # 'lr': {'distribution': 'uniform', 'min': 5e-4, 'max': 1e-2},
+    #         # "agg": {'values': ["mean", "max", "lstm"]},
+    #         # 'batch_size': {'values': [256, 512, 1024]},
+    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 15},
+    #         'dummy': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration,
+    #                        project="Quiver-{}-{}-{}".format(args.dataset, args.model, args.sampling))
+
+    # wandb.agent(sweep_id, function=main, count=5)

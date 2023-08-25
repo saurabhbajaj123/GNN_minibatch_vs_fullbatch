@@ -1,0 +1,14 @@
+python train.py \
+  --dataset ogbn-products \
+  --model GCN \
+  --dropout 0.7127861422422981 \
+  --lr 0.0005 \
+  --n-epochs 1000 \
+  --n-layers 4 \
+  --n-hidden 942 \
+  --batch-size 1024 \
+  --fanout 5 \
+  --agg mean \
+  --device_id 0 \
+  --log-every 5 \
+  --seed 3485963027166655500 \

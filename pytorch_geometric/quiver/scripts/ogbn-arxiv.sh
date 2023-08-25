@@ -3,15 +3,15 @@ python quiver_ogbn.py \
   --model graphsage \
   --sampling NS \
   --dropout 0.5 \
-  --lr 0.001 \
-  --n-epochs 101 \
+  --lr 0.0005 \
+  --n-epochs 1000 \
   --n-gpus 4 \
-  --n-layers 3 \
-  --n-hidden 256 \
-  --batch-size 4096 \
-  --eval-batch-size 4096 \
+  --n-layers 10 \
+  --n-hidden 1024 \
+  --batch-size 8000 \
+  --eval-batch-size 1024 \
   --weight-decay 0 \
-  --fanout 5 \
+  --fanout 25 \
   --agg mean \
-  --log-every 5 \
+  --log-every 50 \
   --seed 12345 \

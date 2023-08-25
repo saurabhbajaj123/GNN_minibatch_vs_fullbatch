@@ -1,0 +1,71 @@
+python train_gat.py \
+  --dataset ogbn-arxiv \
+  --model GAT \
+  --n-epochs 1000 \
+  --n-layers 2 \
+  --n-hidden 16 \
+  --num-heads 2 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --device_id 3 \
+  --budget_node_edge 256 \
+  --budget_rw_0 256 \
+  --budget_rw_1 16 \
+  --mode_saint node \
+  --batch_size 1024 \
+  --log_every 5 \
+
+python train_gat.py \
+  --dataset ogbn-products \
+  --model GAT \
+  --n-epochs 1000 \
+  --n-layers 2 \
+  --n-hidden 16 \
+  --num-heads 2 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --device_id 3 \
+  --budget_node_edge 256 \
+  --budget_rw_0 256 \
+  --budget_rw_1 16 \
+  --mode_saint node \
+  --batch_size 1024 \
+  --log_every 5 \
+
+python train_gat.py \
+  --dataset pubmed \
+  --model GAT \
+  --n-epochs 1000 \
+  --n-layers 2 \
+  --n-hidden 16 \
+  --num-heads 2 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --device_id 3 \
+  --budget_node_edge 256 \
+  --budget_rw_0 256 \
+  --budget_rw_1 16 \
+  --mode_saint node \
+  --batch_size 1024 \
+  --log_every 5 \
+
+python train_gat.py \
+  --dataset reddit \
+  --model GAT \
+  --n-epochs 1000 \
+  --n-layers 2 \
+  --n-hidden 16 \
+  --num-heads 2 \
+  --lr 0.001 \
+  --dropout 0.5 \
+  --seed 42 \
+  --device_id 3 \
+  --budget_node_edge 256 \
+  --budget_rw_0 256 \
+  --budget_rw_1 16 \
+  --mode_saint node \
+  --batch_size 1024 \
+  --log_every 5 \

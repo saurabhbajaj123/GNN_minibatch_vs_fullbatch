@@ -45,7 +45,7 @@ def create_parser():
     parser.add_argument("--feat-corr", "--feat_corr", action='store_true')
     parser.add_argument("--grad-corr", "--grad_corr", action='store_true')
     parser.add_argument("--corr-momentum", "--corr_momentum", type=float, default=0.95)
-    parser.add_argument("--convergence-threshold", "--convergence_threshold", type=float, default=1e-8)
+    parser.add_argument("--convergence-threshold", "--convergence_threshold", type=float, default=1e-10)
 
     parser.add_argument("--use-pp", "--use_pp", action='store_true',
                         help="whether to use precomputation")

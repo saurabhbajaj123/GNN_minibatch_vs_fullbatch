@@ -13,7 +13,7 @@ from torch_geometric.loader import NeighborSampler
 
 import time
 import numpy as np
-
+from parser import create_parser
 ######################
 # Import From Quiver
 ######################
@@ -27,15 +27,15 @@ warnings.filterwarnings("ignore")
 
 class SAGE(torch.nn.Module):
     def __init__(self, in_channels, hidden_channels, out_channels,
-                 num_layers=2, dropout):
+                 num_layers, dropout, aggr):
         super(SAGE, self).__init__()
         self.num_layers = num_layers
 
         self.convs = torch.nn.ModuleList()
-        self.convs.append(SAGEConv(in_channels, hidden_channels))
+        self.convs.append(SAGEConv(in_channels, hidden_channels, aggr))
         for _ in range(self.num_layers - 2):
-            self.convs.append(SAGEConv(hidden_channels, hidden_channels))
-        self.convs.append(SAGEConv(hidden_channels, out_channels))
+            self.convs.append(SAGEConv(hidden_channels, hidden_channels, aggr))
+        self.convs.append(SAGEConv(hidden_channels, out_channels, aggr))
         self.dropout = dropout
 
     def forward(self, x, adjs):
@@ -79,11 +79,13 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
 
     torch.torch.cuda.set_device(rank)
 
-    train_mask, val_mask, test_mask = data_split    
+    train_mask, val_mask, test_mask = data_split
+    # print(train_mask, val_mask, test_mask)    
     train_idx = train_mask.nonzero(as_tuple=False).view(-1)
     train_idx = train_idx.split(train_idx.size(0) // world_size)[rank]
-
-    train_loader = torch.utils.data.DataLoader(train_idx, batch_size=args.batch_size, shuffle=True, drop_last=True)
+    print(train_idx)
+    train_loader = torch.utils.data.DataLoader(train_idx, batch_size=args.batch_size, shuffle=True, drop_last=False)
+    # print(len(train_loader))
     if rank == 0:
         wandb.init(
             project="Quiver-{}-{}-{}".format(args.dataset, args.model, args.sampling),
@@ -96,7 +98,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
 
     if args.seed:
         torch.manual_seed(args.seed)
-    model = SAGE(num_features, args.n_hidden, num_classes, num_layers=args.n_layers, dropout=args.dropout).to(rank)
+    model = SAGE(num_features, args.n_hidden, num_classes, num_layers=args.n_layers, dropout=args.dropout, aggr=args.agg).to(rank)
     model = DistributedDataParallel(model, device_ids=[rank])
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
@@ -106,6 +108,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
     eval_dur = []
     best_val_acc = 0
     best_test_acc = 0
+    train_time = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         total_loss = 0
@@ -123,12 +126,12 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
             optimizer.step()
             total_loss += loss
         t1 = time.time()
-
+        train_time += t1 - t0
         dist.barrier()
         train_dur.append(t1-t0)
 
-        if rank == 0:
-            print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, Epoch Time: {time.time() - epoch_start}')
+        if rank == 0 and epoch > 0:
+            print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, Epoch Time : {time.time() - epoch_start :.4f}')
 
         if rank == 0 and (epoch+1) % args.log_every == 0:  # We evaluate on a single GPU for now
             t2 = time.time()
@@ -155,6 +158,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
                 'best_val_acc': best_val_acc,
                 'best_test_acc': best_test_acc,
                 'best_train_acc': best_train_acc,
+                'train_time': train_time,
             })
         dist.barrier()
     train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
@@ -184,7 +188,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
     dist.destroy_process_group()
 
 
-def main()
+def main():
     args = create_parser()
     
     wandb.init(
@@ -210,12 +214,13 @@ def main()
 
     root = args.dataset_dir
 
-
+    print(args)
     # root= '../dataset' 
     if args.dataset == 'reddit':
         dataset = Reddit(root)
     elif args.dataset == 'pubmed':
-        dataset = Planetoid(root=root, name='PubMed')
+        dataset = Planetoid(root=root, name='Pubmed')
+    print(dataset)
 
     world_size = torch.cuda.device_count()
 
@@ -226,7 +231,9 @@ def main()
     ##############################
     # Create Sampler And Feature
     ##############################
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [25, 10], 0, mode='GPU')
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
+
+    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [25, 15, 10, 5], 0, mode='GPU')
 
     quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
     quiver_feature.from_cpu_tensor(data.x)
@@ -242,3 +249,27 @@ def main()
 if __name__ == '__main__':
     wandb.login()
     main()
+
+    # args = create_parser()
+
+    # sweep_configuration = {
+    #     'name': "multiple runs for best params",
+    #     'method': 'random',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+    #         # 'lr': {'distribution': 'uniform', 'min': 5e-4, 'max': 1e-2},
+    #         # "agg": {'values': ["mean", "max", "lstm"]},
+    #         # 'batch_size': {'values': [256, 512, 1024]},
+    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         'dummy': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration,
+    #                        project="Quiver-{}-{}-{}".format(args.dataset, args.model, args.sampling))
+
+    # wandb.agent(sweep_id, function=main, count=5)
+

@@ -85,10 +85,11 @@ def evaluate(evaluator, predictions, labels):
     # eacc = sklearn.metrics.accuracy_score(labels, predictions)
     return acc
 
-def train():
+def main():
+    args = create_parser()
     
     wandb.init(
-        project="mini-batch-saint",
+        project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),
         config={
             "num_epochs": 200,
             "lr": 1e-2,
@@ -117,11 +118,6 @@ def train():
     dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # getting train, test, val splits
-    idx_split = dataset.get_idx_split()
-    train_nids = idx_split['train']
-    valid_nids = idx_split['valid']
-    test_nids = idx_split['test']
 
     # general pre-processing of the graph
     graph, node_labels = dataset[0]
@@ -132,6 +128,9 @@ def train():
     in_feats = node_features.shape[1]
     n_classes = (node_labels.max() + 1).item()
 
+
+def train(graph, dataset, node_features, device, model, args):
+
     # creating the sampler
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
@@ -140,6 +139,13 @@ def train():
         budget=budget, 
         # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
         )
+
+    # getting train, test, val splits
+    idx_split = dataset.get_idx_split()
+    train_nids = idx_split['train']
+    valid_nids = idx_split['valid']
+    test_nids = idx_split['test']
+
 
     train_dataloader = _get_data_loader(sampler, device, graph.subgraph(train_nids), train_nids, batch_size)
 
@@ -156,7 +162,7 @@ def train():
     best_model = None
 
     for epoch in range(num_epochs):
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = "cuda:".format(args.device_id) if torch.cuda.is_available() else "cpu"
         model = model.to(device)
         model.train()
 
@@ -185,13 +191,14 @@ def train():
             test_labels = []
             with torch.no_grad():
                 # Inference on sampled subgraph
-                for subg in train_dataloader:
-                    inputs = subg.ndata['feat']
-                    train_labels.append(subg.ndata['label'])
-                    train_predictions.append(model(subg, inputs).argmax(1))
-                train_predictions = torch.cat(train_predictions)
-                train_labels = torch.cat(train_labels)
-                train_acc = sklearn.metrics.accuracy_score(train_labels.cpu().numpy(), train_predictions.cpu().numpy())
+                
+                # for subg in train_dataloader:
+                #     inputs = subg.ndata['feat']
+                #     train_labels.append(subg.ndata['label'])
+                #     train_predictions.append(model(subg, inputs).argmax(1))
+                # train_predictions = torch.cat(train_predictions)
+                # train_labels = torch.cat(train_labels)
+                # train_acc = sklearn.metrics.accuracy_score(train_labels.cpu().numpy(), train_predictions.cpu().numpy())
             
                 device = "cpu"
                 model = model.to(device)
@@ -245,7 +252,7 @@ def train():
             
             wandb.log({'val_acc': val_acc_fullgraph_no_sample,
                         'test_acc': test_acc_fullgraph_no_sample,
-                        'train_acc': train_acc,
+                        'train_acc': train_acc_fullgraph_no_sample,
                         'train_acc_fullgraph_no_sample': train_acc_fullgraph_no_sample,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
