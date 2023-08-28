@@ -1,10 +1,12 @@
+python3 partition_graph.py --dataset=ogbn-products
+
 python3 -m torch.distributed.run \
---nproc_per_node=4 --nnodes=2 --node_rank=0 \
+--nproc_per_node=2 --nnodes=2 --node_rank=0 \
 --master_addr=172.31.27.136  --master_port=1234 \
 NeighborhoodSampler.py --graph_name=ogbn-products --part_config=/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset/data/ogbn-products.json --n_classes=47 --num_gpus=4 --batch_size_eval=1000
 
 python3 -m torch.distributed.run \
---nproc_per_node=4 --nnodes=2 --node_rank=1 \
+--nproc_per_node=2 --nnodes=2 --node_rank=1 \
 --master_addr=172.31.27.136  --master_port=1234 \
 NeighborhoodSampler.py --graph_name=ogbn-products --part_config=/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset/data/ogbn-products.json --n_classes=47 --num_gpus=4 --batch_size_eval=1000
 
