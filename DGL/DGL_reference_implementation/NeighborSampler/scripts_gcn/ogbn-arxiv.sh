@@ -1,0 +1,15 @@
+python train.py \
+  --dataset ogbn-arxiv \
+  --model GCN \
+  --dropout 0.3 \
+  --lr 0.0005 \
+  --n-epochs 1000 \
+  --n-layers 4 \
+  --n-hidden 971 \
+  --batch-size 8000 \
+  --fanout 14 \
+  --device_id 1 \
+  --num-heads 7 \
+  --agg gcn \
+  --log-every 5 \
+  --seed 8727824175976054000 \

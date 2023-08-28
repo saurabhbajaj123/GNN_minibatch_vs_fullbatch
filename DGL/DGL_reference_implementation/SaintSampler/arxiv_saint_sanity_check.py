@@ -63,14 +63,14 @@ def _get_data_loader(sampler, device, graph, train_nids, batch_size=1024):
     train_dataloader = dgl.dataloading.DataLoader(
     # The following arguments are specific to DGL's DataLoader.
     graph,              # The graph
-    train_nids,         # The node IDs to iterate over in minibatches
+    torch.arange(len(train_nids)/batch_size),         # The node IDs to iterate over in minibatches
     sampler,            # The neighbor sampler
     device=device,      # Put the sampled MFGs on CPU or GPU
     # The following arguments are inherited from PyTorch DataLoader.
     batch_size=batch_size,    # Batch size
     shuffle=True,       # Whether to shuffle the nodes for every epoch
     drop_last=False,    # Whether to drop the last incomplete batch
-    num_workers=0,       # Number of sampler processes
+    num_workers=4,      # Number of sampler processes
     # use_uva=True,
     )    
     return train_dataloader
@@ -85,19 +85,20 @@ def evaluate(evaluator, predictions, labels):
     # eacc = sklearn.metrics.accuracy_score(labels, predictions)
     return acc
 
-def train():
+def main():
+    args = create_parser()
     
     wandb.init(
-        project="mini-batch-saint",
+        project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),
         config={
-            "num_epochs": 2000,
-            "lr": 1e-3,
+            "num_epochs": 200,
+            "lr": 1e-2,
             "dropout": random.uniform(0.3, 0.6),
             "n_hidden": 256,
             "n_layers": 3,
             "agg": "mean",
-            "batch_size": 2**10,
-            "budget": (256, 512),
+            "batch_size": 2**9,
+            "budget": 512,
             })
 
 
@@ -117,11 +118,6 @@ def train():
     dataset = DglNodePropPredDataset('ogbn-arxiv', root=root)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # getting train, test, val splits
-    idx_split = dataset.get_idx_split()
-    train_nids = idx_split['train']
-    valid_nids = idx_split['valid']
-    test_nids = idx_split['test']
 
     # general pre-processing of the graph
     graph, node_labels = dataset[0]
@@ -132,21 +128,31 @@ def train():
     in_feats = node_features.shape[1]
     n_classes = (node_labels.max() + 1).item()
 
+
+def train(graph, dataset, node_features, device, model, args):
+
     # creating the sampler
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
     sampler = dgl.dataloading.SAINTSampler(
-        mode='walk', 
+        mode='edge', 
         budget=budget, 
         # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
         )
 
-    train_dataloader = _get_data_loader(sampler, device, graph, train_nids, batch_size)
+    # getting train, test, val splits
+    idx_split = dataset.get_idx_split()
+    train_nids = idx_split['train']
+    valid_nids = idx_split['valid']
+    test_nids = idx_split['test']
+
+
+    train_dataloader = _get_data_loader(sampler, device, graph.subgraph(train_nids), train_nids, batch_size)
 
     model = Model(in_feats, n_hidden, n_classes, n_layers, dropout, activation, aggregator_type=agg).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     # scheduler1 = CosineAnnealingWarmRestarts(optimizer, T_0=50, T_mult=1, eta_min=1e-3)
-    scheduler2 = ReduceLROnPlateau(optimizer, mode='max', cooldown=10, factor=0.99, patience=20, min_lr=1e-5)
+    scheduler2 = ReduceLROnPlateau(optimizer, mode='max', cooldown=20, factor=0.99, patience=30, min_lr=1e-5)
 
     evaluator = Evaluator(name='ogbn-arxiv')
     best_train_acc = 0
@@ -156,7 +162,7 @@ def train():
     best_model = None
 
     for epoch in range(num_epochs):
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = "cuda:".format(args.device_id) if torch.cuda.is_available() else "cpu"
         model = model.to(device)
         model.train()
 
@@ -185,13 +191,14 @@ def train():
             test_labels = []
             with torch.no_grad():
                 # Inference on sampled subgraph
-                for subg in train_dataloader:
-                    inputs = subg.ndata['feat']
-                    train_labels.append(subg.ndata['label'])
-                    train_predictions.append(model(subg, inputs).argmax(1))
-                train_predictions = torch.cat(train_predictions)
-                train_labels = torch.cat(train_labels)
-                train_acc = sklearn.metrics.accuracy_score(train_labels.cpu().numpy(), train_predictions.cpu().numpy())
+                
+                # for subg in train_dataloader:
+                #     inputs = subg.ndata['feat']
+                #     train_labels.append(subg.ndata['label'])
+                #     train_predictions.append(model(subg, inputs).argmax(1))
+                # train_predictions = torch.cat(train_predictions)
+                # train_labels = torch.cat(train_labels)
+                # train_acc = sklearn.metrics.accuracy_score(train_labels.cpu().numpy(), train_predictions.cpu().numpy())
             
                 device = "cpu"
                 model = model.to(device)
@@ -241,11 +248,11 @@ def train():
                     best_model = model
                     best_test_acc = test_acc_fullgraph_no_sample
                     best_train_acc = train_acc
-                logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
+                print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
             
             wandb.log({'val_acc': val_acc_fullgraph_no_sample,
                         'test_acc': test_acc_fullgraph_no_sample,
-                        'train_acc': train_acc,
+                        'train_acc': train_acc_fullgraph_no_sample,
                         'train_acc_fullgraph_no_sample': train_acc_fullgraph_no_sample,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
@@ -260,26 +267,26 @@ def train():
 
 if __name__ == "__main__":
 
-    val_acc, model = train()
+    # val_acc, model = train()
         
     
-    # sweep_configuration = {
-    #     'method': 'bayes',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'n_layers': {'values':[6, 7, 8]},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-    #         # 'batch_size': {'values':[7, 6, 5]},
-    #         # 'fanout': {'distribution': 'int_uniform', 'min': 4, 'max': 9},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
+    sweep_configuration = {
+        'method': 'bayes',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-3, 'max': 1e-1},
+            'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+            'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'values':[6, 7, 8]},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.5, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+            # 'batch_size': {'values':[7, 6, 5]},
+            'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project='mini-batch-saint')
 
-    # wandb.agent(sweep_id, function=train, count=50)
+    wandb.agent(sweep_id, function=train, count=50)

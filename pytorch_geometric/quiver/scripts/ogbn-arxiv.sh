@@ -1,0 +1,17 @@
+python quiver_ogbn.py \
+  --dataset ogbn-arxiv \
+  --model graphsage \
+  --sampling NS \
+  --dropout 0.5 \
+  --lr 0.0005 \
+  --n-epochs 1000 \
+  --n-gpus 4 \
+  --n-layers 10 \
+  --n-hidden 1024 \
+  --batch-size 8000 \
+  --eval-batch-size 1024 \
+  --weight-decay 0 \
+  --fanout 25 \
+  --agg mean \
+  --log-every 50 \
+  --seed 12345 \

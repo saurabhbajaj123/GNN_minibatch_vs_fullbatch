@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, ReduceLROnPlateau
 
+import time
 import random
 import wandb
 wandb.login()
@@ -95,13 +96,13 @@ def train():
 
     
     wandb.init(
-        project="full-batch",
+        project="SAGE-fullbatch-ogbn-arxiv",
         config={
-            "epochs": 5000,
-            "lr": 5*1e-4,
-            "dropout": random.uniform(0.0, 0.5),
+            "epochs": 1000,
+            "lr": 0.001,
+            "dropout": 0.69, # random.uniform(0.0, 0.5),
             "num_hidden": 512,
-            "num_layers": 3,
+            "num_layers": 4,
             "agg": "gcn"
             # "activation": F.relu,
             })
@@ -118,8 +119,10 @@ def train():
 
     features = graph.ndata["feat"].to(device)
     labels = graph.ndata["label"].to(device)
+    train_time = 0
     for e in range(config.epochs):
         # Forward
+        t0 = time.time()
         logits = model(graph, features)
 
         # Compute prediction
@@ -133,8 +136,11 @@ def train():
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        scheduler.step(best_val_acc)
+        t1 = time.time()
 
+        # scheduler.step(best_val_acc)
+
+        train_time += t1 - t0
         if e % 5 == 0:
             # Compute accuracy on training/validation/test
             train_acc = (pred[train_mask] == labels[train_mask]).float().mean()
@@ -162,27 +168,28 @@ def train():
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
                         'lr': optimizer.param_groups[0]['lr'],
+                        'train_time': train_time,
             })
 
-# train()
+train()
 
-sweep_configuration = {
-    'method': 'random',
-    'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    'parameters': 
-    {
-        # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
-        'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-        # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-        'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
-        # 'num_hidden': {'values': [512, 1024]},
-        "agg": {'values': ["mean", "gcn", "pool"]},
-        # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
+# sweep_configuration = {
+#     'method': 'random',
+#     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+#     'parameters': 
+#     {
+#         # 'lr': {'distribution': 'log_uniform_values', 'min': 1e-3, 'max': 1e-1},
+#         'num_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+#         # 'num_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+#         'dropout': {'distribution': 'uniform', 'min': 0.1, 'max': 0.8},
+#         # 'num_hidden': {'values': [512, 1024]},
+#         "agg": {'values': ["mean", "gcn", "pool"]},
+#         # 'epochs': {'values': [2000, 4000, 6000, 8000, 10000]},
 
-     }
-}
-sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch')
+#      }
+# }
+# sweep_id = wandb.sweep(sweep=sweep_configuration, project='full-batch')
 
-wandb.agent(sweep_id, function=train, count=30)
+# wandb.agent(sweep_id, function=train, count=30)
 
 

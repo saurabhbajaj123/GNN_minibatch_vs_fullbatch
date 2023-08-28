@@ -1,0 +1,2 @@
+wandb sweep --project sweeps_demo config.yaml
+CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID

@@ -1,0 +1,12 @@
+python3 main.py \
+  --dataset ogbn-arxiv \
+  --dropout 0.2 \
+  --lr 0.003 \
+  --n-gpus 4 \
+  --n-epochs 1000 \
+  --model clustersage \
+  --n-layers 7 \
+  --n-hidden 728 \
+  --log-every 5 \
+  --batch-size 128 \
+  --num-partitions 1024 \
