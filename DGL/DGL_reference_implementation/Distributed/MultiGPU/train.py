@@ -12,7 +12,7 @@ import torch.multiprocessing as mp
 import torch.nn as nn
 import torch.nn.functional as F
 import torchmetrics.functional as MF
-from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingWarmRestarts
 
 import tqdm
 from dgl.data import AsNodePredDataset
@@ -149,6 +149,7 @@ def train(
     best_val_acc = 0
     best_test_acc = 0
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    scheduler = CosineAnnealingWarmRestarts(opt, T_0=50, T_mult=1, eta_min=1e-4)
 
     scheduler2 = ReduceLROnPlateau(opt, mode='max', cooldown=10, factor=0.99, patience=20, min_lr=1e-5)
     train_time = 0
@@ -168,7 +169,7 @@ def train(
         t1 = time.time()
         train_time += t1 - t0
         train_dur.append(t1-t0)
-
+        # scheduler.step()
         # scheduler2.step(best_val_acc)
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
