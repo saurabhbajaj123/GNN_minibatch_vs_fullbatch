@@ -51,7 +51,7 @@ def train(graph, dataset, node_features, node_labels, model, device, args):
     durations = []
     
     best_train_acc = 0
-    best_eval_acc = 0
+    best_val_acc = 0
     best_test_acc = 0
     train_time = 0
     for epoch in range(args.n_epochs):
@@ -80,8 +80,8 @@ def train(graph, dataset, node_features, node_labels, model, device, args):
         # print(tt - t0)
         # durations.append(tt - t0)
         train_time += t1 - t0
-        # scheduler.step(best_eval_acc)
-        scheduler.step()
+        # scheduler.step(best_val_acc)
+        # scheduler.step()
         if epoch % args.log_every == 0:
             model.eval()
             with torch.no_grad():
@@ -128,16 +128,16 @@ def train(graph, dataset, node_features, node_labels, model, device, args):
                 # print("Validation acc:", val_acc.item(), "Test acc:", test_acc.item())
                 
                 t2 = time.time()
-                if best_eval_acc < val_acc:
-                    best_eval_acc = val_acc
+                if best_val_acc < val_acc:
+                    best_val_acc = val_acc
                     best_test_acc = test_acc
                     best_train_acc = train_acc
-                print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc, best_eval_acc, test_acc, best_test_acc))
+                print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc, best_val_acc, test_acc, best_test_acc))
                 print(f"Train time = {t1-t0}, Eval time = {t2 - t1}")
                 wandb.log({'val_acc': val_acc,
                     'test_acc': test_acc,
                     'train_acc': train_acc,
-                    'best_eval_acc': best_eval_acc,
+                    'best_val_acc': best_val_acc,
                     'best_test_acc': best_test_acc,
                     'best_train_acc': best_train_acc,
                     'train_time': train_time,
