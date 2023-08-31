@@ -201,27 +201,27 @@ def main():
     
 if __name__ == "__main__":
     
-    # main()
-    args = create_parser()
-    sweep_configuration = {
-        'name': "num_partitions",
-        'method': 'random',
-        'metric': {'goal': 'maximize', 'name': 'val_acc'},
-        'parameters': 
-        {
-            # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
-            # 'n_hidden': {'values': [256, 512, 728, 1024]},
-            # 'n_layers': {'values': [2, 4, 6, 8, 10]},
-            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            # 'lr': {'distribution': 'uniform', 'max': 5e-3, 'min': 5e-4},
-            # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
-            # "agg": {'values': ["mean", "gcn", "pool"]},
-            # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
-            # 'batch_size': {'values': [128, 256, 512]},
-            'num_partitions': {'distribution': 'int_uniform', 'min': 2000, 'max': 10000},
-            # 'num_partitions': {'values': [4000, 6000, 8000]},
-        }
-    }
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project='SAGE-SingleGPU-cluster-{}'.format(args.dataset))
+    main()
+    # args = create_parser()
+    # sweep_configuration = {
+    #     'name': "num_partitions",
+    #     'method': 'random',
+    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
+    #     'parameters': 
+    #     {
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 256, 'max': 2048},
+    #         # 'n_hidden': {'values': [256, 512, 728, 1024]},
+    #         # 'n_layers': {'values': [2, 4, 6, 8, 10]},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'lr': {'distribution': 'uniform', 'max': 5e-3, 'min': 5e-4},
+    #         # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+    #         # "agg": {'values': ["mean", "gcn", "pool"]},
+    #         # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
+    #         # 'batch_size': {'values': [128, 256, 512]},
+    #         'num_partitions': {'distribution': 'int_uniform', 'min': 2000, 'max': 10000},
+    #         # 'num_partitions': {'values': [4000, 6000, 8000]},
+    #     }
+    # }
+    # sweep_id = wandb.sweep(sweep=sweep_configuration, project='SAGE-SingleGPU-cluster-{}'.format(args.dataset))
 
-    wandb.agent(sweep_id, function=main, count=10)
+    # wandb.agent(sweep_id, function=main, count=10)
