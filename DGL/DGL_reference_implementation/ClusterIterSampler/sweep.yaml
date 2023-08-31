@@ -1,5 +1,5 @@
 program: gat_train.py
-method: grid
+method: random
 metric:
   goal: maximize
   name: val_acc
@@ -12,62 +12,80 @@ parameters:
   #   - 4096
   #   - 8000
   #   - 12000
-  # num_partitions:
-  #   values:
-  #   # - 1000
-  #   # - 2000
-  #   - 4000
-  #   - 6000
-  #   - 8000
+  num_partitions:
+    values:
+    - 500
+    - 1000
+    - 2000
+    - 4000
+    - 6000
+    - 8000
   num_heads:
     values:
+    - 2
+    - 5
+    - 10
     - 15
     - 20
     - 25
-  # n_hidden:
-  #   values:
-  #   - 64
-  #   - 128
-  #   - 256
-  #   # - 512
-  #   # - 1024
-  # n_layers:
-  #   values:
-  #   - 2
-  #   - 3
-  #   - 5
-  #   # - 7
-  #   # - 9
-  # dropout:
-  #   distribution: uniform
-  #   min: 0.2
-  #   max: 0.8
-  lr:
+    - 30
+    - 40
+    - 50
+  n_hidden:
     values:
-    - 0.0005
-    - 0.001
-    - 0.002
-    - 0.003
-# early_terminate:
-#   type: hyperband
-#   min_iter: 5
+    - 64
+    - 128
+    - 256
+    - 512
+    - 1024
+  n_layers:
+    values:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+  # dropout:
+  #   values:
+  #   - 0.2
+  #   - 0.3
+  #   - 0.4
+  #   - 0.5
+  #   - 0.6
+  #   - 0.7
+  #   - 0.8
+  #   - 0.9
+  # lr:
+  #   values:
+  #   - 0.0001
+  #   - 0.0005
+  #   - 0.001
+  #   - 0.002
+  #   - 0.003
+early_terminate:
+  type: hyperband
+  min_iter: 5
 command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - --dataset=reddit
+  - --dataset=ogbn-arxiv
   - --model=GAT
-  - --dropout=0.5
+  - --dropout=0.4
   - --lr=0.0005
-  - --n-epochs=2000
+  - --n-epochs=500
   - --log-every=5 
   - --batch-size=1024
   - --agg=mean
-  - --num-heads=4
+  - --num-heads=10
   - --fanout=5
   - --n-hidden=256
-  - --n-layers=3
-  - --num-partitions=4000
+  - --n-layers=5
+  - --num-partitions=2000
 
   # - --n_layers=4
   # - --n_hidden=1024
