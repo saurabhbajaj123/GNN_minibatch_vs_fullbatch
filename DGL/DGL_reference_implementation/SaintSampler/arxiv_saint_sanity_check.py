@@ -91,7 +91,7 @@ def main():
     wandb.init(
         project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),
         config={
-            "num_epochs": 1000,
+            "num_epochs": 200,
             "lr": 1e-2,
             "dropout": random.uniform(0.3, 0.6),
             "n_hidden": 256,
@@ -135,7 +135,7 @@ def train(graph, dataset, node_features, device, model, args):
 
     # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
     sampler = dgl.dataloading.SAINTSampler(
-        mode='node', 
+        mode='edge', 
         budget=budget, 
         # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
         )
@@ -247,8 +247,8 @@ def train(graph, dataset, node_features, device, model, args):
                     best_val_acc = val_acc_fullgraph_no_sample
                     best_model = model
                     best_test_acc = test_acc_fullgraph_no_sample
-                    best_train_acc = train_acc_fullgraph_no_sample
-                logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc_fullgraph_no_sample, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
+                    best_train_acc = train_acc
+                print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
             
             wandb.log({'val_acc': val_acc_fullgraph_no_sample,
                         'test_acc': test_acc_fullgraph_no_sample,

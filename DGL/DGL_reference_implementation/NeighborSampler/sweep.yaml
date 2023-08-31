@@ -1,5 +1,5 @@
 program: train.py
-method: grid
+method: random
 metric:
   goal: maximize
   name: val_acc
@@ -12,11 +12,11 @@ parameters:
   #   - 4096
   #   - 8000
   #   - 12000
-  # agg:
-  #   values:
-  #   - mean
-  #   - gcn
-  #   - pool
+  agg:
+    values:
+    - mean
+    - gcn
+    - pool
   fanout:
     values:
     - 5
@@ -25,26 +25,26 @@ parameters:
     - 30
     - 40
     - 50
-  # num_heads:
-  #   distribution: int_uniform
-  #   min: 3
-  #   max: 6
-  # n_hidden:
-  #   distribution: int_uniform
-  #   min: 64
-  #   max: 128
-  # n_layers:
-  #   distribution: int_uniform
-  #   min: 1
-  #   max: 5
-  # dropout:
-  #   distribution: uniform
-  #   min: 0.2
-  #   max: 0.8
-  # lr:
-  #   distribution: uniform
-  #   min: 1e-4
-  #   max: 1e-2
+  num_heads:
+    distribution: int_uniform
+    min: 3
+    max: 12
+  n_hidden:
+    distribution: int_uniform
+    min: 64
+    max: 512
+  n_layers:
+    distribution: int_uniform
+    min: 1
+    max: 5
+  dropout:
+    distribution: uniform
+    min: 0.2
+    max: 0.8
+  lr:
+    distribution: uniform
+    min: 1e-4
+    max: 1e-2
 early_terminate:
   type: hyperband
   min_iter: 5
@@ -52,7 +52,7 @@ command:
   - ${env}
   - ${interpreter}
   - ${program}
-  - --dataset=reddit
+  - --dataset=ogbn-arxiv
   - --model=GAT
   - --dropout=0.5
   - --lr=0.0005
