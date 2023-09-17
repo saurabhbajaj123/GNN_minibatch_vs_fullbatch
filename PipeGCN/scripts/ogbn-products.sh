@@ -16,7 +16,7 @@ python main.py \
   --dropout 0.3 \
   --lr 0.003 \
   --n-partitions 4 \
-  --n-epochs 1000 \
+  --n-epochs 500 \
   --model graphsage \
   --n-layers 4 \
   --n-hidden 127 \
@@ -27,17 +27,17 @@ python main.py \
   # --enable-pipeline \
 
 
-python main.py \
-  --dataset ogbn-products \
-  --dropout 0.3 \
-  --lr 0.003 \
-  --n-partitions 4 \
-  --n-epochs 1000 \
-  --model graphsage \
-  --n-layers 4 \
-  --n-hidden 127 \
-  --log-every 5 \
-  --use-pp \
-  --fix-seed \
-  --enable-pipeline \
-  --seed 837330801 \
+# python main.py \
+#   --dataset ogbn-products \
+#   --dropout 0.3 \
+#   --lr 0.003 \
+#   --n-partitions 4 \
+#   --n-epochs 500 \
+#   --model graphsage \
+#   --n-layers 4 \
+#   --n-hidden 127 \
+#   --log-every 5 \
+#   --use-pp \
+#   --fix-seed \
+#   --enable-pipeline \
+#   --seed 837330801 \
