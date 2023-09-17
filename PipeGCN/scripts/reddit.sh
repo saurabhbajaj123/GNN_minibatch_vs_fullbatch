@@ -1,4 +1,4 @@
-python /home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/main.py \
+python main.py \
   --dataset reddit \
   --dropout 0.3 \
   --lr 0.001 \

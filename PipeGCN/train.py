@@ -42,7 +42,7 @@ def evaluate_induc(name, model, g, mode, result_file_name=None):
 
 
 @torch.no_grad()
-def evaluate_trans(name, model, g, result_file_name=None):
+def evaluate_trans(name, model, g, loss_fcn, result_file_name=None):
     model.eval()
     model.cpu()
     feat, labels = g.ndata['feat'], g.ndata['label']
@@ -56,13 +56,16 @@ def evaluate_trans(name, model, g, result_file_name=None):
     test_acc = calc_acc(test_logits, test_labels)
     train_acc = calc_acc(train_logits, train_labels)
     buf = "{:s} | Validation Accuracy {:.2%} | Test Accuracy {:.2%}".format(name, val_acc, test_acc)
+    val_loss = loss_fcn(val_logits, val_labels) / len(val_labels)
+    test_loss = loss_fcn(test_logits, test_labels) / len(test_labels)
+    train_loss = loss_fcn(train_logits, train_labels) / len(train_labels)
     if result_file_name is not None:
         with open(result_file_name, 'a+') as f:
             f.write(buf + '\n')
             print(buf)
     else:
         print(buf)
-    return model, val_acc, test_acc, train_acc
+    return model, val_acc, test_acc, train_acc, val_loss, test_loss, train_loss
 
 
 def average_gradients(model, n_train):
@@ -352,8 +355,11 @@ def run(graph, node_dict, gpb, args):
         node_dict.pop('val_mask')
         node_dict.pop('test_mask')
     
-    prev_loss = float('inf')
+    # prev_loss = float('inf')
     train_time = 0
+    loss_list = []
+    best_val_loss = float('inf')
+    no_improvement_count = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
@@ -379,7 +385,7 @@ def run(graph, node_dict, gpb, args):
         optimizer.step()
         train_time += time.time() - t0
         avg_loss = loss.item() / len(labels)
-
+        loss_list.append(avg_loss)
         if epoch % args.log_every != 0:
             train_dur.append(time.time() - t0)
             comm_dur.append(ctx.comm_timer.tot_time())
@@ -406,12 +412,21 @@ def run(graph, node_dict, gpb, args):
                         'best_val_acc': best_val_acc,
                     })
                 else:
-                    model_copy, val_acc, test_acc, train_acc = thread.get()
+                    model_copy, val_acc, test_acc, train_acc, val_loss, test_loss, train_loss = thread.get()
                     if val_acc > best_val_acc:
                         best_val_acc = val_acc
                         best_test_acc = test_acc
                         best_train_acc = train_acc
                         best_model = model_copy
+                    
+                    if val_loss < best_val_loss:
+                        best_val_loss = val_loss
+                        best_test_loss = test_loss
+                        best_train_loss = train_loss
+                        no_improvement_count = 0
+                    else:
+                        no_improvement_count += args.log_every
+
                     wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
@@ -419,29 +434,40 @@ def run(graph, node_dict, gpb, args):
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
                         'train_time': train_time,
+                        'train_loss': train_loss,
+                        'val_loss': val_loss,
+                        'test_loss': test_loss,
+                        'best_val_loss': best_val_loss,
+                        'best_test_loss': best_test_loss,
+                        'best_train_loss': best_train_loss,
+
                     })
+
+                    
+    
                     
             model_copy = copy.deepcopy(model)
             if not args.inductive:
                 thread = pool.apply_async(evaluate_trans, args=('Epoch %05d' % epoch, model_copy,
-                                                                val_g, result_file_name))
+                                                                val_g, loss_fcn, result_file_name))
             else:
                 thread = pool.apply_async(evaluate_induc, args=('Epoch %05d' % epoch, model_copy,
                                                                 val_g, 'val', result_file_name))
         dist.barrier()
         break_condition = False
-        if abs(avg_loss - prev_loss) < args.convergence_threshold:
+        if epoch > 50 and no_improvement_count >= args.patience:
             break_condition = True
         dist.barrier()
-
+        # print(np.mean(loss_list[-11:-1]), avg_loss)
         break_condition_tensor = torch.tensor(int(break_condition)).cuda()
-        dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.PRODUCT)
+        dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.BOR)
         break_condition = bool(break_condition_tensor.item())
-
+        # print(break_condition)
         if break_condition:
+            print(f'Early stopping after {epoch + 1} epochs.')
             break
 
-        prev_loss = avg_loss
+        # prev_loss = avg_loss
     if args.eval and rank == 0:
         if thread is not None:
             if args.inductive:
@@ -450,12 +476,14 @@ def run(graph, node_dict, gpb, args):
                     best_val_acc = val_acc
                     best_model = model_copy
             else:
-                model_copy, val_acc, test_acc, train_acc = thread.get()
+                model_copy, val_acc, test_acc, train_acc, val_loss, test_loss, train_loss = thread.get()
                 if val_acc > best_val_acc:
                     best_val_acc = val_acc
                     best_test_acc = test_acc
                     best_train_acc = train_acc
                     best_model = model_copy
+                
+
         # torch.save(best_model.state_dict(), 'model/' + args.graph_name + '_final.pth.tar')
         # print('model saved')
         print("Validation accuracy {:.2%}".format(best_val_acc))
@@ -466,6 +494,9 @@ def run(graph, node_dict, gpb, args):
                 'best_test_acc': best_test_acc,
                 'best_val_acc': best_val_acc,
                 'best_train_acc': best_train_acc,
+                'train_loss': train_loss,
+                'val_loss': val_loss,
+                'test_loss': test_loss,
                 # 'final_test_acc': final_test_acc,
         })
     
