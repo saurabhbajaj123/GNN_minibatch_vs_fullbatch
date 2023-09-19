@@ -171,6 +171,7 @@ def train(
         train_dur.append(t1-t0)
         # scheduler.step()
         # scheduler2.step(best_val_acc)
+        no_improvement_count = 0
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
                 evaluate(model, g, n_classes, train_dataloader).to(device) / nprocs
@@ -205,7 +206,10 @@ def train(
                     best_train_acc = train_acc
                     best_val_acc = val_acc
                     best_test_acc = test_acc
-                
+                    no_improvement_count = 0
+                else:
+                    no_improvement_count += args.log_every
+
                 wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
@@ -218,7 +222,20 @@ def train(
                     })
 
 
-    dist.barrier()
+        dist.barrier()
+
+        break_condition = False
+        if epoch > 50 and no_improvement_count >= args.patience:
+            break_condition = True
+        dist.barrier()
+        break_condition_tensor = torch.tensor(int(break_condition)).cuda()
+        dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.BOR)
+        break_condition = bool(break_condition_tensor.item())
+        # print(break_condition)
+        if break_condition:
+            print(f'Early stopping after {epoch + 1} epochs.')
+            break
+        
     train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
     dist.reduce(train_dur_sum_tensor, 0)
     train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
@@ -230,6 +247,7 @@ def train(
     eval_dur_tensor = torch.tensor(np.sum(eval_dur)).cuda()
     dist.reduce(eval_dur_tensor, 0)
     eval_dur_sum = eval_dur_tensor.item() / args.n_gpus
+    
 
     # print(train_dur_sum)
     if proc_id == 0:
