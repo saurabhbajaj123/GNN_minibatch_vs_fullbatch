@@ -21,7 +21,11 @@ python main.py \
   --use-pp \
   --patience 50 \
   --enable-pipeline \
-  # --fix-seed \
+  --master_addr 10.100.31.54 \
+  --port 1234 \
+  --node-rank 3 \
+  --parts-per-node 1 \
+  --fix-seed \
   # --seed 1344439319 \
 
 

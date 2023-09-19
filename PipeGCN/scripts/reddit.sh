@@ -5,6 +5,7 @@
 #SBATCH --mem=50GB  # memory per CPU core
 #SBATCH --time=0-08:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --output=result_reddit.txt
+#SBATCH --nodes=1
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
@@ -17,7 +18,7 @@ python main.py \
   --model graphsage \
   --n-layers 7 \
   --n-hidden 256 \
-  --log-every 5 \
+  --log-every 99 \
   --patience 50 \
   # --enable-pipeline \
   # --fix-seed \
