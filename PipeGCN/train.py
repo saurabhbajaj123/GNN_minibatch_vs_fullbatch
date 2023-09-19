@@ -421,14 +421,15 @@ def run(graph, node_dict, gpb, args):
                         best_test_acc = test_acc
                         best_train_acc = train_acc
                         best_model = model_copy
+                        no_improvement_count = 0
+                    else:
+                        no_improvement_count += args.log_every
                     
                     if val_loss < best_val_loss:
                         best_val_loss = val_loss
                         best_test_loss = test_loss
                         best_train_loss = train_loss
-                        no_improvement_count = 0
-                    else:
-                        no_improvement_count += args.log_every
+
 
                     wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
