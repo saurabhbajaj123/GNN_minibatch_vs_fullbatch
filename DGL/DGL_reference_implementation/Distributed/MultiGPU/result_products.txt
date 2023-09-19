@@ -477,3 +477,11 @@ wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_233535-155zvr2v
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run n_gpus-4, n_hidden-312, n_layers-4, agg-mean, batch_size-1024, fanout-4.0
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/sweeps/kws7ty62
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/runs/155zvr2v
