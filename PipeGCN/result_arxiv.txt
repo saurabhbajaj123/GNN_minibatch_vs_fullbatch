@@ -1,0 +1,783 @@
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Agent Starting Run: 2stcweg8 with config:
+wandb: 	dummy: 100
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_000509-2stcweg8
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run fresh-sweep-1
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/2stcweg8
+Create sweep with ID: rnawlzfa
+Sweep URL: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+128
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.005, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=9, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=0, log_every=5, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_000531-2stcweg8
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-256, n_layers-9
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/2stcweg8
+loading partitions
+Process 1 has 53071 nodes, 361942 edges 41104 inner nodes, and 306344 inner edges.
+Process 001 | Epoch 00004 | Time(s) 2.2273 | Comm(s) 2.0211 | Reduce(s) 0.0458 | Loss 3.5468
+Process 001 | Epoch 00009 | Time(s) 2.3717 | Comm(s) 2.1592 | Reduce(s) 0.0506 | Loss 3.2647
+Process 001 | Epoch 00014 | Time(s) 2.4005 | Comm(s) 2.1855 | Reduce(s) 0.0534 | Loss 3.2364
+Process 001 | Epoch 00019 | Time(s) 2.4212 | Comm(s) 2.2052 | Reduce(s) 0.0548 | Loss 3.4254
+Process 001 | Epoch 00024 | Time(s) 2.4478 | Comm(s) 2.2301 | Reduce(s) 0.0568 | Loss 3.3791
+Process 001 | Epoch 00029 | Time(s) 2.4623 | Comm(s) 2.2430 | Reduce(s) 0.0588 | Loss 3.2790
+Process 001 | Epoch 00034 | Time(s) 2.4667 | Comm(s) 2.2472 | Reduce(s) 0.0586 | Loss 3.2701
+Process 001 | Epoch 00039 | Time(s) 2.4646 | Comm(s) 2.2456 | Reduce(s) 0.0581 | Loss 3.1286
+Process 001 | Epoch 00044 | Time(s) 2.4657 | Comm(s) 2.2479 | Reduce(s) 0.0571 | Loss 2.9653
+Process 001 | Epoch 00049 | Time(s) 2.4724 | Comm(s) 2.2538 | Reduce(s) 0.0579 | Loss 2.9028
+Process 001 | Epoch 00054 | Time(s) 2.4797 | Comm(s) 2.2604 | Reduce(s) 0.0583 | Loss 2.8035
+Process 001 | Epoch 00059 | Time(s) 2.4797 | Comm(s) 2.2604 | Reduce(s) 0.0584 | Loss 2.7713
+Process 001 | Epoch 00064 | Time(s) 2.4794 | Comm(s) 2.2608 | Reduce(s) 0.0576 | Loss 2.7147
+Process 001 | Epoch 00069 | Time(s) 2.4822 | Comm(s) 2.2636 | Reduce(s) 0.0576 | Loss 2.7054
+Process 001 | Epoch 00074 | Time(s) 2.4830 | Comm(s) 2.2643 | Reduce(s) 0.0578 | Loss 2.7259
+Early stopping after 75 epochs.
+loading partitions
+Process 2 has 65575 nodes, 828731 edges 43475 inner nodes, and 608163 inner edges.
+Process 002 | Epoch 00004 | Time(s) 2.2283 | Comm(s) 1.7725 | Reduce(s) 0.0155 | Loss 3.3869
+Process 002 | Epoch 00009 | Time(s) 2.3712 | Comm(s) 1.9056 | Reduce(s) 0.0108 | Loss 2.9870
+Process 002 | Epoch 00014 | Time(s) 2.3995 | Comm(s) 1.9534 | Reduce(s) 0.0124 | Loss 2.8405
+Process 002 | Epoch 00019 | Time(s) 2.4204 | Comm(s) 1.9688 | Reduce(s) 0.0132 | Loss 2.7154
+Process 002 | Epoch 00024 | Time(s) 2.4474 | Comm(s) 2.0049 | Reduce(s) 0.0137 | Loss 2.6437
+Process 002 | Epoch 00029 | Time(s) 2.4617 | Comm(s) 2.0216 | Reduce(s) 0.0158 | Loss 2.5920
+Process 002 | Epoch 00034 | Time(s) 2.4660 | Comm(s) 2.0275 | Reduce(s) 0.0168 | Loss 2.5680
+Process 002 | Epoch 00039 | Time(s) 2.4638 | Comm(s) 2.0240 | Reduce(s) 0.0171 | Loss 2.5354
+Process 002 | Epoch 00044 | Time(s) 2.4648 | Comm(s) 2.0246 | Reduce(s) 0.0152 | Loss 2.5685
+Process 002 | Epoch 00049 | Time(s) 2.4715 | Comm(s) 2.0277 | Reduce(s) 0.0153 | Loss 2.5182
+Process 002 | Epoch 00054 | Time(s) 2.4788 | Comm(s) 2.0363 | Reduce(s) 0.0153 | Loss 2.4359
+Process 002 | Epoch 00059 | Time(s) 2.4787 | Comm(s) 2.0370 | Reduce(s) 0.0156 | Loss 2.4370
+Process 002 | Epoch 00064 | Time(s) 2.4784 | Comm(s) 2.0385 | Reduce(s) 0.0153 | Loss 2.3545
+Process 002 | Epoch 00069 | Time(s) 2.4811 | Comm(s) 2.0448 | Reduce(s) 0.0154 | Loss 2.2911
+Process 002 | Epoch 00074 | Time(s) 2.4818 | Comm(s) 2.0428 | Reduce(s) 0.0151 | Loss 2.2594
+Early stopping after 75 epochs.
+loading partitions
+Process 3 has 66506 nodes, 1151066 edges 43606 inner nodes, and 926460 inner edges.
+Process 003 | Epoch 00004 | Time(s) 2.2290 | Comm(s) 1.7806 | Reduce(s) 0.0079 | Loss 3.5934
+Process 003 | Epoch 00009 | Time(s) 2.3767 | Comm(s) 1.9271 | Reduce(s) 0.0137 | Loss 3.4834
+Process 003 | Epoch 00014 | Time(s) 2.4056 | Comm(s) 1.9511 | Reduce(s) 0.0114 | Loss 3.0011
+Process 003 | Epoch 00019 | Time(s) 2.4255 | Comm(s) 1.9778 | Reduce(s) 0.0104 | Loss 2.1492
+Process 003 | Epoch 00024 | Time(s) 2.4509 | Comm(s) 2.0011 | Reduce(s) 0.0102 | Loss 1.9131
+Process 003 | Epoch 00029 | Time(s) 2.4645 | Comm(s) 2.0104 | Reduce(s) 0.0085 | Loss 1.8852
+Process 003 | Epoch 00034 | Time(s) 2.4692 | Comm(s) 2.0136 | Reduce(s) 0.0073 | Loss 1.8973
+Process 003 | Epoch 00039 | Time(s) 2.4665 | Comm(s) 2.0087 | Reduce(s) 0.0064 | Loss 1.8484
+Process 003 | Epoch 00044 | Time(s) 2.4681 | Comm(s) 2.0092 | Reduce(s) 0.0085 | Loss 1.8252
+Process 003 | Epoch 00049 | Time(s) 2.4739 | Comm(s) 2.0131 | Reduce(s) 0.0083 | Loss 1.7425
+Process 003 | Epoch 00054 | Time(s) 2.4807 | Comm(s) 2.0173 | Reduce(s) 0.0088 | Loss 1.6926
+Process 003 | Epoch 00059 | Time(s) 2.4802 | Comm(s) 2.0140 | Reduce(s) 0.0086 | Loss 1.6298
+Process 003 | Epoch 00064 | Time(s) 2.4801 | Comm(s) 2.0131 | Reduce(s) 0.0086 | Loss 1.6641
+Process 003 | Epoch 00069 | Time(s) 2.4830 | Comm(s) 2.0134 | Reduce(s) 0.0080 | Loss 1.5848
+Process 003 | Epoch 00074 | Time(s) 2.4834 | Comm(s) 2.0158 | Reduce(s) 0.0083 | Loss 1.5284
+Early stopping after 75 epochs.
+loading partitions
+128
+Process 0 has 48716 nodes, 428008 edges 41158 inner nodes, and 392944 inner edges.
+Process 000 | Epoch 00004 | Time(s) 2.2318 | Comm(s) 2.0040 | Reduce(s) 0.0627 | Loss 3.6231
+Process 000 | Epoch 00009 | Time(s) 2.3768 | Comm(s) 2.1454 | Reduce(s) 0.0645 | Loss 3.5423
+Epoch 00004 | Validation Accuracy 4.13% | Test Accuracy 2.99%
+Process 000 | Epoch 00014 | Time(s) 2.4059 | Comm(s) 2.1749 | Reduce(s) 0.0648 | Loss 2.9552
+Epoch 00009 | Validation Accuracy 3.45% | Test Accuracy 2.91%
+Process 000 | Epoch 00019 | Time(s) 2.4269 | Comm(s) 2.1946 | Reduce(s) 0.0673 | Loss 2.4331
+Epoch 00014 | Validation Accuracy 3.45% | Test Accuracy 2.91%
+Process 000 | Epoch 00024 | Time(s) 2.4539 | Comm(s) 2.2209 | Reduce(s) 0.0673 | Loss 2.3843
+Epoch 00019 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00029 | Time(s) 2.4684 | Comm(s) 2.2352 | Reduce(s) 0.0681 | Loss 2.0971
+Epoch 00024 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00034 | Time(s) 2.4732 | Comm(s) 2.2410 | Reduce(s) 0.0676 | Loss 1.8671
+Epoch 00029 | Validation Accuracy 9.85% | Test Accuracy 7.58%
+Process 000 | Epoch 00039 | Time(s) 2.4711 | Comm(s) 2.2396 | Reduce(s) 0.0669 | Loss 1.7328
+Epoch 00034 | Validation Accuracy 11.10% | Test Accuracy 8.67%
+Process 000 | Epoch 00044 | Time(s) 2.4720 | Comm(s) 2.2406 | Reduce(s) 0.0668 | Loss 1.7187
+Epoch 00039 | Validation Accuracy 10.61% | Test Accuracy 8.25%
+Process 000 | Epoch 00049 | Time(s) 2.4784 | Comm(s) 2.2469 | Reduce(s) 0.0673 | Loss 1.6751
+Epoch 00044 | Validation Accuracy 12.24% | Test Accuracy 9.58%
+Process 000 | Epoch 00054 | Time(s) 2.4854 | Comm(s) 2.2531 | Reduce(s) 0.0676 | Loss 1.6708
+Epoch 00049 | Validation Accuracy 11.53% | Test Accuracy 9.11%
+Process 000 | Epoch 00059 | Time(s) 2.4851 | Comm(s) 2.2527 | Reduce(s) 0.0678 | Loss 1.6290
+Epoch 00054 | Validation Accuracy 12.37% | Test Accuracy 9.54%
+Process 000 | Epoch 00064 | Time(s) 2.4846 | Comm(s) 2.2527 | Reduce(s) 0.0672 | Loss 1.6775
+Epoch 00059 | Validation Accuracy 11.52% | Test Accuracy 9.12%
+Process 000 | Epoch 00069 | Time(s) 2.4876 | Comm(s) 2.2563 | Reduce(s) 0.0667 | Loss 1.6030
+Epoch 00064 | Validation Accuracy 11.46% | Test Accuracy 9.04%
+Process 000 | Epoch 00074 | Time(s) 2.4882 | Comm(s) 2.2566 | Reduce(s) 0.0670 | Loss 1.5662
+Epoch 00069 | Validation Accuracy 11.60% | Test Accuracy 9.19%
+Early stopping after 75 epochs.
+Epoch 00074 | Validation Accuracy 11.59% | Test Accuracy 9.18%
+Validation accuracy 12.37%
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▁▄▄▆▇▇███████
+wandb:               best_test_loss █▄▁▄▄▄▄▄▄▄▄▄▄▄
+wandb:               best_train_acc ▁▁▁▅▅▇█████████
+wandb:              best_train_loss █▆▂▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 best_val_acc ▁▁▁▄▄▆▇▇███████
+wandb:                best_val_loss █▆▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▁▁▄▄▆▇▇████▇██
+wandb:                    test_loss ▃▂▁▂▆▆▄▇▇▆▆▆▅▄█
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▁▁▅▅▇█▇███████
+wandb:                   train_loss █▇▅▄▅▄▃▄▃▂▂▂▂▁▃
+wandb:                   train_time ▁▂▂▃▃▄▄▅▅▆▆▇▇█
+wandb:                      val_acc ▂▁▁▄▄▆▇▇█▇█▇▇▇▇
+wandb:                     val_loss ▃▂▁▁▆▆▄█▇▆▇▇▅▄█
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 2.48818
+wandb:                best_test_acc 0.09541
+wandb:               best_test_loss 3.48411
+wandb:               best_train_acc 0.25354
+wandb:              best_train_loss 3.18695
+wandb:                 best_val_acc 0.1237
+wandb:                best_val_loss 3.43417
+wandb:                   num epochs 75
+wandb:                     test_acc 0.09176
+wandb:                    test_loss 4.10957
+wandb:                   torch_seed 0
+wandb:             total train time 597.16363
+wandb:     total train time per GPU 149.29091
+wandb:         train time per epoch 7.96218
+wandb:                    train_acc 0.25683
+wandb:                   train_loss 3.05471
+wandb:                   train_time 188.69719
+wandb:                      val_acc 0.11594
+wandb:                     val_loss 3.98641
+wandb: 
+wandb: 🚀 View run fresh-sweep-1 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/2stcweg8
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_000509-2stcweg8/logs
+wandb: Agent Starting Run: 9u5m3zvb with config:
+wandb: 	dummy: 101
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_001210-9u5m3zvb
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run crimson-sweep-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/9u5m3zvb
+128
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.005, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=9, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=0, log_every=5, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_001227-9u5m3zvb
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-256, n_layers-9
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/9u5m3zvb
+loading partitions
+Process 1 has 53071 nodes, 361942 edges 41104 inner nodes, and 306344 inner edges.
+Process 001 | Epoch 00004 | Time(s) 2.2458 | Comm(s) 2.0356 | Reduce(s) 0.0511 | Loss 3.5695
+Process 001 | Epoch 00009 | Time(s) 2.3722 | Comm(s) 2.1582 | Reduce(s) 0.0549 | Loss 3.3109
+Process 001 | Epoch 00014 | Time(s) 2.3907 | Comm(s) 2.1801 | Reduce(s) 0.0503 | Loss 3.2509
+Process 001 | Epoch 00019 | Time(s) 2.4168 | Comm(s) 2.2079 | Reduce(s) 0.0492 | Loss 3.4712
+Process 001 | Epoch 00024 | Time(s) 2.4206 | Comm(s) 2.2100 | Reduce(s) 0.0512 | Loss 3.3062
+Process 001 | Epoch 00029 | Time(s) 2.4364 | Comm(s) 2.2253 | Reduce(s) 0.0518 | Loss 3.3456
+Process 001 | Epoch 00034 | Time(s) 2.4416 | Comm(s) 2.2317 | Reduce(s) 0.0504 | Loss 3.1632
+Process 001 | Epoch 00039 | Time(s) 2.4475 | Comm(s) 2.2368 | Reduce(s) 0.0513 | Loss 3.4635
+Process 001 | Epoch 00044 | Time(s) 2.4599 | Comm(s) 2.2478 | Reduce(s) 0.0522 | Loss 3.1178
+Process 001 | Epoch 00049 | Time(s) 2.4586 | Comm(s) 2.2462 | Reduce(s) 0.0525 | Loss 3.0612
+Process 001 | Epoch 00054 | Time(s) 2.4653 | Comm(s) 2.2521 | Reduce(s) 0.0536 | Loss 3.0107
+Process 001 | Epoch 00059 | Time(s) 2.4637 | Comm(s) 2.2503 | Reduce(s) 0.0536 | Loss 2.8977
+Process 001 | Epoch 00064 | Time(s) 2.4676 | Comm(s) 2.2536 | Reduce(s) 0.0544 | Loss 2.8117
+Process 001 | Epoch 00069 | Time(s) 2.4690 | Comm(s) 2.2549 | Reduce(s) 0.0543 | Loss 2.7785
+Early stopping after 70 epochs.
+loading partitions
+Process 2 has 65575 nodes, 828731 edges 43475 inner nodes, and 608163 inner edges.
+Process 002 | Epoch 00004 | Time(s) 2.2412 | Comm(s) 1.7974 | Reduce(s) 0.0173 | Loss 3.6044
+Process 002 | Epoch 00009 | Time(s) 2.3692 | Comm(s) 1.9130 | Reduce(s) 0.0192 | Loss 3.3112
+Process 002 | Epoch 00014 | Time(s) 2.3882 | Comm(s) 1.9332 | Reduce(s) 0.0171 | Loss 2.8017
+Process 002 | Epoch 00019 | Time(s) 2.4146 | Comm(s) 1.9611 | Reduce(s) 0.0164 | Loss 2.6949
+Process 002 | Epoch 00024 | Time(s) 2.4184 | Comm(s) 1.9724 | Reduce(s) 0.0164 | Loss 2.6431
+Process 002 | Epoch 00029 | Time(s) 2.4342 | Comm(s) 1.9850 | Reduce(s) 0.0174 | Loss 2.5944
+Process 002 | Epoch 00034 | Time(s) 2.4396 | Comm(s) 1.9886 | Reduce(s) 0.0156 | Loss 2.5681
+Process 002 | Epoch 00039 | Time(s) 2.4453 | Comm(s) 1.9890 | Reduce(s) 0.0161 | Loss 2.5246
+Process 002 | Epoch 00044 | Time(s) 2.4577 | Comm(s) 2.0039 | Reduce(s) 0.0168 | Loss 2.4460
+Process 002 | Epoch 00049 | Time(s) 2.4567 | Comm(s) 2.0073 | Reduce(s) 0.0161 | Loss 2.4571
+Process 002 | Epoch 00054 | Time(s) 2.4634 | Comm(s) 2.0171 | Reduce(s) 0.0158 | Loss 2.3571
+Process 002 | Epoch 00059 | Time(s) 2.4621 | Comm(s) 2.0156 | Reduce(s) 0.0165 | Loss 2.2642
+Process 002 | Epoch 00064 | Time(s) 2.4659 | Comm(s) 2.0197 | Reduce(s) 0.0160 | Loss 2.2369
+Process 002 | Epoch 00069 | Time(s) 2.4673 | Comm(s) 2.0203 | Reduce(s) 0.0156 | Loss 2.1602
+Early stopping after 70 epochs.
+loading partitions
+Process 3 has 66506 nodes, 1151066 edges 43606 inner nodes, and 926460 inner edges.
+Process 003 | Epoch 00004 | Time(s) 2.2560 | Comm(s) 1.8325 | Reduce(s) 0.0081 | Loss 3.5783
+Process 003 | Epoch 00009 | Time(s) 2.3745 | Comm(s) 1.9331 | Reduce(s) 0.0041 | Loss 3.1717
+Process 003 | Epoch 00014 | Time(s) 2.3916 | Comm(s) 1.9568 | Reduce(s) 0.0048 | Loss 2.0900
+Process 003 | Epoch 00019 | Time(s) 2.4179 | Comm(s) 1.9779 | Reduce(s) 0.0052 | Loss 2.0088
+Process 003 | Epoch 00024 | Time(s) 2.4218 | Comm(s) 1.9735 | Reduce(s) 0.0054 | Loss 1.9245
+Process 003 | Epoch 00029 | Time(s) 2.4377 | Comm(s) 1.9894 | Reduce(s) 0.0046 | Loss 1.8791
+Process 003 | Epoch 00034 | Time(s) 2.4432 | Comm(s) 1.9955 | Reduce(s) 0.0070 | Loss 1.8376
+Process 003 | Epoch 00039 | Time(s) 2.4486 | Comm(s) 1.9989 | Reduce(s) 0.0062 | Loss 1.7533
+Process 003 | Epoch 00044 | Time(s) 2.4607 | Comm(s) 2.0113 | Reduce(s) 0.0055 | Loss 1.7158
+Process 003 | Epoch 00049 | Time(s) 2.4598 | Comm(s) 2.0091 | Reduce(s) 0.0061 | Loss 1.6523
+Process 003 | Epoch 00054 | Time(s) 2.4661 | Comm(s) 2.0138 | Reduce(s) 0.0062 | Loss 1.6356
+Process 003 | Epoch 00059 | Time(s) 2.4644 | Comm(s) 2.0100 | Reduce(s) 0.0057 | Loss 1.6024
+Process 003 | Epoch 00064 | Time(s) 2.4686 | Comm(s) 2.0171 | Reduce(s) 0.0061 | Loss 1.5997
+Process 003 | Epoch 00069 | Time(s) 2.4699 | Comm(s) 2.0215 | Reduce(s) 0.0065 | Loss 1.5268
+Early stopping after 70 epochs.
+loading partitions
+128
+Process 0 has 48716 nodes, 428008 edges 41158 inner nodes, and 392944 inner edges.
+Process 000 | Epoch 00004 | Time(s) 2.2537 | Comm(s) 2.0294 | Reduce(s) 0.0627 | Loss 3.6378
+Process 000 | Epoch 00009 | Time(s) 2.3790 | Comm(s) 2.1516 | Reduce(s) 0.0647 | Loss 3.5567
+Epoch 00004 | Validation Accuracy 3.79% | Test Accuracy 3.85%
+Process 000 | Epoch 00014 | Time(s) 2.3970 | Comm(s) 2.1684 | Reduce(s) 0.0646 | Loss 3.0011
+Epoch 00009 | Validation Accuracy 3.45% | Test Accuracy 2.91%
+Process 000 | Epoch 00019 | Time(s) 2.4229 | Comm(s) 2.1960 | Reduce(s) 0.0636 | Loss 2.3257
+Epoch 00014 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00024 | Time(s) 2.4266 | Comm(s) 2.1978 | Reduce(s) 0.0657 | Loss 2.4245
+Epoch 00019 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00029 | Time(s) 2.4426 | Comm(s) 2.2130 | Reduce(s) 0.0663 | Loss 2.3353
+Epoch 00024 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00034 | Time(s) 2.4478 | Comm(s) 2.2181 | Reduce(s) 0.0661 | Loss 2.4578
+Epoch 00029 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00039 | Time(s) 2.4535 | Comm(s) 2.2243 | Reduce(s) 0.0659 | Loss 2.0107
+Epoch 00034 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00044 | Time(s) 2.4659 | Comm(s) 2.2353 | Reduce(s) 0.0672 | Loss 1.8138
+Epoch 00039 | Validation Accuracy 7.71% | Test Accuracy 5.89%
+Process 000 | Epoch 00049 | Time(s) 2.4645 | Comm(s) 2.2346 | Reduce(s) 0.0666 | Loss 1.7711
+Epoch 00044 | Validation Accuracy 8.59% | Test Accuracy 6.54%
+Process 000 | Epoch 00054 | Time(s) 2.4709 | Comm(s) 2.2411 | Reduce(s) 0.0667 | Loss 1.7320
+Epoch 00049 | Validation Accuracy 10.25% | Test Accuracy 8.04%
+Process 000 | Epoch 00059 | Time(s) 2.4696 | Comm(s) 2.2394 | Reduce(s) 0.0669 | Loss 1.6949
+Epoch 00054 | Validation Accuracy 10.95% | Test Accuracy 8.77%
+Process 000 | Epoch 00064 | Time(s) 2.4734 | Comm(s) 2.2429 | Reduce(s) 0.0675 | Loss 1.6687
+Epoch 00059 | Validation Accuracy 11.45% | Test Accuracy 9.07%
+Process 000 | Epoch 00069 | Time(s) 2.4747 | Comm(s) 2.2442 | Reduce(s) 0.0674 | Loss 1.6410
+Epoch 00064 | Validation Accuracy 11.81% | Test Accuracy 9.37%
+Early stopping after 70 epochs.
+Epoch 00069 | Validation Accuracy 11.79% | Test Accuracy 9.36%
+Validation accuracy 11.81%
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▄▄▄▄▄▄▄▆▇███
+wandb:               best_test_loss █▄▁▁▁▁▁▁▁▁▁▁▁
+wandb:               best_train_acc ▁▁▆▆▆▆▆▆▆▇████
+wandb:              best_train_loss █▆▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 best_val_acc ▁▁▄▄▄▄▄▄▅▇▇███
+wandb:                best_val_loss █▅▁▁▁▁▁▁▁▁▁▁▁
+wandb:                   num epochs ▁
+wandb:                     test_acc ▂▁▄▄▄▄▄▄▅▇▇███
+wandb:                    test_loss ▂▂▁▄▅▅█▅▆▄▅▅▅▄
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▂▆▆▆▆▆▆▆▇████
+wandb:                   train_loss ▇▅▃▅▅▅█▃▄▂▃▂▂▁
+wandb:                   train_time ▁▂▂▃▃▄▄▅▆▆▇▇█
+wandb:                      val_acc ▁▁▄▄▄▄▄▅▅▇▇███
+wandb:                     val_loss ▃▂▁▄▅▅█▅▆▄▅▅▅▄
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 2.47465
+wandb:                best_test_acc 0.09368
+wandb:               best_test_loss 3.29163
+wandb:               best_train_acc 0.25619
+wandb:              best_train_loss 3.18482
+wandb:                 best_val_acc 0.11809
+wandb:                best_val_loss 3.28305
+wandb:                   num epochs 70
+wandb:                     test_acc 0.0936
+wandb:                    test_loss 3.96075
+wandb:                   torch_seed 0
+wandb:             total train time 554.32257
+wandb:     total train time per GPU 138.58064
+wandb:         train time per epoch 7.91889
+wandb:                    train_acc 0.25568
+wandb:                   train_loss 3.02994
+wandb:                   train_time 174.96946
+wandb:                      val_acc 0.11792
+wandb:                     val_loss 3.91219
+wandb: 
+wandb: 🚀 View run crimson-sweep-2 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/9u5m3zvb
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_001210-9u5m3zvb/logs
+wandb: Agent Starting Run: dqmli4hc with config:
+wandb: 	dummy: 102
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_001838-dqmli4hc
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run peach-sweep-3
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/dqmli4hc
+128
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.005, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=9, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=0, log_every=5, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_001854-dqmli4hc
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-256, n_layers-9
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/dqmli4hc
+loading partitions
+Process 1 has 53071 nodes, 361942 edges 41104 inner nodes, and 306344 inner edges.
+Process 001 | Epoch 00004 | Time(s) 2.2571 | Comm(s) 2.0504 | Reduce(s) 0.0481 | Loss 3.5696
+Process 001 | Epoch 00009 | Time(s) 2.4027 | Comm(s) 2.1875 | Reduce(s) 0.0545 | Loss 3.3112
+Process 001 | Epoch 00014 | Time(s) 2.4043 | Comm(s) 2.1856 | Reduce(s) 0.0583 | Loss 3.2624
+Process 001 | Epoch 00019 | Time(s) 2.4200 | Comm(s) 2.2053 | Reduce(s) 0.0549 | Loss 3.3652
+Process 001 | Epoch 00024 | Time(s) 2.4263 | Comm(s) 2.2099 | Reduce(s) 0.0560 | Loss 3.3389
+Process 001 | Epoch 00029 | Time(s) 2.4412 | Comm(s) 2.2238 | Reduce(s) 0.0566 | Loss 3.2412
+Process 001 | Epoch 00034 | Time(s) 2.4469 | Comm(s) 2.2301 | Reduce(s) 0.0560 | Loss 3.1165
+Process 001 | Epoch 00039 | Time(s) 2.4521 | Comm(s) 2.2357 | Reduce(s) 0.0556 | Loss 3.0606
+Process 001 | Epoch 00044 | Time(s) 2.4593 | Comm(s) 2.2429 | Reduce(s) 0.0558 | Loss 3.0701
+Process 001 | Epoch 00049 | Time(s) 2.4636 | Comm(s) 2.2466 | Reduce(s) 0.0561 | Loss 2.9340
+Process 001 | Epoch 00054 | Time(s) 2.4701 | Comm(s) 2.2534 | Reduce(s) 0.0557 | Loss 2.8546
+Process 001 | Epoch 00059 | Time(s) 2.4675 | Comm(s) 2.2509 | Reduce(s) 0.0557 | Loss 2.7740
+Process 001 | Epoch 00064 | Time(s) 2.4705 | Comm(s) 2.2535 | Reduce(s) 0.0564 | Loss 2.7107
+Process 001 | Epoch 00069 | Time(s) 2.4711 | Comm(s) 2.2543 | Reduce(s) 0.0563 | Loss 2.6630
+Early stopping after 70 epochs.
+loading partitions
+Process 2 has 65575 nodes, 828731 edges 43475 inner nodes, and 608163 inner edges.
+Process 002 | Epoch 00004 | Time(s) 2.2577 | Comm(s) 1.8018 | Reduce(s) 0.0158 | Loss 3.5789
+Process 002 | Epoch 00009 | Time(s) 2.4011 | Comm(s) 1.9720 | Reduce(s) 0.0173 | Loss 3.1431
+Process 002 | Epoch 00014 | Time(s) 2.4029 | Comm(s) 1.9811 | Reduce(s) 0.0187 | Loss 2.6813
+Process 002 | Epoch 00019 | Time(s) 2.4185 | Comm(s) 1.9886 | Reduce(s) 0.0141 | Loss 2.6884
+Process 002 | Epoch 00024 | Time(s) 2.4244 | Comm(s) 1.9920 | Reduce(s) 0.0157 | Loss 2.6379
+Process 002 | Epoch 00029 | Time(s) 2.4394 | Comm(s) 2.0110 | Reduce(s) 0.0150 | Loss 2.6031
+Process 002 | Epoch 00034 | Time(s) 2.4451 | Comm(s) 2.0195 | Reduce(s) 0.0135 | Loss 2.5686
+Process 002 | Epoch 00039 | Time(s) 2.4502 | Comm(s) 2.0257 | Reduce(s) 0.0141 | Loss 2.5650
+Process 002 | Epoch 00044 | Time(s) 2.4575 | Comm(s) 2.0329 | Reduce(s) 0.0138 | Loss 2.5120
+Process 002 | Epoch 00049 | Time(s) 2.4621 | Comm(s) 2.0394 | Reduce(s) 0.0131 | Loss 2.4918
+Process 002 | Epoch 00054 | Time(s) 2.4684 | Comm(s) 2.0458 | Reduce(s) 0.0132 | Loss 2.4648
+Process 002 | Epoch 00059 | Time(s) 2.4659 | Comm(s) 2.0412 | Reduce(s) 0.0132 | Loss 2.4307
+Process 002 | Epoch 00064 | Time(s) 2.4689 | Comm(s) 2.0429 | Reduce(s) 0.0128 | Loss 2.4082
+Process 002 | Epoch 00069 | Time(s) 2.4695 | Comm(s) 2.0417 | Reduce(s) 0.0133 | Loss 2.3817
+Early stopping after 70 epochs.
+loading partitions
+Process 3 has 66506 nodes, 1151066 edges 43606 inner nodes, and 926460 inner edges.
+Process 003 | Epoch 00004 | Time(s) 2.2506 | Comm(s) 1.8227 | Reduce(s) 0.0073 | Loss 3.5459
+Process 003 | Epoch 00009 | Time(s) 2.3971 | Comm(s) 1.9471 | Reduce(s) 0.0077 | Loss 3.0188
+Process 003 | Epoch 00014 | Time(s) 2.3998 | Comm(s) 1.9296 | Reduce(s) 0.0076 | Loss 2.0725
+Process 003 | Epoch 00019 | Time(s) 2.4171 | Comm(s) 1.9517 | Reduce(s) 0.0129 | Loss 1.9499
+Process 003 | Epoch 00024 | Time(s) 2.4223 | Comm(s) 1.9659 | Reduce(s) 0.0103 | Loss 1.8750
+Process 003 | Epoch 00029 | Time(s) 2.4379 | Comm(s) 1.9757 | Reduce(s) 0.0107 | Loss 1.8345
+Process 003 | Epoch 00034 | Time(s) 2.4440 | Comm(s) 1.9876 | Reduce(s) 0.0122 | Loss 1.7755
+Process 003 | Epoch 00039 | Time(s) 2.4503 | Comm(s) 1.9915 | Reduce(s) 0.0114 | Loss 1.9112
+Process 003 | Epoch 00044 | Time(s) 2.4577 | Comm(s) 1.9972 | Reduce(s) 0.0117 | Loss 1.8549
+Process 003 | Epoch 00049 | Time(s) 2.4618 | Comm(s) 2.0041 | Reduce(s) 0.0126 | Loss 1.8265
+Process 003 | Epoch 00054 | Time(s) 2.4681 | Comm(s) 2.0095 | Reduce(s) 0.0121 | Loss 1.8124
+Process 003 | Epoch 00059 | Time(s) 2.4651 | Comm(s) 2.0092 | Reduce(s) 0.0119 | Loss 1.8061
+Process 003 | Epoch 00064 | Time(s) 2.4689 | Comm(s) 2.0117 | Reduce(s) 0.0125 | Loss 1.7619
+Process 003 | Epoch 00069 | Time(s) 2.4700 | Comm(s) 2.0134 | Reduce(s) 0.0116 | Loss 1.7183
+Early stopping after 70 epochs.
+loading partitions
+128
+Process 0 has 48716 nodes, 428008 edges 41158 inner nodes, and 392944 inner edges.
+Process 000 | Epoch 00004 | Time(s) 2.2606 | Comm(s) 2.0388 | Reduce(s) 0.0582 | Loss 3.6444
+Process 000 | Epoch 00009 | Time(s) 2.4070 | Comm(s) 2.1784 | Reduce(s) 0.0645 | Loss 3.5540
+Epoch 00004 | Validation Accuracy 3.79% | Test Accuracy 3.85%
+Process 000 | Epoch 00014 | Time(s) 2.4093 | Comm(s) 2.1793 | Reduce(s) 0.0663 | Loss 2.8816
+Epoch 00009 | Validation Accuracy 3.45% | Test Accuracy 2.91%
+Process 000 | Epoch 00019 | Time(s) 2.4247 | Comm(s) 2.1948 | Reduce(s) 0.0661 | Loss 2.3982
+Epoch 00014 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00024 | Time(s) 2.4313 | Comm(s) 2.1998 | Reduce(s) 0.0678 | Loss 2.3058
+Epoch 00019 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00029 | Time(s) 2.4461 | Comm(s) 2.2150 | Reduce(s) 0.0680 | Loss 1.9772
+Epoch 00024 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00034 | Time(s) 2.4517 | Comm(s) 2.2208 | Reduce(s) 0.0681 | Loss 1.8641
+Epoch 00029 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00039 | Time(s) 2.4573 | Comm(s) 2.2264 | Reduce(s) 0.0684 | Loss 1.7769
+Epoch 00034 | Validation Accuracy 9.94% | Test Accuracy 7.79%
+Process 000 | Epoch 00044 | Time(s) 2.4644 | Comm(s) 2.2322 | Reduce(s) 0.0690 | Loss 1.7337
+Epoch 00039 | Validation Accuracy 11.07% | Test Accuracy 8.71%
+Process 000 | Epoch 00049 | Time(s) 2.4686 | Comm(s) 2.2356 | Reduce(s) 0.0696 | Loss 1.7055
+Epoch 00044 | Validation Accuracy 8.82% | Test Accuracy 6.72%
+Process 000 | Epoch 00054 | Time(s) 2.4749 | Comm(s) 2.2418 | Reduce(s) 0.0699 | Loss 1.7282
+Epoch 00049 | Validation Accuracy 10.69% | Test Accuracy 8.52%
+Process 000 | Epoch 00059 | Time(s) 2.4724 | Comm(s) 2.2390 | Reduce(s) 0.0697 | Loss 1.6513
+Epoch 00054 | Validation Accuracy 11.04% | Test Accuracy 8.53%
+Process 000 | Epoch 00064 | Time(s) 2.4754 | Comm(s) 2.2416 | Reduce(s) 0.0704 | Loss 1.6309
+Epoch 00059 | Validation Accuracy 11.83% | Test Accuracy 9.31%
+Process 000 | Epoch 00069 | Time(s) 2.4762 | Comm(s) 2.2426 | Reduce(s) 0.0703 | Loss 1.6005
+Epoch 00064 | Validation Accuracy 11.82% | Test Accuracy 9.18%
+Early stopping after 70 epochs.
+Epoch 00069 | Validation Accuracy 24.33% | Test Accuracy 27.45%
+Validation accuracy 24.33%
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▂▂▂▂▂▂▂▂▂▃▃█
+wandb:               best_test_loss █▁▂▂▂▂▂▂▂▂▂▂▂
+wandb:               best_train_acc ▁▁▅▅▅▅▆▆▆▆▆▇▇█
+wandb:              best_train_loss █▅▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 best_val_acc ▁▁▂▂▂▂▃▃▃▃▃▄▄█
+wandb:                best_val_loss █▃▁▁▁▁▁▁▁▁▁▁▁
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▁▂▂▂▂▂▃▂▃▃▃▃█
+wandb:                    test_loss ▅▄▄▆▆▅▇▆█▇█▇▅▁
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▂▅▅▅▅▆▆▅▆▆▇▇█
+wandb:                   train_loss █▇▅▆▆▄▅▄▆▅▅▅▃▁
+wandb:                   train_time ▁▂▂▃▃▄▄▅▆▆▇▇█
+wandb:                      val_acc ▁▁▂▂▂▂▃▄▃▃▄▄▄█
+wandb:                     val_loss ▅▄▄▆▆▅▇▆████▅▁
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 2.47622
+wandb:                best_test_acc 0.27447
+wandb:               best_test_loss 3.43946
+wandb:               best_train_acc 0.3115
+wandb:              best_train_loss 3.20541
+wandb:                 best_val_acc 0.24326
+wandb:                best_val_loss 3.40305
+wandb:                   num epochs 70
+wandb:                     test_acc 0.27447
+wandb:                    test_loss 2.90773
+wandb:                   torch_seed 0
+wandb:             total train time 554.67377
+wandb:     total train time per GPU 138.66844
+wandb:         train time per epoch 7.92391
+wandb:                    train_acc 0.3115
+wandb:                   train_loss 2.59504
+wandb:                   train_time 174.8127
+wandb:                      val_acc 0.24326
+wandb:                     val_loss 2.93007
+wandb: 
+wandb: 🚀 View run peach-sweep-3 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/dqmli4hc
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_001838-dqmli4hc/logs
+wandb: Agent Starting Run: 533rmedx with config:
+wandb: 	dummy: 103
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_002510-533rmedx
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run restful-sweep-4
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/533rmedx
+128
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.005, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=9, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=0, log_every=5, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_002529-533rmedx
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-256, n_layers-9
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/533rmedx
+loading partitions
+Process 1 has 53071 nodes, 361942 edges 41104 inner nodes, and 306344 inner edges.
+Process 001 | Epoch 00004 | Time(s) 2.2359 | Comm(s) 2.0261 | Reduce(s) 0.0495 | Loss 3.5598
+Process 001 | Epoch 00009 | Time(s) 2.3858 | Comm(s) 2.1709 | Reduce(s) 0.0550 | Loss 3.2857
+Process 001 | Epoch 00014 | Time(s) 2.3983 | Comm(s) 2.1855 | Reduce(s) 0.0534 | Loss 3.3105
+Process 001 | Epoch 00019 | Time(s) 2.4218 | Comm(s) 2.2079 | Reduce(s) 0.0544 | Loss 3.5171
+Process 001 | Epoch 00024 | Time(s) 2.4493 | Comm(s) 2.2342 | Reduce(s) 0.0555 | Loss 3.3175
+Process 001 | Epoch 00029 | Time(s) 2.4694 | Comm(s) 2.2541 | Reduce(s) 0.0556 | Loss 3.3910
+Process 001 | Epoch 00034 | Time(s) 2.4758 | Comm(s) 2.2590 | Reduce(s) 0.0567 | Loss 3.3169
+Process 001 | Epoch 00039 | Time(s) 2.4800 | Comm(s) 2.2628 | Reduce(s) 0.0574 | Loss 3.3397
+Process 001 | Epoch 00044 | Time(s) 2.4967 | Comm(s) 2.2783 | Reduce(s) 0.0586 | Loss 3.4176
+Process 001 | Epoch 00049 | Time(s) 2.5004 | Comm(s) 2.2814 | Reduce(s) 0.0592 | Loss 3.2225
+Process 001 | Epoch 00054 | Time(s) 2.5081 | Comm(s) 2.2891 | Reduce(s) 0.0590 | Loss 3.1151
+Process 001 | Epoch 00059 | Time(s) 2.5124 | Comm(s) 2.2924 | Reduce(s) 0.0600 | Loss 3.0550
+Process 001 | Epoch 00064 | Time(s) 2.5207 | Comm(s) 2.3008 | Reduce(s) 0.0600 | Loss 2.9903
+Process 001 | Epoch 00069 | Time(s) 2.5195 | Comm(s) 2.2997 | Reduce(s) 0.0601 | Loss 2.9357
+Early stopping after 70 epochs.
+loading partitions
+Process 2 has 65575 nodes, 828731 edges 43475 inner nodes, and 608163 inner edges.
+Process 002 | Epoch 00004 | Time(s) 2.2312 | Comm(s) 1.7563 | Reduce(s) 0.0189 | Loss 3.5716
+Process 002 | Epoch 00009 | Time(s) 2.3828 | Comm(s) 1.9321 | Reduce(s) 0.0203 | Loss 3.2329
+Process 002 | Epoch 00014 | Time(s) 2.3958 | Comm(s) 1.9563 | Reduce(s) 0.0186 | Loss 2.8539
+Process 002 | Epoch 00019 | Time(s) 2.4203 | Comm(s) 1.9692 | Reduce(s) 0.0155 | Loss 2.7169
+Process 002 | Epoch 00024 | Time(s) 2.4482 | Comm(s) 2.0016 | Reduce(s) 0.0160 | Loss 2.6710
+Process 002 | Epoch 00029 | Time(s) 2.4684 | Comm(s) 2.0286 | Reduce(s) 0.0159 | Loss 2.6372
+Process 002 | Epoch 00034 | Time(s) 2.4743 | Comm(s) 2.0328 | Reduce(s) 0.0178 | Loss 2.6104
+Process 002 | Epoch 00039 | Time(s) 2.4784 | Comm(s) 2.0359 | Reduce(s) 0.0184 | Loss 2.6224
+Process 002 | Epoch 00044 | Time(s) 2.4952 | Comm(s) 2.0594 | Reduce(s) 0.0172 | Loss 2.4765
+Process 002 | Epoch 00049 | Time(s) 2.4988 | Comm(s) 2.0620 | Reduce(s) 0.0174 | Loss 2.3398
+Process 002 | Epoch 00054 | Time(s) 2.5066 | Comm(s) 2.0708 | Reduce(s) 0.0168 | Loss 2.2755
+Process 002 | Epoch 00059 | Time(s) 2.5110 | Comm(s) 2.0787 | Reduce(s) 0.0184 | Loss 2.2232
+Process 002 | Epoch 00064 | Time(s) 2.5191 | Comm(s) 2.0820 | Reduce(s) 0.0185 | Loss 2.3136
+Process 002 | Epoch 00069 | Time(s) 2.5180 | Comm(s) 2.0811 | Reduce(s) 0.0192 | Loss 2.1848
+Early stopping after 70 epochs.
+loading partitions
+Process 3 has 66506 nodes, 1151066 edges 43606 inner nodes, and 926460 inner edges.
+Process 003 | Epoch 00004 | Time(s) 2.2368 | Comm(s) 1.7476 | Reduce(s) 0.0063 | Loss 3.4464
+Process 003 | Epoch 00009 | Time(s) 2.3881 | Comm(s) 1.9005 | Reduce(s) 0.0033 | Loss 2.9462
+Process 003 | Epoch 00014 | Time(s) 2.4004 | Comm(s) 1.9111 | Reduce(s) 0.0042 | Loss 2.1461
+Process 003 | Epoch 00019 | Time(s) 2.4239 | Comm(s) 1.9331 | Reduce(s) 0.0081 | Loss 1.9969
+Process 003 | Epoch 00024 | Time(s) 2.4516 | Comm(s) 1.9519 | Reduce(s) 0.0079 | Loss 1.9079
+Process 003 | Epoch 00029 | Time(s) 2.4700 | Comm(s) 1.9722 | Reduce(s) 0.0075 | Loss 1.8761
+Process 003 | Epoch 00034 | Time(s) 2.4771 | Comm(s) 1.9866 | Reduce(s) 0.0065 | Loss 1.7960
+Process 003 | Epoch 00039 | Time(s) 2.4813 | Comm(s) 1.9892 | Reduce(s) 0.0064 | Loss 1.7621
+Process 003 | Epoch 00044 | Time(s) 2.4985 | Comm(s) 1.9949 | Reduce(s) 0.0075 | Loss 1.7244
+Process 003 | Epoch 00049 | Time(s) 2.5023 | Comm(s) 1.9962 | Reduce(s) 0.0074 | Loss 1.6840
+Process 003 | Epoch 00054 | Time(s) 2.5101 | Comm(s) 2.0024 | Reduce(s) 0.0079 | Loss 1.7119
+Process 003 | Epoch 00059 | Time(s) 2.5144 | Comm(s) 2.0045 | Reduce(s) 0.0073 | Loss 1.6550
+Process 003 | Epoch 00064 | Time(s) 2.5226 | Comm(s) 2.0126 | Reduce(s) 0.0072 | Loss 1.5989
+Process 003 | Epoch 00069 | Time(s) 2.5207 | Comm(s) 2.0097 | Reduce(s) 0.0067 | Loss 1.5515
+Early stopping after 70 epochs.
+loading partitions
+128
+Process 0 has 48716 nodes, 428008 edges 41158 inner nodes, and 392944 inner edges.
+Process 000 | Epoch 00004 | Time(s) 2.2419 | Comm(s) 2.0166 | Reduce(s) 0.0640 | Loss 3.6608
+Process 000 | Epoch 00009 | Time(s) 2.3925 | Comm(s) 2.1648 | Reduce(s) 0.0665 | Loss 3.6568
+Epoch 00004 | Validation Accuracy 14.96% | Test Accuracy 22.10%
+Process 000 | Epoch 00014 | Time(s) 2.4050 | Comm(s) 2.1760 | Reduce(s) 0.0661 | Loss 3.0204
+Epoch 00009 | Validation Accuracy 14.96% | Test Accuracy 22.10%
+Process 000 | Epoch 00019 | Time(s) 2.4282 | Comm(s) 2.1980 | Reduce(s) 0.0673 | Loss 2.3554
+Epoch 00014 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00024 | Time(s) 2.4557 | Comm(s) 2.2255 | Reduce(s) 0.0674 | Loss 2.4431
+Epoch 00019 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00029 | Time(s) 2.4754 | Comm(s) 2.2455 | Reduce(s) 0.0667 | Loss 2.3267
+Epoch 00024 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00034 | Time(s) 2.4817 | Comm(s) 2.2519 | Reduce(s) 0.0671 | Loss 2.3735
+Epoch 00029 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00039 | Time(s) 2.4865 | Comm(s) 2.2561 | Reduce(s) 0.0671 | Loss 2.3359
+Epoch 00034 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00044 | Time(s) 2.5031 | Comm(s) 2.2723 | Reduce(s) 0.0678 | Loss 2.2220
+Epoch 00039 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00049 | Time(s) 2.5068 | Comm(s) 2.2746 | Reduce(s) 0.0689 | Loss 2.0319
+Epoch 00044 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00054 | Time(s) 2.5145 | Comm(s) 2.2821 | Reduce(s) 0.0692 | Loss 1.8200
+Epoch 00049 | Validation Accuracy 11.27% | Test Accuracy 8.95%
+Process 000 | Epoch 00059 | Time(s) 2.5190 | Comm(s) 2.2855 | Reduce(s) 0.0692 | Loss 1.8158
+Epoch 00054 | Validation Accuracy 10.72% | Test Accuracy 8.44%
+Process 000 | Epoch 00064 | Time(s) 2.5272 | Comm(s) 2.2941 | Reduce(s) 0.0689 | Loss 1.7263
+Epoch 00059 | Validation Accuracy 10.49% | Test Accuracy 8.23%
+Process 000 | Epoch 00069 | Time(s) 2.5259 | Comm(s) 2.2922 | Reduce(s) 0.0695 | Loss 1.7354
+Epoch 00064 | Validation Accuracy 11.50% | Test Accuracy 9.03%
+Early stopping after 70 epochs.
+Epoch 00069 | Validation Accuracy 11.40% | Test Accuracy 8.98%
+Validation accuracy 14.96%
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:               best_test_loss █▂▁▁▁▁▁▁▁▁▁▁▁
+wandb:               best_train_acc ▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:              best_train_loss █▅▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 best_val_acc ▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                best_val_loss █▄▁▁▁▁▁▁▁▁▁▁▁
+wandb:                   num epochs ▁
+wandb:                     test_acc ██▁▁▁▁▁▁▁▂▂▂▂▂
+wandb:                    test_loss ▃▁▁▄▅▆▇▇█▅▆▅▅▅
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▁▅▅▅▅▅▅▅██▇██
+wandb:                   train_loss █▆▂▅▅▆▇▆█▃▃▂▁▁
+wandb:                   train_time ▁▂▂▃▃▄▄▅▆▆▇▇█
+wandb:                      val_acc ██▁▁▁▁▁▁▁▄▄▄▅▅
+wandb:                     val_loss ▃▂▁▄▅▆▇▆█▅▆▅▅▅
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 2.52589
+wandb:                best_test_acc 0.22097
+wandb:               best_test_loss 3.21347
+wandb:               best_train_acc 0.07685
+wandb:              best_train_loss 3.16207
+wandb:                 best_val_acc 0.1496
+wandb:                best_val_loss 3.19866
+wandb:                   num epochs 70
+wandb:                     test_acc 0.08977
+wandb:                    test_loss 3.85709
+wandb:                   torch_seed 0
+wandb:             total train time 565.79994
+wandb:     total train time per GPU 141.44998
+wandb:         train time per epoch 8.08286
+wandb:                    train_acc 0.25016
+wandb:                   train_loss 3.07097
+wandb:                   train_time 180.38837
+wandb:                      val_acc 0.11396
+wandb:                     val_loss 3.82067
+wandb: 
+wandb: 🚀 View run restful-sweep-4 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/533rmedx
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_002510-533rmedx/logs
+wandb: Agent Starting Run: 1070e315 with config:
+wandb: 	dummy: 104
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_003149-1070e315
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run scarlet-sweep-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/1070e315
+128
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.005, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=9, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=0, log_every=5, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_003205-1070e315
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-256, n_layers-9
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/sweeps/rnawlzfa
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/1070e315
+loading partitions
+Process 1 has 53071 nodes, 361942 edges 41104 inner nodes, and 306344 inner edges.
+Process 001 | Epoch 00004 | Time(s) 2.2405 | Comm(s) 2.0372 | Reduce(s) 0.0416 | Loss 3.5630
+Process 001 | Epoch 00009 | Time(s) 2.3821 | Comm(s) 2.1697 | Reduce(s) 0.0511 | Loss 3.3040
+Process 001 | Epoch 00014 | Time(s) 2.4168 | Comm(s) 2.2004 | Reduce(s) 0.0547 | Loss 3.2819
+Process 001 | Epoch 00019 | Time(s) 2.4595 | Comm(s) 2.2393 | Reduce(s) 0.0590 | Loss 3.3600
+Process 001 | Epoch 00024 | Time(s) 2.4786 | Comm(s) 2.2581 | Reduce(s) 0.0595 | Loss 3.3784
+Process 001 | Epoch 00029 | Time(s) 2.4952 | Comm(s) 2.2745 | Reduce(s) 0.0596 | Loss 3.3110
+Process 001 | Epoch 00034 | Time(s) 2.5010 | Comm(s) 2.2765 | Reduce(s) 0.0627 | Loss 3.1336
+Process 001 | Epoch 00039 | Time(s) 2.5050 | Comm(s) 2.2818 | Reduce(s) 0.0618 | Loss 3.0791
+Process 001 | Epoch 00044 | Time(s) 2.5181 | Comm(s) 2.2963 | Reduce(s) 0.0605 | Loss 3.0205
+Process 001 | Epoch 00049 | Time(s) 2.5220 | Comm(s) 2.3000 | Reduce(s) 0.0611 | Loss 2.9737
+Process 001 | Epoch 00054 | Time(s) 2.5265 | Comm(s) 2.3052 | Reduce(s) 0.0605 | Loss 2.9019
+Process 001 | Epoch 00059 | Time(s) 2.5227 | Comm(s) 2.3013 | Reduce(s) 0.0606 | Loss 2.8364
+Process 001 | Epoch 00064 | Time(s) 2.5225 | Comm(s) 2.3018 | Reduce(s) 0.0599 | Loss 2.7709
+Process 001 | Epoch 00069 | Time(s) 2.5248 | Comm(s) 2.3041 | Reduce(s) 0.0600 | Loss 2.7428
+Early stopping after 70 epochs.
+loading partitions
+Process 2 has 65575 nodes, 828731 edges 43475 inner nodes, and 608163 inner edges.
+Process 002 | Epoch 00004 | Time(s) 2.2416 | Comm(s) 1.7547 | Reduce(s) 0.0056 | Loss 3.5665
+Process 002 | Epoch 00009 | Time(s) 2.3816 | Comm(s) 1.9083 | Reduce(s) 0.0113 | Loss 3.2001
+Process 002 | Epoch 00014 | Time(s) 2.4160 | Comm(s) 1.9392 | Reduce(s) 0.0098 | Loss 2.7233
+Process 002 | Epoch 00019 | Time(s) 2.4584 | Comm(s) 1.9979 | Reduce(s) 0.0130 | Loss 2.7016
+Process 002 | Epoch 00024 | Time(s) 2.4773 | Comm(s) 2.0236 | Reduce(s) 0.0147 | Loss 2.6582
+Process 002 | Epoch 00029 | Time(s) 2.4943 | Comm(s) 2.0460 | Reduce(s) 0.0161 | Loss 2.6080
+Process 002 | Epoch 00034 | Time(s) 2.5000 | Comm(s) 2.0627 | Reduce(s) 0.0186 | Loss 2.5718
+Process 002 | Epoch 00039 | Time(s) 2.5039 | Comm(s) 2.0728 | Reduce(s) 0.0188 | Loss 2.5560
+Process 002 | Epoch 00044 | Time(s) 2.5169 | Comm(s) 2.0900 | Reduce(s) 0.0185 | Loss 2.5461
+Process 002 | Epoch 00049 | Time(s) 2.5210 | Comm(s) 2.0936 | Reduce(s) 0.0178 | Loss 2.5385
+Process 002 | Epoch 00054 | Time(s) 2.5254 | Comm(s) 2.0983 | Reduce(s) 0.0174 | Loss 2.5083
+Process 002 | Epoch 00059 | Time(s) 2.5216 | Comm(s) 2.0923 | Reduce(s) 0.0174 | Loss 2.4935
+Process 002 | Epoch 00064 | Time(s) 2.5211 | Comm(s) 2.0905 | Reduce(s) 0.0177 | Loss 2.4691
+Process 002 | Epoch 00069 | Time(s) 2.5235 | Comm(s) 2.0944 | Reduce(s) 0.0172 | Loss 2.4310
+Early stopping after 70 epochs.
+loading partitions
+Process 3 has 66506 nodes, 1151066 edges 43606 inner nodes, and 926460 inner edges.
+Process 003 | Epoch 00004 | Time(s) 2.2396 | Comm(s) 1.8104 | Reduce(s) 0.0224 | Loss 3.5195
+Process 003 | Epoch 00009 | Time(s) 2.3822 | Comm(s) 1.9423 | Reduce(s) 0.0148 | Loss 2.7129
+Process 003 | Epoch 00014 | Time(s) 2.4181 | Comm(s) 1.9624 | Reduce(s) 0.0163 | Loss 2.0410
+Process 003 | Epoch 00019 | Time(s) 2.4621 | Comm(s) 1.9949 | Reduce(s) 0.0139 | Loss 1.9456
+Process 003 | Epoch 00024 | Time(s) 2.4799 | Comm(s) 2.0164 | Reduce(s) 0.0124 | Loss 1.8660
+Process 003 | Epoch 00029 | Time(s) 2.4971 | Comm(s) 2.0211 | Reduce(s) 0.0103 | Loss 1.7712
+Process 003 | Epoch 00034 | Time(s) 2.5018 | Comm(s) 2.0137 | Reduce(s) 0.0089 | Loss 1.7200
+Process 003 | Epoch 00039 | Time(s) 2.5057 | Comm(s) 2.0082 | Reduce(s) 0.0086 | Loss 1.6877
+Process 003 | Epoch 00044 | Time(s) 2.5176 | Comm(s) 2.0104 | Reduce(s) 0.0083 | Loss 1.7254
+Process 003 | Epoch 00049 | Time(s) 2.5214 | Comm(s) 2.0169 | Reduce(s) 0.0089 | Loss 1.6392
+Process 003 | Epoch 00054 | Time(s) 2.5260 | Comm(s) 2.0256 | Reduce(s) 0.0092 | Loss 1.6125
+Process 003 | Epoch 00059 | Time(s) 2.5215 | Comm(s) 2.0209 | Reduce(s) 0.0093 | Loss 1.5743
+Process 003 | Epoch 00064 | Time(s) 2.5212 | Comm(s) 2.0229 | Reduce(s) 0.0086 | Loss 1.5609
+Process 003 | Epoch 00069 | Time(s) 2.5238 | Comm(s) 2.0225 | Reduce(s) 0.0089 | Loss 1.5231
+Early stopping after 70 epochs.
+loading partitions
+128
+Process 0 has 48716 nodes, 428008 edges 41158 inner nodes, and 392944 inner edges.
+Process 000 | Epoch 00004 | Time(s) 2.2428 | Comm(s) 2.0218 | Reduce(s) 0.0618 | Loss 3.6536
+Process 000 | Epoch 00009 | Time(s) 2.3864 | Comm(s) 2.1543 | Reduce(s) 0.0655 | Loss 3.5980
+Epoch 00004 | Validation Accuracy 14.96% | Test Accuracy 22.10%
+Process 000 | Epoch 00014 | Time(s) 2.4217 | Comm(s) 2.1854 | Reduce(s) 0.0694 | Loss 3.0011
+Epoch 00009 | Validation Accuracy 14.96% | Test Accuracy 22.10%
+Process 000 | Epoch 00019 | Time(s) 2.4654 | Comm(s) 2.2285 | Reduce(s) 0.0705 | Loss 2.4215
+Epoch 00014 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00024 | Time(s) 2.4843 | Comm(s) 2.2477 | Reduce(s) 0.0710 | Loss 2.3064
+Epoch 00019 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00029 | Time(s) 2.5018 | Comm(s) 2.2674 | Reduce(s) 0.0695 | Loss 1.9780
+Epoch 00024 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00034 | Time(s) 2.5073 | Comm(s) 2.2718 | Reduce(s) 0.0707 | Loss 1.9361
+Epoch 00029 | Validation Accuracy 7.63% | Test Accuracy 5.86%
+Process 000 | Epoch 00039 | Time(s) 2.5114 | Comm(s) 2.2754 | Reduce(s) 0.0710 | Loss 1.8024
+Epoch 00034 | Validation Accuracy 10.05% | Test Accuracy 7.75%
+Process 000 | Epoch 00044 | Time(s) 2.5239 | Comm(s) 2.2880 | Reduce(s) 0.0714 | Loss 1.7563
+Epoch 00039 | Validation Accuracy 10.23% | Test Accuracy 7.92%
+Process 000 | Epoch 00049 | Time(s) 2.5278 | Comm(s) 2.2921 | Reduce(s) 0.0714 | Loss 1.7183
+Epoch 00044 | Validation Accuracy 11.11% | Test Accuracy 8.77%
+Process 000 | Epoch 00054 | Time(s) 2.5322 | Comm(s) 2.2970 | Reduce(s) 0.0711 | Loss 1.6965
+Epoch 00049 | Validation Accuracy 10.82% | Test Accuracy 8.52%
+Process 000 | Epoch 00059 | Time(s) 2.5281 | Comm(s) 2.2934 | Reduce(s) 0.0707 | Loss 1.6607
+Epoch 00054 | Validation Accuracy 11.57% | Test Accuracy 9.09%
+Process 000 | Epoch 00064 | Time(s) 2.5279 | Comm(s) 2.2934 | Reduce(s) 0.0704 | Loss 1.6566
+Epoch 00059 | Validation Accuracy 11.45% | Test Accuracy 9.02%
+Process 000 | Epoch 00069 | Time(s) 2.5302 | Comm(s) 2.2959 | Reduce(s) 0.0703 | Loss 1.6543
+Epoch 00064 | Validation Accuracy 11.80% | Test Accuracy 9.20%
+Early stopping after 70 epochs.
+Epoch 00069 | Validation Accuracy 11.77% | Test Accuracy 9.26%
+Validation accuracy 14.96%
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:               best_test_loss █▃▁▁▁▁▁▁▁▁▁▁▁
+wandb:               best_train_acc ▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:              best_train_loss █▅▁▁▁▁▁▁▁▁▁▁▁
+wandb:                 best_val_acc ▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                best_val_loss █▄▁▁▁▁▁▁▁▁▁▁▁
+wandb:                   num epochs ▁
+wandb:                     test_acc ██▁▁▁▁▂▂▂▂▂▂▂▂
+wandb:                    test_loss ▄▂▁▅▇▃▆▆▇█▇█▇▆
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▁▅▅▅▅▆▇█▇████
+wandb:                   train_loss █▆▃▅▆▂▃▃▃▃▂▂▁▁
+wandb:                   train_time ▁▂▂▃▃▄▅▅▆▆▇▇█
+wandb:                      val_acc ██▁▁▁▁▃▃▄▄▅▅▅▅
+wandb:                     val_loss ▄▂▁▅▇▃▆▆▇█▇█▇▆
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 2.53021
+wandb:                best_test_acc 0.22097
+wandb:               best_test_loss 3.24663
+wandb:               best_train_acc 0.07685
+wandb:              best_train_loss 3.16563
+wandb:                 best_val_acc 0.1496
+wandb:                best_val_loss 3.23671
+wandb:                   num epochs 70
+wandb:                     test_acc 0.09259
+wandb:                    test_loss 3.8719
+wandb:                   torch_seed 0
+wandb:             total train time 566.76788
+wandb:     total train time per GPU 141.69197
+wandb:         train time per epoch 8.09668
+wandb:                    train_acc 0.2532
+wandb:                   train_loss 3.00752
+wandb:                   train_time 178.96681
+wandb:                      val_acc 0.11769
+wandb:                     val_loss 3.81346
+wandb: 
+wandb: 🚀 View run scarlet-sweep-5 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-arxiv-graphsage/runs/1070e315
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_003149-1070e315/logs
