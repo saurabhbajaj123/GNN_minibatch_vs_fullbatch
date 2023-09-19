@@ -2,10 +2,10 @@
 
 #SBATCH --job-name ogbn-arxiv   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=30  # memory per CPU core
+#SBATCH --mem=20GB  # memory per CPU core
 #SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --output=result_arxiv.txt
-#SBATCH --constrain=m40
+#SBATCH --constraint=m40
 #SBATCH --nodes=1
 
 
@@ -27,5 +27,6 @@ python main.py \
   --agg mean \
   --log-every 5 \
   --seed 42 \
+  --mode puregpu \
 
 # dropout, lr, fanout, batch_size
