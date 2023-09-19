@@ -404,3 +404,76 @@ wandb: Syncing run n_gpus-4, n_hidden-312, n_layers-4, agg-mean, batch_size-1024
 wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS
 wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/sweeps/kws7ty62
 wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/runs/39djdgb4
+Test accuracy 0.9453
+Epoch 00004 | Train Acc 0.9265 | Val Acc 0.9330 | Loss 0.4441 | Train Time 7.5412 | Eval Time 10.4710
+Test accuracy 0.9573
+Epoch 00009 | Train Acc 0.9452 | Val Acc 0.9476 | Loss 0.3087 | Train Time 7.5017 | Eval Time 9.7330
+Test accuracy 0.9613
+Epoch 00014 | Train Acc 0.9545 | Val Acc 0.9514 | Loss 0.2484 | Train Time 7.7343 | Eval Time 9.3221
+Test accuracy 0.9636
+Epoch 00019 | Train Acc 0.9606 | Val Acc 0.9563 | Loss 0.2076 | Train Time 7.2488 | Eval Time 9.9191
+Test accuracy 0.9646
+Epoch 00024 | Train Acc 0.9650 | Val Acc 0.9577 | Loss 0.1772 | Train Time 7.5313 | Eval Time 9.8623
+Test accuracy 0.9662
+Epoch 00029 | Train Acc 0.9685 | Val Acc 0.9573 | Loss 0.1584 | Train Time 7.3600 | Eval Time 9.5208
+Test accuracy 0.9656
+Epoch 00034 | Train Acc 0.9712 | Val Acc 0.9578 | Loss 0.1444 | Train Time 7.3946 | Eval Time 9.8605
+Test accuracy 0.9660
+Epoch 00039 | Train Acc 0.9739 | Val Acc 0.9585 | Loss 0.1297 | Train Time 7.4168 | Eval Time 9.6452
+Test accuracy 0.9658
+Epoch 00044 | Train Acc 0.9752 | Val Acc 0.9583 | Loss 0.1201 | Train Time 7.5130 | Eval Time 10.0090
+Test accuracy 0.9668
+Epoch 00049 | Train Acc 0.9768 | Val Acc 0.9595 | Loss 0.1155 | Train Time 7.3651 | Eval Time 9.6713
+Epoch 00049 | Time per epoch 7.5481 | Time to train 377.4054 | Time to eval 97.9344
+best val acc = 0.9595081806182861 | best test acc = 0.9668061137199402
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.009 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.009 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: Time_per_epoch ▁
+wandb:   Time_to_eval ▁
+wandb:  Time_to_train ▁
+wandb:  best_test_acc ▁▅▆▇▇▇████
+wandb: best_train_acc ▁▄▅▆▆▆▇███
+wandb:   best_val_acc ▁▅▆▇██████
+wandb:          epoch ▁
+wandb:             lr ▁▁▁▁▁▁▁▁▁▁
+wandb:       test_acc ▁▅▆▇▇█████
+wandb:     torch seed ▁▁
+wandb:      train_acc ▁▄▅▆▆▇▇███
+wandb:     train_time ▁▂▃▃▄▅▆▆▇█
+wandb:        val_acc ▁▅▆▇█▇████
+wandb: 
+wandb: Run summary:
+wandb: Time_per_epoch 7.54811
+wandb:   Time_to_eval 97.93436
+wandb:  Time_to_train 377.4054
+wandb:  best_test_acc 0.96681
+wandb: best_train_acc 0.97684
+wandb:   best_val_acc 0.95951
+wandb:          epoch 49
+wandb:             lr 0.001
+wandb:       test_acc 0.96681
+wandb:     torch seed 42
+wandb:      train_acc 0.97684
+wandb:     train_time 377.00958
+wandb:        val_acc 0.95951
+wandb: 
+wandb: 🚀 View run unique-sweep-4 at: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/runs/39djdgb4
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_232557-39djdgb4/logs
+wandb: Agent Starting Run: 155zvr2v with config:
+wandb: 	dummy: 4.200117782740257
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_233451-155zvr2v
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run dry-sweep-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/sweeps/kws7ty62
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-reddit-graphsage-NS/runs/155zvr2v
+Training in puregpu mode using 4 GPU(s)
+Loading data
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
