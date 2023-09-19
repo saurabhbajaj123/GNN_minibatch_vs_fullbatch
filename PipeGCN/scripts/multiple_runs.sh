@@ -6,6 +6,7 @@
 #SBATCH --mem=50GB  # memory per CPU core
 #SBATCH --time=0-15:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --constraint=a100
+#SBATCH --constrain=a100|rtx8000|m40
 #SBATCH --output=result.txt
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
