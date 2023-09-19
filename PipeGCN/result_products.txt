@@ -1,27 +1,19 @@
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
-wandb: Agent Starting Run: qonf1ki7 with config:
-wandb: 	dummy: 100
-wandb: WARNING Ignored wandb.init() arg project when running a sweep.
 wandb: Tracking run with wandb version 0.15.10
-wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_000505-qonf1ki7
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_192906-8y5h79gn
 wandb: Run `wandb offline` to turn off syncing.
-wandb: Syncing run fearless-sweep-1
+wandb: Syncing run true-music-367
 wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage
-wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/sweeps/11wshlk2
-wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/runs/qonf1ki7
-Create sweep with ID: 11wshlk2
-Sweep URL: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/sweeps/11wshlk2
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/runs/8y5h79gn
 100
-args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.001, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=True, inductive=False, fix_seed=True, seed=0, log_every=5, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.001, n_epochs=1000, n_partitions=4, n_hidden=256, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=True, inductive=False, fix_seed=True, seed=0, log_every=100, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True)
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
 wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
-wandb: WARNING Ignored wandb.init() arg project when running a sweep.
 wandb: Tracking run with wandb version 0.15.10
-wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_000635-qonf1ki7
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/wandb/run-20230919_193025-2r1hjhns
 wandb: Run `wandb offline` to turn off syncing.
 wandb: Syncing run enable_pipeline-False, n_hidden-256, n_layers-5
 wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage
-wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/sweeps/11wshlk2
-wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/runs/qonf1ki7
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-graphsage/runs/2r1hjhns
