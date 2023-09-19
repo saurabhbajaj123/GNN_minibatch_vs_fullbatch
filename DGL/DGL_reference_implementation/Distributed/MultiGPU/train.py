@@ -153,6 +153,7 @@ def train(
 
     scheduler2 = ReduceLROnPlateau(opt, mode='max', cooldown=10, factor=0.99, patience=20, min_lr=1e-5)
     train_time = 0
+    no_improvement_count = 0
     for epoch in range(n_epochs):
         t0 = time.time()
         model.train()
@@ -171,7 +172,7 @@ def train(
         train_dur.append(t1-t0)
         # scheduler.step()
         # scheduler2.step(best_val_acc)
-        no_improvement_count = 0
+        
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
                 evaluate(model, g, n_classes, train_dataloader).to(device) / nprocs
@@ -275,7 +276,7 @@ def run(proc_id, nprocs, devices, g, data, args):
     # print(torch.initial_seed())
     # initialize process group and unpack data for sub-processes
     dist.init_process_group(
-        backend="nccl",
+        backend="gloo", #"nccl"
         init_method=f"tcp://{args.master_addr}:{args.port}",
         world_size=nprocs,
         rank=proc_id,
