@@ -47,11 +47,14 @@ def evaluate_trans(name, model, g, result_file_name=None):
     model.cpu()
     feat, labels = g.ndata['feat'], g.ndata['label']
     val_mask, test_mask = g.ndata['val_mask'], g.ndata['test_mask']
+    train_mask = g.ndata['train_mask']
     logits = model(g, feat)
     val_logits, test_logits = logits[val_mask], logits[test_mask]
     val_labels, test_labels = labels[val_mask], labels[test_mask]
+    train_logits, train_labels = logits[train_mask], labels[train_mask]
     val_acc = calc_acc(val_logits, val_labels)
     test_acc = calc_acc(test_logits, test_labels)
+    train_acc = calc_acc(train_logits, train_labels)
     buf = "{:s} | Validation Accuracy {:.2%} | Test Accuracy {:.2%}".format(name, val_acc, test_acc)
     if result_file_name is not None:
         with open(result_file_name, 'a+') as f:
@@ -59,7 +62,7 @@ def evaluate_trans(name, model, g, result_file_name=None):
             print(buf)
     else:
         print(buf)
-    return model, val_acc, test_acc
+    return model, val_acc, test_acc, train_acc
 
 
 def average_gradients(model, n_train):
@@ -119,8 +122,7 @@ def create_inner_graph(graph, node_dict):
 
 
 def order_graph(part, graph, gpb, node_dict, pos):
-    rank, size = dist.get_rank(), dist.get_world_size()
-    one_hops = []
+    rank, feat= []
     for i in range(size):
         if i == rank:
             one_hops.append(None)
@@ -186,6 +188,8 @@ def precompute(graph, node_dict, boundary, recv_shape, args):
                                    etype='_E')
             mean_feat = graph.nodes['_V'].data['h'] / node_dict['in_degree'][0:in_size].unsqueeze(1)
         return torch.cat([feat, mean_feat[0:in_size]], dim=1)
+    elif model == 'gat':
+        return merge_feature(feat, recv_feat)
     else:
         raise Exception
 
@@ -193,6 +197,9 @@ def precompute(graph, node_dict, boundary, recv_shape, args):
 def create_model(layer_size, args):
     if args.model == 'graphsage':
         return GraphSAGE(layer_size, F.relu, args.use_pp, norm=args.norm, dropout=args.dropout,
+                         n_linear=args.n_linear, train_size=args.n_train)
+    elif args.model == 'gat':
+        return GAT(layer_size, F.relu, args.use_pp, norm=args.norm, heads=args.num_heads, dropout=args.dropout,
                          n_linear=args.n_linear, train_size=args.n_train)
     else:
         raise NotImplementedError
@@ -245,10 +252,15 @@ def run(graph, node_dict, gpb, args):
     rank, size = dist.get_rank(), dist.get_world_size()
     if rank == 0:
         wandb.init(
-            name=f"n_hidden-{args.n_hidden}, n_layers-{args.n_layers}",
-            notes="HPO by varying only the n_hidden and n_layers"
+            project="PipeGCN-{}-{}".format(args.dataset, args.model),
+            name=f"enable_pipeline-{args.enable_pipeline}, n_hidden-{args.n_hidden}, n_layers-{args.n_layers}",
+            # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
+
+        wandb.log({
+            'torch_seed': torch.initial_seed() & ((1<<63)-1) ,
+        })
     torch.autograd.set_detect_anomaly(False)
     torch.autograd.profiler.profile(False)
     torch.autograd.profiler.emit_nvtx(False)
@@ -310,7 +322,7 @@ def run(graph, node_dict, gpb, args):
     for i, (name, param) in enumerate(model.named_parameters()):
         param.register_hook(reduce_hook(param, name, args.n_train))
 
-    best_model, best_val_acc, best_test_acc = None, 0, 0
+    best_model, best_val_acc, best_test_acc, best_train_acc = None, 0, 0, 0
 
     if args.grad_corr and args.feat_corr:
         result_file_name = 'results/%s_n%d_p%d_grad_feat.txt' % (args.dataset, args.n_partitions, int(args.enable_pipeline))
@@ -337,18 +349,23 @@ def run(graph, node_dict, gpb, args):
 
     node_dict.pop('train_mask')
     node_dict.pop('inner_node')
-    node_dict.pop('part_id')
+    # node_dict.pop('part_id')
     node_dict.pop(dgl.NID)
 
     if not args.eval:
         node_dict.pop('val_mask')
         node_dict.pop('test_mask')
-
+    
+    prev_loss = float('inf')
+    train_time = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
+        running_loss = 0.0
         if args.model == 'graphsage':
             logits = model(graph, feat, in_deg)
+        elif args.model == 'gat':
+            logits = model(graph, feat)
         else:
             raise Exception
         if args.inductive:
@@ -366,8 +383,10 @@ def run(graph, node_dict, gpb, args):
         ctx.reducer.synchronize()
         reduce_time = time.time() - pre_reduce
         optimizer.step()
+        train_time += time.time() - t0
+        avg_loss = loss.item() / len(labels)
 
-        if epoch >= 5 and epoch % args.log_every != 0:
+        if epoch % args.log_every != 0:
             train_dur.append(time.time() - t0)
             comm_dur.append(ctx.comm_timer.tot_time())
             reduce_dur.append(reduce_time)
@@ -393,16 +412,19 @@ def run(graph, node_dict, gpb, args):
                         'best_val_acc': best_val_acc,
                     })
                 else:
-                    model_copy, val_acc, test_acc = thread.get()
+                    model_copy, val_acc, test_acc, train_acc = thread.get()
                     if val_acc > best_val_acc:
                         best_val_acc = val_acc
                         best_test_acc = test_acc
+                        best_train_acc = train_acc
                         best_model = model_copy
                     wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
-                        # 'train_acc': train_acc,
+                        'train_acc': train_acc,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
+                        'best_train_acc': best_train_acc,
+                        'train_time': train_time,
                     })
                     
             model_copy = copy.deepcopy(model)
@@ -412,7 +434,20 @@ def run(graph, node_dict, gpb, args):
             else:
                 thread = pool.apply_async(evaluate_induc, args=('Epoch %05d' % epoch, model_copy,
                                                                 val_g, 'val', result_file_name))
+        dist.barrier()
+        break_condition = False
+        if abs(avg_loss - prev_loss) < args.convergence_threshold:
+            break_condition = True
+        dist.barrier()
 
+        break_condition_tensor = torch.tensor(int(break_condition)).cuda()
+        dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.PRODUCT)
+        break_condition = bool(break_condition_tensor.item())
+
+        if break_condition:
+            break
+
+        prev_loss = avg_loss
     if args.eval and rank == 0:
         if thread is not None:
             if args.inductive:
@@ -421,10 +456,11 @@ def run(graph, node_dict, gpb, args):
                     best_val_acc = val_acc
                     best_model = model_copy
             else:
-                model_copy, val_acc, test_acc = thread.get()
+                model_copy, val_acc, test_acc, train_acc = thread.get()
                 if val_acc > best_val_acc:
                     best_val_acc = val_acc
                     best_test_acc = test_acc
+                    best_train_acc = train_acc
                     best_model = model_copy
         # torch.save(best_model.state_dict(), 'model/' + args.graph_name + '_final.pth.tar')
         # print('model saved')
@@ -432,10 +468,25 @@ def run(graph, node_dict, gpb, args):
         # _, final_test_acc = evaluate_induc('Test Result', best_model, test_g, 'test')
         wandb.log({'val_acc': val_acc,
                 'test_acc': test_acc,
-                # 'train_acc': train_acc,
+                'train_acc': train_acc,
                 'best_test_acc': best_test_acc,
                 'best_val_acc': best_val_acc,
+                'best_train_acc': best_train_acc,
                 # 'final_test_acc': final_test_acc,
+        })
+    
+    # total_training_time_tensor = torch.tensor(np.sum(train_dur)).to(rank)
+    # dist.all_reduce(total_training_time_tensor, op=dist.ReduceOp.SUM)
+    # total_training_time = total_training_time_tensor.item()
+    # print(f"total_training_time = {total_training_time}")
+    if rank == 0:
+        wandb.log({
+            'torch_seed': torch.initial_seed(),
+            'total train time per GPU': np.sum(train_dur),
+            'total train time': np.sum(train_dur) * args.n_partitions,
+            'train time per epoch': (np.sum(train_dur) * args.n_partitions) / (epoch+1),
+            'num epochs': (epoch+1),
+            'average train time per epoch': np.mean(train_dur),
         })
 
 def check_parser(args):

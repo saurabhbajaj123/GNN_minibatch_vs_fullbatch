@@ -1,0 +1,12 @@
+
+False
+
+False
+args = Namespace(backend='gloo', corr_momentum=0.95, dataset='ogbn-products', dropout=0.3, enable_pipeline=True, eval=True, feat_corr=False, fix_seed=False, grad_corr=False, graph_name='ogbn-products-7-metis-vol-trans', inductive=False, log_every=5, lr=0.003, master_addr='127.0.0.1', model='graphsage', n_class=47, n_epochs=10, n_feat=100, n_hidden=1400, n_layers=3, n_linear=0, n_partitions=7, n_train=196615, node_rank=0, norm='layer', partition_method='metis', partition_obj='vol', parts_per_node=10, port=18118, seed=394807355, skip_partition=False, use_pp=True, weight_decay=0)
+Process 6 has 578483 nodes, 22807747 edges 360239 inner nodes, and 18954523 inner edges.
+Process 5 has 584046 nodes, 23879713 edges 356747 inner nodes, and 20317495 inner edges.
+Process 4 has 676020 nodes, 21981864 edges 351508 inner nodes, and 17091428 inner edges.
+Process 3 has 523846 nodes, 22256533 edges 342213 inner nodes, and 19440817 inner edges.
+Process 2 has 489387 nodes, 15461144 edges 359014 inner nodes, and 13402564 inner edges.
+Process 0 has 590283 nodes, 16629718 edges 339654 inner nodes, and 13517828 inner edges.
+Process 1 has 581681 nodes, 14803384 edges 339654 inner nodes, and 11789348 inner edges.
