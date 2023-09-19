@@ -1,0 +1,9 @@
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_195938-tijanc4u
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run solar-terrain-85
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-ogbn-arxiv-graphsage-NS
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-ogbn-arxiv-graphsage-NS/runs/tijanc4u
+Training in mixed mode using 4 GPU(s)
+Loading data
