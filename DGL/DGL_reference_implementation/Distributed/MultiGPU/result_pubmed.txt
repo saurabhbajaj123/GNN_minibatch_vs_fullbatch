@@ -1,0 +1,610 @@
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Agent Starting Run: ni690ha4 with config:
+wandb: 	dummy: 5.137116827410695
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_220859-ni690ha4
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run unique-sweep-1
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/ni690ha4
+Create sweep with ID: ugb2mzyd
+Sweep URL: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+Training in puregpu mode using 4 GPU(s)
+Loading data
+  NumNodes: 19717
+  NumEdges: 88651
+  NumFeats: 500
+  NumClasses: 3
+  NumTrainingSamples: 60
+  NumValidationSamples: 500
+  NumTestSamples: 1000
+Done loading data from cached files.
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_220929-ni690ha4
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run n_gpus-4, n_hidden-187, n_layers-3, agg-mean, batch_size-1024, fanout-4.0
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/ni690ha4
+Early stopping after 100 epochs.
+Early stopping after 100 epochs.
+Early stopping after 100 epochs.
+Test accuracy 0.7000
+Epoch 00004 | Train Acc 0.9500 | Val Acc 0.6940 | Loss 0.9391 | Train Time 0.0386 | Eval Time 0.4481
+Test accuracy 0.7160
+Epoch 00009 | Train Acc 0.9500 | Val Acc 0.7380 | Loss 0.5151 | Train Time 0.0601 | Eval Time 0.3004
+Test accuracy 0.7430
+Epoch 00014 | Train Acc 0.9833 | Val Acc 0.7540 | Loss 0.1839 | Train Time 0.0597 | Eval Time 0.3127
+Test accuracy 0.7620
+Epoch 00019 | Train Acc 1.0000 | Val Acc 0.7460 | Loss 0.0290 | Train Time 0.0563 | Eval Time 0.3224
+Test accuracy 0.7610
+Epoch 00024 | Train Acc 1.0000 | Val Acc 0.7680 | Loss 0.0300 | Train Time 0.0592 | Eval Time 0.3081
+Test accuracy 0.7670
+Epoch 00029 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0014 | Train Time 0.0599 | Eval Time 0.3061
+Test accuracy 0.7710
+Epoch 00034 | Train Acc 1.0000 | Val Acc 0.7600 | Loss 0.0011 | Train Time 0.0544 | Eval Time 0.3050
+Test accuracy 0.7610
+Epoch 00039 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0028 | Train Time 0.0576 | Eval Time 0.2992
+Test accuracy 0.7620
+Epoch 00044 | Train Acc 1.0000 | Val Acc 0.7720 | Loss 0.0034 | Train Time 0.0610 | Eval Time 0.2992
+Test accuracy 0.7660
+Epoch 00049 | Train Acc 1.0000 | Val Acc 0.7960 | Loss 0.0027 | Train Time 0.0696 | Eval Time 0.2988
+Test accuracy 0.7720
+Epoch 00054 | Train Acc 1.0000 | Val Acc 0.7720 | Loss 0.0034 | Train Time 0.0533 | Eval Time 0.3196
+Test accuracy 0.7630
+Epoch 00059 | Train Acc 1.0000 | Val Acc 0.7640 | Loss 0.0150 | Train Time 0.0615 | Eval Time 0.2951
+Test accuracy 0.7700
+Epoch 00064 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0082 | Train Time 0.0601 | Eval Time 0.3155
+Test accuracy 0.7670
+Epoch 00069 | Train Acc 1.0000 | Val Acc 0.7760 | Loss 0.0024 | Train Time 0.0618 | Eval Time 0.3178
+Test accuracy 0.7610
+Epoch 00074 | Train Acc 1.0000 | Val Acc 0.7700 | Loss 0.0027 | Train Time 0.0595 | Eval Time 0.4714
+Test accuracy 0.7620
+Epoch 00079 | Train Acc 1.0000 | Val Acc 0.7720 | Loss 0.0047 | Train Time 0.0541 | Eval Time 0.3288
+Test accuracy 0.7720
+Epoch 00084 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0032 | Train Time 0.0595 | Eval Time 0.3207
+Test accuracy 0.7760
+Epoch 00089 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0024 | Train Time 0.0608 | Eval Time 0.2962
+Test accuracy 0.7730
+Epoch 00094 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0085 | Train Time 0.0602 | Eval Time 0.3034
+Test accuracy 0.7740
+Epoch 00099 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0058 | Train Time 0.0592 | Eval Time 0.3003
+Early stopping after 100 epochs.
+Epoch 00099 | Time per epoch 0.0821 | Time to train 8.2113 | Time to eval 6.9066
+best val acc = 0.7960000038146973 | best test acc = 0.765999972820282
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.010 MB uploaded (0.000 MB deduped)wandb: | 0.003 MB of 0.010 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: Time_per_epoch ▁
+wandb:   Time_to_eval ▁
+wandb:  Time_to_train ▁
+wandb:  best_test_acc ▁▃▅▅▇██▇▇███████████
+wandb: best_train_acc ▁▁▆▆████████████████
+wandb:   best_val_acc ▁▄▅▅▆▇▇▇▇███████████
+wandb:          epoch ▁
+wandb:             lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:       test_acc ▁▂▅▇▇▇█▇▇▇█▇▇▇▇▇████
+wandb:     torch seed ▁▁
+wandb:      train_acc ▁▁▆█████████████████
+wandb:     train_time ▁▁▂▂▂▃▃▄▄▄▅▅▅▆▆▆▇▇██
+wandb:        val_acc ▁▄▅▅▆▇▆▇▆█▆▆▇▇▆▆▆▇▇▇
+wandb: 
+wandb: Run summary:
+wandb: Time_per_epoch 0.08211
+wandb:   Time_to_eval 6.90656
+wandb:  Time_to_train 8.21132
+wandb:  best_test_acc 0.766
+wandb: best_train_acc 1.0
+wandb:   best_val_acc 0.796
+wandb:          epoch 99
+wandb:             lr 0.003
+wandb:       test_acc 0.774
+wandb:     torch seed 42
+wandb:      train_acc 1.0
+wandb:     train_time 6.22384
+wandb:        val_acc 0.784
+wandb: 
+wandb: 🚀 View run unique-sweep-1 at: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/ni690ha4
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_220859-ni690ha4/logs
+wandb: Agent Starting Run: h3r04zul with config:
+wandb: 	dummy: 6.197360716884268
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221001-h3r04zul
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run colorful-sweep-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/h3r04zul
+Training in puregpu mode using 4 GPU(s)
+Loading data
+  NumNodes: 19717
+  NumEdges: 88651
+  NumFeats: 500
+  NumClasses: 3
+  NumTrainingSamples: 60
+  NumValidationSamples: 500
+  NumTestSamples: 1000
+Done loading data from cached files.
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221030-h3r04zul
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run n_gpus-4, n_hidden-187, n_layers-3, agg-mean, batch_size-1024, fanout-4.0
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/h3r04zul
+Early stopping after 135 epochs.
+Early stopping after 135 epochs.
+Early stopping after 135 epochs.
+Test accuracy 0.6910
+Epoch 00004 | Train Acc 0.9333 | Val Acc 0.7100 | Loss 0.9334 | Train Time 0.0449 | Eval Time 0.3638
+Test accuracy 0.7250
+Epoch 00009 | Train Acc 0.9667 | Val Acc 0.7460 | Loss 0.5087 | Train Time 0.0551 | Eval Time 0.3053
+Test accuracy 0.7430
+Epoch 00014 | Train Acc 0.9833 | Val Acc 0.7560 | Loss 0.1736 | Train Time 0.0542 | Eval Time 0.3112
+Test accuracy 0.7680
+Epoch 00019 | Train Acc 1.0000 | Val Acc 0.7600 | Loss 0.0524 | Train Time 0.0591 | Eval Time 0.2984
+Test accuracy 0.7760
+Epoch 00024 | Train Acc 1.0000 | Val Acc 0.7780 | Loss 0.0131 | Train Time 0.0606 | Eval Time 0.2955
+Test accuracy 0.7720
+Epoch 00029 | Train Acc 1.0000 | Val Acc 0.7720 | Loss 0.0049 | Train Time 0.0618 | Eval Time 0.2972
+Test accuracy 0.7730
+Epoch 00034 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0009 | Train Time 0.0735 | Eval Time 0.3231
+Test accuracy 0.7740
+Epoch 00039 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0122 | Train Time 0.0588 | Eval Time 0.3012
+Test accuracy 0.7780
+Epoch 00044 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0016 | Train Time 0.0542 | Eval Time 0.3026
+Test accuracy 0.7660
+Epoch 00049 | Train Acc 1.0000 | Val Acc 0.7960 | Loss 0.0045 | Train Time 0.0632 | Eval Time 0.3295
+Test accuracy 0.7590
+Epoch 00054 | Train Acc 1.0000 | Val Acc 0.7640 | Loss 0.0040 | Train Time 0.0594 | Eval Time 0.2992
+Test accuracy 0.7630
+Epoch 00059 | Train Acc 1.0000 | Val Acc 0.7660 | Loss 0.0017 | Train Time 0.0546 | Eval Time 0.3034
+Test accuracy 0.7720
+Epoch 00064 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0063 | Train Time 0.0559 | Eval Time 0.3068
+Test accuracy 0.7700
+Epoch 00069 | Train Acc 1.0000 | Val Acc 0.7940 | Loss 0.0031 | Train Time 0.0584 | Eval Time 0.3047
+Test accuracy 0.7670
+Epoch 00074 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0049 | Train Time 0.0597 | Eval Time 0.4600
+Test accuracy 0.7650
+Epoch 00079 | Train Acc 1.0000 | Val Acc 0.7760 | Loss 0.0076 | Train Time 0.0606 | Eval Time 0.3005
+Test accuracy 0.7750
+Epoch 00084 | Train Acc 1.0000 | Val Acc 0.8000 | Loss 0.0056 | Train Time 0.0553 | Eval Time 0.3020
+Test accuracy 0.7780
+Epoch 00089 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0085 | Train Time 0.0590 | Eval Time 0.2970
+Test accuracy 0.7770
+Epoch 00094 | Train Acc 1.0000 | Val Acc 0.8000 | Loss 0.0050 | Train Time 0.0598 | Eval Time 0.2971
+Test accuracy 0.7790
+Epoch 00099 | Train Acc 1.0000 | Val Acc 0.7940 | Loss 0.0067 | Train Time 0.0541 | Eval Time 0.3282
+Test accuracy 0.7690
+Epoch 00104 | Train Acc 1.0000 | Val Acc 0.7660 | Loss 0.0083 | Train Time 0.0644 | Eval Time 0.2992
+Test accuracy 0.7730
+Epoch 00109 | Train Acc 1.0000 | Val Acc 0.8000 | Loss 0.0043 | Train Time 0.0633 | Eval Time 0.2932
+Test accuracy 0.7720
+Epoch 00114 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0039 | Train Time 0.0560 | Eval Time 0.3062
+Test accuracy 0.7690
+Epoch 00119 | Train Acc 1.0000 | Val Acc 0.7640 | Loss 0.0051 | Train Time 0.0633 | Eval Time 0.2949
+Test accuracy 0.7720
+Epoch 00124 | Train Acc 1.0000 | Val Acc 0.7980 | Loss 0.0038 | Train Time 0.0645 | Eval Time 0.2939
+Test accuracy 0.7600
+Epoch 00129 | Train Acc 1.0000 | Val Acc 0.7660 | Loss 0.0060 | Train Time 0.0584 | Eval Time 0.2995
+Test accuracy 0.7730
+Epoch 00134 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0072 | Train Time 0.0625 | Eval Time 0.2952
+Early stopping after 135 epochs.
+Epoch 00134 | Time per epoch 0.0610 | Time to train 8.2291 | Time to eval 9.0765
+best val acc = 0.800000011920929 | best test acc = 0.7749999761581421
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.011 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.011 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: Time_per_epoch ▁
+wandb:   Time_to_eval ▁
+wandb:  Time_to_train ▁
+wandb:  best_test_acc ▁▄▅▇█████▇▇▇▇▇▇▇███████████
+wandb: best_train_acc ▁▅▆████████████████████████
+wandb:   best_val_acc ▁▄▅▅▆▆▇▇▇██████████████████
+wandb:          epoch ▁
+wandb:             lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:       test_acc ▁▄▅▇█▇███▇▆▇▇▇▇▇████▇█▇▇▇▆█
+wandb:     torch seed ▁▁
+wandb:      train_acc ▁▅▆████████████████████████
+wandb:     train_time ▁▁▂▂▂▂▃▃▃▃▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇██
+wandb:        val_acc ▁▄▅▅▆▆▇▇▇█▅▅▇█▇▆█▇██▅█▇▅█▅▇
+wandb: 
+wandb: Run summary:
+wandb: Time_per_epoch 0.06096
+wandb:   Time_to_eval 9.07646
+wandb:  Time_to_train 8.22908
+wandb:  best_test_acc 0.775
+wandb: best_train_acc 1.0
+wandb:   best_val_acc 0.8
+wandb:          epoch 134
+wandb:             lr 0.003
+wandb:       test_acc 0.773
+wandb:     torch seed 42
+wandb:      train_acc 1.0
+wandb:     train_time 5.77466
+wandb:        val_acc 0.79
+wandb: 
+wandb: 🚀 View run colorful-sweep-2 at: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/h3r04zul
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_221001-h3r04zul/logs
+wandb: Agent Starting Run: 50m3m9we with config:
+wandb: 	dummy: 3.928835179761928
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221102-50m3m9we
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run faithful-sweep-3
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/50m3m9we
+Training in puregpu mode using 4 GPU(s)
+Loading data
+  NumNodes: 19717
+  NumEdges: 88651
+  NumFeats: 500
+  NumClasses: 3
+  NumTrainingSamples: 60
+  NumValidationSamples: 500
+  NumTestSamples: 1000
+Done loading data from cached files.
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221133-50m3m9we
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run n_gpus-4, n_hidden-187, n_layers-3, agg-mean, batch_size-1024, fanout-4.0
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/50m3m9we
+Early stopping after 135 epochs.
+Early stopping after 135 epochs.
+Early stopping after 135 epochs.
+Test accuracy 0.6930
+Epoch 00004 | Train Acc 0.9333 | Val Acc 0.7140 | Loss 0.9250 | Train Time 0.0578 | Eval Time 0.3494
+Test accuracy 0.7090
+Epoch 00009 | Train Acc 0.9500 | Val Acc 0.7220 | Loss 0.5391 | Train Time 0.0616 | Eval Time 0.3000
+Test accuracy 0.7380
+Epoch 00014 | Train Acc 0.9833 | Val Acc 0.7420 | Loss 0.2100 | Train Time 0.0599 | Eval Time 0.3014
+Test accuracy 0.7660
+Epoch 00019 | Train Acc 1.0000 | Val Acc 0.7620 | Loss 0.0489 | Train Time 0.0584 | Eval Time 0.3380
+Test accuracy 0.7700
+Epoch 00024 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0208 | Train Time 0.0594 | Eval Time 0.3050
+Test accuracy 0.7620
+Epoch 00029 | Train Acc 1.0000 | Val Acc 0.7800 | Loss 0.0038 | Train Time 0.0542 | Eval Time 0.3031
+Test accuracy 0.7690
+Epoch 00034 | Train Acc 1.0000 | Val Acc 0.7920 | Loss 0.0026 | Train Time 0.0577 | Eval Time 0.3272
+Test accuracy 0.7760
+Epoch 00039 | Train Acc 1.0000 | Val Acc 0.7720 | Loss 0.0014 | Train Time 0.0587 | Eval Time 0.3050
+Test accuracy 0.7700
+Epoch 00044 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0039 | Train Time 0.0591 | Eval Time 0.2970
+Test accuracy 0.7650
+Epoch 00049 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0013 | Train Time 0.0685 | Eval Time 0.3018
+Test accuracy 0.7630
+Epoch 00054 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0111 | Train Time 0.0768 | Eval Time 0.3042
+Test accuracy 0.7620
+Epoch 00059 | Train Acc 1.0000 | Val Acc 0.7780 | Loss 0.0022 | Train Time 0.0565 | Eval Time 0.2997
+Test accuracy 0.7710
+Epoch 00064 | Train Acc 1.0000 | Val Acc 0.7660 | Loss 0.0044 | Train Time 0.0638 | Eval Time 0.3012
+Test accuracy 0.7640
+Epoch 00069 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0018 | Train Time 0.0608 | Eval Time 0.3397
+Test accuracy 0.7640
+Epoch 00074 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0047 | Train Time 0.0602 | Eval Time 0.4536
+Test accuracy 0.7700
+Epoch 00079 | Train Acc 1.0000 | Val Acc 0.7800 | Loss 0.0045 | Train Time 0.0574 | Eval Time 0.2999
+Test accuracy 0.7740
+Epoch 00084 | Train Acc 1.0000 | Val Acc 0.7960 | Loss 0.0128 | Train Time 0.0634 | Eval Time 0.3039
+Test accuracy 0.7740
+Epoch 00089 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0064 | Train Time 0.0579 | Eval Time 0.3045
+Test accuracy 0.7760
+Epoch 00094 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0078 | Train Time 0.0538 | Eval Time 0.3039
+Test accuracy 0.7770
+Epoch 00099 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0036 | Train Time 0.0649 | Eval Time 0.2930
+Test accuracy 0.7760
+Epoch 00104 | Train Acc 1.0000 | Val Acc 0.7920 | Loss 0.0091 | Train Time 0.0667 | Eval Time 0.3039
+Test accuracy 0.7740
+Epoch 00109 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0088 | Train Time 0.0573 | Eval Time 0.2966
+Test accuracy 0.7750
+Epoch 00114 | Train Acc 1.0000 | Val Acc 0.7920 | Loss 0.0052 | Train Time 0.0586 | Eval Time 0.3009
+Test accuracy 0.7770
+Epoch 00119 | Train Acc 1.0000 | Val Acc 0.7920 | Loss 0.0071 | Train Time 0.0638 | Eval Time 0.3151
+Test accuracy 0.7740
+Epoch 00124 | Train Acc 1.0000 | Val Acc 0.7800 | Loss 0.0041 | Train Time 0.0596 | Eval Time 0.2965
+Test accuracy 0.7770
+Epoch 00129 | Train Acc 1.0000 | Val Acc 0.7940 | Loss 0.0038 | Train Time 0.0603 | Eval Time 0.2976
+Test accuracy 0.7750
+Epoch 00134 | Train Acc 1.0000 | Val Acc 0.7920 | Loss 0.0062 | Train Time 0.0532 | Eval Time 0.3249
+Early stopping after 135 epochs.
+Epoch 00134 | Time per epoch 0.0606 | Time to train 8.1865 | Time to eval 9.1509
+best val acc = 0.7960000038146973 | best test acc = 0.7739999890327454
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: Time_per_epoch ▁
+wandb:   Time_to_eval ▁
+wandb:  Time_to_train ▁
+wandb:  best_test_acc ▁▂▅▇█▇█████████████████████
+wandb: best_train_acc ▁▃▆████████████████████████
+wandb:   best_val_acc ▁▂▃▅▆▇█████████████████████
+wandb:          epoch ▁
+wandb:             lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:       test_acc ▁▂▅▇▇▇▇█▇▇▇▇█▇▇▇███████████
+wandb:     torch seed ▁▁
+wandb:      train_acc ▁▃▆████████████████████████
+wandb:     train_time ▁▁▂▂▂▂▃▃▃▃▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇██
+wandb:        val_acc ▁▂▃▅▆▇█▆▆▇▇▆▅▇▇▇█▇▇▇█▇██▇██
+wandb: 
+wandb: Run summary:
+wandb: Time_per_epoch 0.06064
+wandb:   Time_to_eval 9.15087
+wandb:  Time_to_train 8.18654
+wandb:  best_test_acc 0.774
+wandb: best_train_acc 1.0
+wandb:   best_val_acc 0.796
+wandb:          epoch 134
+wandb:             lr 0.003
+wandb:       test_acc 0.775
+wandb:     torch seed 42
+wandb:      train_acc 1.0
+wandb:     train_time 5.57433
+wandb:        val_acc 0.792
+wandb: 
+wandb: 🚀 View run faithful-sweep-3 at: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/50m3m9we
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_221102-50m3m9we/logs
+wandb: Sweep Agent: Waiting for job.
+wandb: Job received.
+wandb: Agent Starting Run: znlbgfx6 with config:
+wandb: 	dummy: 5.312322893940573
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221215-znlbgfx6
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run light-sweep-4
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/znlbgfx6
+Training in puregpu mode using 4 GPU(s)
+Loading data
+  NumNodes: 19717
+  NumEdges: 88651
+  NumFeats: 500
+  NumClasses: 3
+  NumTrainingSamples: 60
+  NumValidationSamples: 500
+  NumTestSamples: 1000
+Done loading data from cached files.
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221247-znlbgfx6
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run n_gpus-4, n_hidden-187, n_layers-3, agg-mean, batch_size-1024, fanout-4.0
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/znlbgfx6
+Early stopping after 135 epochs.
+Early stopping after 135 epochs.
+Early stopping after 135 epochs.
+Test accuracy 0.7120
+Epoch 00004 | Train Acc 0.9500 | Val Acc 0.7220 | Loss 0.9144 | Train Time 0.0449 | Eval Time 0.3450
+Test accuracy 0.7130
+Epoch 00009 | Train Acc 0.9500 | Val Acc 0.7400 | Loss 0.5223 | Train Time 0.0605 | Eval Time 0.3053
+Test accuracy 0.7460
+Epoch 00014 | Train Acc 0.9833 | Val Acc 0.7520 | Loss 0.1282 | Train Time 0.0604 | Eval Time 0.2976
+Test accuracy 0.7620
+Epoch 00019 | Train Acc 1.0000 | Val Acc 0.7620 | Loss 0.0553 | Train Time 0.0719 | Eval Time 0.3089
+Test accuracy 0.7540
+Epoch 00024 | Train Acc 1.0000 | Val Acc 0.7640 | Loss 0.0090 | Train Time 0.0632 | Eval Time 0.3230
+Test accuracy 0.7640
+Epoch 00029 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0025 | Train Time 0.0612 | Eval Time 0.2951
+Test accuracy 0.7680
+Epoch 00034 | Train Acc 1.0000 | Val Acc 0.7700 | Loss 0.0021 | Train Time 0.0593 | Eval Time 0.3203
+Test accuracy 0.7620
+Epoch 00039 | Train Acc 1.0000 | Val Acc 0.7780 | Loss 0.0017 | Train Time 0.0517 | Eval Time 0.3344
+Test accuracy 0.7610
+Epoch 00044 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0009 | Train Time 0.0546 | Eval Time 0.3028
+Test accuracy 0.7680
+Epoch 00049 | Train Acc 1.0000 | Val Acc 0.7940 | Loss 0.0010 | Train Time 0.0546 | Eval Time 0.3107
+Test accuracy 0.7700
+Epoch 00054 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0024 | Train Time 0.0596 | Eval Time 0.2985
+Test accuracy 0.7610
+Epoch 00059 | Train Acc 1.0000 | Val Acc 0.7800 | Loss 0.0030 | Train Time 0.0592 | Eval Time 0.2975
+Test accuracy 0.7630
+Epoch 00064 | Train Acc 1.0000 | Val Acc 0.7820 | Loss 0.0017 | Train Time 0.0649 | Eval Time 0.2966
+Test accuracy 0.7680
+Epoch 00069 | Train Acc 1.0000 | Val Acc 0.7700 | Loss 0.0016 | Train Time 0.0583 | Eval Time 0.3190
+Test accuracy 0.7750
+Epoch 00074 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0054 | Train Time 0.0596 | Eval Time 0.4890
+Test accuracy 0.7750
+Epoch 00079 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0117 | Train Time 0.0586 | Eval Time 0.3001
+Test accuracy 0.7700
+Epoch 00084 | Train Acc 1.0000 | Val Acc 0.7960 | Loss 0.0037 | Train Time 0.0588 | Eval Time 0.3187
+Test accuracy 0.7760
+Epoch 00089 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0039 | Train Time 0.0606 | Eval Time 0.3191
+Test accuracy 0.7680
+Epoch 00094 | Train Acc 1.0000 | Val Acc 0.7760 | Loss 0.0132 | Train Time 0.0647 | Eval Time 0.2932
+Test accuracy 0.7630
+Epoch 00099 | Train Acc 1.0000 | Val Acc 0.7800 | Loss 0.0076 | Train Time 0.0567 | Eval Time 0.2994
+Test accuracy 0.7630
+Epoch 00104 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0108 | Train Time 0.0653 | Eval Time 0.3149
+Test accuracy 0.7610
+Epoch 00109 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0038 | Train Time 0.0634 | Eval Time 0.2924
+Test accuracy 0.7600
+Epoch 00114 | Train Acc 1.0000 | Val Acc 0.7540 | Loss 0.0081 | Train Time 0.0612 | Eval Time 0.2967
+Test accuracy 0.7630
+Epoch 00119 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0054 | Train Time 0.0611 | Eval Time 0.3055
+Test accuracy 0.7710
+Epoch 00124 | Train Acc 1.0000 | Val Acc 0.7960 | Loss 0.0044 | Train Time 0.0592 | Eval Time 0.3014
+Test accuracy 0.7680
+Epoch 00129 | Train Acc 1.0000 | Val Acc 0.7780 | Loss 0.0029 | Train Time 0.0585 | Eval Time 0.3051
+Test accuracy 0.7690
+Epoch 00134 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0151 | Train Time 0.0581 | Eval Time 0.3226
+Early stopping after 135 epochs.
+Epoch 00134 | Time per epoch 0.0597 | Time to train 8.0568 | Time to eval 9.1827
+best val acc = 0.7960000038146973 | best test acc = 0.7699999809265137
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: Time_per_epoch ▁
+wandb:   Time_to_eval ▁
+wandb:  Time_to_train ▁
+wandb:  best_test_acc ▁▁▅▇▆▇▇▇▇██████████████████
+wandb: best_train_acc ▁▁▆████████████████████████
+wandb:   best_val_acc ▁▃▄▅▅▆▆▆▇██████████████████
+wandb:          epoch ▁
+wandb:             lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:       test_acc ▁▁▅▆▆▇▇▆▆▇▇▆▇▇██▇█▇▇▇▆▆▇▇▇▇
+wandb:     torch seed ▁▁
+wandb:      train_acc ▁▁▆████████████████████████
+wandb:     train_time ▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▆▆▆▆▇▇▇▇██
+wandb:        val_acc ▁▃▄▅▅▆▆▆▇█▇▆▇▆▇▇█▇▆▆▆▇▄▇█▆▇
+wandb: 
+wandb: Run summary:
+wandb: Time_per_epoch 0.05968
+wandb:   Time_to_eval 9.18272
+wandb:  Time_to_train 8.05683
+wandb:  best_test_acc 0.77
+wandb: best_train_acc 1.0
+wandb:   best_val_acc 0.796
+wandb:          epoch 134
+wandb:             lr 0.003
+wandb:       test_acc 0.769
+wandb:     torch seed 42
+wandb:      train_acc 1.0
+wandb:     train_time 5.60527
+wandb:        val_acc 0.79
+wandb: 
+wandb: 🚀 View run light-sweep-4 at: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/znlbgfx6
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_221215-znlbgfx6/logs
+wandb: Agent Starting Run: 5cnbcb0d with config:
+wandb: 	dummy: 4.439154550488096
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221322-5cnbcb0d
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run glowing-sweep-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/5cnbcb0d
+Training in puregpu mode using 4 GPU(s)
+Loading data
+  NumNodes: 19717
+  NumEdges: 88651
+  NumFeats: 500
+  NumClasses: 3
+  NumTrainingSamples: 60
+  NumValidationSamples: 500
+  NumTestSamples: 1000
+Done loading data from cached files.
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/wandb/run-20230919_221355-5cnbcb0d
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run n_gpus-4, n_hidden-187, n_layers-3, agg-mean, batch_size-1024, fanout-4.0
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/sweeps/ugb2mzyd
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/5cnbcb0d
+Early stopping after 95 epochs.
+Early stopping after 95 epochs.
+Early stopping after 95 epochs.
+Test accuracy 0.6930
+Epoch 00004 | Train Acc 0.9500 | Val Acc 0.6960 | Loss 0.9229 | Train Time 0.0512 | Eval Time 0.3535
+Test accuracy 0.7170
+Epoch 00009 | Train Acc 0.9500 | Val Acc 0.7520 | Loss 0.5165 | Train Time 0.0574 | Eval Time 0.3014
+Test accuracy 0.7470
+Epoch 00014 | Train Acc 0.9833 | Val Acc 0.7640 | Loss 0.1663 | Train Time 0.0580 | Eval Time 0.3025
+Test accuracy 0.7650
+Epoch 00019 | Train Acc 1.0000 | Val Acc 0.7620 | Loss 0.0735 | Train Time 0.0740 | Eval Time 0.3058
+Test accuracy 0.7700
+Epoch 00024 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0075 | Train Time 0.0575 | Eval Time 0.3051
+Test accuracy 0.7700
+Epoch 00029 | Train Acc 1.0000 | Val Acc 0.7720 | Loss 0.0049 | Train Time 0.0719 | Eval Time 0.3055
+Test accuracy 0.7690
+Epoch 00034 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0038 | Train Time 0.0581 | Eval Time 0.3143
+Test accuracy 0.7700
+Epoch 00039 | Train Acc 1.0000 | Val Acc 0.7840 | Loss 0.0014 | Train Time 0.0552 | Eval Time 0.3092
+Test accuracy 0.7770
+Epoch 00044 | Train Acc 1.0000 | Val Acc 0.7960 | Loss 0.0020 | Train Time 0.0586 | Eval Time 0.3222
+Test accuracy 0.7730
+Epoch 00049 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0012 | Train Time 0.0593 | Eval Time 0.2995
+Test accuracy 0.7660
+Epoch 00054 | Train Acc 1.0000 | Val Acc 0.7800 | Loss 0.0018 | Train Time 0.0585 | Eval Time 0.2940
+Test accuracy 0.7650
+Epoch 00059 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0058 | Train Time 0.0631 | Eval Time 0.2944
+Test accuracy 0.7660
+Epoch 00064 | Train Acc 1.0000 | Val Acc 0.7880 | Loss 0.0047 | Train Time 0.0614 | Eval Time 0.2986
+Test accuracy 0.7730
+Epoch 00069 | Train Acc 1.0000 | Val Acc 0.7920 | Loss 0.0040 | Train Time 0.0585 | Eval Time 0.3229
+Test accuracy 0.7740
+Epoch 00074 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0038 | Train Time 0.0585 | Eval Time 0.4623
+Test accuracy 0.7750
+Epoch 00079 | Train Acc 1.0000 | Val Acc 0.7900 | Loss 0.0039 | Train Time 0.0600 | Eval Time 0.3014
+Test accuracy 0.7690
+Epoch 00084 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0052 | Train Time 0.0574 | Eval Time 0.3095
+Test accuracy 0.7760
+Epoch 00089 | Train Acc 1.0000 | Val Acc 0.7860 | Loss 0.0028 | Train Time 0.0557 | Eval Time 0.3008
+Test accuracy 0.7740
+Epoch 00094 | Train Acc 1.0000 | Val Acc 0.7740 | Loss 0.0130 | Train Time 0.0600 | Eval Time 0.3197
+Early stopping after 95 epochs.
+Epoch 00094 | Time per epoch 0.0683 | Time to train 6.4873 | Time to eval 6.5088
+best val acc = 0.7960000038146973 | best test acc = 0.7770000100135803
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: Time_per_epoch ▁
+wandb:   Time_to_eval ▁
+wandb:  Time_to_train ▁
+wandb:  best_test_acc ▁▃▅▅▇▇▇▇███████████
+wandb: best_train_acc ▁▁▆▆███████████████
+wandb:   best_val_acc ▁▅▆▆▆▆▇▇███████████
+wandb:          epoch ▁
+wandb:             lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:       test_acc ▁▃▅▇▇▇▇▇██▇▇▇███▇██
+wandb:     torch seed ▁▁
+wandb:      train_acc ▁▁▆████████████████
+wandb:     train_time ▁▁▂▂▃▃▃▄▄▄▅▅▆▆▆▇▇██
+wandb:        val_acc ▁▅▆▆▆▆▇▇██▇▆▇███▇▇▆
+wandb: 
+wandb: Run summary:
+wandb: Time_per_epoch 0.06829
+wandb:   Time_to_eval 6.50885
+wandb:  Time_to_train 6.4873
+wandb:  best_test_acc 0.777
+wandb: best_train_acc 1.0
+wandb:   best_val_acc 0.796
+wandb:          epoch 94
+wandb:             lr 0.003
+wandb:       test_acc 0.774
+wandb:     torch seed 42
+wandb:      train_acc 1.0
+wandb:     train_time 4.50109
+wandb:        val_acc 0.774
+wandb: 
+wandb: 🚀 View run glowing-sweep-5 at: https://wandb.ai/rl_project_saurabh_arundhati/MultiGPU-pubmed-graphsage-NS/runs/5cnbcb0d
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230919_221322-5cnbcb0d/logs
