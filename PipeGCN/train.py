@@ -56,9 +56,12 @@ def evaluate_trans(name, model, g, loss_fcn, result_file_name=None):
     test_acc = calc_acc(test_logits, test_labels)
     train_acc = calc_acc(train_logits, train_labels)
     buf = "{:s} | Validation Accuracy {:.2%} | Test Accuracy {:.2%}".format(name, val_acc, test_acc)
-    val_loss = loss_fcn(val_logits, val_labels) / len(val_labels)
-    test_loss = loss_fcn(test_logits, test_labels) / len(test_labels)
-    train_loss = loss_fcn(train_logits, train_labels) / len(train_labels)
+    val_loss = loss_fcn(val_logits, val_labels)
+    val_loss = val_loss.item() / len(val_labels)
+    test_loss = loss_fcn(test_logits, test_labels)
+    test_loss = test_loss.item() / len(test_labels)
+    train_loss = loss_fcn(train_logits, train_labels)
+    train_loss = train_loss.item() / len(train_labels)
     if result_file_name is not None:
         with open(result_file_name, 'a+') as f:
             f.write(buf + '\n')
