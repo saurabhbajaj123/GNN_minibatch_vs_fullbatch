@@ -2,6 +2,8 @@ from module.layer import *
 from torch import nn
 from module.sync_bn import SyncBatchNorm
 from helper import context as ctx
+import dgl
+
 
 
 class GNNBase(nn.Module):

@@ -122,7 +122,8 @@ def create_inner_graph(graph, node_dict):
 
 
 def order_graph(part, graph, gpb, node_dict, pos):
-    rank, feat= []
+    rank, size = dist.get_rank(), dist.get_world_size()
+    one_hops = []
     for i in range(size):
         if i == rank:
             one_hops.append(None)
@@ -188,7 +189,7 @@ def precompute(graph, node_dict, boundary, recv_shape, args):
                                    etype='_E')
             mean_feat = graph.nodes['_V'].data['h'] / node_dict['in_degree'][0:in_size].unsqueeze(1)
         return torch.cat([feat, mean_feat[0:in_size]], dim=1)
-    elif model == 'gat':
+    elif args.model == 'gat':
         return merge_feature(feat, recv_feat)
     else:
         raise Exception

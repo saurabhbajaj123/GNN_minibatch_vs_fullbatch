@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --job-name ogbn-products   ## name that will show up in the queue
-#SBATCH -p gpu-preempt
+#SBATCH --job-name pipgcn-gat-reddit   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=50GB  # memory per CPU core
-#SBATCH --time=0-00:30:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --output=result.txt
+#SBATCH --mem=40GB  # memory per CPU core
+#SBATCH --time=0-10:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --constraint=m40
+#SBATCH --output=result_reddit.txt
 
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
@@ -22,7 +22,7 @@ python main.py \
   --num-heads 3 \
   --log-every 5 \
   --fix-seed \
-  --seed 1586505639 \
+  --seed 42 \
   --use-pp \
   # --enable-pipeline \
   # --inductive \
