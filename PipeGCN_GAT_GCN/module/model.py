@@ -76,25 +76,35 @@ class GAT(GNNBase):
                 elif norm == 'batch':
                     self.norm.append(SyncBatchNorm(layer_size[i + 1], train_size))
 
-    def forward(self, g, feat):
-        h = feat
-        for i in range(self.n_layers):
-            if i < self.n_layers - self.n_linear:
-                if self.training:
-                    if i > 0 or not self.use_pp:
-                        h1 = ctx.buffer.update(i, h)
-                    else:
-                        h1 = h
-                        h = h[0:g.num_nodes('_V')]
-                    h = self.layers[i](g, (h1, h))
-                else:
-                    h = self.layers[i](g, h)
-                h = h.mean(1)
-            else:
-                h = self.dropout(h)
-                h = self.layers[i](h)
-            if i < self.n_layers - 1:
-                if self.use_norm:
-                    h = self.norm[i](h)
-                h = self.activation(h)
+    # def forward(self, g, feat):
+    #     h = feat
+    #     for i in range(self.n_layers):
+    #         if i < self.n_layers - self.n_linear:
+    #             if self.training:
+    #                 if i > 0 or not self.use_pp:
+    #                     h1 = ctx.buffer.update(i, h)
+    #                 else:
+    #                     h1 = h
+    #                     h = h[0:g.num_nodes('_V')]
+    #                 h = self.layers[i](g, (h1, h))
+    #             else:
+    #                 h = self.layers[i](g, h)
+    #             h = h.mean(1)
+    #         else:
+    #             h = self.dropout(h)
+    #             h = self.layers[i](h)
+    #         if i < self.n_layers - 1:
+    #             if self.use_norm:
+    #                 h = self.norm[i](h)
+    #             h = self.activation(h)
+    #     return h
+
+    def forward(self, g, x):
+        h = x
+        for i in range(self.n_layers - 1):
+            h = self.layers[i](g, h)
+            h = h.flatten(1)
+            h = self.activation(h)
+        h = self.layers[-1](g, h)
+        h = h.mean(1)
         return h
