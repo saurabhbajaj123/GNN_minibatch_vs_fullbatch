@@ -469,7 +469,7 @@ def run(graph, node_dict, gpb, args):
         # print(break_condition)
         if break_condition:
             print(f'Early stopping after {epoch + 1} epochs.')
-            break
+            # break
 
         # prev_loss = avg_loss
     if args.eval and rank == 0:
