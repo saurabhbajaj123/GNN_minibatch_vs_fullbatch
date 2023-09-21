@@ -115,9 +115,9 @@ if __name__ == "__main__":
 
     sweep_configuration = {
         # 'name': f"Multiple runs best parameters {args.n_gpus}",
-        'name': f"miltiple_runs_fb_archi",
+        'name': f"fanout_mb_archi",
         # 'name': "checking if 5 layers is the best",
-        'method': 'random',
+        'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
@@ -133,10 +133,10 @@ if __name__ == "__main__":
             # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
             # 'n_gpus': {'values': [4,3,2,1]},
             # 'dummy': {'values': [1, 2, 3, 4, 5]},
-            # 'fanout': {'values': [4, 7, 10]},
+            'fanout': {'values': [4, 7, 10]},
             # 'num_heads': {'values': [20, 25]},
             # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-            'dummy': {'distribution': 'uniform', 'min': 3, 'max': 10},
+            # 'dummy': {'distribution': 'uniform', 'min': 3, 'max': 10},
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration,
