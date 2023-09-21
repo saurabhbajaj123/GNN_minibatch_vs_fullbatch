@@ -4,7 +4,6 @@
 #SBATCH --gpus=4
 #SBATCH --mem=50GB  # memory per CPU core
 #SBATCH --time=0-08:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --output=result_reddit.txt
 #SBATCH --constraint=m40
 #SBATCH --nodes=1
 
