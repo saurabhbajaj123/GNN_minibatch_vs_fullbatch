@@ -93,34 +93,34 @@ def main():
 if __name__ == '__main__':
     # dataset = 'pubmed'
     # model = 'graphsage'
-    main()
-    # args = create_parser() 
-    # sweep_configuration = {
-    #     'name': f"dropout",
-    #     'method': 'grid',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'n_hidden': {'values': [128, 256, 512, 728, 1024]},
-    #         # 'n_layers': {'values': [2, 3, 5, 7, 9]},
-    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
-    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
-    #         # 'dropout': {'values': [0.2, 0.4, 0.6, 0.8]},
-    #         # 'lr': {'distribution': 'log_uniform', 'min': 1e-4, 'max': 1e-1},
-    #         # 'lr': {'distribution': 'uniform', 'min': args.lr*0.1, 'max': args.lr*10},
-    #         # "lr": {'values': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.5]},
-    #         # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
-    #         # 'n_partitions': {'values': [4,3,2,1]},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'values': [128, 256, 512]},
-    #         # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-    #         'dummy': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration,
-    #                        project="PipeGCN-{}-{}".format(args.dataset, args.model))
+    # main()
+    args = create_parser() 
+    sweep_configuration = {
+        'name': f"Ablation with n_layers n_hidden",
+        'method': 'grid',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            'n_hidden': {'values': [64, 128, 256, 512]},
+            'n_layers': {'values': [3, 4, 5, 6]},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'dropout': {'values': [0.2, 0.4, 0.6, 0.8]},
+            # 'lr': {'distribution': 'log_uniform', 'min': 1e-4, 'max': 1e-1},
+            # 'lr': {'distribution': 'uniform', 'min': args.lr*0.1, 'max': args.lr*10},
+            # "lr": {'values': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.5]},
+            # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
+            # 'n_partitions': {'values': [4,3,2,1]},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'values': [128, 256, 512]},
+            # 'budget': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+            # 'dummy': {'distribution': 'int_uniform', 'min': 100, 'max': 10000},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration,
+                           project="PipeGCN-{}-{}".format(args.dataset, args.model))
 
-    # wandb.agent(sweep_id, function=main, count=5)
+    wandb.agent(sweep_id, function=main, count=50)
 

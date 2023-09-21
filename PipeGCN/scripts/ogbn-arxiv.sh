@@ -1,17 +1,19 @@
 #!/bin/bash
 
-#SBATCH --job-name arxiv   ## name that will show up in the queue
+#SBATCH --job-name pipegcn-arxiv-ablation-layer-hidden   ## name that will show up in the queue
 #SBATCH --gpus=4
 #SBATCH --mem=20GB  # memory per CPU core
-#SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --time=0-10:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --output=result_arxiv.txt
+#SBATCH --constraint=m40
+#SBATCH --nodes=1
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-arxiv \
-  --dropout 0.3 \
-  --lr 0.005 \
+  --dropout 0.5 \
+  --lr 0.001 \
   --n-partitions 4 \
   --n-epochs 1000 \
   --model graphsage \
@@ -20,8 +22,8 @@ python main.py \
   --log-every 5 \
   --patience 50 \
   --fix-seed \
+  --seed 42 \
   # --enable-pipeline \
-  # --seed 1261325436 \
 
 
 # python main.py \
@@ -31,8 +33,10 @@ python main.py \
 #   --n-partitions 4 \
 #   --n-epochs 1000 \
 #   --model graphsage \
-#   --n-layers 3 \
-#   --n-hidden 256 \
+#   --n-layers 4 \
+#   --n-hidden 859 \
 #   --log-every 5 \
-#   --enable-pipeline \
-#   --use-pp
+#   --patience 500 \
+#   --use-pp \
+#   --fix-seed \
+#   # --enable-pipeline \
