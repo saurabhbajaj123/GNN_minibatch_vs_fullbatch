@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#SBATCH --job-name pipegcn-arxiv-ablation-layer-hidden   ## name that will show up in the queue
+#SBATCH --job-name pipegcn-arxiv-ablation-layer   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=20GB  # memory per CPU core
-#SBATCH --time=0-10:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --mem=50GB  # memory per CPU core
+#SBATCH --time=0-03:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --constraint=m40
 #SBATCH --nodes=1
 
@@ -17,7 +17,7 @@ python main.py \
   --n-epochs 1000 \
   --model graphsage \
   --n-layers 9 \
-  --n-hidden 256 \
+  --n-hidden 512 \
   --log-every 5 \
   --patience 50 \
   --fix-seed \
