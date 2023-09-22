@@ -108,3 +108,29 @@ class GAT(GNNBase):
         h = self.layers[-1](g, h)
         h = h.mean(1)
         return h
+
+
+
+class GCN(GNNBase):
+
+    def __init__(self, layer_size, activation, use_pp, dropout=0.5, norm='layer', train_size=None, n_linear=0):
+        super(GCN, self).__init__(layer_size, activation, use_pp, dropout, norm, n_linear)
+        for i in range(self.n_layers):
+            if i < self.n_layers - self.n_linear:
+                self.layers.append(dgl.nn.GraphConv(layer_size[i], layer_size[i + 1], activation=activation))
+            else:
+                self.layers.append(nn.Linear(layer_size[i], layer_size[i + 1]))
+            if i < self.n_layers - 1 and self.use_norm:
+                if norm == 'layer':
+                    self.norm.append(nn.LayerNorm(layer_size[i + 1], elementwise_affine=True))
+                elif norm == 'batch':
+                    self.norm.append(SyncBatchNorm(layer_size[i + 1], train_size))
+
+    def forward(self, g, features):
+        h = features
+        for i in range(self.n_layers):
+            if i != 0:
+                h = self.dropout(h)
+            h = self.layers[i](g, h)
+        return h
+

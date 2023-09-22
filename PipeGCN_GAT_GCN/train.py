@@ -191,6 +191,8 @@ def precompute(graph, node_dict, boundary, recv_shape, args):
         return torch.cat([feat, mean_feat[0:in_size]], dim=1)
     elif args.model == 'gat':
         return merge_feature(feat, recv_feat)
+    elif args.model == 'gcn':
+        return merge_feature(feat, recv_feat)
     else:
         raise Exception
 
@@ -201,6 +203,9 @@ def create_model(layer_size, args):
                          n_linear=args.n_linear, train_size=args.n_train)
     elif args.model == 'gat':
         return GAT(layer_size, F.relu, args.use_pp, norm=args.norm, heads=args.num_heads, dropout=args.dropout,
+                         n_linear=args.n_linear, train_size=args.n_train)
+    elif args.model == 'gcn':
+        return GCN(layer_size, F.relu, args.use_pp, norm=args.norm, dropout=args.dropout,
                          n_linear=args.n_linear, train_size=args.n_train)
     else:
         raise NotImplementedError
@@ -366,6 +371,8 @@ def run(graph, node_dict, gpb, args):
         if args.model == 'graphsage':
             logits = model(graph, feat, in_deg)
         elif args.model == 'gat':
+            logits = model(graph, feat)
+        elif args.model == 'gcn':
             logits = model(graph, feat)
         else:
             raise Exception

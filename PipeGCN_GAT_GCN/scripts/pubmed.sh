@@ -15,12 +15,12 @@ python main.py \
   --lr 0.0001 \
   --n-partitions 4 \
   --n-epochs 1000 \
-  --model gat \
-  --num-heads 2 \
+  --model gcn \
   --n-layers 2 \
   --n-hidden 128 \
   --log-every 5 \
-  --use-pp \
+  # --use-pp \
+  # --num-heads 2 \
   # --enable-pipeline \
   # --convergence-threshold 1e-8 \
   # --norm layer\
