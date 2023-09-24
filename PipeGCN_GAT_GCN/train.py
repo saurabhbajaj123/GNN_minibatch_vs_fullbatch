@@ -192,7 +192,15 @@ def precompute(graph, node_dict, boundary, recv_shape, args):
     elif args.model == 'gat':
         return merge_feature(feat, recv_feat)
     elif args.model == 'gcn':
-        return merge_feature(feat, recv_feat)
+        in_norm = torch.sqrt(node_dict['in_degree'])
+        out_norm = torch.sqrt(node_dict['out_degree'])
+        with graph.local_scope():
+            graph.nodes['_U'].data['h'] = merge_feature(feat, recv_feat)
+            graph.nodes['_U'].data['h'] /= out_norm.unsqueeze(-1)
+            graph['_E'].update_all(fn.copy_u('h', 'm'),
+                                   fn.sum(msg='m', out='h'),
+                                   etype='_E')
+            return graph.nodes['_V'].data['h'] / in_norm.unsqueeze(-1)
     else:
         raise Exception
 
@@ -299,7 +307,8 @@ def run(graph, node_dict, gpb, args):
     pos = get_pos(node_dict, gpb)
     graph = order_graph(part, graph, gpb, node_dict, pos)
     in_deg = node_dict['in_degree']
-
+    node_dict['out_degree'] = graph.out_degrees()
+    
     graph, node_dict, boundary = move_train_first(graph, node_dict, boundary)
 
     recv_shape = get_recv_shape(node_dict)
@@ -362,6 +371,12 @@ def run(graph, node_dict, gpb, args):
         node_dict.pop('val_mask')
         node_dict.pop('test_mask')
     
+    
+    
+    if args.model == 'gcn':
+        in_deg = torch.sqrt(node_dict['in_degree'])
+        out_deg = torch.sqrt(node_dict['out_degree'])
+
     prev_loss = float('inf')
     train_time = 0
     for epoch in range(args.n_epochs):
@@ -373,7 +388,7 @@ def run(graph, node_dict, gpb, args):
         elif args.model == 'gat':
             logits = model(graph, feat)
         elif args.model == 'gcn':
-            logits = model(graph, feat)
+            logits = model(graph, feat, in_deg, out_deg)
         else:
             raise Exception
         if args.inductive:

@@ -16,7 +16,7 @@ python main.py \
   --lr 0.001 \
   --n-partitions 4 \
   --n-epochs 1000 \
-  --model gat \
+  --model gcn \
   --n-layers 2 \
   --n-hidden 128 \
   --num-heads 3 \
@@ -24,5 +24,5 @@ python main.py \
   --fix-seed \
   --seed 42 \
   --use-pp \
-  # --enable-pipeline \
+  --enable-pipeline \
   # --inductive \

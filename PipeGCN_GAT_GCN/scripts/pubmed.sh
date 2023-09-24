@@ -19,12 +19,12 @@ python main.py \
   --n-layers 2 \
   --n-hidden 128 \
   --log-every 5 \
-  # --use-pp \
+  --seed 837330801 \
+  --use-pp \
   # --num-heads 2 \
   # --enable-pipeline \
   # --convergence-threshold 1e-8 \
   # --norm layer\
-  # --seed 837330801 \
   # --fix-seed \
   # --inductive \
   # --parts-per-node 2 \
