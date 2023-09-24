@@ -96,20 +96,20 @@ if __name__ == '__main__':
     # main()
     args = create_parser() 
     sweep_configuration = {
-        'name': f"Ablation with n_layers 2,3, n_hidden 64-1024",
+        'name': f"Ablation with n_layers",
         'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            'n_hidden': {'values': [64, 128, 256, 512, 1024]},
-            'n_layers': {'values': [2, 3]},
+            # 'n_hidden': {'values': [64, 128, 256, 512, 1024]},
+            'n_layers': {'values': [6, 7, 8]},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
             # 'dropout': {'values': [0.2, 0.4, 0.6, 0.8]},
             # 'lr': {'distribution': 'log_uniform', 'min': 1e-4, 'max': 1e-1},
             # 'lr': {'distribution': 'uniform', 'min': args.lr*0.1, 'max': args.lr*10},
-            # "lr": {'values': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.5]},
+            # "lr": {'values': [0.001, 0.002, 0.003, 0.005]},
             # 'n_partitions': {'distribution': 'int_uniform', 'min': 1, 'max': 4},
             # 'n_partitions': {'values': [4,3,2,1]},
             # "agg": {'values': ["mean", "gcn", "pool"]},
