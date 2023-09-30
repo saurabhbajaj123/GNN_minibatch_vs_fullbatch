@@ -55,7 +55,7 @@ def create_parser():
                         help="fix random seed")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--log-every", "--log_every", type=int, default=10)
-
+    parser.add_argument("--patience", "--patience", type=int, default=50)
     parser.add_argument("--backend", type=str, default='gloo')
     parser.add_argument("--port", type=int, default=18118,
                         help="the network port for communication")

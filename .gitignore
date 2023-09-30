@@ -171,3 +171,7 @@ wandb/
 
 
 DGL/DGL_reference_implementation/ClusterIterSampler/wandb
+dataset/
+PipeGCN/result.txt
+result.txt
+*.out
