@@ -1,0 +1,1318 @@
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Agent Starting Run: avagu7l5 with config:
+wandb: 	n_hidden: 108
+wandb: 	n_layers: 5
+wandb: 	num_heads: 10
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_025604-avagu7l5
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run dainty-sweep-1
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/avagu7l5
+Create sweep with ID: 3txn6hkh
+Sweep URL: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=108, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_025738-avagu7l5
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-108, n_layers-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/avagu7l5
+Process Process-3:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 89, in forward
+    h = self.layers[i](g, (h1, h))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/nn/pytorch/conv/gatconv.py", line 338, in forward
+    e = self.leaky_relu(graph.edata.pop("e"))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/activation.py", line 777, in forward
+    return F.leaky_relu(input, self.negative_slope, self.inplace)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/functional.py", line 1632, in leaky_relu
+    result = torch._C._nn.leaky_relu(input, negative_slope)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 298.00 MiB (GPU 0; 22.41 GiB total capacity; 20.52 GiB already allocated; 265.44 MiB free; 21.54 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process Process-4:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 89, in forward
+    h = self.layers[i](g, (h1, h))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/nn/pytorch/conv/gatconv.py", line 346, in forward
+    graph.update_all(fn.u_mul_e("ft", "a", "m"), fn.sum("m", "ft"))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/heterograph.py", line 5110, in update_all
+    ndata = core.message_passing(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/core.py", line 398, in message_passing
+    ndata = invoke_gspmm(g, mfunc, rfunc)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/core.py", line 359, in invoke_gspmm
+    z = op(graph, x, y)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/ops/spmm.py", line 173, in func
+    return gspmm(g, binary_op, reduce_op, x, y)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/ops/spmm.py", line 79, in gspmm
+    ret = gspmm_internal(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/sparse.py", line 1032, in gspmm
+    return GSpMM.apply(*args)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/function.py", line 506, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/sparse.py", line 165, in forward
+    out, (argX, argY) = _gspmm(gidx, op, reduce_op, X, Y)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/_sparse_ops.py", line 227, in _gspmm
+    v = F.zeros(v_shp, dtype, ctx)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/tensor.py", line 288, in zeros
+    return th.zeros(shape, dtype=dtype, device=ctx)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 226.00 MiB (GPU 0; 22.41 GiB total capacity; 20.85 GiB already allocated; 117.44 MiB free; 21.69 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process Process-2:
+Process Process-1:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 379, in run
+    loss.backward()
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 224, in fn
+    self.__grad_transfer(epoch, layer, grad)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 242, in __grad_transfer
+    self.__gloo_all_to_all(grad, self._grad_cpu[layer], self._b_recv_cpu[layer], self._b_recv[layer],
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 184, in __gloo_all_to_all
+    r.wait()
+RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [127.0.0.1]:45283
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 379, in run
+    loss.backward()
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 224, in fn
+    self.__grad_transfer(epoch, layer, grad)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 242, in __grad_transfer
+    self.__gloo_all_to_all(grad, self._grad_cpu[layer], self._b_recv_cpu[layer], self._b_recv[layer],
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 184, in __gloo_all_to_all
+    r.wait()
+RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [127.0.1.1]:43411
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: torch_seed ▁
+wandb: 
+wandb: Run summary:
+wandb: torch_seed 917278408831998631
+wandb: 
+wandb: 🚀 View run dainty-sweep-1 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/avagu7l5
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_025604-avagu7l5/logs
+wandb: Agent Starting Run: 136yzozg with config:
+wandb: 	n_hidden: 167
+wandb: 	n_layers: 3
+wandb: 	num_heads: 3
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_025842-136yzozg
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run fiery-sweep-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/136yzozg
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=167, n_layers=3, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_025908-136yzozg
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-167, n_layers-3
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/136yzozg
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+Process 001 | Epoch 00004 | Time(s) 7.0565 | Comm(s) 3.5584 | Reduce(s) 1.3626 | Loss 2.9619
+Process 001 | Epoch 00009 | Time(s) 7.3242 | Comm(s) 3.7856 | Reduce(s) 1.4287 | Loss 2.4908
+Process 001 | Epoch 00014 | Time(s) 7.4057 | Comm(s) 3.8755 | Reduce(s) 1.4253 | Loss 1.9594
+Process 001 | Epoch 00019 | Time(s) 7.4439 | Comm(s) 3.9161 | Reduce(s) 1.4335 | Loss 1.4670
+Process 001 | Epoch 00024 | Time(s) 7.4569 | Comm(s) 3.9232 | Reduce(s) 1.4443 | Loss 1.2236
+Process 001 | Epoch 00029 | Time(s) 7.4735 | Comm(s) 3.9266 | Reduce(s) 1.4590 | Loss 0.9606
+Process 001 | Epoch 00034 | Time(s) 7.4842 | Comm(s) 3.9366 | Reduce(s) 1.4646 | Loss 0.8730
+Process 001 | Epoch 00039 | Time(s) 7.4944 | Comm(s) 3.9476 | Reduce(s) 1.4608 | Loss 0.8375
+Process 001 | Epoch 00044 | Time(s) 7.5014 | Comm(s) 3.9516 | Reduce(s) 1.4617 | Loss 0.7858
+Process 001 | Epoch 00049 | Time(s) 7.5080 | Comm(s) 3.9546 | Reduce(s) 1.4606 | Loss 0.7770
+Process 001 | Epoch 00054 | Time(s) 7.5121 | Comm(s) 3.9587 | Reduce(s) 1.4614 | Loss 0.7446
+Process 001 | Epoch 00059 | Time(s) 7.5190 | Comm(s) 3.9635 | Reduce(s) 1.4647 | Loss 0.7056
+Process 001 | Epoch 00064 | Time(s) 7.5297 | Comm(s) 3.9706 | Reduce(s) 1.4678 | Loss 0.6828
+Process 001 | Epoch 00069 | Time(s) 7.5231 | Comm(s) 3.9666 | Reduce(s) 1.4643 | Loss 0.6493
+Process 001 | Epoch 00074 | Time(s) 7.5223 | Comm(s) 3.9637 | Reduce(s) 1.4650 | Loss 0.6261
+Process 001 | Epoch 00079 | Time(s) 7.5219 | Comm(s) 3.9608 | Reduce(s) 1.4657 | Loss 0.5949
+Process 001 | Epoch 00084 | Time(s) 7.5268 | Comm(s) 3.9665 | Reduce(s) 1.4649 | Loss 0.5801
+Process 001 | Epoch 00089 | Time(s) 7.5291 | Comm(s) 3.9671 | Reduce(s) 1.4646 | Loss 0.5546
+Process 001 | Epoch 00094 | Time(s) 7.5300 | Comm(s) 3.9684 | Reduce(s) 1.4635 | Loss 0.5848
+Process 001 | Epoch 00099 | Time(s) 7.5306 | Comm(s) 3.9689 | Reduce(s) 1.4634 | Loss 0.5306
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process 003 | Epoch 00004 | Time(s) 7.0606 | Comm(s) 3.3135 | Reduce(s) 0.8470 | Loss 3.6688
+Process 003 | Epoch 00009 | Time(s) 7.3266 | Comm(s) 3.6137 | Reduce(s) 0.8551 | Loss 3.5412
+Process 003 | Epoch 00014 | Time(s) 7.4083 | Comm(s) 3.7002 | Reduce(s) 0.8378 | Loss 3.4284
+Process 003 | Epoch 00019 | Time(s) 7.4465 | Comm(s) 3.7380 | Reduce(s) 0.8368 | Loss 3.3428
+Process 003 | Epoch 00024 | Time(s) 7.4606 | Comm(s) 3.7510 | Reduce(s) 0.8369 | Loss 3.2998
+Process 003 | Epoch 00029 | Time(s) 7.4753 | Comm(s) 3.7652 | Reduce(s) 0.8402 | Loss 3.2212
+Process 003 | Epoch 00034 | Time(s) 7.4865 | Comm(s) 3.7779 | Reduce(s) 0.8412 | Loss 3.1273
+Process 003 | Epoch 00039 | Time(s) 7.4964 | Comm(s) 3.7846 | Reduce(s) 0.8431 | Loss 3.0284
+Process 003 | Epoch 00044 | Time(s) 7.5038 | Comm(s) 3.7910 | Reduce(s) 0.8451 | Loss 2.9422
+Process 003 | Epoch 00049 | Time(s) 7.5101 | Comm(s) 3.7989 | Reduce(s) 0.8431 | Loss 2.8772
+Process 003 | Epoch 00054 | Time(s) 7.5139 | Comm(s) 3.8041 | Reduce(s) 0.8436 | Loss 2.8788
+Process 003 | Epoch 00059 | Time(s) 7.5205 | Comm(s) 3.8047 | Reduce(s) 0.8428 | Loss 2.7605
+Process 003 | Epoch 00064 | Time(s) 7.5310 | Comm(s) 3.8164 | Reduce(s) 0.8424 | Loss 2.7162
+Process 003 | Epoch 00069 | Time(s) 7.5244 | Comm(s) 3.8099 | Reduce(s) 0.8417 | Loss 2.6564
+Process 003 | Epoch 00074 | Time(s) 7.5236 | Comm(s) 3.8108 | Reduce(s) 0.8406 | Loss 2.5596
+Process 003 | Epoch 00079 | Time(s) 7.5236 | Comm(s) 3.8102 | Reduce(s) 0.8404 | Loss 2.5107
+Process 003 | Epoch 00084 | Time(s) 7.5283 | Comm(s) 3.8163 | Reduce(s) 0.8364 | Loss 2.4334
+Process 003 | Epoch 00089 | Time(s) 7.5306 | Comm(s) 3.8170 | Reduce(s) 0.8364 | Loss 2.5249
+Process 003 | Epoch 00094 | Time(s) 7.5317 | Comm(s) 3.8193 | Reduce(s) 0.8345 | Loss 2.3233
+Process 003 | Epoch 00099 | Time(s) 7.5322 | Comm(s) 3.8193 | Reduce(s) 0.8359 | Loss 2.2636
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process 002 | Epoch 00004 | Time(s) 7.0574 | Comm(s) 3.1595 | Reduce(s) 0.7998 | Loss 3.7785
+Process 002 | Epoch 00009 | Time(s) 7.3212 | Comm(s) 3.4295 | Reduce(s) 0.7960 | Loss 3.6784
+Process 002 | Epoch 00014 | Time(s) 7.4022 | Comm(s) 3.5239 | Reduce(s) 0.7923 | Loss 3.5826
+Process 002 | Epoch 00019 | Time(s) 7.4410 | Comm(s) 3.5679 | Reduce(s) 0.7908 | Loss 3.4888
+Process 002 | Epoch 00024 | Time(s) 7.4553 | Comm(s) 3.5821 | Reduce(s) 0.7919 | Loss 3.4161
+Process 002 | Epoch 00029 | Time(s) 7.4713 | Comm(s) 3.5989 | Reduce(s) 0.7910 | Loss 3.3025
+Process 002 | Epoch 00034 | Time(s) 7.4814 | Comm(s) 3.6098 | Reduce(s) 0.7909 | Loss 3.1628
+Process 002 | Epoch 00039 | Time(s) 7.4914 | Comm(s) 3.6238 | Reduce(s) 0.7889 | Loss 3.0179
+Process 002 | Epoch 00044 | Time(s) 7.4993 | Comm(s) 3.6294 | Reduce(s) 0.7884 | Loss 2.8987
+Process 002 | Epoch 00049 | Time(s) 7.5057 | Comm(s) 3.6384 | Reduce(s) 0.7864 | Loss 2.7889
+Process 002 | Epoch 00054 | Time(s) 7.5099 | Comm(s) 3.6420 | Reduce(s) 0.7857 | Loss 2.7377
+Process 002 | Epoch 00059 | Time(s) 7.5161 | Comm(s) 3.6522 | Reduce(s) 0.7867 | Loss 2.6646
+Process 002 | Epoch 00064 | Time(s) 7.5268 | Comm(s) 3.6655 | Reduce(s) 0.7863 | Loss 2.6665
+Process 002 | Epoch 00069 | Time(s) 7.5205 | Comm(s) 3.6562 | Reduce(s) 0.7863 | Loss 2.6312
+Process 002 | Epoch 00074 | Time(s) 7.5195 | Comm(s) 3.6570 | Reduce(s) 0.7858 | Loss 2.5776
+Process 002 | Epoch 00079 | Time(s) 7.5191 | Comm(s) 3.6556 | Reduce(s) 0.7857 | Loss 2.5485
+Process 002 | Epoch 00084 | Time(s) 7.5237 | Comm(s) 3.6626 | Reduce(s) 0.7838 | Loss 2.4847
+Process 002 | Epoch 00089 | Time(s) 7.5258 | Comm(s) 3.6623 | Reduce(s) 0.7834 | Loss 2.4614
+Process 002 | Epoch 00094 | Time(s) 7.5265 | Comm(s) 3.6642 | Reduce(s) 0.7822 | Loss 2.4129
+Process 002 | Epoch 00099 | Time(s) 7.5274 | Comm(s) 3.6638 | Reduce(s) 0.7823 | Loss 2.3826
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+Process 000 | Epoch 00004 | Time(s) 7.0555 | Comm(s) 3.7727 | Reduce(s) 1.1187 | Loss 3.7169
+Process 000 | Epoch 00009 | Time(s) 7.3187 | Comm(s) 3.9456 | Reduce(s) 1.1898 | Loss 3.6061
+Epoch 00004 | Validation Accuracy 30.82% | Test Accuracy 26.89%
+Process 000 | Epoch 00014 | Time(s) 7.3989 | Comm(s) 4.0064 | Reduce(s) 1.1997 | Loss 3.5007
+Epoch 00009 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00019 | Time(s) 7.4382 | Comm(s) 4.0524 | Reduce(s) 1.1992 | Loss 3.3980
+Epoch 00014 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00024 | Time(s) 7.4522 | Comm(s) 4.0294 | Reduce(s) 1.2121 | Loss 3.3590
+Epoch 00019 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00029 | Time(s) 7.4673 | Comm(s) 4.0243 | Reduce(s) 1.2303 | Loss 3.2397
+Epoch 00024 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00034 | Time(s) 7.4778 | Comm(s) 4.0286 | Reduce(s) 1.2389 | Loss 3.0840
+Epoch 00029 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00039 | Time(s) 7.4877 | Comm(s) 4.0380 | Reduce(s) 1.2448 | Loss 2.9390
+Epoch 00034 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00044 | Time(s) 7.4943 | Comm(s) 4.0459 | Reduce(s) 1.2398 | Loss 2.7962
+Epoch 00039 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00049 | Time(s) 7.5002 | Comm(s) 4.0541 | Reduce(s) 1.2356 | Loss 2.6575
+Epoch 00044 | Validation Accuracy 31.60% | Test Accuracy 27.91%
+Process 000 | Epoch 00054 | Time(s) 7.5037 | Comm(s) 4.0432 | Reduce(s) 1.2439 | Loss 2.5392
+Epoch 00049 | Validation Accuracy 36.29% | Test Accuracy 31.45%
+Process 000 | Epoch 00059 | Time(s) 7.5105 | Comm(s) 4.0376 | Reduce(s) 1.2517 | Loss 2.4042
+Epoch 00054 | Validation Accuracy 43.16% | Test Accuracy 35.72%
+Process 000 | Epoch 00064 | Time(s) 7.5208 | Comm(s) 4.0451 | Reduce(s) 1.2569 | Loss 2.3840
+Epoch 00059 | Validation Accuracy 46.76% | Test Accuracy 37.66%
+Process 000 | Epoch 00069 | Time(s) 7.5144 | Comm(s) 4.0389 | Reduce(s) 1.2511 | Loss 2.2946
+Epoch 00064 | Validation Accuracy 49.28% | Test Accuracy 38.75%
+Process 000 | Epoch 00074 | Time(s) 7.5135 | Comm(s) 4.0356 | Reduce(s) 1.2524 | Loss 2.1892
+Epoch 00069 | Validation Accuracy 52.02% | Test Accuracy 40.67%
+Process 000 | Epoch 00079 | Time(s) 7.5132 | Comm(s) 4.0373 | Reduce(s) 1.2481 | Loss 2.1027
+Epoch 00074 | Validation Accuracy 54.78% | Test Accuracy 42.87%
+Process 000 | Epoch 00084 | Time(s) 7.5178 | Comm(s) 4.0461 | Reduce(s) 1.2447 | Loss 1.9902
+Epoch 00079 | Validation Accuracy 58.32% | Test Accuracy 45.08%
+Process 000 | Epoch 00089 | Time(s) 7.5201 | Comm(s) 4.0468 | Reduce(s) 1.2434 | Loss 1.8679
+Epoch 00084 | Validation Accuracy 61.11% | Test Accuracy 46.54%
+Process 000 | Epoch 00094 | Time(s) 7.5210 | Comm(s) 4.0430 | Reduce(s) 1.2469 | Loss 1.7917
+Epoch 00089 | Validation Accuracy 62.37% | Test Accuracy 47.32%
+Process 000 | Epoch 00099 | Time(s) 7.5216 | Comm(s) 4.0496 | Reduce(s) 1.2409 | Loss 1.6591
+Epoch 00094 | Validation Accuracy 63.42% | Test Accuracy 48.21%
+Epoch 00099 | Validation Accuracy 63.91% | Test Accuracy 48.91%
+Validation accuracy 63.91%
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▁▁▁▁▁▁▁▂▄▄▅▅▆▇▇▇██
+wandb:               best_train_acc ▁▁▁▁▁▁▁▁▁▂▃▄▅▅▆▇▇███
+wandb:                 best_val_acc ▁▁▁▁▁▁▁▁▁▂▄▄▅▅▆▇▇███
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▁▁▁▁▁▁▁▁▂▄▄▅▅▆▇▇▇██
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▁▁▁▁▁▁▁▁▂▃▄▅▅▆▇▇███
+wandb:                   train_time ▁▁▂▂▃▃▃▄▄▄▅▅▆▆▆▇▇██
+wandb:                      val_acc ▁▁▁▁▁▁▁▁▁▂▄▄▅▅▆▇▇███
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 7.52162
+wandb:                best_test_acc 0.48909
+wandb:               best_train_acc 0.64571
+wandb:                 best_val_acc 0.63912
+wandb:                   num epochs 100
+wandb:                     test_acc 0.48909
+wandb:                   torch_seed 42
+wandb:             total train time 2406.91693
+wandb:     total train time per GPU 601.72923
+wandb:         train time per epoch 24.06917
+wandb:                    train_acc 0.64571
+wandb:                   train_time 754.30683
+wandb:                      val_acc 0.63912
+wandb: 
+wandb: 🚀 View run fiery-sweep-2 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/136yzozg
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_025842-136yzozg/logs
+wandb: Sweep Agent: Waiting for job.
+wandb: Job received.
+wandb: Agent Starting Run: 0tdi1olz with config:
+wandb: 	n_hidden: 106
+wandb: 	n_layers: 5
+wandb: 	num_heads: 1
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_054048-0tdi1olz
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run dazzling-sweep-3
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/0tdi1olz
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=106, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_054113-0tdi1olz
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-106, n_layers-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/0tdi1olz
+Process Process-11:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 89, in forward
+    h = self.layers[i](g, (h1, h))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/nn/pytorch/conv/gatconv.py", line 340, in forward
+    graph.edata["a"] = self.attn_drop(edge_softmax(graph, e))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/ops/edge_softmax.py", line 136, in edge_softmax
+    return edge_softmax_internal(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/sparse.py", line 1116, in edge_softmax
+    return EdgeSoftmax.apply(*args)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/function.py", line 506, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/sparse.py", line 711, in forward
+    score = th.exp(_gsddmm(gidx, "sub", score, score_max, "e", "v"))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/_sparse_ops.py", line 552, in _gsddmm
+    out = F.empty(out_shp, dtype, ctx)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/tensor.py", line 284, in empty
+    return th.empty(shape, dtype=dtype, device=ctx)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 298.00 MiB (GPU 0; 22.41 GiB total capacity; 20.55 GiB already allocated; 267.44 MiB free; 21.54 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process Process-9:
+Process Process-10:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 379, in run
+    loss.backward()
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 224, in fn
+    self.__grad_transfer(epoch, layer, grad)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 242, in __grad_transfer
+    self.__gloo_all_to_all(grad, self._grad_cpu[layer], self._b_recv_cpu[layer], self._b_recv[layer],
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 184, in __gloo_all_to_all
+    r.wait()
+RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [127.0.1.1]:6556
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 379, in run
+    loss.backward()
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 224, in fn
+    self.__grad_transfer(epoch, layer, grad)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 242, in __grad_transfer
+    self.__gloo_all_to_all(grad, self._grad_cpu[layer], self._b_recv_cpu[layer], self._b_recv[layer],
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 184, in __gloo_all_to_all
+    r.wait()
+RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [127.0.1.1]:14772
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+terminate called without an active exception
+
+LIBXSMM_VERSION: main-1.17-3659 (25693771)
+LIBXSMM_TARGET: hsw [Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz]
+Registry and code: 13 MB
+Command: /work/sbajaj_umass_edu/GNNEnv/bin/python -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=30, pipe_handle=50) --multiprocessing-fork 
+Uptime: 53.459688 s
+terminate called without an active exception
+
+LIBXSMM_VERSION: main-1.17-3659 (25693771)
+LIBXSMM_TARGET: hsw [Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz]
+Registry and code: 13 MB
+Command: /work/sbajaj_umass_edu/GNNEnv/bin/python -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=30, pipe_handle=48) --multiprocessing-fork 
+Uptime: 54.236420 s
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: | 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: torch_seed ▁
+wandb: 
+wandb: Run summary:
+wandb: torch_seed 6205931744574775283
+wandb: 
+wandb: 🚀 View run dazzling-sweep-3 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/0tdi1olz
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_054048-0tdi1olz/logs
+wandb: Agent Starting Run: zzfocbgw with config:
+wandb: 	n_hidden: 122
+wandb: 	n_layers: 3
+wandb: 	num_heads: 8
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_054210-zzfocbgw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run divine-sweep-4
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/zzfocbgw
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=122, n_layers=3, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_054238-zzfocbgw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-122, n_layers-3
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/zzfocbgw
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+Process 001 | Epoch 00004 | Time(s) 5.3971 | Comm(s) 2.8207 | Reduce(s) 0.9380 | Loss 2.4362
+Process 001 | Epoch 00009 | Time(s) 5.6341 | Comm(s) 2.9706 | Reduce(s) 1.0018 | Loss 2.2800
+Process 001 | Epoch 00014 | Time(s) 5.7271 | Comm(s) 3.0447 | Reduce(s) 1.0209 | Loss 1.8542
+Process 001 | Epoch 00019 | Time(s) 5.7877 | Comm(s) 3.0890 | Reduce(s) 1.0327 | Loss 1.5826
+Process 001 | Epoch 00024 | Time(s) 5.8102 | Comm(s) 3.1132 | Reduce(s) 1.0413 | Loss 1.3582
+Process 001 | Epoch 00029 | Time(s) 5.8369 | Comm(s) 3.1350 | Reduce(s) 1.0471 | Loss 1.1866
+Process 001 | Epoch 00034 | Time(s) 5.8457 | Comm(s) 3.1373 | Reduce(s) 1.0572 | Loss 1.0781
+Process 001 | Epoch 00039 | Time(s) 5.8744 | Comm(s) 3.1620 | Reduce(s) 1.0623 | Loss 0.9947
+Process 001 | Epoch 00044 | Time(s) 5.8818 | Comm(s) 3.1626 | Reduce(s) 1.0642 | Loss 0.9652
+Process 001 | Epoch 00049 | Time(s) 5.8868 | Comm(s) 3.1623 | Reduce(s) 1.0633 | Loss 0.9406
+Process 001 | Epoch 00054 | Time(s) 5.8922 | Comm(s) 3.1666 | Reduce(s) 1.0632 | Loss 0.9103
+Process 001 | Epoch 00059 | Time(s) 5.9015 | Comm(s) 3.1689 | Reduce(s) 1.0680 | Loss 0.8886
+Process 001 | Epoch 00064 | Time(s) 5.9074 | Comm(s) 3.1730 | Reduce(s) 1.0703 | Loss 0.8639
+Process 001 | Epoch 00069 | Time(s) 5.9087 | Comm(s) 3.1743 | Reduce(s) 1.0726 | Loss 0.8345
+Process 001 | Epoch 00074 | Time(s) 5.9138 | Comm(s) 3.1763 | Reduce(s) 1.0733 | Loss 0.8198
+Process 001 | Epoch 00079 | Time(s) 5.9125 | Comm(s) 3.1758 | Reduce(s) 1.0733 | Loss 0.7915
+Process 001 | Epoch 00084 | Time(s) 5.9181 | Comm(s) 3.1798 | Reduce(s) 1.0740 | Loss 0.7702
+Process 001 | Epoch 00089 | Time(s) 5.9224 | Comm(s) 3.1812 | Reduce(s) 1.0753 | Loss 0.7516
+Process 001 | Epoch 00094 | Time(s) 5.9274 | Comm(s) 3.1863 | Reduce(s) 1.0772 | Loss 0.7300
+Process 001 | Epoch 00099 | Time(s) 5.9238 | Comm(s) 3.1802 | Reduce(s) 1.0789 | Loss 0.7172
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process 002 | Epoch 00004 | Time(s) 5.4114 | Comm(s) 2.3916 | Reduce(s) 0.5647 | Loss 3.8199
+Process 002 | Epoch 00009 | Time(s) 5.6409 | Comm(s) 2.5943 | Reduce(s) 0.5618 | Loss 3.7895
+Process 002 | Epoch 00014 | Time(s) 5.7328 | Comm(s) 2.7045 | Reduce(s) 0.5645 | Loss 3.7632
+Process 002 | Epoch 00019 | Time(s) 5.7908 | Comm(s) 2.7779 | Reduce(s) 0.5597 | Loss 3.7185
+Process 002 | Epoch 00024 | Time(s) 5.8113 | Comm(s) 2.8015 | Reduce(s) 0.5571 | Loss 3.6722
+Process 002 | Epoch 00029 | Time(s) 5.8379 | Comm(s) 2.8248 | Reduce(s) 0.5591 | Loss 3.5946
+Process 002 | Epoch 00034 | Time(s) 5.8460 | Comm(s) 2.8382 | Reduce(s) 0.5589 | Loss 3.5214
+Process 002 | Epoch 00039 | Time(s) 5.8740 | Comm(s) 2.8660 | Reduce(s) 0.5583 | Loss 3.4442
+Process 002 | Epoch 00044 | Time(s) 5.8812 | Comm(s) 2.8725 | Reduce(s) 0.5563 | Loss 3.3698
+Process 002 | Epoch 00049 | Time(s) 5.8863 | Comm(s) 2.8708 | Reduce(s) 0.5558 | Loss 3.2949
+Process 002 | Epoch 00054 | Time(s) 5.8913 | Comm(s) 2.8782 | Reduce(s) 0.5548 | Loss 3.2198
+Process 002 | Epoch 00059 | Time(s) 5.9011 | Comm(s) 2.8903 | Reduce(s) 0.5586 | Loss 3.1579
+Process 002 | Epoch 00064 | Time(s) 5.9068 | Comm(s) 2.8917 | Reduce(s) 0.5579 | Loss 3.0879
+Process 002 | Epoch 00069 | Time(s) 5.9083 | Comm(s) 2.8956 | Reduce(s) 0.5576 | Loss 3.0354
+Process 002 | Epoch 00074 | Time(s) 5.9133 | Comm(s) 2.8999 | Reduce(s) 0.5590 | Loss 2.9791
+Process 002 | Epoch 00079 | Time(s) 5.9116 | Comm(s) 2.9006 | Reduce(s) 0.5582 | Loss 2.9219
+Process 002 | Epoch 00084 | Time(s) 5.9174 | Comm(s) 2.9083 | Reduce(s) 0.5596 | Loss 2.8703
+Process 002 | Epoch 00089 | Time(s) 5.9211 | Comm(s) 2.9115 | Reduce(s) 0.5606 | Loss 2.8262
+Process 002 | Epoch 00094 | Time(s) 5.9265 | Comm(s) 2.9160 | Reduce(s) 0.5613 | Loss 2.7733
+Process 002 | Epoch 00099 | Time(s) 5.9229 | Comm(s) 2.9137 | Reduce(s) 0.5608 | Loss 2.7277
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process 003 | Epoch 00004 | Time(s) 5.4020 | Comm(s) 2.5359 | Reduce(s) 0.5646 | Loss 3.8235
+Process 003 | Epoch 00009 | Time(s) 5.6377 | Comm(s) 2.7468 | Reduce(s) 0.5597 | Loss 3.8277
+Process 003 | Epoch 00014 | Time(s) 5.7314 | Comm(s) 2.8316 | Reduce(s) 0.5584 | Loss 3.7947
+Process 003 | Epoch 00019 | Time(s) 5.7903 | Comm(s) 2.8836 | Reduce(s) 0.5572 | Loss 3.7374
+Process 003 | Epoch 00024 | Time(s) 5.8118 | Comm(s) 2.9096 | Reduce(s) 0.5579 | Loss 3.6938
+Process 003 | Epoch 00029 | Time(s) 5.8380 | Comm(s) 2.9337 | Reduce(s) 0.5626 | Loss 3.6345
+Process 003 | Epoch 00034 | Time(s) 5.8462 | Comm(s) 2.9440 | Reduce(s) 0.5667 | Loss 3.5598
+Process 003 | Epoch 00039 | Time(s) 5.8742 | Comm(s) 2.9696 | Reduce(s) 0.5718 | Loss 3.4861
+Process 003 | Epoch 00044 | Time(s) 5.8821 | Comm(s) 2.9751 | Reduce(s) 0.5716 | Loss 3.4109
+Process 003 | Epoch 00049 | Time(s) 5.8875 | Comm(s) 2.9777 | Reduce(s) 0.5760 | Loss 3.3371
+Process 003 | Epoch 00054 | Time(s) 5.8930 | Comm(s) 2.9847 | Reduce(s) 0.5793 | Loss 3.2475
+Process 003 | Epoch 00059 | Time(s) 5.9025 | Comm(s) 2.9891 | Reduce(s) 0.5784 | Loss 3.1789
+Process 003 | Epoch 00064 | Time(s) 5.9083 | Comm(s) 2.9970 | Reduce(s) 0.5807 | Loss 3.1162
+Process 003 | Epoch 00069 | Time(s) 5.9100 | Comm(s) 2.9990 | Reduce(s) 0.5825 | Loss 3.0537
+Process 003 | Epoch 00074 | Time(s) 5.9151 | Comm(s) 3.0061 | Reduce(s) 0.5823 | Loss 2.9951
+Process 003 | Epoch 00079 | Time(s) 5.9137 | Comm(s) 3.0066 | Reduce(s) 0.5825 | Loss 2.9404
+Process 003 | Epoch 00084 | Time(s) 5.9196 | Comm(s) 3.0129 | Reduce(s) 0.5815 | Loss 2.8896
+Process 003 | Epoch 00089 | Time(s) 5.9236 | Comm(s) 3.0157 | Reduce(s) 0.5832 | Loss 2.8399
+Process 003 | Epoch 00094 | Time(s) 5.9290 | Comm(s) 3.0212 | Reduce(s) 0.5840 | Loss 2.7719
+Process 003 | Epoch 00099 | Time(s) 5.9254 | Comm(s) 3.0155 | Reduce(s) 0.5848 | Loss 2.7269
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+Process 000 | Epoch 00004 | Time(s) 5.3952 | Comm(s) 2.7702 | Reduce(s) 0.9065 | Loss 3.9398
+Process 000 | Epoch 00009 | Time(s) 5.6308 | Comm(s) 2.9623 | Reduce(s) 0.9204 | Loss 3.8851
+Epoch 00004 | Validation Accuracy 20.91% | Test Accuracy 19.01%
+Process 000 | Epoch 00014 | Time(s) 5.7254 | Comm(s) 3.0529 | Reduce(s) 0.9128 | Loss 3.8132
+Epoch 00009 | Validation Accuracy 29.91% | Test Accuracy 25.99%
+Process 000 | Epoch 00019 | Time(s) 5.7835 | Comm(s) 3.0960 | Reduce(s) 0.9238 | Loss 3.7718
+Epoch 00014 | Validation Accuracy 30.81% | Test Accuracy 26.86%
+Process 000 | Epoch 00024 | Time(s) 5.8042 | Comm(s) 3.1131 | Reduce(s) 0.9198 | Loss 3.6682
+Epoch 00019 | Validation Accuracy 30.83% | Test Accuracy 26.93%
+Process 000 | Epoch 00029 | Time(s) 5.8309 | Comm(s) 3.1327 | Reduce(s) 0.9220 | Loss 3.5973
+Epoch 00024 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00034 | Time(s) 5.8400 | Comm(s) 3.1365 | Reduce(s) 0.9314 | Loss 3.5117
+Epoch 00029 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00039 | Time(s) 5.8678 | Comm(s) 3.1613 | Reduce(s) 0.9360 | Loss 3.4074
+Epoch 00034 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00044 | Time(s) 5.8750 | Comm(s) 3.1789 | Reduce(s) 0.9313 | Loss 3.2863
+Epoch 00039 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00049 | Time(s) 5.8797 | Comm(s) 3.1909 | Reduce(s) 0.9276 | Loss 3.1774
+Epoch 00044 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00054 | Time(s) 5.8845 | Comm(s) 3.1998 | Reduce(s) 0.9191 | Loss 3.0368
+Epoch 00049 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00059 | Time(s) 5.8946 | Comm(s) 3.2035 | Reduce(s) 0.9253 | Loss 2.9122
+Epoch 00054 | Validation Accuracy 30.83% | Test Accuracy 26.94%
+Process 000 | Epoch 00064 | Time(s) 5.9001 | Comm(s) 3.2118 | Reduce(s) 0.9264 | Loss 2.8253
+Epoch 00059 | Validation Accuracy 30.83% | Test Accuracy 26.95%
+Process 000 | Epoch 00069 | Time(s) 5.9014 | Comm(s) 3.2171 | Reduce(s) 0.9253 | Loss 2.7212
+Epoch 00064 | Validation Accuracy 31.01% | Test Accuracy 27.23%
+Process 000 | Epoch 00074 | Time(s) 5.9062 | Comm(s) 3.2211 | Reduce(s) 0.9271 | Loss 2.6197
+Epoch 00069 | Validation Accuracy 31.69% | Test Accuracy 28.12%
+Process 000 | Epoch 00079 | Time(s) 5.9048 | Comm(s) 3.2218 | Reduce(s) 0.9254 | Loss 2.5441
+Epoch 00074 | Validation Accuracy 32.94% | Test Accuracy 29.11%
+Process 000 | Epoch 00084 | Time(s) 5.9108 | Comm(s) 3.2235 | Reduce(s) 0.9293 | Loss 2.4784
+Epoch 00079 | Validation Accuracy 34.20% | Test Accuracy 29.88%
+Process 000 | Epoch 00089 | Time(s) 5.9150 | Comm(s) 3.2293 | Reduce(s) 0.9308 | Loss 2.3915
+Epoch 00084 | Validation Accuracy 35.43% | Test Accuracy 30.41%
+Process 000 | Epoch 00094 | Time(s) 5.9204 | Comm(s) 3.2374 | Reduce(s) 0.9279 | Loss 2.3186
+Epoch 00089 | Validation Accuracy 36.36% | Test Accuracy 30.68%
+Process 000 | Epoch 00099 | Time(s) 5.9166 | Comm(s) 3.2323 | Reduce(s) 0.9297 | Loss 2.2413
+Epoch 00094 | Validation Accuracy 37.91% | Test Accuracy 31.24%
+Epoch 00099 | Validation Accuracy 40.07% | Test Accuracy 32.43%
+Validation accuracy 40.07%
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▅▅▅▅▅▅▅▅▅▅▅▅▆▆▇▇▇▇█
+wandb:               best_train_acc ▁▅▅▅▅▅▅▅▅▅▅▅▅▅▅▆▆▇▇█
+wandb:                 best_val_acc ▁▄▅▅▅▅▅▅▅▅▅▅▅▅▅▆▆▇▇█
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▅▅▅▅▅▅▅▅▅▅▅▅▆▆▇▇▇▇█
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▅▅▅▅▅▅▅▅▅▅▅▅▅▅▆▆▇▇█
+wandb:                   train_time ▁▁▂▂▃▃▃▄▄▄▅▅▆▆▆▇▇██
+wandb:                      val_acc ▁▄▅▅▅▅▅▅▅▅▅▅▅▅▅▆▆▇▇█
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 5.91659
+wandb:                best_test_acc 0.32434
+wandb:               best_train_acc 0.39648
+wandb:                 best_val_acc 0.40066
+wandb:                   num epochs 100
+wandb:                     test_acc 0.32434
+wandb:                   torch_seed 42
+wandb:             total train time 1893.30822
+wandb:     total train time per GPU 473.32705
+wandb:         train time per epoch 18.93308
+wandb:                    train_acc 0.39648
+wandb:                   train_time 593.91413
+wandb:                      val_acc 0.40066
+wandb: 
+wandb: 🚀 View run divine-sweep-4 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/zzfocbgw
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_054210-zzfocbgw/logs
+wandb: Agent Starting Run: re52wtf1 with config:
+wandb: 	n_hidden: 112
+wandb: 	n_layers: 2
+wandb: 	num_heads: 7
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_075712-re52wtf1
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run glad-sweep-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/re52wtf1
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=112, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_075739-re52wtf1
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-112, n_layers-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/re52wtf1
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+Process 001 | Epoch 00004 | Time(s) 3.1811 | Comm(s) 1.3433 | Reduce(s) 0.9709 | Loss 3.6428
+Process 001 | Epoch 00009 | Time(s) 3.3331 | Comm(s) 1.4901 | Reduce(s) 0.9855 | Loss 3.1337
+Process 001 | Epoch 00014 | Time(s) 3.3414 | Comm(s) 1.4971 | Reduce(s) 0.9909 | Loss 2.9818
+Process 001 | Epoch 00019 | Time(s) 3.3576 | Comm(s) 1.4963 | Reduce(s) 1.0005 | Loss 2.8180
+Process 001 | Epoch 00024 | Time(s) 3.3620 | Comm(s) 1.4998 | Reduce(s) 0.9949 | Loss 2.6220
+Process 001 | Epoch 00029 | Time(s) 3.3595 | Comm(s) 1.5010 | Reduce(s) 0.9918 | Loss 2.3728
+Process 001 | Epoch 00034 | Time(s) 3.3644 | Comm(s) 1.5130 | Reduce(s) 0.9913 | Loss 2.1108
+Process 001 | Epoch 00039 | Time(s) 3.3645 | Comm(s) 1.5159 | Reduce(s) 0.9942 | Loss 1.8034
+Process 001 | Epoch 00044 | Time(s) 3.3670 | Comm(s) 1.5184 | Reduce(s) 0.9967 | Loss 1.4596
+Process 001 | Epoch 00049 | Time(s) 3.3688 | Comm(s) 1.5178 | Reduce(s) 0.9965 | Loss 1.2628
+Process 001 | Epoch 00054 | Time(s) 3.3719 | Comm(s) 1.5225 | Reduce(s) 0.9963 | Loss 1.1189
+Process 001 | Epoch 00059 | Time(s) 3.3758 | Comm(s) 1.5244 | Reduce(s) 0.9970 | Loss 1.0748
+Process 001 | Epoch 00064 | Time(s) 3.3795 | Comm(s) 1.5299 | Reduce(s) 0.9968 | Loss 1.0101
+Process 001 | Epoch 00069 | Time(s) 3.3788 | Comm(s) 1.5286 | Reduce(s) 0.9962 | Loss 0.9259
+Process 001 | Epoch 00074 | Time(s) 3.3792 | Comm(s) 1.5321 | Reduce(s) 0.9957 | Loss 0.8563
+Process 001 | Epoch 00079 | Time(s) 3.3800 | Comm(s) 1.5346 | Reduce(s) 0.9965 | Loss 0.8035
+Process 001 | Epoch 00084 | Time(s) 3.3796 | Comm(s) 1.5323 | Reduce(s) 0.9978 | Loss 0.7826
+Process 001 | Epoch 00089 | Time(s) 3.3818 | Comm(s) 1.5316 | Reduce(s) 1.0000 | Loss 0.7459
+Process 001 | Epoch 00094 | Time(s) 3.3831 | Comm(s) 1.5308 | Reduce(s) 1.0021 | Loss 0.6831
+Process 001 | Epoch 00099 | Time(s) 3.3831 | Comm(s) 1.5289 | Reduce(s) 1.0045 | Loss 0.6004
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process 003 | Epoch 00004 | Time(s) 3.1957 | Comm(s) 1.4736 | Reduce(s) 0.5892 | Loss 4.6799
+Process 003 | Epoch 00009 | Time(s) 3.3439 | Comm(s) 1.6304 | Reduce(s) 0.5656 | Loss 3.8218
+Process 003 | Epoch 00014 | Time(s) 3.3497 | Comm(s) 1.6460 | Reduce(s) 0.5650 | Loss 3.7377
+Process 003 | Epoch 00019 | Time(s) 3.3652 | Comm(s) 1.6520 | Reduce(s) 0.5713 | Loss 3.6508
+Process 003 | Epoch 00024 | Time(s) 3.3686 | Comm(s) 1.6564 | Reduce(s) 0.5630 | Loss 3.5507
+Process 003 | Epoch 00029 | Time(s) 3.3656 | Comm(s) 1.6553 | Reduce(s) 0.5611 | Loss 3.4606
+Process 003 | Epoch 00034 | Time(s) 3.3689 | Comm(s) 1.6556 | Reduce(s) 0.5625 | Loss 3.3605
+Process 003 | Epoch 00039 | Time(s) 3.3686 | Comm(s) 1.6489 | Reduce(s) 0.5630 | Loss 3.2705
+Process 003 | Epoch 00044 | Time(s) 3.3706 | Comm(s) 1.6535 | Reduce(s) 0.5587 | Loss 3.1808
+Process 003 | Epoch 00049 | Time(s) 3.3725 | Comm(s) 1.6540 | Reduce(s) 0.5590 | Loss 3.1093
+Process 003 | Epoch 00054 | Time(s) 3.3754 | Comm(s) 1.6582 | Reduce(s) 0.5567 | Loss 3.0077
+Process 003 | Epoch 00059 | Time(s) 3.3796 | Comm(s) 1.6582 | Reduce(s) 0.5587 | Loss 2.8996
+Process 003 | Epoch 00064 | Time(s) 3.3833 | Comm(s) 1.6642 | Reduce(s) 0.5570 | Loss 2.7828
+Process 003 | Epoch 00069 | Time(s) 3.3828 | Comm(s) 1.6649 | Reduce(s) 0.5552 | Loss 2.6745
+Process 003 | Epoch 00074 | Time(s) 3.3829 | Comm(s) 1.6640 | Reduce(s) 0.5565 | Loss 2.5609
+Process 003 | Epoch 00079 | Time(s) 3.3832 | Comm(s) 1.6639 | Reduce(s) 0.5564 | Loss 2.4449
+Process 003 | Epoch 00084 | Time(s) 3.3824 | Comm(s) 1.6636 | Reduce(s) 0.5549 | Loss 2.3186
+Process 003 | Epoch 00089 | Time(s) 3.3845 | Comm(s) 1.6645 | Reduce(s) 0.5560 | Loss 2.1991
+Process 003 | Epoch 00094 | Time(s) 3.3856 | Comm(s) 1.6637 | Reduce(s) 0.5570 | Loss 2.0871
+Process 003 | Epoch 00099 | Time(s) 3.3856 | Comm(s) 1.6618 | Reduce(s) 0.5597 | Loss 1.9993
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process 002 | Epoch 00004 | Time(s) 3.1891 | Comm(s) 1.4467 | Reduce(s) 0.5201 | Loss 4.2247
+Process 002 | Epoch 00009 | Time(s) 3.3354 | Comm(s) 1.5796 | Reduce(s) 0.5203 | Loss 3.7090
+Process 002 | Epoch 00014 | Time(s) 3.3407 | Comm(s) 1.5967 | Reduce(s) 0.5082 | Loss 3.6547
+Process 002 | Epoch 00019 | Time(s) 3.3560 | Comm(s) 1.6026 | Reduce(s) 0.5056 | Loss 3.5909
+Process 002 | Epoch 00024 | Time(s) 3.3605 | Comm(s) 1.6005 | Reduce(s) 0.5095 | Loss 3.5124
+Process 002 | Epoch 00029 | Time(s) 3.3575 | Comm(s) 1.5983 | Reduce(s) 0.5106 | Loss 3.4371
+Process 002 | Epoch 00034 | Time(s) 3.3628 | Comm(s) 1.5970 | Reduce(s) 0.5141 | Loss 3.3559
+Process 002 | Epoch 00039 | Time(s) 3.3623 | Comm(s) 1.5948 | Reduce(s) 0.5140 | Loss 3.2809
+Process 002 | Epoch 00044 | Time(s) 3.3643 | Comm(s) 1.6009 | Reduce(s) 0.5134 | Loss 3.2174
+Process 002 | Epoch 00049 | Time(s) 3.3665 | Comm(s) 1.6012 | Reduce(s) 0.5130 | Loss 3.1568
+Process 002 | Epoch 00054 | Time(s) 3.3692 | Comm(s) 1.6062 | Reduce(s) 0.5108 | Loss 3.0721
+Process 002 | Epoch 00059 | Time(s) 3.3734 | Comm(s) 1.6056 | Reduce(s) 0.5118 | Loss 2.9788
+Process 002 | Epoch 00064 | Time(s) 3.3771 | Comm(s) 1.6128 | Reduce(s) 0.5105 | Loss 2.9129
+Process 002 | Epoch 00069 | Time(s) 3.3763 | Comm(s) 1.6083 | Reduce(s) 0.5090 | Loss 2.8105
+Process 002 | Epoch 00074 | Time(s) 3.3768 | Comm(s) 1.6089 | Reduce(s) 0.5102 | Loss 2.7072
+Process 002 | Epoch 00079 | Time(s) 3.3776 | Comm(s) 1.6085 | Reduce(s) 0.5106 | Loss 2.6062
+Process 002 | Epoch 00084 | Time(s) 3.3772 | Comm(s) 1.6088 | Reduce(s) 0.5092 | Loss 2.5081
+Process 002 | Epoch 00089 | Time(s) 3.3792 | Comm(s) 1.6106 | Reduce(s) 0.5093 | Loss 2.3900
+Process 002 | Epoch 00094 | Time(s) 3.3803 | Comm(s) 1.6118 | Reduce(s) 0.5100 | Loss 2.3185
+Process 002 | Epoch 00099 | Time(s) 3.3802 | Comm(s) 1.6111 | Reduce(s) 0.5102 | Loss 2.2103
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+Process 000 | Epoch 00004 | Time(s) 3.1813 | Comm(s) 1.4082 | Reduce(s) 0.7950 | Loss 4.7398
+Process 000 | Epoch 00009 | Time(s) 3.3325 | Comm(s) 1.5421 | Reduce(s) 0.8547 | Loss 3.7444
+Epoch 00004 | Validation Accuracy 21.61% | Test Accuracy 15.47%
+Process 000 | Epoch 00014 | Time(s) 3.3382 | Comm(s) 1.5641 | Reduce(s) 0.8584 | Loss 3.6761
+Epoch 00009 | Validation Accuracy 28.58% | Test Accuracy 21.35%
+Process 000 | Epoch 00019 | Time(s) 3.3541 | Comm(s) 1.5828 | Reduce(s) 0.8602 | Loss 3.5762
+Epoch 00014 | Validation Accuracy 31.81% | Test Accuracy 25.21%
+Process 000 | Epoch 00024 | Time(s) 3.3583 | Comm(s) 1.5795 | Reduce(s) 0.8714 | Loss 3.4654
+Epoch 00019 | Validation Accuracy 32.91% | Test Accuracy 27.16%
+Process 000 | Epoch 00029 | Time(s) 3.3559 | Comm(s) 1.5634 | Reduce(s) 0.8736 | Loss 3.3238
+Epoch 00024 | Validation Accuracy 33.15% | Test Accuracy 27.88%
+Process 000 | Epoch 00034 | Time(s) 3.3607 | Comm(s) 1.5666 | Reduce(s) 0.8721 | Loss 3.1786
+Epoch 00029 | Validation Accuracy 33.06% | Test Accuracy 28.07%
+Process 000 | Epoch 00039 | Time(s) 3.3599 | Comm(s) 1.5649 | Reduce(s) 0.8734 | Loss 3.0312
+Epoch 00034 | Validation Accuracy 32.79% | Test Accuracy 28.06%
+Process 000 | Epoch 00044 | Time(s) 3.3618 | Comm(s) 1.5634 | Reduce(s) 0.8778 | Loss 2.8656
+Epoch 00039 | Validation Accuracy 32.40% | Test Accuracy 27.94%
+Process 000 | Epoch 00049 | Time(s) 3.3633 | Comm(s) 1.5729 | Reduce(s) 0.8721 | Loss 2.9349
+Epoch 00044 | Validation Accuracy 32.14% | Test Accuracy 27.85%
+Process 000 | Epoch 00054 | Time(s) 3.3657 | Comm(s) 1.5796 | Reduce(s) 0.8679 | Loss 2.5350
+Epoch 00049 | Validation Accuracy 32.41% | Test Accuracy 28.27%
+Process 000 | Epoch 00059 | Time(s) 3.3695 | Comm(s) 1.5795 | Reduce(s) 0.8686 | Loss 2.3339
+Epoch 00054 | Validation Accuracy 34.63% | Test Accuracy 30.34%
+Process 000 | Epoch 00064 | Time(s) 3.3731 | Comm(s) 1.5853 | Reduce(s) 0.8709 | Loss 2.1408
+Epoch 00059 | Validation Accuracy 40.25% | Test Accuracy 34.06%
+Process 000 | Epoch 00069 | Time(s) 3.3725 | Comm(s) 1.5848 | Reduce(s) 0.8713 | Loss 1.9262
+Epoch 00064 | Validation Accuracy 44.87% | Test Accuracy 37.19%
+Process 000 | Epoch 00074 | Time(s) 3.3730 | Comm(s) 1.5865 | Reduce(s) 0.8685 | Loss 1.7609
+Epoch 00069 | Validation Accuracy 48.00% | Test Accuracy 39.37%
+Process 000 | Epoch 00079 | Time(s) 3.3732 | Comm(s) 1.5884 | Reduce(s) 0.8666 | Loss 1.7479
+Epoch 00074 | Validation Accuracy 50.49% | Test Accuracy 41.26%
+Process 000 | Epoch 00084 | Time(s) 3.3726 | Comm(s) 1.5878 | Reduce(s) 0.8640 | Loss 1.5004
+Epoch 00079 | Validation Accuracy 53.12% | Test Accuracy 43.09%
+Process 000 | Epoch 00089 | Time(s) 3.3745 | Comm(s) 1.5861 | Reduce(s) 0.8648 | Loss 1.4325
+Epoch 00084 | Validation Accuracy 55.32% | Test Accuracy 44.72%
+Process 000 | Epoch 00094 | Time(s) 3.3756 | Comm(s) 1.5868 | Reduce(s) 0.8654 | Loss 1.3971
+Epoch 00089 | Validation Accuracy 58.73% | Test Accuracy 46.86%
+Process 000 | Epoch 00099 | Time(s) 3.3754 | Comm(s) 1.5873 | Reduce(s) 0.8645 | Loss 1.3783
+Epoch 00094 | Validation Accuracy 62.12% | Test Accuracy 49.15%
+Epoch 00099 | Validation Accuracy 64.73% | Test Accuracy 50.95%
+Validation accuracy 64.73%
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.010 MB uploaded (0.000 MB deduped)wandb: | 0.003 MB of 0.010 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▂▃▃▃▃▃▃▃▃▄▅▅▆▆▆▇▇██
+wandb:               best_train_acc ▁▂▂▃▃▃▃▃▃▃▃▄▅▅▅▆▆▇██
+wandb:                 best_val_acc ▁▂▃▃▃▃▃▃▃▃▃▄▅▅▆▆▆▇██
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▂▃▃▃▃▃▃▃▄▄▅▅▆▆▆▇▇██
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▂▂▃▃▃▃▃▂▂▃▄▅▅▅▆▆▇██
+wandb:                   train_time ▁▁▂▂▃▃▃▄▄▄▅▅▆▆▆▇▇██
+wandb:                      val_acc ▁▂▃▃▃▃▃▃▃▃▃▄▅▅▆▆▆▇██
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 3.37538
+wandb:                best_test_acc 0.5095
+wandb:               best_train_acc 0.64969
+wandb:                 best_val_acc 0.64733
+wandb:                   num epochs 100
+wandb:                     test_acc 0.5095
+wandb:                   torch_seed 42
+wandb:             total train time 1080.12088
+wandb:     total train time per GPU 270.03022
+wandb:         train time per epoch 10.80121
+wandb:                    train_acc 0.64969
+wandb:                   train_time 339.12589
+wandb:                      val_acc 0.64733
+wandb: 
+wandb: 🚀 View run glad-sweep-5 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/re52wtf1
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_075712-re52wtf1/logs
+wandb: Agent Starting Run: jyfoh2kw with config:
+wandb: 	n_hidden: 170
+wandb: 	n_layers: 5
+wandb: 	num_heads: 7
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_091322-jyfoh2kw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run lunar-sweep-6
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/jyfoh2kw
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=170, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_091347-jyfoh2kw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-170, n_layers-5
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/jyfoh2kw
+Process Process-23:
+Process Process-24:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 89, in forward
+    h = self.layers[i](g, (h1, h))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/nn/pytorch/conv/gatconv.py", line 346, in forward
+    graph.update_all(fn.u_mul_e("ft", "a", "m"), fn.sum("m", "ft"))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/heterograph.py", line 5110, in update_all
+    ndata = core.message_passing(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/core.py", line 398, in message_passing
+    ndata = invoke_gspmm(g, mfunc, rfunc)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/core.py", line 359, in invoke_gspmm
+    z = op(graph, x, y)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/ops/spmm.py", line 173, in func
+    return gspmm(g, binary_op, reduce_op, x, y)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/ops/spmm.py", line 79, in gspmm
+    ret = gspmm_internal(
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/sparse.py", line 1032, in gspmm
+    return GSpMM.apply(*args)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/autograd/function.py", line 506, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/sparse.py", line 165, in forward
+    out, (argX, argY) = _gspmm(gidx, op, reduce_op, X, Y)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/_sparse_ops.py", line 227, in _gspmm
+    v = F.zeros(v_shp, dtype, ctx)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/backend/pytorch/tensor.py", line 288, in zeros
+    return th.zeros(shape, dtype=dtype, device=ctx)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 818.00 MiB (GPU 0; 22.41 GiB total capacity; 20.13 GiB already allocated; 581.44 MiB free; 21.23 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 89, in forward
+    h = self.layers[i](g, (h1, h))
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/dgl/nn/pytorch/conv/gatconv.py", line 357, in forward
+    rst = rst + self.bias.view(
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 818.00 MiB (GPU 0; 22.41 GiB total capacity; 20.29 GiB already allocated; 325.44 MiB free; 21.48 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process Process-21:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 85, in forward
+    h1 = ctx.buffer.update(i, h)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 147, in update
+    self.__feat_transfer(self._epoch, layer, feat)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 199, in __feat_transfer
+    self.__gloo_all_to_all(feat, self._feat_cpu[layer], self._f_recv_cpu[layer], self._f_recv[layer],
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 184, in __gloo_all_to_all
+    r.wait()
+RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [127.0.1.1]:1926
+Process Process-22:
+Traceback (most recent call last):
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/work/sbajaj_umass_edu/anaconda3/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 506, in init_processes
+    run(g, node_dict, gpb, args)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/train.py", line 369, in run
+    logits = model(graph, feat)
+  File "/work/sbajaj_umass_edu/GNNEnv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/module/model.py", line 85, in forward
+    h1 = ctx.buffer.update(i, h)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 147, in update
+    self.__feat_transfer(self._epoch, layer, feat)
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 199, in __feat_transfer
+    self.__gloo_all_to_all(feat, self._feat_cpu[layer], self._f_recv_cpu[layer], self._f_recv[layer],
+  File "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/helper/feature_buffer.py", line 184, in __gloo_all_to_all
+    r.wait()
+RuntimeError: [../third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [127.0.1.1]:29094
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: torch_seed ▁
+wandb: 
+wandb: Run summary:
+wandb: torch_seed 2753791791829479869
+wandb: 
+wandb: 🚀 View run lunar-sweep-6 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/jyfoh2kw
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_091322-jyfoh2kw/logs
+wandb: Agent Starting Run: bnz21is2 with config:
+wandb: 	n_hidden: 109
+wandb: 	n_layers: 2
+wandb: 	num_heads: 6
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_091454-bnz21is2
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run solar-sweep-7
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/bnz21is2
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=109, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_091519-bnz21is2
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-109, n_layers-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/bnz21is2
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+Process 001 | Epoch 00004 | Time(s) 3.1464 | Comm(s) 1.3183 | Reduce(s) 0.9580 | Loss 3.4677
+Process 001 | Epoch 00009 | Time(s) 3.2862 | Comm(s) 1.4280 | Reduce(s) 0.9959 | Loss 3.3049
+Process 001 | Epoch 00014 | Time(s) 3.3404 | Comm(s) 1.4820 | Reduce(s) 0.9971 | Loss 3.1402
+Process 001 | Epoch 00019 | Time(s) 3.3736 | Comm(s) 1.5112 | Reduce(s) 1.0105 | Loss 2.9527
+Process 001 | Epoch 00024 | Time(s) 3.3851 | Comm(s) 1.5102 | Reduce(s) 1.0175 | Loss 2.7492
+Process 001 | Epoch 00029 | Time(s) 3.3972 | Comm(s) 1.5325 | Reduce(s) 1.0081 | Loss 2.5528
+Process 001 | Epoch 00034 | Time(s) 3.4093 | Comm(s) 1.5428 | Reduce(s) 1.0119 | Loss 2.3021
+Process 001 | Epoch 00039 | Time(s) 3.4146 | Comm(s) 1.5527 | Reduce(s) 1.0116 | Loss 2.0558
+Process 001 | Epoch 00044 | Time(s) 3.4185 | Comm(s) 1.5512 | Reduce(s) 1.0167 | Loss 1.8141
+Process 001 | Epoch 00049 | Time(s) 3.4191 | Comm(s) 1.5426 | Reduce(s) 1.0240 | Loss 1.5682
+Process 001 | Epoch 00054 | Time(s) 3.4201 | Comm(s) 1.5426 | Reduce(s) 1.0278 | Loss 1.3434
+Process 001 | Epoch 00059 | Time(s) 3.4175 | Comm(s) 1.5382 | Reduce(s) 1.0295 | Loss 1.1547
+Process 001 | Epoch 00064 | Time(s) 3.4197 | Comm(s) 1.5429 | Reduce(s) 1.0282 | Loss 1.0243
+Process 001 | Epoch 00069 | Time(s) 3.4245 | Comm(s) 1.5469 | Reduce(s) 1.0300 | Loss 0.9808
+Process 001 | Epoch 00074 | Time(s) 3.4250 | Comm(s) 1.5448 | Reduce(s) 1.0336 | Loss 0.9262
+Process 001 | Epoch 00079 | Time(s) 3.4255 | Comm(s) 1.5464 | Reduce(s) 1.0339 | Loss 0.9085
+Process 001 | Epoch 00084 | Time(s) 3.4279 | Comm(s) 1.5489 | Reduce(s) 1.0348 | Loss 0.7780
+Process 001 | Epoch 00089 | Time(s) 3.4274 | Comm(s) 1.5493 | Reduce(s) 1.0335 | Loss 0.6137
+Process 001 | Epoch 00094 | Time(s) 3.4280 | Comm(s) 1.5518 | Reduce(s) 1.0296 | Loss 0.5256
+Process 001 | Epoch 00099 | Time(s) 3.4257 | Comm(s) 1.5478 | Reduce(s) 1.0307 | Loss 0.5386
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process 003 | Epoch 00004 | Time(s) 3.1536 | Comm(s) 1.3569 | Reduce(s) 0.6096 | Loss 3.7202
+Process 003 | Epoch 00009 | Time(s) 3.2881 | Comm(s) 1.5239 | Reduce(s) 0.5893 | Loss 3.6688
+Process 003 | Epoch 00014 | Time(s) 3.3428 | Comm(s) 1.5693 | Reduce(s) 0.5949 | Loss 3.6181
+Process 003 | Epoch 00019 | Time(s) 3.3747 | Comm(s) 1.6051 | Reduce(s) 0.5916 | Loss 3.5552
+Process 003 | Epoch 00024 | Time(s) 3.3852 | Comm(s) 1.6186 | Reduce(s) 0.5904 | Loss 3.4855
+Process 003 | Epoch 00029 | Time(s) 3.3979 | Comm(s) 1.6359 | Reduce(s) 0.5897 | Loss 3.4128
+Process 003 | Epoch 00034 | Time(s) 3.4094 | Comm(s) 1.6490 | Reduce(s) 0.5913 | Loss 3.3279
+Process 003 | Epoch 00039 | Time(s) 3.4151 | Comm(s) 1.6538 | Reduce(s) 0.5909 | Loss 3.2535
+Process 003 | Epoch 00044 | Time(s) 3.4185 | Comm(s) 1.6581 | Reduce(s) 0.5895 | Loss 3.1614
+Process 003 | Epoch 00049 | Time(s) 3.4188 | Comm(s) 1.6516 | Reduce(s) 0.5948 | Loss 3.0827
+Process 003 | Epoch 00054 | Time(s) 3.4194 | Comm(s) 1.6498 | Reduce(s) 0.5985 | Loss 2.9876
+Process 003 | Epoch 00059 | Time(s) 3.4171 | Comm(s) 1.6477 | Reduce(s) 0.5952 | Loss 2.8966
+Process 003 | Epoch 00064 | Time(s) 3.4195 | Comm(s) 1.6504 | Reduce(s) 0.5956 | Loss 2.7610
+Process 003 | Epoch 00069 | Time(s) 3.4245 | Comm(s) 1.6574 | Reduce(s) 0.5935 | Loss 2.5982
+Process 003 | Epoch 00074 | Time(s) 3.4249 | Comm(s) 1.6554 | Reduce(s) 0.5970 | Loss 2.4678
+Process 003 | Epoch 00079 | Time(s) 3.4252 | Comm(s) 1.6588 | Reduce(s) 0.5918 | Loss 2.3632
+Process 003 | Epoch 00084 | Time(s) 3.4274 | Comm(s) 1.6633 | Reduce(s) 0.5907 | Loss 2.2713
+Process 003 | Epoch 00089 | Time(s) 3.4270 | Comm(s) 1.6659 | Reduce(s) 0.5864 | Loss 2.1739
+Process 003 | Epoch 00094 | Time(s) 3.4276 | Comm(s) 1.6686 | Reduce(s) 0.5840 | Loss 2.1411
+Process 003 | Epoch 00099 | Time(s) 3.4252 | Comm(s) 1.6656 | Reduce(s) 0.5828 | Loss 2.0196
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process 002 | Epoch 00004 | Time(s) 3.1512 | Comm(s) 1.2584 | Reduce(s) 0.5514 | Loss 3.7696
+Process 002 | Epoch 00009 | Time(s) 3.2863 | Comm(s) 1.4460 | Reduce(s) 0.5479 | Loss 3.6824
+Process 002 | Epoch 00014 | Time(s) 3.3399 | Comm(s) 1.4984 | Reduce(s) 0.5431 | Loss 3.6128
+Process 002 | Epoch 00019 | Time(s) 3.3709 | Comm(s) 1.5384 | Reduce(s) 0.5448 | Loss 3.5508
+Process 002 | Epoch 00024 | Time(s) 3.3821 | Comm(s) 1.5480 | Reduce(s) 0.5459 | Loss 3.4711
+Process 002 | Epoch 00029 | Time(s) 3.3938 | Comm(s) 1.5614 | Reduce(s) 0.5459 | Loss 3.4002
+Process 002 | Epoch 00034 | Time(s) 3.4066 | Comm(s) 1.5743 | Reduce(s) 0.5465 | Loss 3.3228
+Process 002 | Epoch 00039 | Time(s) 3.4127 | Comm(s) 1.5776 | Reduce(s) 0.5476 | Loss 3.2402
+Process 002 | Epoch 00044 | Time(s) 3.4161 | Comm(s) 1.5826 | Reduce(s) 0.5471 | Loss 3.1712
+Process 002 | Epoch 00049 | Time(s) 3.4159 | Comm(s) 1.5806 | Reduce(s) 0.5469 | Loss 3.0946
+Process 002 | Epoch 00054 | Time(s) 3.4167 | Comm(s) 1.5799 | Reduce(s) 0.5475 | Loss 3.0193
+Process 002 | Epoch 00059 | Time(s) 3.4142 | Comm(s) 1.5792 | Reduce(s) 0.5469 | Loss 2.9430
+Process 002 | Epoch 00064 | Time(s) 3.4160 | Comm(s) 1.5842 | Reduce(s) 0.5458 | Loss 2.8739
+Process 002 | Epoch 00069 | Time(s) 3.4211 | Comm(s) 1.5907 | Reduce(s) 0.5461 | Loss 2.7609
+Process 002 | Epoch 00074 | Time(s) 3.4211 | Comm(s) 1.5911 | Reduce(s) 0.5460 | Loss 2.6614
+Process 002 | Epoch 00079 | Time(s) 3.4215 | Comm(s) 1.5947 | Reduce(s) 0.5457 | Loss 2.5661
+Process 002 | Epoch 00084 | Time(s) 3.4241 | Comm(s) 1.5986 | Reduce(s) 0.5444 | Loss 2.5045
+Process 002 | Epoch 00089 | Time(s) 3.4237 | Comm(s) 1.6025 | Reduce(s) 0.5430 | Loss 2.4334
+Process 002 | Epoch 00094 | Time(s) 3.4245 | Comm(s) 1.6032 | Reduce(s) 0.5435 | Loss 2.3509
+Process 002 | Epoch 00099 | Time(s) 3.4224 | Comm(s) 1.6030 | Reduce(s) 0.5441 | Loss 2.2888
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+Process 000 | Epoch 00004 | Time(s) 3.1382 | Comm(s) 1.3234 | Reduce(s) 0.8838 | Loss 3.9616
+Process 000 | Epoch 00009 | Time(s) 3.2773 | Comm(s) 1.4779 | Reduce(s) 0.8901 | Loss 3.8251
+Epoch 00004 | Validation Accuracy 3.67% | Test Accuracy 3.86%
+Process 000 | Epoch 00014 | Time(s) 3.3312 | Comm(s) 1.5104 | Reduce(s) 0.9068 | Loss 3.7376
+Epoch 00009 | Validation Accuracy 6.97% | Test Accuracy 6.79%
+Process 000 | Epoch 00019 | Time(s) 3.3636 | Comm(s) 1.5491 | Reduce(s) 0.9041 | Loss 3.6509
+Epoch 00014 | Validation Accuracy 16.89% | Test Accuracy 13.63%
+Process 000 | Epoch 00024 | Time(s) 3.3753 | Comm(s) 1.5511 | Reduce(s) 0.9082 | Loss 3.5389
+Epoch 00019 | Validation Accuracy 27.74% | Test Accuracy 21.11%
+Process 000 | Epoch 00029 | Time(s) 3.3878 | Comm(s) 1.5632 | Reduce(s) 0.9104 | Loss 3.4250
+Epoch 00024 | Validation Accuracy 32.09% | Test Accuracy 25.08%
+Process 000 | Epoch 00034 | Time(s) 3.4003 | Comm(s) 1.5717 | Reduce(s) 0.9141 | Loss 3.3120
+Epoch 00029 | Validation Accuracy 32.55% | Test Accuracy 26.51%
+Process 000 | Epoch 00039 | Time(s) 3.4065 | Comm(s) 1.5755 | Reduce(s) 0.9153 | Loss 3.1993
+Epoch 00034 | Validation Accuracy 32.12% | Test Accuracy 26.86%
+Process 000 | Epoch 00044 | Time(s) 3.4105 | Comm(s) 1.5839 | Reduce(s) 0.9143 | Loss 3.0810
+Epoch 00039 | Validation Accuracy 31.77% | Test Accuracy 27.01%
+Process 000 | Epoch 00049 | Time(s) 3.4111 | Comm(s) 1.5847 | Reduce(s) 0.9161 | Loss 2.9696
+Epoch 00044 | Validation Accuracy 31.56% | Test Accuracy 27.14%
+Process 000 | Epoch 00054 | Time(s) 3.4116 | Comm(s) 1.5875 | Reduce(s) 0.9134 | Loss 2.8360
+Epoch 00049 | Validation Accuracy 31.51% | Test Accuracy 27.25%
+Process 000 | Epoch 00059 | Time(s) 3.4095 | Comm(s) 1.5845 | Reduce(s) 0.9133 | Loss 2.7000
+Epoch 00054 | Validation Accuracy 31.57% | Test Accuracy 27.45%
+Process 000 | Epoch 00064 | Time(s) 3.4111 | Comm(s) 1.5833 | Reduce(s) 0.9145 | Loss 2.5081
+Epoch 00059 | Validation Accuracy 33.22% | Test Accuracy 28.71%
+Process 000 | Epoch 00069 | Time(s) 3.4164 | Comm(s) 1.5881 | Reduce(s) 0.9144 | Loss 2.2421
+Epoch 00064 | Validation Accuracy 38.62% | Test Accuracy 32.40%
+Process 000 | Epoch 00074 | Time(s) 3.4169 | Comm(s) 1.5969 | Reduce(s) 0.9071 | Loss 2.0092
+Epoch 00069 | Validation Accuracy 43.94% | Test Accuracy 36.37%
+Process 000 | Epoch 00079 | Time(s) 3.4170 | Comm(s) 1.5957 | Reduce(s) 0.9071 | Loss 1.8289
+Epoch 00074 | Validation Accuracy 49.69% | Test Accuracy 40.40%
+Process 000 | Epoch 00084 | Time(s) 3.4194 | Comm(s) 1.5978 | Reduce(s) 0.9068 | Loss 1.7080
+Epoch 00079 | Validation Accuracy 56.97% | Test Accuracy 44.78%
+Process 000 | Epoch 00089 | Time(s) 3.4193 | Comm(s) 1.5994 | Reduce(s) 0.9064 | Loss 1.6155
+Epoch 00084 | Validation Accuracy 62.25% | Test Accuracy 48.01%
+Process 000 | Epoch 00094 | Time(s) 3.4203 | Comm(s) 1.6040 | Reduce(s) 0.9049 | Loss 1.5161
+Epoch 00089 | Validation Accuracy 65.61% | Test Accuracy 50.58%
+Process 000 | Epoch 00099 | Time(s) 3.4180 | Comm(s) 1.5983 | Reduce(s) 0.9064 | Loss 1.4288
+Epoch 00094 | Validation Accuracy 68.13% | Test Accuracy 52.60%
+Epoch 00099 | Validation Accuracy 70.02% | Test Accuracy 54.09%
+Validation accuracy 70.02%
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▁▂▃▄▄▄▄▄▄▄▄▅▆▆▇▇███
+wandb:               best_train_acc ▁▁▂▄▄▄▄▄▄▄▄▄▅▅▆▇▇███
+wandb:                 best_val_acc ▁▁▂▄▄▄▄▄▄▄▄▄▅▅▆▇▇███
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▁▂▃▄▄▄▄▄▄▄▄▅▆▆▇▇███
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▁▂▄▄▄▄▄▄▄▄▄▅▅▆▇▇███
+wandb:                   train_time ▁▁▂▂▃▃▃▄▄▄▅▅▆▆▆▇▇██
+wandb:                      val_acc ▁▁▂▄▄▄▄▄▄▄▄▄▅▅▆▇▇███
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 3.41801
+wandb:                best_test_acc 0.54087
+wandb:               best_train_acc 0.70967
+wandb:                 best_val_acc 0.70023
+wandb:                   num epochs 100
+wandb:                     test_acc 0.54087
+wandb:                   torch_seed 42
+wandb:             total train time 1093.76341
+wandb:     total train time per GPU 273.44085
+wandb:         train time per epoch 10.93763
+wandb:                    train_acc 0.70967
+wandb:                   train_time 342.5236
+wandb:                      val_acc 0.70023
+wandb: 
+wandb: 🚀 View run solar-sweep-7 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/bnz21is2
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_091454-bnz21is2/logs
+wandb: Agent Starting Run: oc8w6s3t with config:
+wandb: 	n_hidden: 97
+wandb: 	n_layers: 2
+wandb: 	num_heads: 6
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_103423-oc8w6s3t
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run azure-sweep-8
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/oc8w6s3t
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=97, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_103449-oc8w6s3t
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-97, n_layers-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/oc8w6s3t
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+Process 001 | Epoch 00004 | Time(s) 3.0153 | Comm(s) 1.2056 | Reduce(s) 0.9499 | Loss 3.0956
+Process 001 | Epoch 00009 | Time(s) 3.1021 | Comm(s) 1.2520 | Reduce(s) 0.9906 | Loss 2.8325
+Process 001 | Epoch 00014 | Time(s) 3.1669 | Comm(s) 1.2945 | Reduce(s) 1.0056 | Loss 2.6902
+Process 001 | Epoch 00019 | Time(s) 3.1915 | Comm(s) 1.3180 | Reduce(s) 0.9921 | Loss 2.4836
+Process 001 | Epoch 00024 | Time(s) 3.2102 | Comm(s) 1.3575 | Reduce(s) 0.9795 | Loss 2.1714
+Process 001 | Epoch 00029 | Time(s) 3.2433 | Comm(s) 1.3818 | Reduce(s) 0.9887 | Loss 1.7294
+Process 001 | Epoch 00034 | Time(s) 3.2382 | Comm(s) 1.3673 | Reduce(s) 0.9854 | Loss 1.2379
+Process 001 | Epoch 00039 | Time(s) 3.2422 | Comm(s) 1.3761 | Reduce(s) 0.9857 | Loss 1.1131
+Process 001 | Epoch 00044 | Time(s) 3.2518 | Comm(s) 1.3777 | Reduce(s) 0.9860 | Loss 1.0445
+Process 001 | Epoch 00049 | Time(s) 3.2588 | Comm(s) 1.3812 | Reduce(s) 0.9881 | Loss 0.9895
+Process 001 | Epoch 00054 | Time(s) 3.2553 | Comm(s) 1.3783 | Reduce(s) 0.9872 | Loss 0.8797
+Process 001 | Epoch 00059 | Time(s) 3.2520 | Comm(s) 1.3808 | Reduce(s) 0.9804 | Loss 0.8335
+Process 001 | Epoch 00064 | Time(s) 3.2592 | Comm(s) 1.3895 | Reduce(s) 0.9810 | Loss 0.8094
+Process 001 | Epoch 00069 | Time(s) 3.2631 | Comm(s) 1.3938 | Reduce(s) 0.9787 | Loss 0.7856
+Process 001 | Epoch 00074 | Time(s) 3.2604 | Comm(s) 1.3939 | Reduce(s) 0.9767 | Loss 0.7329
+Process 001 | Epoch 00079 | Time(s) 3.2638 | Comm(s) 1.3985 | Reduce(s) 0.9777 | Loss 0.7104
+Process 001 | Epoch 00084 | Time(s) 3.2661 | Comm(s) 1.4004 | Reduce(s) 0.9772 | Loss 0.6613
+Process 001 | Epoch 00089 | Time(s) 3.2674 | Comm(s) 1.4026 | Reduce(s) 0.9780 | Loss 0.6348
+Process 001 | Epoch 00094 | Time(s) 3.2642 | Comm(s) 1.3976 | Reduce(s) 0.9785 | Loss 0.5942
+Process 001 | Epoch 00099 | Time(s) 3.2652 | Comm(s) 1.4018 | Reduce(s) 0.9786 | Loss 0.5545
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process 003 | Epoch 00004 | Time(s) 3.0247 | Comm(s) 1.2456 | Reduce(s) 0.5773 | Loss 4.4350
+Process 003 | Epoch 00009 | Time(s) 3.1104 | Comm(s) 1.3292 | Reduce(s) 0.5672 | Loss 3.7571
+Process 003 | Epoch 00014 | Time(s) 3.1733 | Comm(s) 1.3953 | Reduce(s) 0.5752 | Loss 3.6956
+Process 003 | Epoch 00019 | Time(s) 3.1975 | Comm(s) 1.4034 | Reduce(s) 0.5824 | Loss 3.6199
+Process 003 | Epoch 00024 | Time(s) 3.2144 | Comm(s) 1.4303 | Reduce(s) 0.5747 | Loss 3.5327
+Process 003 | Epoch 00029 | Time(s) 3.2473 | Comm(s) 1.4655 | Reduce(s) 0.5742 | Loss 3.4379
+Process 003 | Epoch 00034 | Time(s) 3.2420 | Comm(s) 1.4631 | Reduce(s) 0.5723 | Loss 3.3358
+Process 003 | Epoch 00039 | Time(s) 3.2453 | Comm(s) 1.4713 | Reduce(s) 0.5739 | Loss 3.2629
+Process 003 | Epoch 00044 | Time(s) 3.2552 | Comm(s) 1.4792 | Reduce(s) 0.5679 | Loss 3.1872
+Process 003 | Epoch 00049 | Time(s) 3.2627 | Comm(s) 1.4831 | Reduce(s) 0.5729 | Loss 3.0979
+Process 003 | Epoch 00054 | Time(s) 3.2587 | Comm(s) 1.4826 | Reduce(s) 0.5727 | Loss 3.0064
+Process 003 | Epoch 00059 | Time(s) 3.2553 | Comm(s) 1.4787 | Reduce(s) 0.5736 | Loss 2.9091
+Process 003 | Epoch 00064 | Time(s) 3.2622 | Comm(s) 1.4885 | Reduce(s) 0.5729 | Loss 2.7982
+Process 003 | Epoch 00069 | Time(s) 3.2662 | Comm(s) 1.4923 | Reduce(s) 0.5728 | Loss 2.6927
+Process 003 | Epoch 00074 | Time(s) 3.2633 | Comm(s) 1.4905 | Reduce(s) 0.5698 | Loss 2.5739
+Process 003 | Epoch 00079 | Time(s) 3.2664 | Comm(s) 1.4953 | Reduce(s) 0.5695 | Loss 2.4542
+Process 003 | Epoch 00084 | Time(s) 3.2686 | Comm(s) 1.4956 | Reduce(s) 0.5708 | Loss 2.3331
+Process 003 | Epoch 00089 | Time(s) 3.2701 | Comm(s) 1.4965 | Reduce(s) 0.5723 | Loss 2.2097
+Process 003 | Epoch 00094 | Time(s) 3.2670 | Comm(s) 1.4924 | Reduce(s) 0.5716 | Loss 2.0788
+Process 003 | Epoch 00099 | Time(s) 3.2678 | Comm(s) 1.4934 | Reduce(s) 0.5691 | Loss 1.9684
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process 002 | Epoch 00004 | Time(s) 3.0253 | Comm(s) 1.1941 | Reduce(s) 0.5691 | Loss 3.8463
+Process 002 | Epoch 00009 | Time(s) 3.1067 | Comm(s) 1.2770 | Reduce(s) 0.5519 | Loss 3.7258
+Process 002 | Epoch 00014 | Time(s) 3.1692 | Comm(s) 1.3380 | Reduce(s) 0.5473 | Loss 3.6660
+Process 002 | Epoch 00019 | Time(s) 3.1935 | Comm(s) 1.3462 | Reduce(s) 0.5506 | Loss 3.6041
+Process 002 | Epoch 00024 | Time(s) 3.2104 | Comm(s) 1.3653 | Reduce(s) 0.5450 | Loss 3.5212
+Process 002 | Epoch 00029 | Time(s) 3.2432 | Comm(s) 1.4017 | Reduce(s) 0.5480 | Loss 3.4285
+Process 002 | Epoch 00034 | Time(s) 3.2376 | Comm(s) 1.3918 | Reduce(s) 0.5451 | Loss 3.3339
+Process 002 | Epoch 00039 | Time(s) 3.2417 | Comm(s) 1.4033 | Reduce(s) 0.5411 | Loss 3.2961
+Process 002 | Epoch 00044 | Time(s) 3.2512 | Comm(s) 1.4147 | Reduce(s) 0.5418 | Loss 3.2024
+Process 002 | Epoch 00049 | Time(s) 3.2583 | Comm(s) 1.4207 | Reduce(s) 0.5413 | Loss 3.1235
+Process 002 | Epoch 00054 | Time(s) 3.2547 | Comm(s) 1.4266 | Reduce(s) 0.5395 | Loss 3.0436
+Process 002 | Epoch 00059 | Time(s) 3.2518 | Comm(s) 1.4241 | Reduce(s) 0.5402 | Loss 2.9931
+Process 002 | Epoch 00064 | Time(s) 3.2584 | Comm(s) 1.4341 | Reduce(s) 0.5381 | Loss 2.9046
+Process 002 | Epoch 00069 | Time(s) 3.2621 | Comm(s) 1.4355 | Reduce(s) 0.5370 | Loss 2.8284
+Process 002 | Epoch 00074 | Time(s) 3.2598 | Comm(s) 1.4332 | Reduce(s) 0.5365 | Loss 2.7510
+Process 002 | Epoch 00079 | Time(s) 3.2632 | Comm(s) 1.4406 | Reduce(s) 0.5376 | Loss 2.6688
+Process 002 | Epoch 00084 | Time(s) 3.2653 | Comm(s) 1.4417 | Reduce(s) 0.5371 | Loss 2.5916
+Process 002 | Epoch 00089 | Time(s) 3.2663 | Comm(s) 1.4413 | Reduce(s) 0.5368 | Loss 2.5339
+Process 002 | Epoch 00094 | Time(s) 3.2630 | Comm(s) 1.4420 | Reduce(s) 0.5351 | Loss 2.4260
+Process 002 | Epoch 00099 | Time(s) 3.2643 | Comm(s) 1.4440 | Reduce(s) 0.5350 | Loss 2.3588
+loading partitions
+100
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+Process 000 | Epoch 00004 | Time(s) 3.0122 | Comm(s) 1.1981 | Reduce(s) 0.8864 | Loss 4.2563
+Process 000 | Epoch 00009 | Time(s) 3.0980 | Comm(s) 1.2833 | Reduce(s) 0.8801 | Loss 3.7923
+Epoch 00004 | Validation Accuracy 22.26% | Test Accuracy 15.28%
+Process 000 | Epoch 00014 | Time(s) 3.1615 | Comm(s) 1.3312 | Reduce(s) 0.8931 | Loss 3.6668
+Epoch 00009 | Validation Accuracy 28.83% | Test Accuracy 21.16%
+Process 000 | Epoch 00019 | Time(s) 3.1866 | Comm(s) 1.3397 | Reduce(s) 0.9052 | Loss 3.5333
+Epoch 00014 | Validation Accuracy 30.61% | Test Accuracy 23.87%
+Process 000 | Epoch 00024 | Time(s) 3.2029 | Comm(s) 1.3735 | Reduce(s) 0.8739 | Loss 3.4039
+Epoch 00019 | Validation Accuracy 31.06% | Test Accuracy 25.36%
+Process 000 | Epoch 00029 | Time(s) 3.2359 | Comm(s) 1.4112 | Reduce(s) 0.8820 | Loss 3.2572
+Epoch 00024 | Validation Accuracy 31.18% | Test Accuracy 26.30%
+Process 000 | Epoch 00034 | Time(s) 3.2311 | Comm(s) 1.4021 | Reduce(s) 0.8825 | Loss 3.1485
+Epoch 00029 | Validation Accuracy 31.29% | Test Accuracy 26.72%
+Process 000 | Epoch 00039 | Time(s) 3.2359 | Comm(s) 1.4118 | Reduce(s) 0.8850 | Loss 3.1024
+Epoch 00034 | Validation Accuracy 31.49% | Test Accuracy 27.01%
+Process 000 | Epoch 00044 | Time(s) 3.2458 | Comm(s) 1.4183 | Reduce(s) 0.8921 | Loss 2.8174
+Epoch 00039 | Validation Accuracy 32.13% | Test Accuracy 27.48%
+Process 000 | Epoch 00049 | Time(s) 3.2527 | Comm(s) 1.4117 | Reduce(s) 0.8990 | Loss 2.6435
+Epoch 00044 | Validation Accuracy 33.88% | Test Accuracy 28.59%
+Process 000 | Epoch 00054 | Time(s) 3.2489 | Comm(s) 1.4181 | Reduce(s) 0.8929 | Loss 2.5240
+Epoch 00049 | Validation Accuracy 36.11% | Test Accuracy 30.04%
+Process 000 | Epoch 00059 | Time(s) 3.2462 | Comm(s) 1.4131 | Reduce(s) 0.8940 | Loss 2.3079
+Epoch 00054 | Validation Accuracy 37.93% | Test Accuracy 31.09%
+Process 000 | Epoch 00064 | Time(s) 3.2530 | Comm(s) 1.4221 | Reduce(s) 0.8969 | Loss 2.1229
+Epoch 00059 | Validation Accuracy 40.16% | Test Accuracy 32.11%
+Process 000 | Epoch 00069 | Time(s) 3.2565 | Comm(s) 1.4289 | Reduce(s) 0.8968 | Loss 1.9542
+Epoch 00064 | Validation Accuracy 44.66% | Test Accuracy 34.27%
+Process 000 | Epoch 00074 | Time(s) 3.2540 | Comm(s) 1.4286 | Reduce(s) 0.8927 | Loss 1.8194
+Epoch 00069 | Validation Accuracy 48.28% | Test Accuracy 36.65%
+Process 000 | Epoch 00079 | Time(s) 3.2575 | Comm(s) 1.4314 | Reduce(s) 0.8932 | Loss 1.7138
+Epoch 00074 | Validation Accuracy 52.50% | Test Accuracy 39.71%
+Process 000 | Epoch 00084 | Time(s) 3.2596 | Comm(s) 1.4298 | Reduce(s) 0.8949 | Loss 1.6290
+Epoch 00079 | Validation Accuracy 56.58% | Test Accuracy 42.59%
+Process 000 | Epoch 00089 | Time(s) 3.2610 | Comm(s) 1.4278 | Reduce(s) 0.8988 | Loss 1.5410
+Epoch 00084 | Validation Accuracy 60.34% | Test Accuracy 45.20%
+Process 000 | Epoch 00094 | Time(s) 3.2583 | Comm(s) 1.4225 | Reduce(s) 0.8971 | Loss 1.4580
+Epoch 00089 | Validation Accuracy 63.51% | Test Accuracy 47.50%
+Process 000 | Epoch 00099 | Time(s) 3.2594 | Comm(s) 1.4249 | Reduce(s) 0.8978 | Loss 1.3834
+Epoch 00094 | Validation Accuracy 66.32% | Test Accuracy 49.39%
+Epoch 00099 | Validation Accuracy 68.26% | Test Accuracy 50.77%
+Validation accuracy 68.26%
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: \ 0.003 MB of 0.003 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb: average train time per epoch ▁
+wandb:                best_test_acc ▁▂▃▃▃▃▃▃▄▄▄▄▅▅▆▆▇▇██
+wandb:               best_train_acc ▁▂▂▂▂▂▂▂▃▃▃▄▄▅▅▆▇▇██
+wandb:                 best_val_acc ▁▂▂▂▂▂▂▃▃▃▃▄▄▅▆▆▇▇██
+wandb:                   num epochs ▁
+wandb:                     test_acc ▁▂▃▃▃▃▃▃▄▄▄▄▅▅▆▆▇▇██
+wandb:                   torch_seed █▁
+wandb:             total train time ▁
+wandb:     total train time per GPU ▁
+wandb:         train time per epoch ▁
+wandb:                    train_acc ▁▂▂▂▂▂▂▂▃▃▃▄▄▅▅▆▇▇██
+wandb:                   train_time ▁▁▂▂▃▃▃▄▄▅▅▅▆▆▆▇▇██
+wandb:                      val_acc ▁▂▂▂▂▂▂▃▃▃▃▄▄▅▆▆▇▇██
+wandb: 
+wandb: Run summary:
+wandb: average train time per epoch 3.25943
+wandb:                best_test_acc 0.50771
+wandb:               best_train_acc 0.69108
+wandb:                 best_val_acc 0.68258
+wandb:                   num epochs 100
+wandb:                     test_acc 0.50771
+wandb:                   torch_seed 42
+wandb:             total train time 1043.01659
+wandb:     total train time per GPU 260.75415
+wandb:         train time per epoch 10.43017
+wandb:                    train_acc 0.69108
+wandb:                   train_time 328.18022
+wandb:                      val_acc 0.68258
+wandb: 
+wandb: 🚀 View run azure-sweep-8 at: https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/oc8w6s3t
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230920_103423-oc8w6s3t/logs
+wandb: Agent Starting Run: 7cmgpjtd with config:
+wandb: 	n_hidden: 113
+wandb: 	n_layers: 2
+wandb: 	num_heads: 6
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_114859-7cmgpjtd
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run sparkling-sweep-9
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/7cmgpjtd
+100
+args = Namespace(dataset='ogbn-products', graph_name='ogbn-products-4-metis-vol-trans', model='gat', dropout=0.3, lr=0.003, n_epochs=100, n_partitions=4, n_hidden=113, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=100, n_class=47, n_train=196615, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=42, log_every=5, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, num_heads=2, eval=True)
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN_GAT_GCN/wandb/run-20230920_114925-7cmgpjtd
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enable_pipeline-False, n_hidden-113, n_layers-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/sweeps/3txn6hkh
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/PipeGCN-ogbn-products-gat/runs/7cmgpjtd
+slurmstepd-gypsum-gpu025: error: *** JOB 10107856 ON gypsum-gpu025 CANCELLED AT 2023-09-20T12:55:49 DUE TO TIME LIMIT ***
+slurmstepd-gypsum-gpu025: error: container_p_join: open failed for /var/tmp//gypsum-gpu025/10107856/.ns: No such file or directory
+slurmstepd-gypsum-gpu025: error: container_g_join(10107856): No such file or directory
