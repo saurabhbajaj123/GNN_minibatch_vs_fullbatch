@@ -4,7 +4,6 @@
 #SBATCH --gpus=4
 #SBATCH --mem=50GB  # memory per CPU core
 #SBATCH --time=0-08:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --output=result_products.txt
 #SBATCH --constrain=m40
 #SBATCH --nodes=1
 
@@ -20,13 +19,13 @@ python main.py \
   --lr 0.001 \
   --n-epochs 500 \
   --n-gpus 4 \
-  --n-layers 4 \
-  --n-hidden 127 \
+  --n-layers 6 \
+  --n-hidden 128 \
   --batch-size 1024 \
   --fanout 4 \
-  --patience 50 \
+  --patience 100 \
   --agg mean \
-  --log-every 5 \
+  --log-every 10 \
   --seed 42 \
   --mode puregpu \
 #   --seed 10245829 \

@@ -2,10 +2,8 @@
 
 #SBATCH --job-name pubmed   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=12GB  # memory per CPU core
+#SBATCH --mem=20GB  # memory per CPU core
 #SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --output=result_pubmed.txt
-#SBATCH --constraint=m40
 #SBATCH --nodes=1
 
 
@@ -19,13 +17,13 @@ python main.py \
   --lr 0.001 \
   --n-epochs 1000 \
   --n-gpus 4 \
-  --n-layers 4 \
+  --n-layers 15 \
   --n-hidden 256 \
   --batch-size 1024 \
-  --patience 50 \
+  --patience 300 \
   --fanout 10 \
   --agg mean \
-  --log-every 5 \
+  --log-every 10 \
   --mode puregpu \
   --seed 42 \
   # --seed \

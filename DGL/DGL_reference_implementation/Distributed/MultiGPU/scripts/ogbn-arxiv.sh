@@ -2,9 +2,8 @@
 
 #SBATCH --job-name ogbn-arxiv   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=20GB  # memory per CPU core
-#SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --output=result_arxiv.txt
+#SBATCH --mem=25GB  # memory per CPU core
+#SBATCH --time=0-04:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --constraint=m40
 #SBATCH --nodes=1
 
@@ -20,7 +19,7 @@ python main.py \
   --n-epochs 1000 \
   --n-gpus 4 \
   --n-layers 4 \
-  --n-hidden 859 \
+  --n-hidden 256 \
   --batch-size 1024 \
   --patience 50 \
   --fanout 4 \
