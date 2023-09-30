@@ -44,11 +44,11 @@ def evaluate_induc(name, model, g, mode, result_file_name=None):
 @torch.no_grad()
 def evaluate_trans(name, model, g, loss_fcn, result_file_name=None):
     model.eval()
-    # model.cpu()
+    model.cpu()
 
     device = next(model.parameters()).device
     # print(device)
-    g = g.to(device)
+    # g = g.to(device)
     feat, labels = g.ndata['feat'], g.ndata['label']
     val_mask, test_mask = g.ndata['val_mask'], g.ndata['test_mask']
     train_mask = g.ndata['train_mask']
