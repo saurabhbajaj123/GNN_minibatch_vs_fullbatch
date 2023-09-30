@@ -108,39 +108,39 @@ if __name__ == "__main__":
     # dataset = 'ogbn-products'
     # model = 'graphsage'
     # sampling = 'NS'
-    main()
+    # main()
 
     args = create_parser()
 
 
-    # sweep_configuration = {
-    #     # 'name': f"Multiple runs best parameters {args.n_gpus}",
-    #     'name': f"num_heads",
-    #     # 'name': "checking if 5 layers is the best",
-    #     'method': 'grid',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'n_hidden': {'values': [128, 256, 512, 728, 1024]},
-    #         # 'n_layers': {'values': [2, 3, 5]},
-    #         # 'n_hidden': {'values': [64, 128, 256]},
-    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
-    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
-    #         # 'dropout': {'values': [0.3, 0.5, 0.8]},
-    #         # 'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
-    #         # 'n_gpus': {'values': [4,3,2,1]},
-    #         # 'dummy': {'values': [1, 2, 3, 4, 5]},
-    #         # 'fanout': {'values': [4, 7, 10]},
-    #         'num_heads': {'values': [20, 25]},
-    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'dummy': {'distribution': 'uniform', 'min': 3, 'max': 10},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration,
-    #                        project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
+    sweep_configuration = {
+        # 'name': f"Multiple runs best parameters {args.n_gpus}",
+        'name': f"Smoothing effect wiht n_layers, n_hidden {args.n_hidden}",
+        # 'name': "checking if 5 layers is the best",
+        'method': 'grid',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'n_hidden': {'values': [256, 512, 1024]},
+            'n_layers': {'values': [16, 32, 64, 128]},
+            # 'n_hidden': {'values': [64, 128, 256]},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 15, 'max': 20},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'dropout': {'values': [0.3, 0.5, 0.8]},
+            # 'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
+            # 'n_gpus': {'values': [4,3,2,1]},
+            # 'dummy': {'values': [1, 2, 3, 4, 5]},
+            # 'fanout': {'values': [4, 7, 10]},
+            # 'num_heads': {'values': [20, 25]},
+            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dummy': {'distribution': 'int_uniform', 'min': 3, 'max': 7},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration,
+                           project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
-    # wandb.agent(sweep_id, function=main, count=50)
+    wandb.agent(sweep_id, function=main, count=500)
 

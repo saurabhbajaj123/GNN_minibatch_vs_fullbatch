@@ -1,0 +1,3359 @@
+wandb: Currently logged in as: sbajaj (rl_project_saurabh_arundhati). Use `wandb login --relogin` to force relogin
+wandb: Agent Starting Run: 32gdoanq with config:
+wandb: 	n_layers: 7
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/fullBatch/wandb/run-20230917_162941-32gdoanq
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run stellar-sweep-1
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/sweeps/tjjw0hph
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/32gdoanq
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb:  best_test_acc ▁▃▅▇▇▇▇▇▇███████████████████████████████
+wandb: best_train_acc ▁▄▆▇████████████████████████████████████
+wandb:   best_val_acc ▁▄▆▇████████████████████████████████████
+wandb:             lr ████████████▇▇▆▆▆▅▅▅▄▄▄▄▃▃▃▃▂▂▂▂▂▂▂▁▁▁▁▁
+wandb:       test_acc ▁▃▅▇▇▇▇▇▇▇██████████████████████████████
+wandb:      train_acc ▁▄▆▇████████████████████████████████████
+wandb:     train_time ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:        val_acc ▁▄▆▇████████████████████████████████████
+wandb: 
+wandb: Run summary:
+wandb:  best_test_acc 0.75735
+wandb: best_train_acc 0.92306
+wandb:   best_val_acc 0.91148
+wandb:             lr 0.00064
+wandb:       test_acc 0.76172
+wandb:      train_acc 0.92412
+wandb:     train_time 772.74326
+wandb:        val_acc 0.91074
+wandb: 
+wandb: 🚀 View run stellar-sweep-1 at: https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/32gdoanq
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230917_162941-32gdoanq/logs
+wandb: Sweep Agent: Waiting for job.
+wandb: Job received.
+wandb: Agent Starting Run: 6duppax2 with config:
+wandb: 	n_layers: 8
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/fullBatch/wandb/run-20230917_165546-6duppax2
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run fast-sweep-2
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/sweeps/tjjw0hph
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/6duppax2
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb:  best_test_acc ▁▂▄▅▇▇▇▇▇▇██████████████████████████████
+wandb: best_train_acc ▁▂▅▆▇███████████████████████████████████
+wandb:   best_val_acc ▁▂▅▆▇███████████████████████████████████
+wandb:             lr ██████████████▇▇▇▇▆▆▆▅▅▅▄▄▄▃▃▃▃▃▂▂▂▂▂▁▁▁
+wandb:       test_acc ▁▂▄▅▇▇▇▇▇▇██████████████████████████████
+wandb:      train_acc ▁▂▅▆▇███████████████████████████████████
+wandb:     train_time ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:        val_acc ▁▂▅▆▇███████████████████████████████████
+wandb: 
+wandb: Run summary:
+wandb:  best_test_acc 0.75456
+wandb: best_train_acc 0.9204
+wandb:   best_val_acc 0.90929
+wandb:             lr 0.00075
+wandb:       test_acc 0.75296
+wandb:      train_acc 0.9212
+wandb:     train_time 880.53322
+wandb:        val_acc 0.90896
+wandb: 
+wandb: 🚀 View run fast-sweep-2 at: https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/6duppax2
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230917_165546-6duppax2/logs
+wandb: Agent Starting Run: i749qzsy with config:
+wandb: 	n_layers: 9
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/fullBatch/wandb/run-20230917_172518-i749qzsy
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run copper-sweep-3
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/sweeps/tjjw0hph
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/i749qzsy
+wandb: Waiting for W&B process to finish... (success).
+wandb: - 0.008 MB of 0.056 MB uploaded (0.000 MB deduped)wandb: \ 0.008 MB of 0.056 MB uploaded (0.000 MB deduped)wandb: 
+wandb: Run history:
+wandb:  best_test_acc ▁▂▄▅▆▇▇▇▇▇▇▇▇███████████████████████████
+wandb: best_train_acc ▁▂▅▆▇▇██████████████████████████████████
+wandb:   best_val_acc ▁▂▅▆▇▇██████████████████████████████████
+wandb:             lr █████████▇▇▇▇▆▆▆▆▅▅▅▄▄▄▄▄▃▃▃▃▂▂▂▂▂▂▂▁▁▁▁
+wandb:       test_acc ▁▂▄▅▆▇▇▇▇▇▇▇████████████████████████████
+wandb:      train_acc ▁▂▅▆▇▇██████████████████████████████████
+wandb:     train_time ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:        val_acc ▁▂▅▆▇▇██████████████████████████████████
+wandb: 
+wandb: Run summary:
+wandb:  best_test_acc 0.74946
+wandb: best_train_acc 0.91525
+wandb:   best_val_acc 0.90591
+wandb:             lr 0.00064
+wandb:       test_acc 0.74685
+wandb:      train_acc 0.91487
+wandb:     train_time 994.13744
+wandb:        val_acc 0.90415
+wandb: 
+wandb: 🚀 View run copper-sweep-3 at: https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/i749qzsy
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230917_172518-i749qzsy/logs
+wandb: Agent Starting Run: s8wlvzj5 with config:
+wandb: 	n_layers: 10
+wandb: WARNING Ignored wandb.init() arg project when running a sweep.
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/fullBatch/wandb/run-20230917_175854-s8wlvzj5
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run ethereal-sweep-4
+wandb: ⭐️ View project at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products
+wandb: 🧹 View sweep at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/sweeps/tjjw0hph
+wandb: 🚀 View run at https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/s8wlvzj5
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb:  best_test_acc ▁▂▃▄▅▅▆▇▇▇▇▇▇▇▇▇▇███████████████████████
+wandb: best_train_acc ▁▂▃▄▅▆▇▇████████████████████████████████
+wandb:   best_val_acc ▁▂▃▄▅▆▇▇████████████████████████████████
+wandb:             lr █████████████▇▇▇▇▆▆▆▆▆▆▅▅▅▄▄▄▃▃▃▂▂▂▂▂▁▁▁
+wandb:       test_acc ▁▂▃▄▅▆▆▇▇▇▇▇▇▇▇█████████████████████████
+wandb:      train_acc ▁▂▃▄▅▆▇▇████████████████████████████████
+wandb:     train_time ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:        val_acc ▁▂▃▄▅▆▇▇████████████████████████████████
+wandb: 
+wandb: Run summary:
+wandb:  best_test_acc 0.73497
+wandb: best_train_acc 0.90802
+wandb:   best_val_acc 0.90016
+wandb:             lr 0.00108
+wandb:       test_acc 0.73285
+wandb:      train_acc 0.90714
+wandb:     train_time 1108.51033
+wandb:        val_acc 0.89746
+wandb: 
+wandb: 🚀 View run ethereal-sweep-4 at: https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/runs/s8wlvzj5
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230917_175854-s8wlvzj5/logs
+wandb: Sweep Agent: Waiting for job.
+wandb: Sweep Agent: Exiting.
+Create sweep with ID: tjjw0hph
+Sweep URL: https://wandb.ai/rl_project_saurabh_arundhati/SAGE-fullbatch-ogbn-products/sweeps/tjjw0hph
+device = cuda:0
+<function relu at 0x7f03c5feeaf0>
+Training...
+Epoch 00000 | Loss 57.9519 | Train Acc 0.0239 | Val Acc 0.0241 | Test Acc 0.0217
+Train time 6.0436, Eval time 0.3436
+Epoch 00005 | Loss 4.3339 | Train Acc 0.2016 | Val Acc 0.1913 | Test Acc 0.1417
+Train time 0.3840, Eval time 0.3730
+Epoch 00010 | Loss 3.1635 | Train Acc 0.2566 | Val Acc 0.2442 | Test Acc 0.1855
+Train time 0.3841, Eval time 0.3730
+Epoch 00015 | Loss 2.8860 | Train Acc 0.2992 | Val Acc 0.2966 | Test Acc 0.2432
+Train time 0.3841, Eval time 0.3731
+Epoch 00020 | Loss 2.6957 | Train Acc 0.3012 | Val Acc 0.2971 | Test Acc 0.2461
+Train time 0.3842, Eval time 0.3730
+Epoch 00025 | Loss 2.5252 | Train Acc 0.3034 | Val Acc 0.3025 | Test Acc 0.2482
+Train time 0.3843, Eval time 0.3731
+Epoch 00030 | Loss 2.3870 | Train Acc 0.3120 | Val Acc 0.3109 | Test Acc 0.2533
+Train time 0.3843, Eval time 0.3731
+Epoch 00035 | Loss 2.2303 | Train Acc 0.3427 | Val Acc 0.3403 | Test Acc 0.2781
+Train time 0.3841, Eval time 0.3730
+Epoch 00040 | Loss 2.0584 | Train Acc 0.3932 | Val Acc 0.3912 | Test Acc 0.3082
+Train time 0.3843, Eval time 0.3731
+Epoch 00045 | Loss 1.9030 | Train Acc 0.4363 | Val Acc 0.4344 | Test Acc 0.3358
+Train time 0.3842, Eval time 0.3730
+Epoch 00050 | Loss 1.7883 | Train Acc 0.4909 | Val Acc 0.4884 | Test Acc 0.3644
+Train time 0.3842, Eval time 0.3732
+Epoch 00055 | Loss 1.6727 | Train Acc 0.5311 | Val Acc 0.5258 | Test Acc 0.3902
+Train time 0.3843, Eval time 0.3730
+Epoch 00060 | Loss 1.5553 | Train Acc 0.5740 | Val Acc 0.5619 | Test Acc 0.4145
+Train time 0.3842, Eval time 0.3730
+Epoch 00065 | Loss 1.4572 | Train Acc 0.5994 | Val Acc 0.5903 | Test Acc 0.4331
+Train time 0.3848, Eval time 0.3727
+Epoch 00070 | Loss 1.3776 | Train Acc 0.6181 | Val Acc 0.6067 | Test Acc 0.4467
+Train time 0.3842, Eval time 0.3731
+Epoch 00075 | Loss 1.3117 | Train Acc 0.6321 | Val Acc 0.6231 | Test Acc 0.4597
+Train time 0.3842, Eval time 0.3730
+Epoch 00080 | Loss 1.2493 | Train Acc 0.6460 | Val Acc 0.6373 | Test Acc 0.4715
+Train time 0.3842, Eval time 0.3730
+Epoch 00085 | Loss 1.1916 | Train Acc 0.6608 | Val Acc 0.6536 | Test Acc 0.4820
+Train time 0.3841, Eval time 0.3731
+Epoch 00090 | Loss 1.1392 | Train Acc 0.6795 | Val Acc 0.6700 | Test Acc 0.4949
+Train time 0.3841, Eval time 0.3730
+Epoch 00095 | Loss 1.0856 | Train Acc 0.6968 | Val Acc 0.6873 | Test Acc 0.5093
+Train time 0.3845, Eval time 0.3729
+Epoch 00100 | Loss 1.0285 | Train Acc 0.7148 | Val Acc 0.7058 | Test Acc 0.5242
+Train time 0.3841, Eval time 0.3730
+Epoch 00105 | Loss 0.9740 | Train Acc 0.7338 | Val Acc 0.7244 | Test Acc 0.5381
+Train time 0.3841, Eval time 0.3730
+Epoch 00110 | Loss 0.9197 | Train Acc 0.7529 | Val Acc 0.7451 | Test Acc 0.5545
+Train time 0.3842, Eval time 0.3731
+Epoch 00115 | Loss 0.8609 | Train Acc 0.7735 | Val Acc 0.7641 | Test Acc 0.5681
+Train time 0.3842, Eval time 0.3730
+Epoch 00120 | Loss 0.8060 | Train Acc 0.7917 | Val Acc 0.7834 | Test Acc 0.5848
+Train time 0.3841, Eval time 0.3730
+Epoch 00125 | Loss 0.7573 | Train Acc 0.8063 | Val Acc 0.7974 | Test Acc 0.5976
+Train time 0.3841, Eval time 0.3730
+Epoch 00130 | Loss 0.7164 | Train Acc 0.8176 | Val Acc 0.8090 | Test Acc 0.6108
+Train time 0.3841, Eval time 0.3732
+Epoch 00135 | Loss 0.6885 | Train Acc 0.8245 | Val Acc 0.8178 | Test Acc 0.6193
+Train time 0.3843, Eval time 0.3728
+Epoch 00140 | Loss 0.6577 | Train Acc 0.8337 | Val Acc 0.8252 | Test Acc 0.6319
+Train time 0.3842, Eval time 0.3730
+Epoch 00145 | Loss 0.6329 | Train Acc 0.8413 | Val Acc 0.8346 | Test Acc 0.6392
+Train time 0.3842, Eval time 0.3730
+Epoch 00150 | Loss 0.6101 | Train Acc 0.8492 | Val Acc 0.8432 | Test Acc 0.6489
+Train time 0.3841, Eval time 0.3730
+Epoch 00155 | Loss 0.5870 | Train Acc 0.8556 | Val Acc 0.8481 | Test Acc 0.6558
+Train time 0.3846, Eval time 0.3727
+Epoch 00160 | Loss 0.5718 | Train Acc 0.8593 | Val Acc 0.8527 | Test Acc 0.6609
+Train time 0.3841, Eval time 0.3730
+Epoch 00165 | Loss 0.5540 | Train Acc 0.8633 | Val Acc 0.8568 | Test Acc 0.6666
+Train time 0.3841, Eval time 0.3729
+Epoch 00170 | Loss 0.5397 | Train Acc 0.8665 | Val Acc 0.8596 | Test Acc 0.6703
+Train time 0.3842, Eval time 0.3730
+Epoch 00175 | Loss 0.5264 | Train Acc 0.8693 | Val Acc 0.8616 | Test Acc 0.6744
+Train time 0.3841, Eval time 0.3730
+Epoch 00180 | Loss 0.5156 | Train Acc 0.8705 | Val Acc 0.8641 | Test Acc 0.6768
+Train time 0.3844, Eval time 0.3729
+Epoch 00185 | Loss 0.5077 | Train Acc 0.8721 | Val Acc 0.8654 | Test Acc 0.6802
+Train time 0.3841, Eval time 0.3730
+Epoch 00190 | Loss 0.4995 | Train Acc 0.8743 | Val Acc 0.8671 | Test Acc 0.6816
+Train time 0.3841, Eval time 0.3730
+Epoch 00195 | Loss 0.4893 | Train Acc 0.8760 | Val Acc 0.8706 | Test Acc 0.6833
+Train time 0.3841, Eval time 0.3730
+Epoch 00200 | Loss 0.4831 | Train Acc 0.8781 | Val Acc 0.8724 | Test Acc 0.6848
+Train time 0.3841, Eval time 0.3731
+Epoch 00205 | Loss 0.4741 | Train Acc 0.8803 | Val Acc 0.8735 | Test Acc 0.6866
+Train time 0.3842, Eval time 0.3728
+Epoch 00210 | Loss 0.4698 | Train Acc 0.8804 | Val Acc 0.8742 | Test Acc 0.6872
+Train time 0.3841, Eval time 0.3730
+Epoch 00215 | Loss 0.4636 | Train Acc 0.8823 | Val Acc 0.8755 | Test Acc 0.6900
+Train time 0.3841, Eval time 0.3730
+Epoch 00220 | Loss 0.4609 | Train Acc 0.8831 | Val Acc 0.8768 | Test Acc 0.6899
+Train time 0.3842, Eval time 0.3729
+Epoch 00225 | Loss 0.4580 | Train Acc 0.8834 | Val Acc 0.8757 | Test Acc 0.6908
+Train time 0.3842, Eval time 0.3729
+Epoch 00230 | Loss 0.4516 | Train Acc 0.8843 | Val Acc 0.8776 | Test Acc 0.6933
+Train time 0.3951, Eval time 0.3731
+Epoch 00235 | Loss 0.4487 | Train Acc 0.8847 | Val Acc 0.8778 | Test Acc 0.6923
+Train time 0.3845, Eval time 0.3726
+Epoch 00240 | Loss 0.4404 | Train Acc 0.8865 | Val Acc 0.8805 | Test Acc 0.6955
+Train time 0.3841, Eval time 0.3729
+Epoch 00245 | Loss 0.4369 | Train Acc 0.8878 | Val Acc 0.8822 | Test Acc 0.6947
+Train time 0.3841, Eval time 0.3730
+Epoch 00250 | Loss 0.4350 | Train Acc 0.8878 | Val Acc 0.8814 | Test Acc 0.6965
+Train time 0.3841, Eval time 0.3730
+Epoch 00255 | Loss 0.4315 | Train Acc 0.8881 | Val Acc 0.8829 | Test Acc 0.6959
+Train time 0.3842, Eval time 0.3730
+Epoch 00260 | Loss 0.4272 | Train Acc 0.8894 | Val Acc 0.8815 | Test Acc 0.6968
+Train time 0.3844, Eval time 0.3729
+Epoch 00265 | Loss 0.4268 | Train Acc 0.8897 | Val Acc 0.8823 | Test Acc 0.6971
+Train time 0.3842, Eval time 0.3729
+Epoch 00270 | Loss 0.4212 | Train Acc 0.8899 | Val Acc 0.8825 | Test Acc 0.6977
+Train time 0.3841, Eval time 0.3731
+Epoch 00275 | Loss 0.4182 | Train Acc 0.8910 | Val Acc 0.8834 | Test Acc 0.7008
+Train time 0.3840, Eval time 0.3730
+Epoch 00280 | Loss 0.4165 | Train Acc 0.8915 | Val Acc 0.8837 | Test Acc 0.7002
+Train time 0.3841, Eval time 0.3730
+Epoch 00285 | Loss 0.4126 | Train Acc 0.8929 | Val Acc 0.8858 | Test Acc 0.7017
+Train time 0.3841, Eval time 0.3730
+Epoch 00290 | Loss 0.4103 | Train Acc 0.8934 | Val Acc 0.8852 | Test Acc 0.7024
+Train time 0.3841, Eval time 0.3730
+Epoch 00295 | Loss 0.4080 | Train Acc 0.8923 | Val Acc 0.8870 | Test Acc 0.7007
+Train time 0.3841, Eval time 0.3730
+Epoch 00300 | Loss 0.4066 | Train Acc 0.8926 | Val Acc 0.8844 | Test Acc 0.7041
+Train time 0.3842, Eval time 0.3729
+Epoch 00305 | Loss 0.4046 | Train Acc 0.8949 | Val Acc 0.8865 | Test Acc 0.7041
+Train time 0.3842, Eval time 0.3729
+Epoch 00310 | Loss 0.4025 | Train Acc 0.8935 | Val Acc 0.8872 | Test Acc 0.7054
+Train time 0.3843, Eval time 0.3729
+Epoch 00315 | Loss 0.3975 | Train Acc 0.8958 | Val Acc 0.8893 | Test Acc 0.7070
+Train time 0.3845, Eval time 0.3729
+Epoch 00320 | Loss 0.3954 | Train Acc 0.8953 | Val Acc 0.8870 | Test Acc 0.7065
+Train time 0.3844, Eval time 0.3729
+Epoch 00325 | Loss 0.3950 | Train Acc 0.8957 | Val Acc 0.8877 | Test Acc 0.7080
+Train time 0.3842, Eval time 0.3729
+Epoch 00330 | Loss 0.3923 | Train Acc 0.8966 | Val Acc 0.8900 | Test Acc 0.7082
+Train time 0.3842, Eval time 0.3729
+Epoch 00335 | Loss 0.3903 | Train Acc 0.8965 | Val Acc 0.8885 | Test Acc 0.7094
+Train time 0.3840, Eval time 0.3730
+Epoch 00340 | Loss 0.3904 | Train Acc 0.8963 | Val Acc 0.8881 | Test Acc 0.7065
+Train time 0.3842, Eval time 0.3730
+Epoch 00345 | Loss 0.3876 | Train Acc 0.8964 | Val Acc 0.8889 | Test Acc 0.7104
+Train time 0.3842, Eval time 0.3730
+Epoch 00350 | Loss 0.3875 | Train Acc 0.8963 | Val Acc 0.8892 | Test Acc 0.7091
+Train time 0.3841, Eval time 0.3730
+Epoch 00355 | Loss 0.3816 | Train Acc 0.8984 | Val Acc 0.8901 | Test Acc 0.7123
+Train time 0.3841, Eval time 0.3730
+Epoch 00360 | Loss 0.3838 | Train Acc 0.8980 | Val Acc 0.8911 | Test Acc 0.7096
+Train time 0.3841, Eval time 0.3730
+Epoch 00365 | Loss 0.3801 | Train Acc 0.8973 | Val Acc 0.8912 | Test Acc 0.7129
+Train time 0.3842, Eval time 0.3730
+Epoch 00370 | Loss 0.3807 | Train Acc 0.8997 | Val Acc 0.8910 | Test Acc 0.7129
+Train time 0.3841, Eval time 0.3730
+Epoch 00375 | Loss 0.3765 | Train Acc 0.8988 | Val Acc 0.8906 | Test Acc 0.7157
+Train time 0.3841, Eval time 0.3730
+Epoch 00380 | Loss 0.3747 | Train Acc 0.8994 | Val Acc 0.8903 | Test Acc 0.7142
+Train time 0.3842, Eval time 0.3729
+Epoch 00385 | Loss 0.3806 | Train Acc 0.8990 | Val Acc 0.8892 | Test Acc 0.7163
+Train time 0.3841, Eval time 0.3730
+Epoch 00390 | Loss 0.3735 | Train Acc 0.8994 | Val Acc 0.8909 | Test Acc 0.7163
+Train time 0.3841, Eval time 0.3729
+Epoch 00395 | Loss 0.3734 | Train Acc 0.9010 | Val Acc 0.8904 | Test Acc 0.7158
+Train time 0.3841, Eval time 0.3730
+Epoch 00400 | Loss 0.3694 | Train Acc 0.9005 | Val Acc 0.8925 | Test Acc 0.7163
+Train time 0.3845, Eval time 0.3728
+Epoch 00405 | Loss 0.3669 | Train Acc 0.9012 | Val Acc 0.8923 | Test Acc 0.7176
+Train time 0.3842, Eval time 0.3730
+Epoch 00410 | Loss 0.3651 | Train Acc 0.9016 | Val Acc 0.8914 | Test Acc 0.7219
+Train time 0.3841, Eval time 0.3730
+Epoch 00415 | Loss 0.3658 | Train Acc 0.9010 | Val Acc 0.8938 | Test Acc 0.7212
+Train time 0.3842, Eval time 0.3730
+Epoch 00420 | Loss 0.3638 | Train Acc 0.9020 | Val Acc 0.8935 | Test Acc 0.7192
+Train time 0.3841, Eval time 0.3729
+Epoch 00425 | Loss 0.3614 | Train Acc 0.9018 | Val Acc 0.8938 | Test Acc 0.7197
+Train time 0.3841, Eval time 0.3729
+Epoch 00430 | Loss 0.3597 | Train Acc 0.9025 | Val Acc 0.8951 | Test Acc 0.7227
+Train time 0.3841, Eval time 0.3730
+Epoch 00435 | Loss 0.3590 | Train Acc 0.9029 | Val Acc 0.8940 | Test Acc 0.7213
+Train time 0.3841, Eval time 0.3729
+Epoch 00440 | Loss 0.3597 | Train Acc 0.9028 | Val Acc 0.8950 | Test Acc 0.7231
+Train time 0.3841, Eval time 0.3730
+Epoch 00445 | Loss 0.3594 | Train Acc 0.9023 | Val Acc 0.8937 | Test Acc 0.7229
+Train time 0.3842, Eval time 0.3729
+Epoch 00450 | Loss 0.3551 | Train Acc 0.9034 | Val Acc 0.8953 | Test Acc 0.7236
+Train time 0.3841, Eval time 0.3730
+Epoch 00455 | Loss 0.3562 | Train Acc 0.9035 | Val Acc 0.8931 | Test Acc 0.7208
+Train time 0.3841, Eval time 0.3731
+Epoch 00460 | Loss 0.3555 | Train Acc 0.9035 | Val Acc 0.8933 | Test Acc 0.7239
+Train time 0.3841, Eval time 0.3730
+Epoch 00465 | Loss 0.3513 | Train Acc 0.9055 | Val Acc 0.8958 | Test Acc 0.7256
+Train time 0.3842, Eval time 0.3729
+Epoch 00470 | Loss 0.3522 | Train Acc 0.9043 | Val Acc 0.8937 | Test Acc 0.7267
+Train time 0.3842, Eval time 0.3730
+Epoch 00475 | Loss 0.3505 | Train Acc 0.9059 | Val Acc 0.8957 | Test Acc 0.7280
+Train time 0.3841, Eval time 0.3730
+Epoch 00480 | Loss 0.3513 | Train Acc 0.9044 | Val Acc 0.8960 | Test Acc 0.7266
+Train time 0.3846, Eval time 0.3727
+Epoch 00485 | Loss 0.3479 | Train Acc 0.9052 | Val Acc 0.8974 | Test Acc 0.7292
+Train time 0.3842, Eval time 0.3729
+Epoch 00490 | Loss 0.3488 | Train Acc 0.9053 | Val Acc 0.8967 | Test Acc 0.7249
+Train time 0.3842, Eval time 0.3729
+Epoch 00495 | Loss 0.3459 | Train Acc 0.9059 | Val Acc 0.8963 | Test Acc 0.7308
+Train time 0.3842, Eval time 0.3729
+Epoch 00500 | Loss 0.3476 | Train Acc 0.9051 | Val Acc 0.8959 | Test Acc 0.7248
+Train time 0.3841, Eval time 0.3731
+Epoch 00505 | Loss 0.3437 | Train Acc 0.9064 | Val Acc 0.8978 | Test Acc 0.7306
+Train time 0.3844, Eval time 0.3730
+Epoch 00510 | Loss 0.3431 | Train Acc 0.9071 | Val Acc 0.8972 | Test Acc 0.7310
+Train time 0.3842, Eval time 0.3729
+Epoch 00515 | Loss 0.3417 | Train Acc 0.9066 | Val Acc 0.8985 | Test Acc 0.7297
+Train time 0.3841, Eval time 0.3730
+Epoch 00520 | Loss 0.3404 | Train Acc 0.9072 | Val Acc 0.8978 | Test Acc 0.7317
+Train time 0.3841, Eval time 0.3730
+Epoch 00525 | Loss 0.3406 | Train Acc 0.9067 | Val Acc 0.8992 | Test Acc 0.7308
+Train time 0.3842, Eval time 0.3730
+Epoch 00530 | Loss 0.3393 | Train Acc 0.9077 | Val Acc 0.8978 | Test Acc 0.7318
+Train time 0.3841, Eval time 0.3730
+Epoch 00535 | Loss 0.3393 | Train Acc 0.9075 | Val Acc 0.8991 | Test Acc 0.7306
+Train time 0.3842, Eval time 0.3729
+Epoch 00540 | Loss 0.3377 | Train Acc 0.9078 | Val Acc 0.8996 | Test Acc 0.7321
+Train time 0.3841, Eval time 0.3730
+Epoch 00545 | Loss 0.3401 | Train Acc 0.9066 | Val Acc 0.8960 | Test Acc 0.7318
+Train time 0.3842, Eval time 0.3729
+Epoch 00550 | Loss 0.3415 | Train Acc 0.9071 | Val Acc 0.8989 | Test Acc 0.7334
+Train time 0.3842, Eval time 0.3730
+Epoch 00555 | Loss 0.3380 | Train Acc 0.9080 | Val Acc 0.8978 | Test Acc 0.7319
+Train time 0.3841, Eval time 0.3730
+Epoch 00560 | Loss 0.3351 | Train Acc 0.9087 | Val Acc 0.9002 | Test Acc 0.7330
+Train time 0.3846, Eval time 0.3727
+Epoch 00565 | Loss 0.3365 | Train Acc 0.9075 | Val Acc 0.8994 | Test Acc 0.7324
+Train time 0.3842, Eval time 0.3729
+Epoch 00570 | Loss 0.3317 | Train Acc 0.9097 | Val Acc 0.9006 | Test Acc 0.7367
+Train time 0.3842, Eval time 0.3728
+Epoch 00575 | Loss 0.3347 | Train Acc 0.9087 | Val Acc 0.8996 | Test Acc 0.7343
+Train time 0.3842, Eval time 0.3730
+Epoch 00580 | Loss 0.3400 | Train Acc 0.9065 | Val Acc 0.8965 | Test Acc 0.7317
+Train time 0.3842, Eval time 0.3730
+Epoch 00585 | Loss 0.3321 | Train Acc 0.9092 | Val Acc 0.9003 | Test Acc 0.7369
+Train time 0.3843, Eval time 0.3729
+Epoch 00590 | Loss 0.3322 | Train Acc 0.9083 | Val Acc 0.8997 | Test Acc 0.7363
+Train time 0.3842, Eval time 0.3730
+Epoch 00595 | Loss 0.3305 | Train Acc 0.9096 | Val Acc 0.9001 | Test Acc 0.7349
+Train time 0.3841, Eval time 0.3731
+Epoch 00600 | Loss 0.3296 | Train Acc 0.9098 | Val Acc 0.9005 | Test Acc 0.7389
+Train time 0.3841, Eval time 0.3730
+Epoch 00605 | Loss 0.3281 | Train Acc 0.9098 | Val Acc 0.9006 | Test Acc 0.7397
+Train time 0.3841, Eval time 0.3730
+Epoch 00610 | Loss 0.3285 | Train Acc 0.9093 | Val Acc 0.9021 | Test Acc 0.7350
+Train time 0.3842, Eval time 0.3730
+Epoch 00615 | Loss 0.3269 | Train Acc 0.9112 | Val Acc 0.9002 | Test Acc 0.7345
+Train time 0.3842, Eval time 0.3730
+Epoch 00620 | Loss 0.3270 | Train Acc 0.9113 | Val Acc 0.9024 | Test Acc 0.7375
+Train time 0.3841, Eval time 0.3731
+Epoch 00625 | Loss 0.3279 | Train Acc 0.9104 | Val Acc 0.9010 | Test Acc 0.7368
+Train time 0.3842, Eval time 0.3730
+Epoch 00630 | Loss 0.3236 | Train Acc 0.9110 | Val Acc 0.9012 | Test Acc 0.7373
+Train time 0.3842, Eval time 0.3730
+Epoch 00635 | Loss 0.3248 | Train Acc 0.9105 | Val Acc 0.8998 | Test Acc 0.7386
+Train time 0.3841, Eval time 0.3730
+Epoch 00640 | Loss 0.3214 | Train Acc 0.9117 | Val Acc 0.9032 | Test Acc 0.7406
+Train time 0.3841, Eval time 0.3732
+Epoch 00645 | Loss 0.3252 | Train Acc 0.9112 | Val Acc 0.9005 | Test Acc 0.7397
+Train time 0.3842, Eval time 0.3729
+Epoch 00650 | Loss 0.3229 | Train Acc 0.9115 | Val Acc 0.9015 | Test Acc 0.7407
+Train time 0.3843, Eval time 0.3728
+Epoch 00655 | Loss 0.3231 | Train Acc 0.9112 | Val Acc 0.9008 | Test Acc 0.7424
+Train time 0.3842, Eval time 0.3729
+Epoch 00660 | Loss 0.3204 | Train Acc 0.9121 | Val Acc 0.9006 | Test Acc 0.7382
+Train time 0.3841, Eval time 0.3730
+Epoch 00665 | Loss 0.3203 | Train Acc 0.9122 | Val Acc 0.9022 | Test Acc 0.7406
+Train time 0.3845, Eval time 0.3729
+Epoch 00670 | Loss 0.3201 | Train Acc 0.9123 | Val Acc 0.9025 | Test Acc 0.7404
+Train time 0.3844, Eval time 0.3729
+Epoch 00675 | Loss 0.3186 | Train Acc 0.9120 | Val Acc 0.9022 | Test Acc 0.7427
+Train time 0.3842, Eval time 0.3730
+Epoch 00680 | Loss 0.3184 | Train Acc 0.9133 | Val Acc 0.9016 | Test Acc 0.7430
+Train time 0.3841, Eval time 0.3730
+Epoch 00685 | Loss 0.3190 | Train Acc 0.9122 | Val Acc 0.9025 | Test Acc 0.7427
+Train time 0.3842, Eval time 0.3730
+Epoch 00690 | Loss 0.3199 | Train Acc 0.9124 | Val Acc 0.9014 | Test Acc 0.7444
+Train time 0.3841, Eval time 0.3730
+Epoch 00695 | Loss 0.3208 | Train Acc 0.9111 | Val Acc 0.9005 | Test Acc 0.7389
+Train time 0.3843, Eval time 0.3730
+Epoch 00700 | Loss 0.3149 | Train Acc 0.9138 | Val Acc 0.9028 | Test Acc 0.7439
+Train time 0.3841, Eval time 0.3730
+Epoch 00705 | Loss 0.3164 | Train Acc 0.9132 | Val Acc 0.9023 | Test Acc 0.7437
+Train time 0.3842, Eval time 0.3729
+Epoch 00710 | Loss 0.3154 | Train Acc 0.9127 | Val Acc 0.9019 | Test Acc 0.7432
+Train time 0.3842, Eval time 0.3729
+Epoch 00715 | Loss 0.3187 | Train Acc 0.9116 | Val Acc 0.9016 | Test Acc 0.7433
+Train time 0.3843, Eval time 0.3729
+Epoch 00720 | Loss 0.3166 | Train Acc 0.9133 | Val Acc 0.9036 | Test Acc 0.7426
+Train time 0.3864, Eval time 0.3728
+Epoch 00725 | Loss 0.3130 | Train Acc 0.9126 | Val Acc 0.9017 | Test Acc 0.7444
+Train time 0.3842, Eval time 0.3731
+Epoch 00730 | Loss 0.3128 | Train Acc 0.9137 | Val Acc 0.9041 | Test Acc 0.7454
+Train time 0.3842, Eval time 0.3730
+Epoch 00735 | Loss 0.3135 | Train Acc 0.9129 | Val Acc 0.9031 | Test Acc 0.7445
+Train time 0.3842, Eval time 0.3730
+Epoch 00740 | Loss 0.3125 | Train Acc 0.9133 | Val Acc 0.9022 | Test Acc 0.7467
+Train time 0.3842, Eval time 0.3730
+Epoch 00745 | Loss 0.3117 | Train Acc 0.9146 | Val Acc 0.9030 | Test Acc 0.7463
+Train time 0.3842, Eval time 0.3730
+Epoch 00750 | Loss 0.3127 | Train Acc 0.9139 | Val Acc 0.9030 | Test Acc 0.7440
+Train time 0.3845, Eval time 0.3729
+Epoch 00755 | Loss 0.3114 | Train Acc 0.9139 | Val Acc 0.9039 | Test Acc 0.7463
+Train time 0.3842, Eval time 0.3730
+Epoch 00760 | Loss 0.3102 | Train Acc 0.9141 | Val Acc 0.9032 | Test Acc 0.7457
+Train time 0.3841, Eval time 0.3730
+Epoch 00765 | Loss 0.3111 | Train Acc 0.9141 | Val Acc 0.9043 | Test Acc 0.7483
+Train time 0.3841, Eval time 0.3730
+Epoch 00770 | Loss 0.3125 | Train Acc 0.9143 | Val Acc 0.9041 | Test Acc 0.7455
+Train time 0.3842, Eval time 0.3730
+Epoch 00775 | Loss 0.3088 | Train Acc 0.9145 | Val Acc 0.9045 | Test Acc 0.7461
+Train time 0.3842, Eval time 0.3729
+Epoch 00780 | Loss 0.3103 | Train Acc 0.9137 | Val Acc 0.9050 | Test Acc 0.7459
+Train time 0.3842, Eval time 0.3730
+Epoch 00785 | Loss 0.3120 | Train Acc 0.9146 | Val Acc 0.9043 | Test Acc 0.7489
+Train time 0.3842, Eval time 0.3730
+Epoch 00790 | Loss 0.3072 | Train Acc 0.9155 | Val Acc 0.9051 | Test Acc 0.7479
+Train time 0.3841, Eval time 0.3770
+Epoch 00795 | Loss 0.3114 | Train Acc 0.9136 | Val Acc 0.9030 | Test Acc 0.7467
+Train time 0.3842, Eval time 0.3729
+Epoch 00800 | Loss 0.3077 | Train Acc 0.9151 | Val Acc 0.9046 | Test Acc 0.7485
+Train time 0.3841, Eval time 0.3731
+Epoch 00805 | Loss 0.3092 | Train Acc 0.9150 | Val Acc 0.9049 | Test Acc 0.7511
+Train time 0.3842, Eval time 0.3731
+Epoch 00810 | Loss 0.3090 | Train Acc 0.9137 | Val Acc 0.9030 | Test Acc 0.7454
+Train time 0.3842, Eval time 0.3729
+Epoch 00815 | Loss 0.3080 | Train Acc 0.9152 | Val Acc 0.9046 | Test Acc 0.7502
+Train time 0.3842, Eval time 0.3729
+Epoch 00820 | Loss 0.3089 | Train Acc 0.9153 | Val Acc 0.9046 | Test Acc 0.7475
+Train time 0.3842, Eval time 0.3729
+Epoch 00825 | Loss 0.3076 | Train Acc 0.9156 | Val Acc 0.9057 | Test Acc 0.7475
+Train time 0.3841, Eval time 0.3730
+Epoch 00830 | Loss 0.3065 | Train Acc 0.9160 | Val Acc 0.9038 | Test Acc 0.7486
+Train time 0.3846, Eval time 0.3727
+Epoch 00835 | Loss 0.3093 | Train Acc 0.9143 | Val Acc 0.9048 | Test Acc 0.7481
+Train time 0.3845, Eval time 0.3729
+Epoch 00840 | Loss 0.3074 | Train Acc 0.9144 | Val Acc 0.9030 | Test Acc 0.7498
+Train time 0.3841, Eval time 0.3730
+Epoch 00845 | Loss 0.3044 | Train Acc 0.9154 | Val Acc 0.9042 | Test Acc 0.7473
+Train time 0.3842, Eval time 0.3730
+Epoch 00850 | Loss 0.3047 | Train Acc 0.9159 | Val Acc 0.9032 | Test Acc 0.7465
+Train time 0.3841, Eval time 0.3730
+Epoch 00855 | Loss 0.3071 | Train Acc 0.9143 | Val Acc 0.9046 | Test Acc 0.7486
+Train time 0.3842, Eval time 0.3729
+Epoch 00860 | Loss 0.3034 | Train Acc 0.9168 | Val Acc 0.9045 | Test Acc 0.7506
+Train time 0.3842, Eval time 0.3730
+Epoch 00865 | Loss 0.3058 | Train Acc 0.9152 | Val Acc 0.9073 | Test Acc 0.7503
+Train time 0.3842, Eval time 0.3729
+Epoch 00870 | Loss 0.3048 | Train Acc 0.9155 | Val Acc 0.9030 | Test Acc 0.7468
+Train time 0.3842, Eval time 0.3763
+Epoch 00875 | Loss 0.3046 | Train Acc 0.9144 | Val Acc 0.9039 | Test Acc 0.7528
+Train time 0.3842, Eval time 0.3729
+Epoch 00880 | Loss 0.3016 | Train Acc 0.9167 | Val Acc 0.9057 | Test Acc 0.7477
+Train time 0.3843, Eval time 0.3730
+Epoch 00885 | Loss 0.3042 | Train Acc 0.9149 | Val Acc 0.9048 | Test Acc 0.7461
+Train time 0.3882, Eval time 0.3728
+Epoch 00890 | Loss 0.2988 | Train Acc 0.9175 | Val Acc 0.9050 | Test Acc 0.7521
+Train time 0.3844, Eval time 0.3727
+Epoch 00895 | Loss 0.3001 | Train Acc 0.9166 | Val Acc 0.9046 | Test Acc 0.7502
+Train time 0.3842, Eval time 0.3729
+Epoch 00900 | Loss 0.2987 | Train Acc 0.9171 | Val Acc 0.9060 | Test Acc 0.7502
+Train time 0.3842, Eval time 0.3729
+Epoch 00905 | Loss 0.2999 | Train Acc 0.9165 | Val Acc 0.9058 | Test Acc 0.7484
+Train time 0.3850, Eval time 0.3730
+Epoch 00910 | Loss 0.2998 | Train Acc 0.9164 | Val Acc 0.9051 | Test Acc 0.7512
+Train time 0.3841, Eval time 0.3748
+Epoch 00915 | Loss 0.2977 | Train Acc 0.9181 | Val Acc 0.9066 | Test Acc 0.7503
+Train time 0.3846, Eval time 0.3728
+Epoch 00920 | Loss 0.3003 | Train Acc 0.9157 | Val Acc 0.9050 | Test Acc 0.7505
+Train time 0.3842, Eval time 0.3730
+Epoch 00925 | Loss 0.3032 | Train Acc 0.9168 | Val Acc 0.9069 | Test Acc 0.7499
+Train time 0.3841, Eval time 0.3730
+Epoch 00930 | Loss 0.3016 | Train Acc 0.9156 | Val Acc 0.9039 | Test Acc 0.7503
+Train time 0.3842, Eval time 0.3731
+Epoch 00935 | Loss 0.2973 | Train Acc 0.9170 | Val Acc 0.9056 | Test Acc 0.7513
+Train time 0.3842, Eval time 0.3730
+Epoch 00940 | Loss 0.2988 | Train Acc 0.9163 | Val Acc 0.9049 | Test Acc 0.7507
+Train time 0.3842, Eval time 0.3730
+Epoch 00945 | Loss 0.2980 | Train Acc 0.9172 | Val Acc 0.9049 | Test Acc 0.7506
+Train time 0.3842, Eval time 0.3730
+Epoch 00950 | Loss 0.2991 | Train Acc 0.9168 | Val Acc 0.9054 | Test Acc 0.7486
+Train time 0.3842, Eval time 0.3730
+Epoch 00955 | Loss 0.2977 | Train Acc 0.9173 | Val Acc 0.9048 | Test Acc 0.7486
+Train time 0.3842, Eval time 0.3729
+Epoch 00960 | Loss 0.2981 | Train Acc 0.9172 | Val Acc 0.9061 | Test Acc 0.7502
+Train time 0.3842, Eval time 0.3730
+Epoch 00965 | Loss 0.2977 | Train Acc 0.9174 | Val Acc 0.9060 | Test Acc 0.7524
+Train time 0.3841, Eval time 0.3730
+Epoch 00970 | Loss 0.2962 | Train Acc 0.9177 | Val Acc 0.9058 | Test Acc 0.7503
+Train time 0.3841, Eval time 0.3731
+Epoch 00975 | Loss 0.2976 | Train Acc 0.9166 | Val Acc 0.9047 | Test Acc 0.7496
+Train time 0.3841, Eval time 0.3729
+Epoch 00980 | Loss 0.2928 | Train Acc 0.9182 | Val Acc 0.9062 | Test Acc 0.7530
+Train time 0.3842, Eval time 0.3729
+Epoch 00985 | Loss 0.2947 | Train Acc 0.9175 | Val Acc 0.9056 | Test Acc 0.7515
+Train time 0.3842, Eval time 0.3729
+Epoch 00990 | Loss 0.2959 | Train Acc 0.9174 | Val Acc 0.9056 | Test Acc 0.7516
+Train time 0.3841, Eval time 0.3730
+Epoch 00995 | Loss 0.2940 | Train Acc 0.9175 | Val Acc 0.9057 | Test Acc 0.7544
+Train time 0.3846, Eval time 0.3729
+Epoch 01000 | Loss 0.2962 | Train Acc 0.9171 | Val Acc 0.9067 | Test Acc 0.7524
+Train time 0.3844, Eval time 0.3729
+Epoch 01005 | Loss 0.2955 | Train Acc 0.9183 | Val Acc 0.9059 | Test Acc 0.7497
+Train time 0.3841, Eval time 0.3729
+Epoch 01010 | Loss 0.2952 | Train Acc 0.9176 | Val Acc 0.9047 | Test Acc 0.7497
+Train time 0.3841, Eval time 0.3730
+Epoch 01015 | Loss 0.2952 | Train Acc 0.9182 | Val Acc 0.9056 | Test Acc 0.7517
+Train time 0.3842, Eval time 0.3730
+Epoch 01020 | Loss 0.2969 | Train Acc 0.9167 | Val Acc 0.9072 | Test Acc 0.7514
+Train time 0.3841, Eval time 0.3730
+Epoch 01025 | Loss 0.2947 | Train Acc 0.9180 | Val Acc 0.9065 | Test Acc 0.7536
+Train time 0.3842, Eval time 0.3730
+Epoch 01030 | Loss 0.2928 | Train Acc 0.9184 | Val Acc 0.9058 | Test Acc 0.7502
+Train time 0.3842, Eval time 0.3729
+Epoch 01035 | Loss 0.2924 | Train Acc 0.9184 | Val Acc 0.9078 | Test Acc 0.7507
+Train time 0.3842, Eval time 0.3730
+Epoch 01040 | Loss 0.2938 | Train Acc 0.9182 | Val Acc 0.9059 | Test Acc 0.7512
+Train time 0.3842, Eval time 0.3730
+Epoch 01045 | Loss 0.2930 | Train Acc 0.9187 | Val Acc 0.9075 | Test Acc 0.7542
+Train time 0.3842, Eval time 0.3729
+Epoch 01050 | Loss 0.2925 | Train Acc 0.9184 | Val Acc 0.9061 | Test Acc 0.7502
+Train time 0.3845, Eval time 0.3727
+Epoch 01055 | Loss 0.2940 | Train Acc 0.9175 | Val Acc 0.9068 | Test Acc 0.7515
+Train time 0.3844, Eval time 0.3728
+Epoch 01060 | Loss 0.2929 | Train Acc 0.9180 | Val Acc 0.9074 | Test Acc 0.7560
+Train time 0.3842, Eval time 0.3729
+Epoch 01065 | Loss 0.2931 | Train Acc 0.9182 | Val Acc 0.9079 | Test Acc 0.7529
+Train time 0.3842, Eval time 0.3729
+Epoch 01070 | Loss 0.2941 | Train Acc 0.9179 | Val Acc 0.9059 | Test Acc 0.7521
+Train time 0.3841, Eval time 0.3730
+Epoch 01075 | Loss 0.2899 | Train Acc 0.9198 | Val Acc 0.9077 | Test Acc 0.7537
+Train time 0.3841, Eval time 0.3730
+Epoch 01080 | Loss 0.2913 | Train Acc 0.9187 | Val Acc 0.9074 | Test Acc 0.7533
+Train time 0.3846, Eval time 0.3728
+Epoch 01085 | Loss 0.2908 | Train Acc 0.9191 | Val Acc 0.9057 | Test Acc 0.7525
+Train time 0.3841, Eval time 0.3730
+Epoch 01090 | Loss 0.2912 | Train Acc 0.9182 | Val Acc 0.9063 | Test Acc 0.7526
+Train time 0.3841, Eval time 0.3730
+Epoch 01095 | Loss 0.2925 | Train Acc 0.9189 | Val Acc 0.9067 | Test Acc 0.7546
+Train time 0.3841, Eval time 0.3729
+Epoch 01100 | Loss 0.2907 | Train Acc 0.9192 | Val Acc 0.9077 | Test Acc 0.7546
+Train time 0.3842, Eval time 0.3729
+Epoch 01105 | Loss 0.2893 | Train Acc 0.9186 | Val Acc 0.9067 | Test Acc 0.7567
+Train time 0.3842, Eval time 0.3729
+Epoch 01110 | Loss 0.2896 | Train Acc 0.9188 | Val Acc 0.9075 | Test Acc 0.7523
+Train time 0.3841, Eval time 0.3730
+Epoch 01115 | Loss 0.2892 | Train Acc 0.9191 | Val Acc 0.9064 | Test Acc 0.7567
+Train time 0.3841, Eval time 0.3730
+Epoch 01120 | Loss 0.2891 | Train Acc 0.9197 | Val Acc 0.9072 | Test Acc 0.7519
+Train time 0.3842, Eval time 0.3730
+Epoch 01125 | Loss 0.2904 | Train Acc 0.9190 | Val Acc 0.9075 | Test Acc 0.7537
+Train time 0.3842, Eval time 0.3729
+Epoch 01130 | Loss 0.2894 | Train Acc 0.9190 | Val Acc 0.9072 | Test Acc 0.7520
+Train time 0.3842, Eval time 0.3730
+Epoch 01135 | Loss 0.2906 | Train Acc 0.9179 | Val Acc 0.9074 | Test Acc 0.7509
+Train time 0.3841, Eval time 0.3731
+Epoch 01140 | Loss 0.2915 | Train Acc 0.9188 | Val Acc 0.9063 | Test Acc 0.7510
+Train time 0.3842, Eval time 0.3729
+Epoch 01145 | Loss 0.2878 | Train Acc 0.9192 | Val Acc 0.9081 | Test Acc 0.7524
+Train time 0.3842, Eval time 0.3730
+Epoch 01150 | Loss 0.2889 | Train Acc 0.9191 | Val Acc 0.9080 | Test Acc 0.7537
+Train time 0.3842, Eval time 0.3730
+Epoch 01155 | Loss 0.2881 | Train Acc 0.9197 | Val Acc 0.9072 | Test Acc 0.7557
+Train time 0.3842, Eval time 0.3729
+Epoch 01160 | Loss 0.2871 | Train Acc 0.9194 | Val Acc 0.9067 | Test Acc 0.7517
+Train time 0.3846, Eval time 0.3730
+Epoch 01165 | Loss 0.2868 | Train Acc 0.9197 | Val Acc 0.9087 | Test Acc 0.7564
+Train time 0.3844, Eval time 0.3728
+Epoch 01170 | Loss 0.2872 | Train Acc 0.9196 | Val Acc 0.9076 | Test Acc 0.7550
+Train time 0.3842, Eval time 0.3730
+Epoch 01175 | Loss 0.2867 | Train Acc 0.9195 | Val Acc 0.9073 | Test Acc 0.7554
+Train time 0.3841, Eval time 0.3730
+Epoch 01180 | Loss 0.2856 | Train Acc 0.9198 | Val Acc 0.9076 | Test Acc 0.7554
+Train time 0.3842, Eval time 0.3730
+Epoch 01185 | Loss 0.2877 | Train Acc 0.9193 | Val Acc 0.9083 | Test Acc 0.7534
+Train time 0.3842, Eval time 0.3730
+Epoch 01190 | Loss 0.2876 | Train Acc 0.9192 | Val Acc 0.9079 | Test Acc 0.7556
+Train time 0.3843, Eval time 0.3730
+Epoch 01195 | Loss 0.2864 | Train Acc 0.9195 | Val Acc 0.9073 | Test Acc 0.7536
+Train time 0.3842, Eval time 0.3730
+Epoch 01200 | Loss 0.2856 | Train Acc 0.9194 | Val Acc 0.9092 | Test Acc 0.7548
+Train time 0.3841, Eval time 0.3730
+Epoch 01205 | Loss 0.2863 | Train Acc 0.9194 | Val Acc 0.9072 | Test Acc 0.7549
+Train time 0.3843, Eval time 0.3729
+Epoch 01210 | Loss 0.2871 | Train Acc 0.9196 | Val Acc 0.9075 | Test Acc 0.7515
+Train time 0.3843, Eval time 0.3729
+Epoch 01215 | Loss 0.2855 | Train Acc 0.9194 | Val Acc 0.9069 | Test Acc 0.7528
+Train time 0.3841, Eval time 0.3730
+Epoch 01220 | Loss 0.2863 | Train Acc 0.9200 | Val Acc 0.9087 | Test Acc 0.7504
+Train time 0.3842, Eval time 0.3731
+Epoch 01225 | Loss 0.2860 | Train Acc 0.9202 | Val Acc 0.9090 | Test Acc 0.7557
+Train time 0.3843, Eval time 0.3729
+Epoch 01230 | Loss 0.2837 | Train Acc 0.9203 | Val Acc 0.9073 | Test Acc 0.7549
+Train time 0.3842, Eval time 0.3729
+Epoch 01235 | Loss 0.2870 | Train Acc 0.9189 | Val Acc 0.9069 | Test Acc 0.7555
+Train time 0.3841, Eval time 0.3730
+Epoch 01240 | Loss 0.2854 | Train Acc 0.9195 | Val Acc 0.9080 | Test Acc 0.7553
+Train time 0.3842, Eval time 0.3730
+Epoch 01245 | Loss 0.2858 | Train Acc 0.9212 | Val Acc 0.9070 | Test Acc 0.7544
+Train time 0.3847, Eval time 0.3727
+Epoch 01250 | Loss 0.2843 | Train Acc 0.9202 | Val Acc 0.9070 | Test Acc 0.7543
+Train time 0.3842, Eval time 0.3730
+Epoch 01255 | Loss 0.2855 | Train Acc 0.9189 | Val Acc 0.9079 | Test Acc 0.7543
+Train time 0.3841, Eval time 0.3730
+Epoch 01260 | Loss 0.2847 | Train Acc 0.9200 | Val Acc 0.9070 | Test Acc 0.7574
+Train time 0.3841, Eval time 0.3730
+Epoch 01265 | Loss 0.2850 | Train Acc 0.9197 | Val Acc 0.9083 | Test Acc 0.7566
+Train time 0.3841, Eval time 0.3729
+Epoch 01270 | Loss 0.2846 | Train Acc 0.9201 | Val Acc 0.9073 | Test Acc 0.7542
+Train time 0.3841, Eval time 0.3730
+Epoch 01275 | Loss 0.2836 | Train Acc 0.9197 | Val Acc 0.9086 | Test Acc 0.7541
+Train time 0.3842, Eval time 0.3730
+Epoch 01280 | Loss 0.2827 | Train Acc 0.9203 | Val Acc 0.9083 | Test Acc 0.7561
+Train time 0.3841, Eval time 0.3730
+Epoch 01285 | Loss 0.2822 | Train Acc 0.9205 | Val Acc 0.9091 | Test Acc 0.7547
+Train time 0.3842, Eval time 0.3730
+Epoch 01290 | Loss 0.2824 | Train Acc 0.9209 | Val Acc 0.9085 | Test Acc 0.7572
+Train time 0.3842, Eval time 0.3730
+Epoch 01295 | Loss 0.2803 | Train Acc 0.9215 | Val Acc 0.9079 | Test Acc 0.7529
+Train time 0.3841, Eval time 0.3729
+Epoch 01300 | Loss 0.2814 | Train Acc 0.9203 | Val Acc 0.9080 | Test Acc 0.7566
+Train time 0.3841, Eval time 0.3731
+Epoch 01305 | Loss 0.2819 | Train Acc 0.9207 | Val Acc 0.9082 | Test Acc 0.7541
+Train time 0.3842, Eval time 0.3729
+Epoch 01310 | Loss 0.2819 | Train Acc 0.9204 | Val Acc 0.9087 | Test Acc 0.7571
+Train time 0.3842, Eval time 0.3729
+Epoch 01315 | Loss 0.2820 | Train Acc 0.9208 | Val Acc 0.9085 | Test Acc 0.7541
+Train time 0.3843, Eval time 0.3729
+Epoch 01320 | Loss 0.2809 | Train Acc 0.9210 | Val Acc 0.9085 | Test Acc 0.7559
+Train time 0.3841, Eval time 0.3730
+Epoch 01325 | Loss 0.2812 | Train Acc 0.9205 | Val Acc 0.9089 | Test Acc 0.7570
+Train time 0.3846, Eval time 0.3729
+Epoch 01330 | Loss 0.2814 | Train Acc 0.9212 | Val Acc 0.9082 | Test Acc 0.7576
+Train time 0.3844, Eval time 0.3729
+Epoch 01335 | Loss 0.2810 | Train Acc 0.9214 | Val Acc 0.9094 | Test Acc 0.7525
+Train time 0.3842, Eval time 0.3729
+Epoch 01340 | Loss 0.2838 | Train Acc 0.9208 | Val Acc 0.9075 | Test Acc 0.7585
+Train time 0.3841, Eval time 0.3730
+Epoch 01345 | Loss 0.2819 | Train Acc 0.9211 | Val Acc 0.9081 | Test Acc 0.7567
+Train time 0.3841, Eval time 0.3730
+Epoch 01350 | Loss 0.2813 | Train Acc 0.9217 | Val Acc 0.9074 | Test Acc 0.7587
+Train time 0.3841, Eval time 0.3730
+Epoch 01355 | Loss 0.2810 | Train Acc 0.9208 | Val Acc 0.9092 | Test Acc 0.7564
+Train time 0.3842, Eval time 0.3729
+Epoch 01360 | Loss 0.2802 | Train Acc 0.9205 | Val Acc 0.9084 | Test Acc 0.7583
+Train time 0.3842, Eval time 0.3730
+Epoch 01365 | Loss 0.2797 | Train Acc 0.9213 | Val Acc 0.9070 | Test Acc 0.7566
+Train time 0.3846, Eval time 0.3725
+Epoch 01370 | Loss 0.2828 | Train Acc 0.9207 | Val Acc 0.9075 | Test Acc 0.7535
+Train time 0.3841, Eval time 0.3730
+Epoch 01375 | Loss 0.2821 | Train Acc 0.9207 | Val Acc 0.9085 | Test Acc 0.7527
+Train time 0.3842, Eval time 0.3730
+Epoch 01380 | Loss 0.2805 | Train Acc 0.9208 | Val Acc 0.9087 | Test Acc 0.7539
+Train time 0.3841, Eval time 0.3731
+Epoch 01385 | Loss 0.2819 | Train Acc 0.9203 | Val Acc 0.9075 | Test Acc 0.7539
+Train time 0.3843, Eval time 0.3730
+Epoch 01390 | Loss 0.2808 | Train Acc 0.9212 | Val Acc 0.9089 | Test Acc 0.7558
+Train time 0.3842, Eval time 0.3729
+Epoch 01395 | Loss 0.2789 | Train Acc 0.9220 | Val Acc 0.9081 | Test Acc 0.7568
+Train time 0.3843, Eval time 0.3729
+Epoch 01400 | Loss 0.2783 | Train Acc 0.9218 | Val Acc 0.9098 | Test Acc 0.7559
+Train time 0.3842, Eval time 0.3730
+Epoch 01405 | Loss 0.2786 | Train Acc 0.9218 | Val Acc 0.9075 | Test Acc 0.7587
+Train time 0.3842, Eval time 0.3729
+Epoch 01410 | Loss 0.2793 | Train Acc 0.9208 | Val Acc 0.9070 | Test Acc 0.7587
+Train time 0.3846, Eval time 0.3727
+Epoch 01415 | Loss 0.2800 | Train Acc 0.9212 | Val Acc 0.9090 | Test Acc 0.7547
+Train time 0.3842, Eval time 0.3730
+Epoch 01420 | Loss 0.2790 | Train Acc 0.9217 | Val Acc 0.9088 | Test Acc 0.7565
+Train time 0.3842, Eval time 0.3729
+Epoch 01425 | Loss 0.2810 | Train Acc 0.9212 | Val Acc 0.9085 | Test Acc 0.7568
+Train time 0.3852, Eval time 0.3719
+Epoch 01430 | Loss 0.2792 | Train Acc 0.9215 | Val Acc 0.9069 | Test Acc 0.7600
+Train time 0.3842, Eval time 0.3730
+Epoch 01435 | Loss 0.2794 | Train Acc 0.9220 | Val Acc 0.9100 | Test Acc 0.7564
+Train time 0.3844, Eval time 0.3729
+Epoch 01440 | Loss 0.2788 | Train Acc 0.9213 | Val Acc 0.9085 | Test Acc 0.7567
+Train time 0.3841, Eval time 0.3730
+Epoch 01445 | Loss 0.2782 | Train Acc 0.9216 | Val Acc 0.9093 | Test Acc 0.7571
+Train time 0.3841, Eval time 0.3730
+Epoch 01450 | Loss 0.2785 | Train Acc 0.9215 | Val Acc 0.9079 | Test Acc 0.7580
+Train time 0.3842, Eval time 0.3730
+Epoch 01455 | Loss 0.2780 | Train Acc 0.9218 | Val Acc 0.9097 | Test Acc 0.7569
+Train time 0.3842, Eval time 0.3730
+Epoch 01460 | Loss 0.2796 | Train Acc 0.9215 | Val Acc 0.9084 | Test Acc 0.7581
+Train time 0.3841, Eval time 0.3731
+Epoch 01465 | Loss 0.2776 | Train Acc 0.9222 | Val Acc 0.9105 | Test Acc 0.7578
+Train time 0.3842, Eval time 0.3731
+Epoch 01470 | Loss 0.2770 | Train Acc 0.9215 | Val Acc 0.9088 | Test Acc 0.7579
+Train time 0.3841, Eval time 0.3730
+Epoch 01475 | Loss 0.2801 | Train Acc 0.9209 | Val Acc 0.9081 | Test Acc 0.7549
+Train time 0.3842, Eval time 0.3729
+Epoch 01480 | Loss 0.2805 | Train Acc 0.9215 | Val Acc 0.9089 | Test Acc 0.7565
+Train time 0.3842, Eval time 0.3730
+Epoch 01485 | Loss 0.2777 | Train Acc 0.9223 | Val Acc 0.9088 | Test Acc 0.7531
+Train time 0.3841, Eval time 0.3729
+Epoch 01490 | Loss 0.2799 | Train Acc 0.9218 | Val Acc 0.9087 | Test Acc 0.7543
+Train time 0.3845, Eval time 0.3728
+Epoch 01495 | Loss 0.2782 | Train Acc 0.9215 | Val Acc 0.9071 | Test Acc 0.7538
+Train time 0.3842, Eval time 0.3729
+Epoch 01500 | Loss 0.2786 | Train Acc 0.9209 | Val Acc 0.9098 | Test Acc 0.7554
+Train time 0.3842, Eval time 0.3729
+Epoch 01505 | Loss 0.2764 | Train Acc 0.9222 | Val Acc 0.9093 | Test Acc 0.7563
+Train time 0.3842, Eval time 0.3730
+Epoch 01510 | Loss 0.2785 | Train Acc 0.9214 | Val Acc 0.9088 | Test Acc 0.7570
+Train time 0.3842, Eval time 0.3730
+Epoch 01515 | Loss 0.2769 | Train Acc 0.9220 | Val Acc 0.9094 | Test Acc 0.7578
+Train time 0.3844, Eval time 0.3729
+Epoch 01520 | Loss 0.2770 | Train Acc 0.9216 | Val Acc 0.9088 | Test Acc 0.7587
+Train time 0.3844, Eval time 0.3729
+Epoch 01525 | Loss 0.2753 | Train Acc 0.9223 | Val Acc 0.9106 | Test Acc 0.7580
+Train time 0.3842, Eval time 0.3730
+Epoch 01530 | Loss 0.2761 | Train Acc 0.9227 | Val Acc 0.9093 | Test Acc 0.7560
+Train time 0.3841, Eval time 0.3730
+Epoch 01535 | Loss 0.2777 | Train Acc 0.9219 | Val Acc 0.9094 | Test Acc 0.7559
+Train time 0.3841, Eval time 0.3730
+Epoch 01540 | Loss 0.2775 | Train Acc 0.9214 | Val Acc 0.9081 | Test Acc 0.7531
+Train time 0.3842, Eval time 0.3730
+Epoch 01545 | Loss 0.2761 | Train Acc 0.9228 | Val Acc 0.9098 | Test Acc 0.7562
+Train time 0.3841, Eval time 0.3729
+Epoch 01550 | Loss 0.2745 | Train Acc 0.9225 | Val Acc 0.9104 | Test Acc 0.7557
+Train time 0.3841, Eval time 0.3729
+Epoch 01555 | Loss 0.2760 | Train Acc 0.9218 | Val Acc 0.9090 | Test Acc 0.7573
+Train time 0.3841, Eval time 0.3730
+Epoch 01560 | Loss 0.2755 | Train Acc 0.9224 | Val Acc 0.9096 | Test Acc 0.7581
+Train time 0.3842, Eval time 0.3729
+Epoch 01565 | Loss 0.2749 | Train Acc 0.9221 | Val Acc 0.9090 | Test Acc 0.7606
+Train time 0.3842, Eval time 0.3729
+Epoch 01570 | Loss 0.2760 | Train Acc 0.9220 | Val Acc 0.9093 | Test Acc 0.7564
+Train time 0.3841, Eval time 0.3732
+Epoch 01575 | Loss 0.2767 | Train Acc 0.9216 | Val Acc 0.9080 | Test Acc 0.7592
+Train time 0.3841, Eval time 0.3729
+Epoch 01580 | Loss 0.2755 | Train Acc 0.9220 | Val Acc 0.9095 | Test Acc 0.7595
+Train time 0.3841, Eval time 0.3729
+Epoch 01585 | Loss 0.2761 | Train Acc 0.9217 | Val Acc 0.9103 | Test Acc 0.7579
+Train time 0.3842, Eval time 0.3729
+Epoch 01590 | Loss 0.2739 | Train Acc 0.9232 | Val Acc 0.9103 | Test Acc 0.7559
+Train time 0.3842, Eval time 0.3730
+Epoch 01595 | Loss 0.2759 | Train Acc 0.9230 | Val Acc 0.9086 | Test Acc 0.7574
+Train time 0.3846, Eval time 0.3729
+Epoch 01600 | Loss 0.2749 | Train Acc 0.9222 | Val Acc 0.9094 | Test Acc 0.7557
+Train time 0.3844, Eval time 0.3730
+Epoch 01605 | Loss 0.2748 | Train Acc 0.9224 | Val Acc 0.9102 | Test Acc 0.7550
+Train time 0.3842, Eval time 0.3728
+Epoch 01610 | Loss 0.2749 | Train Acc 0.9218 | Val Acc 0.9092 | Test Acc 0.7574
+Train time 0.3841, Eval time 0.3730
+Epoch 01615 | Loss 0.2754 | Train Acc 0.9220 | Val Acc 0.9108 | Test Acc 0.7590
+Train time 0.3841, Eval time 0.3730
+Epoch 01620 | Loss 0.2741 | Train Acc 0.9226 | Val Acc 0.9110 | Test Acc 0.7560
+Train time 0.3842, Eval time 0.3729
+Epoch 01625 | Loss 0.2741 | Train Acc 0.9224 | Val Acc 0.9103 | Test Acc 0.7569
+Train time 0.3842, Eval time 0.3730
+Epoch 01630 | Loss 0.2739 | Train Acc 0.9230 | Val Acc 0.9086 | Test Acc 0.7559
+Train time 0.3840, Eval time 0.3801
+Epoch 01635 | Loss 0.2762 | Train Acc 0.9224 | Val Acc 0.9108 | Test Acc 0.7581
+Train time 0.3842, Eval time 0.3730
+Epoch 01640 | Loss 0.2737 | Train Acc 0.9238 | Val Acc 0.9102 | Test Acc 0.7564
+Train time 0.3842, Eval time 0.3729
+Epoch 01645 | Loss 0.2742 | Train Acc 0.9228 | Val Acc 0.9094 | Test Acc 0.7591
+Train time 0.3841, Eval time 0.3730
+Epoch 01650 | Loss 0.2762 | Train Acc 0.9221 | Val Acc 0.9090 | Test Acc 0.7575
+Train time 0.3843, Eval time 0.3731
+Epoch 01655 | Loss 0.2730 | Train Acc 0.9222 | Val Acc 0.9090 | Test Acc 0.7596
+Train time 0.3841, Eval time 0.3729
+Epoch 01660 | Loss 0.2732 | Train Acc 0.9222 | Val Acc 0.9089 | Test Acc 0.7591
+Train time 0.3843, Eval time 0.3729
+Epoch 01665 | Loss 0.2735 | Train Acc 0.9226 | Val Acc 0.9105 | Test Acc 0.7575
+Train time 0.3843, Eval time 0.3730
+Epoch 01670 | Loss 0.2737 | Train Acc 0.9227 | Val Acc 0.9093 | Test Acc 0.7577
+Train time 0.3842, Eval time 0.3730
+Epoch 01675 | Loss 0.2726 | Train Acc 0.9230 | Val Acc 0.9101 | Test Acc 0.7580
+Train time 0.3845, Eval time 0.3729
+Epoch 01680 | Loss 0.2727 | Train Acc 0.9226 | Val Acc 0.9082 | Test Acc 0.7558
+Train time 0.3845, Eval time 0.3728
+Epoch 01685 | Loss 0.2732 | Train Acc 0.9224 | Val Acc 0.9092 | Test Acc 0.7568
+Train time 0.3842, Eval time 0.3729
+Epoch 01690 | Loss 0.2732 | Train Acc 0.9229 | Val Acc 0.9103 | Test Acc 0.7583
+Train time 0.3841, Eval time 0.3729
+Epoch 01695 | Loss 0.2729 | Train Acc 0.9223 | Val Acc 0.9092 | Test Acc 0.7599
+Train time 0.3842, Eval time 0.3729
+Epoch 01700 | Loss 0.2739 | Train Acc 0.9227 | Val Acc 0.9094 | Test Acc 0.7605
+Train time 0.3842, Eval time 0.3729
+Epoch 01705 | Loss 0.2725 | Train Acc 0.9237 | Val Acc 0.9097 | Test Acc 0.7600
+Train time 0.3842, Eval time 0.3730
+Epoch 01710 | Loss 0.2733 | Train Acc 0.9228 | Val Acc 0.9102 | Test Acc 0.7591
+Train time 0.3842, Eval time 0.3730
+Epoch 01715 | Loss 0.2727 | Train Acc 0.9225 | Val Acc 0.9098 | Test Acc 0.7587
+Train time 0.3841, Eval time 0.3729
+Epoch 01720 | Loss 0.2732 | Train Acc 0.9228 | Val Acc 0.9091 | Test Acc 0.7570
+Train time 0.3841, Eval time 0.3730
+Epoch 01725 | Loss 0.2726 | Train Acc 0.9230 | Val Acc 0.9096 | Test Acc 0.7554
+Train time 0.3841, Eval time 0.3729
+Epoch 01730 | Loss 0.2730 | Train Acc 0.9225 | Val Acc 0.9101 | Test Acc 0.7586
+Train time 0.3842, Eval time 0.3729
+Epoch 01735 | Loss 0.2729 | Train Acc 0.9233 | Val Acc 0.9098 | Test Acc 0.7588
+Train time 0.3842, Eval time 0.3730
+Epoch 01740 | Loss 0.2740 | Train Acc 0.9227 | Val Acc 0.9093 | Test Acc 0.7581
+Train time 0.3841, Eval time 0.3730
+Epoch 01745 | Loss 0.2727 | Train Acc 0.9230 | Val Acc 0.9095 | Test Acc 0.7567
+Train time 0.3843, Eval time 0.3729
+Epoch 01750 | Loss 0.2723 | Train Acc 0.9235 | Val Acc 0.9097 | Test Acc 0.7581
+Train time 0.3854, Eval time 0.3718
+Epoch 01755 | Loss 0.2706 | Train Acc 0.9234 | Val Acc 0.9111 | Test Acc 0.7593
+Train time 0.3844, Eval time 0.3727
+Epoch 01760 | Loss 0.2713 | Train Acc 0.9233 | Val Acc 0.9090 | Test Acc 0.7586
+Train time 0.3844, Eval time 0.3728
+Epoch 01765 | Loss 0.2704 | Train Acc 0.9238 | Val Acc 0.9102 | Test Acc 0.7597
+Train time 0.3842, Eval time 0.3729
+Epoch 01770 | Loss 0.2718 | Train Acc 0.9228 | Val Acc 0.9108 | Test Acc 0.7604
+Train time 0.3841, Eval time 0.3729
+Epoch 01775 | Loss 0.2735 | Train Acc 0.9224 | Val Acc 0.9099 | Test Acc 0.7564
+Train time 0.3841, Eval time 0.3729
+Epoch 01780 | Loss 0.2711 | Train Acc 0.9239 | Val Acc 0.9091 | Test Acc 0.7572
+Train time 0.3841, Eval time 0.3730
+Epoch 01785 | Loss 0.2725 | Train Acc 0.9228 | Val Acc 0.9084 | Test Acc 0.7565
+Train time 0.3846, Eval time 0.3728
+Epoch 01790 | Loss 0.2735 | Train Acc 0.9227 | Val Acc 0.9087 | Test Acc 0.7575
+Train time 0.3842, Eval time 0.3729
+Epoch 01795 | Loss 0.2720 | Train Acc 0.9233 | Val Acc 0.9092 | Test Acc 0.7568
+Train time 0.3842, Eval time 0.3729
+Epoch 01800 | Loss 0.2714 | Train Acc 0.9230 | Val Acc 0.9095 | Test Acc 0.7591
+Train time 0.3841, Eval time 0.3730
+Epoch 01805 | Loss 0.2699 | Train Acc 0.9236 | Val Acc 0.9093 | Test Acc 0.7575
+Train time 0.3841, Eval time 0.3729
+Epoch 01810 | Loss 0.2729 | Train Acc 0.9230 | Val Acc 0.9092 | Test Acc 0.7577
+Train time 0.3841, Eval time 0.3730
+Epoch 01815 | Loss 0.2715 | Train Acc 0.9226 | Val Acc 0.9089 | Test Acc 0.7593
+Train time 0.3841, Eval time 0.3729
+Epoch 01820 | Loss 0.2705 | Train Acc 0.9233 | Val Acc 0.9099 | Test Acc 0.7558
+Train time 0.3841, Eval time 0.3730
+Epoch 01825 | Loss 0.2711 | Train Acc 0.9232 | Val Acc 0.9090 | Test Acc 0.7602
+Train time 0.3842, Eval time 0.3729
+Epoch 01830 | Loss 0.2707 | Train Acc 0.9240 | Val Acc 0.9106 | Test Acc 0.7586
+Train time 0.3842, Eval time 0.3729
+Epoch 01835 | Loss 0.2692 | Train Acc 0.9239 | Val Acc 0.9097 | Test Acc 0.7595
+Train time 0.3844, Eval time 0.3728
+Epoch 01840 | Loss 0.2690 | Train Acc 0.9240 | Val Acc 0.9105 | Test Acc 0.7563
+Train time 0.3842, Eval time 0.3731
+Epoch 01845 | Loss 0.2713 | Train Acc 0.9231 | Val Acc 0.9115 | Test Acc 0.7574
+Train time 0.3842, Eval time 0.3728
+Epoch 01850 | Loss 0.2699 | Train Acc 0.9233 | Val Acc 0.9107 | Test Acc 0.7575
+Train time 0.3842, Eval time 0.3729
+Epoch 01855 | Loss 0.2692 | Train Acc 0.9242 | Val Acc 0.9104 | Test Acc 0.7592
+Train time 0.3841, Eval time 0.3729
+Epoch 01860 | Loss 0.2705 | Train Acc 0.9234 | Val Acc 0.9094 | Test Acc 0.7563
+Train time 0.3842, Eval time 0.3729
+Epoch 01865 | Loss 0.2708 | Train Acc 0.9233 | Val Acc 0.9089 | Test Acc 0.7554
+Train time 0.3846, Eval time 0.3728
+Epoch 01870 | Loss 0.2707 | Train Acc 0.9240 | Val Acc 0.9111 | Test Acc 0.7572
+Train time 0.3842, Eval time 0.3729
+Epoch 01875 | Loss 0.2689 | Train Acc 0.9240 | Val Acc 0.9113 | Test Acc 0.7595
+Train time 0.3841, Eval time 0.3729
+Epoch 01880 | Loss 0.2691 | Train Acc 0.9234 | Val Acc 0.9100 | Test Acc 0.7589
+Train time 0.3841, Eval time 0.3729
+Epoch 01885 | Loss 0.2712 | Train Acc 0.9230 | Val Acc 0.9098 | Test Acc 0.7594
+Train time 0.3841, Eval time 0.3729
+Epoch 01890 | Loss 0.2716 | Train Acc 0.9231 | Val Acc 0.9080 | Test Acc 0.7538
+Train time 0.3844, Eval time 0.3729
+Epoch 01895 | Loss 0.2697 | Train Acc 0.9235 | Val Acc 0.9099 | Test Acc 0.7594
+Train time 0.3842, Eval time 0.3729
+Epoch 01900 | Loss 0.2688 | Train Acc 0.9242 | Val Acc 0.9105 | Test Acc 0.7581
+Train time 0.3841, Eval time 0.3730
+Epoch 01905 | Loss 0.2689 | Train Acc 0.9239 | Val Acc 0.9113 | Test Acc 0.7617
+Train time 0.3841, Eval time 0.3730
+Epoch 01910 | Loss 0.2697 | Train Acc 0.9235 | Val Acc 0.9090 | Test Acc 0.7597
+Train time 0.3842, Eval time 0.3729
+Epoch 01915 | Loss 0.2707 | Train Acc 0.9231 | Val Acc 0.9077 | Test Acc 0.7604
+Train time 0.3841, Eval time 0.3730
+Epoch 01920 | Loss 0.2675 | Train Acc 0.9246 | Val Acc 0.9108 | Test Acc 0.7589
+Train time 0.3841, Eval time 0.3731
+Epoch 01925 | Loss 0.2681 | Train Acc 0.9236 | Val Acc 0.9101 | Test Acc 0.7590
+Train time 0.3842, Eval time 0.3729
+Epoch 01930 | Loss 0.2690 | Train Acc 0.9243 | Val Acc 0.9086 | Test Acc 0.7580
+Train time 0.3843, Eval time 0.3728
+Epoch 01935 | Loss 0.2685 | Train Acc 0.9236 | Val Acc 0.9101 | Test Acc 0.7593
+Train time 0.3842, Eval time 0.3728
+Epoch 01940 | Loss 0.2695 | Train Acc 0.9236 | Val Acc 0.9108 | Test Acc 0.7563
+Train time 0.3844, Eval time 0.3726
+Epoch 01945 | Loss 0.2698 | Train Acc 0.9232 | Val Acc 0.9103 | Test Acc 0.7606
+Train time 0.3846, Eval time 0.3726
+Epoch 01950 | Loss 0.2692 | Train Acc 0.9237 | Val Acc 0.9079 | Test Acc 0.7550
+Train time 0.3845, Eval time 0.3729
+Epoch 01955 | Loss 0.2692 | Train Acc 0.9236 | Val Acc 0.9103 | Test Acc 0.7579
+Train time 0.3841, Eval time 0.3729
+Epoch 01960 | Loss 0.2688 | Train Acc 0.9237 | Val Acc 0.9114 | Test Acc 0.7581
+Train time 0.3841, Eval time 0.3729
+Epoch 01965 | Loss 0.2673 | Train Acc 0.9243 | Val Acc 0.9091 | Test Acc 0.7582
+Train time 0.3841, Eval time 0.3730
+Epoch 01970 | Loss 0.2674 | Train Acc 0.9242 | Val Acc 0.9104 | Test Acc 0.7599
+Train time 0.3841, Eval time 0.3730
+Epoch 01975 | Loss 0.2682 | Train Acc 0.9238 | Val Acc 0.9102 | Test Acc 0.7585
+Train time 0.3842, Eval time 0.3729
+Epoch 01980 | Loss 0.2686 | Train Acc 0.9243 | Val Acc 0.9108 | Test Acc 0.7591
+Train time 0.3841, Eval time 0.3729
+Epoch 01985 | Loss 0.2685 | Train Acc 0.9236 | Val Acc 0.9101 | Test Acc 0.7571
+Train time 0.3843, Eval time 0.3730
+Epoch 01990 | Loss 0.2687 | Train Acc 0.9239 | Val Acc 0.9085 | Test Acc 0.7600
+Train time 0.3842, Eval time 0.3730
+Epoch 01995 | Loss 0.2682 | Train Acc 0.9241 | Val Acc 0.9107 | Test Acc 0.7617
+Train time 0.3840, Eval time 0.3730
+device = cuda:0
+<function relu at 0x7f03c5feeaf0>
+Training...
+Epoch 00000 | Loss 87.3622 | Train Acc 0.0108 | Val Acc 0.0104 | Test Acc 0.0104
+Train time 0.4648, Eval time 0.4510
+Epoch 00005 | Loss 4.6830 | Train Acc 0.1300 | Val Acc 0.1266 | Test Acc 0.0980
+Train time 0.4407, Eval time 0.4371
+Epoch 00010 | Loss 3.2173 | Train Acc 0.2283 | Val Acc 0.2204 | Test Acc 0.1647
+Train time 0.4408, Eval time 0.4372
+Epoch 00015 | Loss 2.9775 | Train Acc 0.2908 | Val Acc 0.2876 | Test Acc 0.2291
+Train time 0.4408, Eval time 0.4372
+Epoch 00020 | Loss 2.8325 | Train Acc 0.2970 | Val Acc 0.2919 | Test Acc 0.2385
+Train time 0.4409, Eval time 0.4372
+Epoch 00025 | Loss 2.7001 | Train Acc 0.2925 | Val Acc 0.2890 | Test Acc 0.2345
+Train time 0.4409, Eval time 0.4372
+Epoch 00030 | Loss 2.5930 | Train Acc 0.2931 | Val Acc 0.2896 | Test Acc 0.2353
+Train time 0.4463, Eval time 0.4371
+Epoch 00035 | Loss 2.4879 | Train Acc 0.3020 | Val Acc 0.2999 | Test Acc 0.2444
+Train time 0.4409, Eval time 0.4372
+Epoch 00040 | Loss 2.3750 | Train Acc 0.3122 | Val Acc 0.3104 | Test Acc 0.2544
+Train time 0.4416, Eval time 0.4367
+Epoch 00045 | Loss 2.2698 | Train Acc 0.3276 | Val Acc 0.3260 | Test Acc 0.2653
+Train time 0.4409, Eval time 0.4372
+Epoch 00050 | Loss 2.1946 | Train Acc 0.3489 | Val Acc 0.3466 | Test Acc 0.2752
+Train time 0.4408, Eval time 0.4372
+Epoch 00055 | Loss 2.1254 | Train Acc 0.3661 | Val Acc 0.3620 | Test Acc 0.2806
+Train time 0.4409, Eval time 0.4372
+Epoch 00060 | Loss 2.0579 | Train Acc 0.3902 | Val Acc 0.3871 | Test Acc 0.2938
+Train time 0.4409, Eval time 0.4371
+Epoch 00065 | Loss 1.9794 | Train Acc 0.4152 | Val Acc 0.4135 | Test Acc 0.3101
+Train time 0.4409, Eval time 0.4372
+Epoch 00070 | Loss 1.8891 | Train Acc 0.4390 | Val Acc 0.4348 | Test Acc 0.3255
+Train time 0.4409, Eval time 0.4372
+Epoch 00075 | Loss 1.8056 | Train Acc 0.4533 | Val Acc 0.4452 | Test Acc 0.3348
+Train time 0.4410, Eval time 0.4371
+Epoch 00080 | Loss 1.7305 | Train Acc 0.4737 | Val Acc 0.4653 | Test Acc 0.3492
+Train time 0.4410, Eval time 0.4371
+Epoch 00085 | Loss 1.6524 | Train Acc 0.4983 | Val Acc 0.4906 | Test Acc 0.3656
+Train time 0.4410, Eval time 0.4371
+Epoch 00090 | Loss 1.5691 | Train Acc 0.5348 | Val Acc 0.5267 | Test Acc 0.3867
+Train time 0.4410, Eval time 0.4371
+Epoch 00095 | Loss 1.4932 | Train Acc 0.5624 | Val Acc 0.5523 | Test Acc 0.4046
+Train time 0.4409, Eval time 0.4372
+Epoch 00100 | Loss 1.4206 | Train Acc 0.5828 | Val Acc 0.5727 | Test Acc 0.4220
+Train time 0.4410, Eval time 0.4370
+Epoch 00105 | Loss 1.3590 | Train Acc 0.6000 | Val Acc 0.5933 | Test Acc 0.4361
+Train time 0.4409, Eval time 0.4372
+Epoch 00110 | Loss 1.2987 | Train Acc 0.6201 | Val Acc 0.6121 | Test Acc 0.4528
+Train time 0.4409, Eval time 0.4371
+Epoch 00115 | Loss 1.2331 | Train Acc 0.6375 | Val Acc 0.6328 | Test Acc 0.4675
+Train time 0.4409, Eval time 0.4371
+Epoch 00120 | Loss 1.1758 | Train Acc 0.6577 | Val Acc 0.6501 | Test Acc 0.4830
+Train time 0.4409, Eval time 0.4372
+Epoch 00125 | Loss 1.1224 | Train Acc 0.6714 | Val Acc 0.6673 | Test Acc 0.4956
+Train time 0.4410, Eval time 0.4370
+Epoch 00130 | Loss 1.0772 | Train Acc 0.6866 | Val Acc 0.6798 | Test Acc 0.5085
+Train time 0.4410, Eval time 0.4371
+Epoch 00135 | Loss 1.0380 | Train Acc 0.7020 | Val Acc 0.6963 | Test Acc 0.5213
+Train time 0.4409, Eval time 0.4371
+Epoch 00140 | Loss 0.9976 | Train Acc 0.7143 | Val Acc 0.7082 | Test Acc 0.5319
+Train time 0.4409, Eval time 0.4371
+Epoch 00145 | Loss 0.9594 | Train Acc 0.7255 | Val Acc 0.7219 | Test Acc 0.5423
+Train time 0.4410, Eval time 0.4371
+Epoch 00150 | Loss 0.9235 | Train Acc 0.7421 | Val Acc 0.7364 | Test Acc 0.5538
+Train time 0.4410, Eval time 0.4370
+Epoch 00155 | Loss 0.8833 | Train Acc 0.7546 | Val Acc 0.7506 | Test Acc 0.5655
+Train time 0.4410, Eval time 0.4371
+Epoch 00160 | Loss 0.8444 | Train Acc 0.7709 | Val Acc 0.7638 | Test Acc 0.5759
+Train time 0.4409, Eval time 0.4371
+Epoch 00165 | Loss 0.8025 | Train Acc 0.7842 | Val Acc 0.7757 | Test Acc 0.5877
+Train time 0.4410, Eval time 0.4372
+Epoch 00170 | Loss 0.7649 | Train Acc 0.7954 | Val Acc 0.7869 | Test Acc 0.5965
+Train time 0.4409, Eval time 0.4372
+Epoch 00175 | Loss 0.7241 | Train Acc 0.8079 | Val Acc 0.7992 | Test Acc 0.6071
+Train time 0.4415, Eval time 0.4368
+Epoch 00180 | Loss 0.6944 | Train Acc 0.8213 | Val Acc 0.8137 | Test Acc 0.6186
+Train time 0.4409, Eval time 0.4371
+Epoch 00185 | Loss 0.6621 | Train Acc 0.8324 | Val Acc 0.8247 | Test Acc 0.6260
+Train time 0.4410, Eval time 0.4372
+Epoch 00190 | Loss 0.6450 | Train Acc 0.8370 | Val Acc 0.8290 | Test Acc 0.6315
+Train time 0.4409, Eval time 0.4371
+Epoch 00195 | Loss 0.6207 | Train Acc 0.8424 | Val Acc 0.8368 | Test Acc 0.6385
+Train time 0.4410, Eval time 0.4372
+Epoch 00200 | Loss 0.5968 | Train Acc 0.8502 | Val Acc 0.8422 | Test Acc 0.6433
+Train time 0.4415, Eval time 0.4368
+Epoch 00205 | Loss 0.5858 | Train Acc 0.8534 | Val Acc 0.8475 | Test Acc 0.6476
+Train time 0.4409, Eval time 0.4371
+Epoch 00210 | Loss 0.5688 | Train Acc 0.8591 | Val Acc 0.8545 | Test Acc 0.6561
+Train time 0.4409, Eval time 0.4372
+Epoch 00215 | Loss 0.5556 | Train Acc 0.8619 | Val Acc 0.8555 | Test Acc 0.6605
+Train time 0.4409, Eval time 0.4371
+Epoch 00220 | Loss 0.5439 | Train Acc 0.8658 | Val Acc 0.8575 | Test Acc 0.6641
+Train time 0.4408, Eval time 0.4372
+Epoch 00225 | Loss 0.5328 | Train Acc 0.8684 | Val Acc 0.8628 | Test Acc 0.6681
+Train time 0.4409, Eval time 0.4372
+Epoch 00230 | Loss 0.5243 | Train Acc 0.8700 | Val Acc 0.8625 | Test Acc 0.6712
+Train time 0.4409, Eval time 0.4372
+Epoch 00235 | Loss 0.5123 | Train Acc 0.8722 | Val Acc 0.8665 | Test Acc 0.6734
+Train time 0.4410, Eval time 0.4371
+Epoch 00240 | Loss 0.5118 | Train Acc 0.8722 | Val Acc 0.8663 | Test Acc 0.6751
+Train time 0.4409, Eval time 0.4371
+Epoch 00245 | Loss 0.5001 | Train Acc 0.8742 | Val Acc 0.8678 | Test Acc 0.6775
+Train time 0.4409, Eval time 0.4371
+Epoch 00250 | Loss 0.4926 | Train Acc 0.8759 | Val Acc 0.8701 | Test Acc 0.6786
+Train time 0.4409, Eval time 0.4372
+Epoch 00255 | Loss 0.4886 | Train Acc 0.8770 | Val Acc 0.8705 | Test Acc 0.6804
+Train time 0.4409, Eval time 0.4372
+Epoch 00260 | Loss 0.4834 | Train Acc 0.8785 | Val Acc 0.8716 | Test Acc 0.6809
+Train time 0.4409, Eval time 0.4371
+Epoch 00265 | Loss 0.4781 | Train Acc 0.8793 | Val Acc 0.8727 | Test Acc 0.6825
+Train time 0.4410, Eval time 0.4371
+Epoch 00270 | Loss 0.4753 | Train Acc 0.8789 | Val Acc 0.8722 | Test Acc 0.6838
+Train time 0.4410, Eval time 0.4371
+Epoch 00275 | Loss 0.4668 | Train Acc 0.8809 | Val Acc 0.8741 | Test Acc 0.6857
+Train time 0.4410, Eval time 0.4371
+Epoch 00280 | Loss 0.4647 | Train Acc 0.8809 | Val Acc 0.8735 | Test Acc 0.6846
+Train time 0.4412, Eval time 0.4372
+Epoch 00285 | Loss 0.4553 | Train Acc 0.8838 | Val Acc 0.8752 | Test Acc 0.6873
+Train time 0.4412, Eval time 0.4370
+Epoch 00290 | Loss 0.4538 | Train Acc 0.8833 | Val Acc 0.8762 | Test Acc 0.6891
+Train time 0.4409, Eval time 0.4371
+Epoch 00295 | Loss 0.4508 | Train Acc 0.8849 | Val Acc 0.8768 | Test Acc 0.6884
+Train time 0.4408, Eval time 0.4372
+Epoch 00300 | Loss 0.4464 | Train Acc 0.8852 | Val Acc 0.8796 | Test Acc 0.6900
+Train time 0.4410, Eval time 0.4371
+Epoch 00305 | Loss 0.4436 | Train Acc 0.8861 | Val Acc 0.8782 | Test Acc 0.6920
+Train time 0.4412, Eval time 0.4371
+Epoch 00310 | Loss 0.4428 | Train Acc 0.8865 | Val Acc 0.8784 | Test Acc 0.6904
+Train time 0.4408, Eval time 0.4372
+Epoch 00315 | Loss 0.4372 | Train Acc 0.8869 | Val Acc 0.8790 | Test Acc 0.6928
+Train time 0.4409, Eval time 0.4372
+Epoch 00320 | Loss 0.4365 | Train Acc 0.8871 | Val Acc 0.8796 | Test Acc 0.6929
+Train time 0.4408, Eval time 0.4371
+Epoch 00325 | Loss 0.4323 | Train Acc 0.8876 | Val Acc 0.8796 | Test Acc 0.6929
+Train time 0.4410, Eval time 0.4371
+Epoch 00330 | Loss 0.4261 | Train Acc 0.8887 | Val Acc 0.8806 | Test Acc 0.6951
+Train time 0.4409, Eval time 0.4371
+Epoch 00335 | Loss 0.4248 | Train Acc 0.8894 | Val Acc 0.8817 | Test Acc 0.6940
+Train time 0.4411, Eval time 0.4371
+Epoch 00340 | Loss 0.4247 | Train Acc 0.8891 | Val Acc 0.8813 | Test Acc 0.6944
+Train time 0.4410, Eval time 0.4371
+Epoch 00345 | Loss 0.4247 | Train Acc 0.8893 | Val Acc 0.8819 | Test Acc 0.6944
+Train time 0.4409, Eval time 0.4372
+Epoch 00350 | Loss 0.4195 | Train Acc 0.8907 | Val Acc 0.8813 | Test Acc 0.6970
+Train time 0.4409, Eval time 0.4371
+Epoch 00355 | Loss 0.4184 | Train Acc 0.8908 | Val Acc 0.8819 | Test Acc 0.6974
+Train time 0.4409, Eval time 0.4372
+Epoch 00360 | Loss 0.4142 | Train Acc 0.8911 | Val Acc 0.8834 | Test Acc 0.6980
+Train time 0.4409, Eval time 0.4371
+Epoch 00365 | Loss 0.4113 | Train Acc 0.8921 | Val Acc 0.8845 | Test Acc 0.6990
+Train time 0.4409, Eval time 0.4372
+Epoch 00370 | Loss 0.4099 | Train Acc 0.8914 | Val Acc 0.8839 | Test Acc 0.6976
+Train time 0.4409, Eval time 0.4371
+Epoch 00375 | Loss 0.4098 | Train Acc 0.8927 | Val Acc 0.8849 | Test Acc 0.7003
+Train time 0.4410, Eval time 0.4371
+Epoch 00380 | Loss 0.4118 | Train Acc 0.8922 | Val Acc 0.8828 | Test Acc 0.7023
+Train time 0.4409, Eval time 0.4371
+Epoch 00385 | Loss 0.4049 | Train Acc 0.8930 | Val Acc 0.8872 | Test Acc 0.7003
+Train time 0.4410, Eval time 0.4371
+Epoch 00390 | Loss 0.4004 | Train Acc 0.8934 | Val Acc 0.8865 | Test Acc 0.7021
+Train time 0.4410, Eval time 0.4370
+Epoch 00395 | Loss 0.4011 | Train Acc 0.8939 | Val Acc 0.8861 | Test Acc 0.7027
+Train time 0.4409, Eval time 0.4372
+Epoch 00400 | Loss 0.3989 | Train Acc 0.8944 | Val Acc 0.8868 | Test Acc 0.7033
+Train time 0.4410, Eval time 0.4371
+Epoch 00405 | Loss 0.3962 | Train Acc 0.8964 | Val Acc 0.8869 | Test Acc 0.7045
+Train time 0.4410, Eval time 0.4371
+Epoch 00410 | Loss 0.3942 | Train Acc 0.8954 | Val Acc 0.8873 | Test Acc 0.7032
+Train time 0.4410, Eval time 0.4370
+Epoch 00415 | Loss 0.3943 | Train Acc 0.8946 | Val Acc 0.8870 | Test Acc 0.7043
+Train time 0.4410, Eval time 0.4372
+Epoch 00420 | Loss 0.3926 | Train Acc 0.8959 | Val Acc 0.8871 | Test Acc 0.7060
+Train time 0.4409, Eval time 0.4371
+Epoch 00425 | Loss 0.3906 | Train Acc 0.8969 | Val Acc 0.8894 | Test Acc 0.7079
+Train time 0.4409, Eval time 0.4372
+Epoch 00430 | Loss 0.3923 | Train Acc 0.8963 | Val Acc 0.8872 | Test Acc 0.7083
+Train time 0.4434, Eval time 0.4372
+Epoch 00435 | Loss 0.3909 | Train Acc 0.8967 | Val Acc 0.8891 | Test Acc 0.7066
+Train time 0.4430, Eval time 0.4353
+Epoch 00440 | Loss 0.3894 | Train Acc 0.8970 | Val Acc 0.8880 | Test Acc 0.7065
+Train time 0.4409, Eval time 0.4371
+Epoch 00445 | Loss 0.3862 | Train Acc 0.8961 | Val Acc 0.8890 | Test Acc 0.7129
+Train time 0.4408, Eval time 0.4372
+Epoch 00450 | Loss 0.3845 | Train Acc 0.8974 | Val Acc 0.8904 | Test Acc 0.7119
+Train time 0.4409, Eval time 0.4371
+Epoch 00455 | Loss 0.3859 | Train Acc 0.8972 | Val Acc 0.8898 | Test Acc 0.7098
+Train time 0.4410, Eval time 0.4372
+Epoch 00460 | Loss 0.3835 | Train Acc 0.8980 | Val Acc 0.8888 | Test Acc 0.7107
+Train time 0.4416, Eval time 0.4367
+Epoch 00465 | Loss 0.3855 | Train Acc 0.8985 | Val Acc 0.8884 | Test Acc 0.7098
+Train time 0.4409, Eval time 0.4371
+Epoch 00470 | Loss 0.3808 | Train Acc 0.8978 | Val Acc 0.8914 | Test Acc 0.7122
+Train time 0.4409, Eval time 0.4372
+Epoch 00475 | Loss 0.3794 | Train Acc 0.8990 | Val Acc 0.8908 | Test Acc 0.7146
+Train time 0.4409, Eval time 0.4372
+Epoch 00480 | Loss 0.3789 | Train Acc 0.8982 | Val Acc 0.8906 | Test Acc 0.7131
+Train time 0.4409, Eval time 0.4371
+Epoch 00485 | Loss 0.3798 | Train Acc 0.8981 | Val Acc 0.8919 | Test Acc 0.7133
+Train time 0.4409, Eval time 0.4372
+Epoch 00490 | Loss 0.3746 | Train Acc 0.8994 | Val Acc 0.8920 | Test Acc 0.7169
+Train time 0.4409, Eval time 0.4370
+Epoch 00495 | Loss 0.3744 | Train Acc 0.8987 | Val Acc 0.8911 | Test Acc 0.7148
+Train time 0.4409, Eval time 0.4372
+Epoch 00500 | Loss 0.3786 | Train Acc 0.8988 | Val Acc 0.8926 | Test Acc 0.7170
+Train time 0.4409, Eval time 0.4371
+Epoch 00505 | Loss 0.3727 | Train Acc 0.8993 | Val Acc 0.8911 | Test Acc 0.7189
+Train time 0.4410, Eval time 0.4372
+Epoch 00510 | Loss 0.3723 | Train Acc 0.9004 | Val Acc 0.8932 | Test Acc 0.7184
+Train time 0.4409, Eval time 0.4371
+Epoch 00515 | Loss 0.3771 | Train Acc 0.8983 | Val Acc 0.8902 | Test Acc 0.7200
+Train time 0.4410, Eval time 0.4372
+Epoch 00520 | Loss 0.3699 | Train Acc 0.9001 | Val Acc 0.8921 | Test Acc 0.7188
+Train time 0.4409, Eval time 0.4372
+Epoch 00525 | Loss 0.3734 | Train Acc 0.8991 | Val Acc 0.8902 | Test Acc 0.7157
+Train time 0.4410, Eval time 0.4371
+Epoch 00530 | Loss 0.3682 | Train Acc 0.9015 | Val Acc 0.8923 | Test Acc 0.7201
+Train time 0.4410, Eval time 0.4371
+Epoch 00535 | Loss 0.3672 | Train Acc 0.9015 | Val Acc 0.8932 | Test Acc 0.7223
+Train time 0.4409, Eval time 0.4371
+Epoch 00540 | Loss 0.3658 | Train Acc 0.9013 | Val Acc 0.8916 | Test Acc 0.7228
+Train time 0.4412, Eval time 0.4371
+Epoch 00545 | Loss 0.3665 | Train Acc 0.9011 | Val Acc 0.8940 | Test Acc 0.7228
+Train time 0.4409, Eval time 0.4373
+Epoch 00550 | Loss 0.3648 | Train Acc 0.9020 | Val Acc 0.8933 | Test Acc 0.7236
+Train time 0.4409, Eval time 0.4371
+Epoch 00555 | Loss 0.3686 | Train Acc 0.9010 | Val Acc 0.8937 | Test Acc 0.7194
+Train time 0.4410, Eval time 0.4371
+Epoch 00560 | Loss 0.3626 | Train Acc 0.9018 | Val Acc 0.8928 | Test Acc 0.7233
+Train time 0.4409, Eval time 0.4371
+Epoch 00565 | Loss 0.3587 | Train Acc 0.9019 | Val Acc 0.8942 | Test Acc 0.7225
+Train time 0.4412, Eval time 0.4372
+Epoch 00570 | Loss 0.3618 | Train Acc 0.9014 | Val Acc 0.8936 | Test Acc 0.7206
+Train time 0.4413, Eval time 0.4369
+Epoch 00575 | Loss 0.3595 | Train Acc 0.9033 | Val Acc 0.8927 | Test Acc 0.7248
+Train time 0.4409, Eval time 0.4372
+Epoch 00580 | Loss 0.3584 | Train Acc 0.9039 | Val Acc 0.8946 | Test Acc 0.7270
+Train time 0.4409, Eval time 0.4371
+Epoch 00585 | Loss 0.3572 | Train Acc 0.9035 | Val Acc 0.8945 | Test Acc 0.7256
+Train time 0.4409, Eval time 0.4371
+Epoch 00590 | Loss 0.3579 | Train Acc 0.9025 | Val Acc 0.8945 | Test Acc 0.7238
+Train time 0.4412, Eval time 0.4368
+Epoch 00595 | Loss 0.3551 | Train Acc 0.9033 | Val Acc 0.8931 | Test Acc 0.7258
+Train time 0.4409, Eval time 0.4371
+Epoch 00600 | Loss 0.3541 | Train Acc 0.9037 | Val Acc 0.8956 | Test Acc 0.7286
+Train time 0.4409, Eval time 0.4371
+Epoch 00605 | Loss 0.3545 | Train Acc 0.9045 | Val Acc 0.8948 | Test Acc 0.7259
+Train time 0.4409, Eval time 0.4372
+Epoch 00610 | Loss 0.3540 | Train Acc 0.9037 | Val Acc 0.8943 | Test Acc 0.7260
+Train time 0.4410, Eval time 0.4372
+Epoch 00615 | Loss 0.3549 | Train Acc 0.9040 | Val Acc 0.8947 | Test Acc 0.7235
+Train time 0.4409, Eval time 0.4372
+Epoch 00620 | Loss 0.3534 | Train Acc 0.9040 | Val Acc 0.8944 | Test Acc 0.7287
+Train time 0.4409, Eval time 0.4372
+Epoch 00625 | Loss 0.3526 | Train Acc 0.9036 | Val Acc 0.8961 | Test Acc 0.7257
+Train time 0.4409, Eval time 0.4371
+Epoch 00630 | Loss 0.3557 | Train Acc 0.9034 | Val Acc 0.8962 | Test Acc 0.7286
+Train time 0.4409, Eval time 0.4372
+Epoch 00635 | Loss 0.3531 | Train Acc 0.9045 | Val Acc 0.8955 | Test Acc 0.7257
+Train time 0.4409, Eval time 0.4372
+Epoch 00640 | Loss 0.3504 | Train Acc 0.9048 | Val Acc 0.8955 | Test Acc 0.7281
+Train time 0.4423, Eval time 0.4358
+Epoch 00645 | Loss 0.3512 | Train Acc 0.9042 | Val Acc 0.8953 | Test Acc 0.7289
+Train time 0.4499, Eval time 0.4371
+Epoch 00650 | Loss 0.3499 | Train Acc 0.9040 | Val Acc 0.8947 | Test Acc 0.7331
+Train time 0.4410, Eval time 0.4371
+Epoch 00655 | Loss 0.3496 | Train Acc 0.9043 | Val Acc 0.8965 | Test Acc 0.7304
+Train time 0.4409, Eval time 0.4373
+Epoch 00660 | Loss 0.3477 | Train Acc 0.9059 | Val Acc 0.8972 | Test Acc 0.7293
+Train time 0.4410, Eval time 0.4371
+Epoch 00665 | Loss 0.3514 | Train Acc 0.9039 | Val Acc 0.8947 | Test Acc 0.7311
+Train time 0.4410, Eval time 0.4373
+Epoch 00670 | Loss 0.3487 | Train Acc 0.9061 | Val Acc 0.8974 | Test Acc 0.7311
+Train time 0.4410, Eval time 0.4370
+Epoch 00675 | Loss 0.3488 | Train Acc 0.9048 | Val Acc 0.8970 | Test Acc 0.7308
+Train time 0.4412, Eval time 0.4371
+Epoch 00680 | Loss 0.3448 | Train Acc 0.9059 | Val Acc 0.8965 | Test Acc 0.7324
+Train time 0.4412, Eval time 0.4370
+Epoch 00685 | Loss 0.3493 | Train Acc 0.9052 | Val Acc 0.8956 | Test Acc 0.7290
+Train time 0.4410, Eval time 0.4372
+Epoch 00690 | Loss 0.3500 | Train Acc 0.9052 | Val Acc 0.8961 | Test Acc 0.7286
+Train time 0.4409, Eval time 0.4372
+Epoch 00695 | Loss 0.3489 | Train Acc 0.9053 | Val Acc 0.8957 | Test Acc 0.7312
+Train time 0.4410, Eval time 0.4371
+Epoch 00700 | Loss 0.3429 | Train Acc 0.9063 | Val Acc 0.8965 | Test Acc 0.7295
+Train time 0.4411, Eval time 0.4371
+Epoch 00705 | Loss 0.3434 | Train Acc 0.9063 | Val Acc 0.8972 | Test Acc 0.7324
+Train time 0.4412, Eval time 0.4369
+Epoch 00710 | Loss 0.3415 | Train Acc 0.9063 | Val Acc 0.8979 | Test Acc 0.7341
+Train time 0.4410, Eval time 0.4371
+Epoch 00715 | Loss 0.3389 | Train Acc 0.9076 | Val Acc 0.8973 | Test Acc 0.7343
+Train time 0.4410, Eval time 0.4372
+Epoch 00720 | Loss 0.3434 | Train Acc 0.9060 | Val Acc 0.8960 | Test Acc 0.7289
+Train time 0.4410, Eval time 0.4371
+Epoch 00725 | Loss 0.3460 | Train Acc 0.9048 | Val Acc 0.8949 | Test Acc 0.7338
+Train time 0.4410, Eval time 0.4371
+Epoch 00730 | Loss 0.3401 | Train Acc 0.9075 | Val Acc 0.8971 | Test Acc 0.7327
+Train time 0.4409, Eval time 0.4372
+Epoch 00735 | Loss 0.3440 | Train Acc 0.9056 | Val Acc 0.8963 | Test Acc 0.7367
+Train time 0.4411, Eval time 0.4371
+Epoch 00740 | Loss 0.3393 | Train Acc 0.9079 | Val Acc 0.8987 | Test Acc 0.7350
+Train time 0.4409, Eval time 0.4372
+Epoch 00745 | Loss 0.3365 | Train Acc 0.9077 | Val Acc 0.8987 | Test Acc 0.7355
+Train time 0.4409, Eval time 0.4371
+Epoch 00750 | Loss 0.3371 | Train Acc 0.9084 | Val Acc 0.8976 | Test Acc 0.7362
+Train time 0.4410, Eval time 0.4371
+Epoch 00755 | Loss 0.3388 | Train Acc 0.9075 | Val Acc 0.8990 | Test Acc 0.7372
+Train time 0.4409, Eval time 0.4372
+Epoch 00760 | Loss 0.3380 | Train Acc 0.9077 | Val Acc 0.8968 | Test Acc 0.7343
+Train time 0.4412, Eval time 0.4370
+Epoch 00765 | Loss 0.3331 | Train Acc 0.9093 | Val Acc 0.8990 | Test Acc 0.7387
+Train time 0.4409, Eval time 0.4372
+Epoch 00770 | Loss 0.3362 | Train Acc 0.9085 | Val Acc 0.8985 | Test Acc 0.7357
+Train time 0.4409, Eval time 0.4371
+Epoch 00775 | Loss 0.3326 | Train Acc 0.9091 | Val Acc 0.9001 | Test Acc 0.7383
+Train time 0.4470, Eval time 0.4372
+Epoch 00780 | Loss 0.3317 | Train Acc 0.9095 | Val Acc 0.8996 | Test Acc 0.7356
+Train time 0.4415, Eval time 0.4368
+Epoch 00785 | Loss 0.3311 | Train Acc 0.9089 | Val Acc 0.8993 | Test Acc 0.7363
+Train time 0.4410, Eval time 0.4372
+Epoch 00790 | Loss 0.3309 | Train Acc 0.9102 | Val Acc 0.8993 | Test Acc 0.7375
+Train time 0.4417, Eval time 0.4363
+Epoch 00795 | Loss 0.3322 | Train Acc 0.9089 | Val Acc 0.8998 | Test Acc 0.7374
+Train time 0.4410, Eval time 0.4372
+Epoch 00800 | Loss 0.3325 | Train Acc 0.9085 | Val Acc 0.8996 | Test Acc 0.7398
+Train time 0.4409, Eval time 0.4371
+Epoch 00805 | Loss 0.3310 | Train Acc 0.9101 | Val Acc 0.8989 | Test Acc 0.7364
+Train time 0.4439, Eval time 0.4368
+Epoch 00810 | Loss 0.3303 | Train Acc 0.9092 | Val Acc 0.8986 | Test Acc 0.7391
+Train time 0.4409, Eval time 0.4372
+Epoch 00815 | Loss 0.3302 | Train Acc 0.9093 | Val Acc 0.9009 | Test Acc 0.7406
+Train time 0.4410, Eval time 0.4372
+Epoch 00820 | Loss 0.3297 | Train Acc 0.9096 | Val Acc 0.8998 | Test Acc 0.7382
+Train time 0.4409, Eval time 0.4372
+Epoch 00825 | Loss 0.3273 | Train Acc 0.9113 | Val Acc 0.9003 | Test Acc 0.7355
+Train time 0.4409, Eval time 0.4372
+Epoch 00830 | Loss 0.3295 | Train Acc 0.9099 | Val Acc 0.8997 | Test Acc 0.7416
+Train time 0.4409, Eval time 0.4372
+Epoch 00835 | Loss 0.3305 | Train Acc 0.9088 | Val Acc 0.8991 | Test Acc 0.7395
+Train time 0.4411, Eval time 0.4371
+Epoch 00840 | Loss 0.3284 | Train Acc 0.9098 | Val Acc 0.9013 | Test Acc 0.7425
+Train time 0.4410, Eval time 0.4372
+Epoch 00845 | Loss 0.3277 | Train Acc 0.9101 | Val Acc 0.9016 | Test Acc 0.7387
+Train time 0.4411, Eval time 0.4372
+Epoch 00850 | Loss 0.3269 | Train Acc 0.9100 | Val Acc 0.9010 | Test Acc 0.7429
+Train time 0.4409, Eval time 0.4372
+Epoch 00855 | Loss 0.3264 | Train Acc 0.9103 | Val Acc 0.9001 | Test Acc 0.7435
+Train time 0.4410, Eval time 0.4372
+Epoch 00860 | Loss 0.3263 | Train Acc 0.9106 | Val Acc 0.9000 | Test Acc 0.7406
+Train time 0.4410, Eval time 0.4371
+Epoch 00865 | Loss 0.3282 | Train Acc 0.9100 | Val Acc 0.8969 | Test Acc 0.7397
+Train time 0.4424, Eval time 0.4372
+Epoch 00870 | Loss 0.3222 | Train Acc 0.9120 | Val Acc 0.9020 | Test Acc 0.7421
+Train time 0.4410, Eval time 0.4371
+Epoch 00875 | Loss 0.3220 | Train Acc 0.9110 | Val Acc 0.9013 | Test Acc 0.7442
+Train time 0.4409, Eval time 0.4372
+Epoch 00880 | Loss 0.3234 | Train Acc 0.9119 | Val Acc 0.9006 | Test Acc 0.7377
+Train time 0.4410, Eval time 0.4372
+Epoch 00885 | Loss 0.3283 | Train Acc 0.9094 | Val Acc 0.9004 | Test Acc 0.7418
+Train time 0.4412, Eval time 0.4372
+Epoch 00890 | Loss 0.3270 | Train Acc 0.9111 | Val Acc 0.8997 | Test Acc 0.7409
+Train time 0.4409, Eval time 0.4373
+Epoch 00895 | Loss 0.3245 | Train Acc 0.9103 | Val Acc 0.8986 | Test Acc 0.7396
+Train time 0.4410, Eval time 0.4371
+Epoch 00900 | Loss 0.3260 | Train Acc 0.9103 | Val Acc 0.9018 | Test Acc 0.7414
+Train time 0.4410, Eval time 0.4371
+Epoch 00905 | Loss 0.3288 | Train Acc 0.9106 | Val Acc 0.8984 | Test Acc 0.7406
+Train time 0.4411, Eval time 0.4371
+Epoch 00910 | Loss 0.3242 | Train Acc 0.9111 | Val Acc 0.8997 | Test Acc 0.7405
+Train time 0.4416, Eval time 0.4371
+Epoch 00915 | Loss 0.3220 | Train Acc 0.9109 | Val Acc 0.9009 | Test Acc 0.7417
+Train time 0.4409, Eval time 0.4373
+Epoch 00920 | Loss 0.3227 | Train Acc 0.9104 | Val Acc 0.9007 | Test Acc 0.7425
+Train time 0.4409, Eval time 0.4371
+Epoch 00925 | Loss 0.3225 | Train Acc 0.9116 | Val Acc 0.9010 | Test Acc 0.7426
+Train time 0.4410, Eval time 0.4372
+Epoch 00930 | Loss 0.3188 | Train Acc 0.9129 | Val Acc 0.9012 | Test Acc 0.7416
+Train time 0.4411, Eval time 0.4370
+Epoch 00935 | Loss 0.3215 | Train Acc 0.9105 | Val Acc 0.9008 | Test Acc 0.7436
+Train time 0.4416, Eval time 0.4370
+Epoch 00940 | Loss 0.3196 | Train Acc 0.9119 | Val Acc 0.9014 | Test Acc 0.7407
+Train time 0.4409, Eval time 0.4372
+Epoch 00945 | Loss 0.3204 | Train Acc 0.9115 | Val Acc 0.9012 | Test Acc 0.7430
+Train time 0.4410, Eval time 0.4371
+Epoch 00950 | Loss 0.3174 | Train Acc 0.9121 | Val Acc 0.9020 | Test Acc 0.7423
+Train time 0.4410, Eval time 0.4372
+Epoch 00955 | Loss 0.3170 | Train Acc 0.9123 | Val Acc 0.9028 | Test Acc 0.7440
+Train time 0.4410, Eval time 0.4371
+Epoch 00960 | Loss 0.3191 | Train Acc 0.9113 | Val Acc 0.9006 | Test Acc 0.7415
+Train time 0.4409, Eval time 0.4371
+Epoch 00965 | Loss 0.3162 | Train Acc 0.9128 | Val Acc 0.9026 | Test Acc 0.7448
+Train time 0.4410, Eval time 0.4371
+Epoch 00970 | Loss 0.3168 | Train Acc 0.9135 | Val Acc 0.9024 | Test Acc 0.7413
+Train time 0.4410, Eval time 0.4372
+Epoch 00975 | Loss 0.3204 | Train Acc 0.9111 | Val Acc 0.9021 | Test Acc 0.7466
+Train time 0.4410, Eval time 0.4372
+Epoch 00980 | Loss 0.3222 | Train Acc 0.9107 | Val Acc 0.8980 | Test Acc 0.7404
+Train time 0.4410, Eval time 0.4371
+Epoch 00985 | Loss 0.3239 | Train Acc 0.9100 | Val Acc 0.8985 | Test Acc 0.7407
+Train time 0.4410, Eval time 0.4372
+Epoch 00990 | Loss 0.3176 | Train Acc 0.9120 | Val Acc 0.9030 | Test Acc 0.7441
+Train time 0.4409, Eval time 0.4372
+Epoch 00995 | Loss 0.3116 | Train Acc 0.9139 | Val Acc 0.9028 | Test Acc 0.7447
+Train time 0.4410, Eval time 0.4374
+Epoch 01000 | Loss 0.3122 | Train Acc 0.9133 | Val Acc 0.9022 | Test Acc 0.7447
+Train time 0.4409, Eval time 0.4371
+Epoch 01005 | Loss 0.3129 | Train Acc 0.9128 | Val Acc 0.9032 | Test Acc 0.7460
+Train time 0.4411, Eval time 0.4370
+Epoch 01010 | Loss 0.3170 | Train Acc 0.9108 | Val Acc 0.9019 | Test Acc 0.7439
+Train time 0.4409, Eval time 0.4371
+Epoch 01015 | Loss 0.3128 | Train Acc 0.9131 | Val Acc 0.9014 | Test Acc 0.7403
+Train time 0.4409, Eval time 0.4371
+Epoch 01020 | Loss 0.3123 | Train Acc 0.9143 | Val Acc 0.9032 | Test Acc 0.7411
+Train time 0.4412, Eval time 0.4370
+Epoch 01025 | Loss 0.3136 | Train Acc 0.9126 | Val Acc 0.9025 | Test Acc 0.7463
+Train time 0.4409, Eval time 0.4372
+Epoch 01030 | Loss 0.3127 | Train Acc 0.9127 | Val Acc 0.9022 | Test Acc 0.7438
+Train time 0.4411, Eval time 0.4371
+Epoch 01035 | Loss 0.3107 | Train Acc 0.9138 | Val Acc 0.9024 | Test Acc 0.7467
+Train time 0.4462, Eval time 0.4372
+Epoch 01040 | Loss 0.3100 | Train Acc 0.9143 | Val Acc 0.9038 | Test Acc 0.7419
+Train time 0.4409, Eval time 0.4372
+Epoch 01045 | Loss 0.3119 | Train Acc 0.9142 | Val Acc 0.9007 | Test Acc 0.7446
+Train time 0.4413, Eval time 0.4370
+Epoch 01050 | Loss 0.3126 | Train Acc 0.9132 | Val Acc 0.9041 | Test Acc 0.7441
+Train time 0.4409, Eval time 0.4372
+Epoch 01055 | Loss 0.3110 | Train Acc 0.9136 | Val Acc 0.9042 | Test Acc 0.7450
+Train time 0.4410, Eval time 0.4371
+Epoch 01060 | Loss 0.3118 | Train Acc 0.9134 | Val Acc 0.9023 | Test Acc 0.7458
+Train time 0.4409, Eval time 0.4372
+Epoch 01065 | Loss 0.3158 | Train Acc 0.9124 | Val Acc 0.9025 | Test Acc 0.7432
+Train time 0.4409, Eval time 0.4374
+Epoch 01070 | Loss 0.3126 | Train Acc 0.9140 | Val Acc 0.9021 | Test Acc 0.7441
+Train time 0.4409, Eval time 0.4371
+Epoch 01075 | Loss 0.3107 | Train Acc 0.9140 | Val Acc 0.9035 | Test Acc 0.7452
+Train time 0.4409, Eval time 0.4372
+Epoch 01080 | Loss 0.3117 | Train Acc 0.9133 | Val Acc 0.9028 | Test Acc 0.7433
+Train time 0.4411, Eval time 0.4371
+Epoch 01085 | Loss 0.3075 | Train Acc 0.9145 | Val Acc 0.9040 | Test Acc 0.7436
+Train time 0.4409, Eval time 0.4399
+Epoch 01090 | Loss 0.3079 | Train Acc 0.9158 | Val Acc 0.9040 | Test Acc 0.7454
+Train time 0.4409, Eval time 0.4373
+Epoch 01095 | Loss 0.3056 | Train Acc 0.9157 | Val Acc 0.9036 | Test Acc 0.7472
+Train time 0.4410, Eval time 0.4371
+Epoch 01100 | Loss 0.3076 | Train Acc 0.9149 | Val Acc 0.9049 | Test Acc 0.7443
+Train time 0.4409, Eval time 0.4372
+Epoch 01105 | Loss 0.3070 | Train Acc 0.9147 | Val Acc 0.9040 | Test Acc 0.7465
+Train time 0.4410, Eval time 0.4371
+Epoch 01110 | Loss 0.3079 | Train Acc 0.9142 | Val Acc 0.9013 | Test Acc 0.7449
+Train time 0.4409, Eval time 0.4371
+Epoch 01115 | Loss 0.3078 | Train Acc 0.9144 | Val Acc 0.9041 | Test Acc 0.7472
+Train time 0.4410, Eval time 0.4371
+Epoch 01120 | Loss 0.3115 | Train Acc 0.9132 | Val Acc 0.9026 | Test Acc 0.7451
+Train time 0.4418, Eval time 0.4371
+Epoch 01125 | Loss 0.3089 | Train Acc 0.9151 | Val Acc 0.9036 | Test Acc 0.7419
+Train time 0.4409, Eval time 0.4372
+Epoch 01130 | Loss 0.3069 | Train Acc 0.9150 | Val Acc 0.9033 | Test Acc 0.7439
+Train time 0.4411, Eval time 0.4371
+Epoch 01135 | Loss 0.3064 | Train Acc 0.9146 | Val Acc 0.9032 | Test Acc 0.7436
+Train time 0.4410, Eval time 0.4372
+Epoch 01140 | Loss 0.3060 | Train Acc 0.9150 | Val Acc 0.9042 | Test Acc 0.7465
+Train time 0.4409, Eval time 0.4372
+Epoch 01145 | Loss 0.3070 | Train Acc 0.9146 | Val Acc 0.9030 | Test Acc 0.7443
+Train time 0.4410, Eval time 0.4372
+Epoch 01150 | Loss 0.3054 | Train Acc 0.9147 | Val Acc 0.9043 | Test Acc 0.7455
+Train time 0.4410, Eval time 0.4371
+Epoch 01155 | Loss 0.3080 | Train Acc 0.9142 | Val Acc 0.9019 | Test Acc 0.7431
+Train time 0.4410, Eval time 0.4371
+Epoch 01160 | Loss 0.3079 | Train Acc 0.9128 | Val Acc 0.9029 | Test Acc 0.7475
+Train time 0.4410, Eval time 0.4372
+Epoch 01165 | Loss 0.3032 | Train Acc 0.9160 | Val Acc 0.9050 | Test Acc 0.7477
+Train time 0.4411, Eval time 0.4371
+Epoch 01170 | Loss 0.3056 | Train Acc 0.9151 | Val Acc 0.9027 | Test Acc 0.7415
+Train time 0.4416, Eval time 0.4370
+Epoch 01175 | Loss 0.3029 | Train Acc 0.9159 | Val Acc 0.9044 | Test Acc 0.7472
+Train time 0.4409, Eval time 0.4373
+Epoch 01180 | Loss 0.3044 | Train Acc 0.9160 | Val Acc 0.9033 | Test Acc 0.7469
+Train time 0.4410, Eval time 0.4371
+Epoch 01185 | Loss 0.3034 | Train Acc 0.9145 | Val Acc 0.9037 | Test Acc 0.7471
+Train time 0.4409, Eval time 0.4372
+Epoch 01190 | Loss 0.3042 | Train Acc 0.9155 | Val Acc 0.9037 | Test Acc 0.7480
+Train time 0.4410, Eval time 0.4371
+Epoch 01195 | Loss 0.3026 | Train Acc 0.9157 | Val Acc 0.9034 | Test Acc 0.7485
+Train time 0.4416, Eval time 0.4370
+Epoch 01200 | Loss 0.3027 | Train Acc 0.9155 | Val Acc 0.9043 | Test Acc 0.7486
+Train time 0.4410, Eval time 0.4372
+Epoch 01205 | Loss 0.2998 | Train Acc 0.9162 | Val Acc 0.9048 | Test Acc 0.7480
+Train time 0.4411, Eval time 0.4371
+Epoch 01210 | Loss 0.3069 | Train Acc 0.9148 | Val Acc 0.9023 | Test Acc 0.7459
+Train time 0.4410, Eval time 0.4372
+Epoch 01215 | Loss 0.3070 | Train Acc 0.9136 | Val Acc 0.9049 | Test Acc 0.7474
+Train time 0.4410, Eval time 0.4372
+Epoch 01220 | Loss 0.3054 | Train Acc 0.9156 | Val Acc 0.9014 | Test Acc 0.7458
+Train time 0.4410, Eval time 0.4371
+Epoch 01225 | Loss 0.3031 | Train Acc 0.9159 | Val Acc 0.9061 | Test Acc 0.7504
+Train time 0.4410, Eval time 0.4372
+Epoch 01230 | Loss 0.2989 | Train Acc 0.9168 | Val Acc 0.9044 | Test Acc 0.7484
+Train time 0.4410, Eval time 0.4371
+Epoch 01235 | Loss 0.3010 | Train Acc 0.9165 | Val Acc 0.9035 | Test Acc 0.7448
+Train time 0.4410, Eval time 0.4372
+Epoch 01240 | Loss 0.3001 | Train Acc 0.9156 | Val Acc 0.9044 | Test Acc 0.7499
+Train time 0.4410, Eval time 0.4372
+Epoch 01245 | Loss 0.2998 | Train Acc 0.9169 | Val Acc 0.9051 | Test Acc 0.7474
+Train time 0.4409, Eval time 0.4372
+Epoch 01250 | Loss 0.3000 | Train Acc 0.9168 | Val Acc 0.9057 | Test Acc 0.7496
+Train time 0.4409, Eval time 0.4372
+Epoch 01255 | Loss 0.2996 | Train Acc 0.9164 | Val Acc 0.9038 | Test Acc 0.7461
+Train time 0.4410, Eval time 0.4372
+Epoch 01260 | Loss 0.2984 | Train Acc 0.9170 | Val Acc 0.9052 | Test Acc 0.7455
+Train time 0.4410, Eval time 0.4372
+Epoch 01265 | Loss 0.3006 | Train Acc 0.9162 | Val Acc 0.9056 | Test Acc 0.7473
+Train time 0.4411, Eval time 0.4371
+Epoch 01270 | Loss 0.2981 | Train Acc 0.9178 | Val Acc 0.9044 | Test Acc 0.7513
+Train time 0.4410, Eval time 0.4372
+Epoch 01275 | Loss 0.2989 | Train Acc 0.9171 | Val Acc 0.9052 | Test Acc 0.7471
+Train time 0.4410, Eval time 0.4372
+Epoch 01280 | Loss 0.2954 | Train Acc 0.9181 | Val Acc 0.9060 | Test Acc 0.7508
+Train time 0.4413, Eval time 0.4371
+Epoch 01285 | Loss 0.2993 | Train Acc 0.9164 | Val Acc 0.9054 | Test Acc 0.7470
+Train time 0.4409, Eval time 0.4371
+Epoch 01290 | Loss 0.3002 | Train Acc 0.9159 | Val Acc 0.9043 | Test Acc 0.7491
+Train time 0.4410, Eval time 0.4371
+Epoch 01295 | Loss 0.3012 | Train Acc 0.9160 | Val Acc 0.9030 | Test Acc 0.7466
+Train time 0.4410, Eval time 0.4371
+Epoch 01300 | Loss 0.3006 | Train Acc 0.9152 | Val Acc 0.9052 | Test Acc 0.7505
+Train time 0.4410, Eval time 0.4374
+Epoch 01305 | Loss 0.2982 | Train Acc 0.9169 | Val Acc 0.9050 | Test Acc 0.7490
+Train time 0.4409, Eval time 0.4372
+Epoch 01310 | Loss 0.2992 | Train Acc 0.9165 | Val Acc 0.9051 | Test Acc 0.7481
+Train time 0.4410, Eval time 0.4371
+Epoch 01315 | Loss 0.2977 | Train Acc 0.9169 | Val Acc 0.9049 | Test Acc 0.7465
+Train time 0.4411, Eval time 0.4371
+Epoch 01320 | Loss 0.2983 | Train Acc 0.9168 | Val Acc 0.9047 | Test Acc 0.7497
+Train time 0.4409, Eval time 0.4371
+Epoch 01325 | Loss 0.2983 | Train Acc 0.9163 | Val Acc 0.9046 | Test Acc 0.7482
+Train time 0.4409, Eval time 0.4372
+Epoch 01330 | Loss 0.2975 | Train Acc 0.9173 | Val Acc 0.9046 | Test Acc 0.7452
+Train time 0.4411, Eval time 0.4371
+Epoch 01335 | Loss 0.2960 | Train Acc 0.9172 | Val Acc 0.9061 | Test Acc 0.7480
+Train time 0.4410, Eval time 0.4372
+Epoch 01340 | Loss 0.2976 | Train Acc 0.9171 | Val Acc 0.9032 | Test Acc 0.7489
+Train time 0.4410, Eval time 0.4371
+Epoch 01345 | Loss 0.2976 | Train Acc 0.9164 | Val Acc 0.9051 | Test Acc 0.7492
+Train time 0.4410, Eval time 0.4372
+Epoch 01350 | Loss 0.2962 | Train Acc 0.9177 | Val Acc 0.9056 | Test Acc 0.7463
+Train time 0.4410, Eval time 0.4371
+Epoch 01355 | Loss 0.2982 | Train Acc 0.9169 | Val Acc 0.9036 | Test Acc 0.7480
+Train time 0.4416, Eval time 0.4370
+Epoch 01360 | Loss 0.2951 | Train Acc 0.9172 | Val Acc 0.9061 | Test Acc 0.7470
+Train time 0.4409, Eval time 0.4372
+Epoch 01365 | Loss 0.2940 | Train Acc 0.9179 | Val Acc 0.9052 | Test Acc 0.7501
+Train time 0.4410, Eval time 0.4371
+Epoch 01370 | Loss 0.2964 | Train Acc 0.9172 | Val Acc 0.9054 | Test Acc 0.7480
+Train time 0.4410, Eval time 0.4371
+Epoch 01375 | Loss 0.2929 | Train Acc 0.9180 | Val Acc 0.9065 | Test Acc 0.7478
+Train time 0.4410, Eval time 0.4371
+Epoch 01380 | Loss 0.2956 | Train Acc 0.9176 | Val Acc 0.9052 | Test Acc 0.7504
+Train time 0.4416, Eval time 0.4370
+Epoch 01385 | Loss 0.2957 | Train Acc 0.9173 | Val Acc 0.9063 | Test Acc 0.7473
+Train time 0.4470, Eval time 0.4371
+Epoch 01390 | Loss 0.2965 | Train Acc 0.9169 | Val Acc 0.9041 | Test Acc 0.7475
+Train time 0.4411, Eval time 0.4371
+Epoch 01395 | Loss 0.2983 | Train Acc 0.9166 | Val Acc 0.9048 | Test Acc 0.7498
+Train time 0.4409, Eval time 0.4373
+Epoch 01400 | Loss 0.2946 | Train Acc 0.9189 | Val Acc 0.9056 | Test Acc 0.7476
+Train time 0.4410, Eval time 0.4395
+Epoch 01405 | Loss 0.2978 | Train Acc 0.9166 | Val Acc 0.9053 | Test Acc 0.7464
+Train time 0.4409, Eval time 0.4372
+Epoch 01410 | Loss 0.2933 | Train Acc 0.9178 | Val Acc 0.9059 | Test Acc 0.7515
+Train time 0.4411, Eval time 0.4372
+Epoch 01415 | Loss 0.2944 | Train Acc 0.9175 | Val Acc 0.9051 | Test Acc 0.7496
+Train time 0.4411, Eval time 0.4371
+Epoch 01420 | Loss 0.2925 | Train Acc 0.9179 | Val Acc 0.9064 | Test Acc 0.7479
+Train time 0.4409, Eval time 0.4372
+Epoch 01425 | Loss 0.2929 | Train Acc 0.9176 | Val Acc 0.9059 | Test Acc 0.7501
+Train time 0.4410, Eval time 0.4371
+Epoch 01430 | Loss 0.2947 | Train Acc 0.9180 | Val Acc 0.9059 | Test Acc 0.7492
+Train time 0.4409, Eval time 0.4371
+Epoch 01435 | Loss 0.2920 | Train Acc 0.9187 | Val Acc 0.9065 | Test Acc 0.7503
+Train time 0.4436, Eval time 0.4370
+Epoch 01440 | Loss 0.2934 | Train Acc 0.9174 | Val Acc 0.9056 | Test Acc 0.7504
+Train time 0.4411, Eval time 0.4371
+Epoch 01445 | Loss 0.2927 | Train Acc 0.9183 | Val Acc 0.9053 | Test Acc 0.7488
+Train time 0.4410, Eval time 0.4372
+Epoch 01450 | Loss 0.2907 | Train Acc 0.9187 | Val Acc 0.9065 | Test Acc 0.7493
+Train time 0.4410, Eval time 0.4371
+Epoch 01455 | Loss 0.2913 | Train Acc 0.9190 | Val Acc 0.9048 | Test Acc 0.7492
+Train time 0.4410, Eval time 0.4372
+Epoch 01460 | Loss 0.2910 | Train Acc 0.9181 | Val Acc 0.9062 | Test Acc 0.7475
+Train time 0.4410, Eval time 0.4371
+Epoch 01465 | Loss 0.2901 | Train Acc 0.9188 | Val Acc 0.9066 | Test Acc 0.7514
+Train time 0.4420, Eval time 0.4369
+Epoch 01470 | Loss 0.2917 | Train Acc 0.9182 | Val Acc 0.9063 | Test Acc 0.7494
+Train time 0.4409, Eval time 0.4372
+Epoch 01475 | Loss 0.2905 | Train Acc 0.9187 | Val Acc 0.9068 | Test Acc 0.7493
+Train time 0.4411, Eval time 0.4372
+Epoch 01480 | Loss 0.2917 | Train Acc 0.9181 | Val Acc 0.9046 | Test Acc 0.7509
+Train time 0.4409, Eval time 0.4372
+Epoch 01485 | Loss 0.2907 | Train Acc 0.9187 | Val Acc 0.9082 | Test Acc 0.7493
+Train time 0.4410, Eval time 0.4371
+Epoch 01490 | Loss 0.2917 | Train Acc 0.9184 | Val Acc 0.9069 | Test Acc 0.7532
+Train time 0.4413, Eval time 0.4369
+Epoch 01495 | Loss 0.2951 | Train Acc 0.9173 | Val Acc 0.9057 | Test Acc 0.7443
+Train time 0.4410, Eval time 0.4372
+Epoch 01500 | Loss 0.2907 | Train Acc 0.9187 | Val Acc 0.9060 | Test Acc 0.7483
+Train time 0.4411, Eval time 0.4370
+Epoch 01505 | Loss 0.2906 | Train Acc 0.9179 | Val Acc 0.9050 | Test Acc 0.7473
+Train time 0.4409, Eval time 0.4371
+Epoch 01510 | Loss 0.2929 | Train Acc 0.9182 | Val Acc 0.9070 | Test Acc 0.7508
+Train time 0.4409, Eval time 0.4374
+Epoch 01515 | Loss 0.2934 | Train Acc 0.9172 | Val Acc 0.9056 | Test Acc 0.7490
+Train time 0.4410, Eval time 0.4371
+Epoch 01520 | Loss 0.2913 | Train Acc 0.9182 | Val Acc 0.9051 | Test Acc 0.7528
+Train time 0.4410, Eval time 0.4372
+Epoch 01525 | Loss 0.2910 | Train Acc 0.9183 | Val Acc 0.9073 | Test Acc 0.7484
+Train time 0.4410, Eval time 0.4371
+Epoch 01530 | Loss 0.2910 | Train Acc 0.9182 | Val Acc 0.9069 | Test Acc 0.7490
+Train time 0.4409, Eval time 0.4371
+Epoch 01535 | Loss 0.2926 | Train Acc 0.9179 | Val Acc 0.9052 | Test Acc 0.7484
+Train time 0.4409, Eval time 0.4374
+Epoch 01540 | Loss 0.2888 | Train Acc 0.9196 | Val Acc 0.9057 | Test Acc 0.7505
+Train time 0.4409, Eval time 0.4372
+Epoch 01545 | Loss 0.2895 | Train Acc 0.9191 | Val Acc 0.9088 | Test Acc 0.7486
+Train time 0.4410, Eval time 0.4371
+Epoch 01550 | Loss 0.2902 | Train Acc 0.9187 | Val Acc 0.9060 | Test Acc 0.7487
+Train time 0.4410, Eval time 0.4370
+Epoch 01555 | Loss 0.2881 | Train Acc 0.9189 | Val Acc 0.9082 | Test Acc 0.7507
+Train time 0.4410, Eval time 0.4372
+Epoch 01560 | Loss 0.2885 | Train Acc 0.9187 | Val Acc 0.9066 | Test Acc 0.7522
+Train time 0.4410, Eval time 0.4371
+Epoch 01565 | Loss 0.2901 | Train Acc 0.9190 | Val Acc 0.9076 | Test Acc 0.7501
+Train time 0.4413, Eval time 0.4370
+Epoch 01570 | Loss 0.2896 | Train Acc 0.9190 | Val Acc 0.9069 | Test Acc 0.7498
+Train time 0.4410, Eval time 0.4372
+Epoch 01575 | Loss 0.2893 | Train Acc 0.9185 | Val Acc 0.9069 | Test Acc 0.7506
+Train time 0.4410, Eval time 0.4371
+Epoch 01580 | Loss 0.2907 | Train Acc 0.9184 | Val Acc 0.9065 | Test Acc 0.7494
+Train time 0.4409, Eval time 0.4371
+Epoch 01585 | Loss 0.2872 | Train Acc 0.9197 | Val Acc 0.9069 | Test Acc 0.7514
+Train time 0.4409, Eval time 0.4372
+Epoch 01590 | Loss 0.2930 | Train Acc 0.9181 | Val Acc 0.9068 | Test Acc 0.7490
+Train time 0.4411, Eval time 0.4370
+Epoch 01595 | Loss 0.2876 | Train Acc 0.9193 | Val Acc 0.9079 | Test Acc 0.7506
+Train time 0.4410, Eval time 0.4371
+Epoch 01600 | Loss 0.2905 | Train Acc 0.9187 | Val Acc 0.9050 | Test Acc 0.7517
+Train time 0.4410, Eval time 0.4371
+Epoch 01605 | Loss 0.2892 | Train Acc 0.9189 | Val Acc 0.9060 | Test Acc 0.7490
+Train time 0.4409, Eval time 0.4372
+Epoch 01610 | Loss 0.2875 | Train Acc 0.9186 | Val Acc 0.9063 | Test Acc 0.7524
+Train time 0.4410, Eval time 0.4372
+Epoch 01615 | Loss 0.2887 | Train Acc 0.9193 | Val Acc 0.9069 | Test Acc 0.7488
+Train time 0.4415, Eval time 0.4368
+Epoch 01620 | Loss 0.2886 | Train Acc 0.9188 | Val Acc 0.9053 | Test Acc 0.7489
+Train time 0.4410, Eval time 0.4371
+Epoch 01625 | Loss 0.2863 | Train Acc 0.9192 | Val Acc 0.9078 | Test Acc 0.7503
+Train time 0.4409, Eval time 0.4371
+Epoch 01630 | Loss 0.2871 | Train Acc 0.9193 | Val Acc 0.9073 | Test Acc 0.7490
+Train time 0.4410, Eval time 0.4371
+Epoch 01635 | Loss 0.2875 | Train Acc 0.9188 | Val Acc 0.9052 | Test Acc 0.7529
+Train time 0.4410, Eval time 0.4371
+Epoch 01640 | Loss 0.2893 | Train Acc 0.9190 | Val Acc 0.9062 | Test Acc 0.7507
+Train time 0.4415, Eval time 0.4368
+Epoch 01645 | Loss 0.2869 | Train Acc 0.9191 | Val Acc 0.9070 | Test Acc 0.7502
+Train time 0.4409, Eval time 0.4371
+Epoch 01650 | Loss 0.2883 | Train Acc 0.9190 | Val Acc 0.9070 | Test Acc 0.7532
+Train time 0.4410, Eval time 0.4370
+Epoch 01655 | Loss 0.2866 | Train Acc 0.9192 | Val Acc 0.9069 | Test Acc 0.7486
+Train time 0.4409, Eval time 0.4371
+Epoch 01660 | Loss 0.2864 | Train Acc 0.9196 | Val Acc 0.9063 | Test Acc 0.7526
+Train time 0.4409, Eval time 0.4371
+Epoch 01665 | Loss 0.2861 | Train Acc 0.9194 | Val Acc 0.9082 | Test Acc 0.7506
+Train time 0.4409, Eval time 0.4371
+Epoch 01670 | Loss 0.2865 | Train Acc 0.9195 | Val Acc 0.9070 | Test Acc 0.7526
+Train time 0.4410, Eval time 0.4371
+Epoch 01675 | Loss 0.2857 | Train Acc 0.9198 | Val Acc 0.9069 | Test Acc 0.7520
+Train time 0.4411, Eval time 0.4371
+Epoch 01680 | Loss 0.2864 | Train Acc 0.9192 | Val Acc 0.9070 | Test Acc 0.7515
+Train time 0.4409, Eval time 0.4372
+Epoch 01685 | Loss 0.2861 | Train Acc 0.9196 | Val Acc 0.9072 | Test Acc 0.7511
+Train time 0.4409, Eval time 0.4372
+Epoch 01690 | Loss 0.2851 | Train Acc 0.9195 | Val Acc 0.9083 | Test Acc 0.7514
+Train time 0.4409, Eval time 0.4372
+Epoch 01695 | Loss 0.2856 | Train Acc 0.9204 | Val Acc 0.9069 | Test Acc 0.7515
+Train time 0.4409, Eval time 0.4371
+Epoch 01700 | Loss 0.2882 | Train Acc 0.9191 | Val Acc 0.9074 | Test Acc 0.7527
+Train time 0.4410, Eval time 0.4371
+Epoch 01705 | Loss 0.2852 | Train Acc 0.9199 | Val Acc 0.9076 | Test Acc 0.7514
+Train time 0.4409, Eval time 0.4371
+Epoch 01710 | Loss 0.2851 | Train Acc 0.9201 | Val Acc 0.9081 | Test Acc 0.7520
+Train time 0.4409, Eval time 0.4371
+Epoch 01715 | Loss 0.2844 | Train Acc 0.9202 | Val Acc 0.9072 | Test Acc 0.7484
+Train time 0.4411, Eval time 0.4371
+Epoch 01720 | Loss 0.2856 | Train Acc 0.9192 | Val Acc 0.9074 | Test Acc 0.7510
+Train time 0.4412, Eval time 0.4371
+Epoch 01725 | Loss 0.2866 | Train Acc 0.9194 | Val Acc 0.9079 | Test Acc 0.7496
+Train time 0.4413, Eval time 0.4370
+Epoch 01730 | Loss 0.2838 | Train Acc 0.9204 | Val Acc 0.9071 | Test Acc 0.7500
+Train time 0.4409, Eval time 0.4371
+Epoch 01735 | Loss 0.2845 | Train Acc 0.9195 | Val Acc 0.9076 | Test Acc 0.7507
+Train time 0.4409, Eval time 0.4371
+Epoch 01740 | Loss 0.2855 | Train Acc 0.9197 | Val Acc 0.9067 | Test Acc 0.7531
+Train time 0.4409, Eval time 0.4372
+Epoch 01745 | Loss 0.2851 | Train Acc 0.9200 | Val Acc 0.9076 | Test Acc 0.7501
+Train time 0.4412, Eval time 0.4372
+Epoch 01750 | Loss 0.2864 | Train Acc 0.9195 | Val Acc 0.9087 | Test Acc 0.7509
+Train time 0.4412, Eval time 0.4370
+Epoch 01755 | Loss 0.2835 | Train Acc 0.9203 | Val Acc 0.9076 | Test Acc 0.7515
+Train time 0.4410, Eval time 0.4372
+Epoch 01760 | Loss 0.2842 | Train Acc 0.9203 | Val Acc 0.9081 | Test Acc 0.7512
+Train time 0.4410, Eval time 0.4371
+Epoch 01765 | Loss 0.2838 | Train Acc 0.9205 | Val Acc 0.9072 | Test Acc 0.7540
+Train time 0.4409, Eval time 0.4372
+Epoch 01770 | Loss 0.2840 | Train Acc 0.9202 | Val Acc 0.9081 | Test Acc 0.7529
+Train time 0.4409, Eval time 0.4371
+Epoch 01775 | Loss 0.2839 | Train Acc 0.9199 | Val Acc 0.9070 | Test Acc 0.7490
+Train time 0.4410, Eval time 0.4371
+Epoch 01780 | Loss 0.2835 | Train Acc 0.9197 | Val Acc 0.9082 | Test Acc 0.7518
+Train time 0.4410, Eval time 0.4371
+Epoch 01785 | Loss 0.2876 | Train Acc 0.9189 | Val Acc 0.9072 | Test Acc 0.7497
+Train time 0.4410, Eval time 0.4372
+Epoch 01790 | Loss 0.2830 | Train Acc 0.9208 | Val Acc 0.9084 | Test Acc 0.7510
+Train time 0.4410, Eval time 0.4371
+Epoch 01795 | Loss 0.2822 | Train Acc 0.9206 | Val Acc 0.9070 | Test Acc 0.7511
+Train time 0.4413, Eval time 0.4369
+Epoch 01800 | Loss 0.2844 | Train Acc 0.9194 | Val Acc 0.9080 | Test Acc 0.7518
+Train time 0.4409, Eval time 0.4371
+Epoch 01805 | Loss 0.2823 | Train Acc 0.9205 | Val Acc 0.9082 | Test Acc 0.7509
+Train time 0.4409, Eval time 0.4372
+Epoch 01810 | Loss 0.2837 | Train Acc 0.9200 | Val Acc 0.9071 | Test Acc 0.7524
+Train time 0.4410, Eval time 0.4371
+Epoch 01815 | Loss 0.2821 | Train Acc 0.9206 | Val Acc 0.9086 | Test Acc 0.7519
+Train time 0.4410, Eval time 0.4371
+Epoch 01820 | Loss 0.2843 | Train Acc 0.9203 | Val Acc 0.9073 | Test Acc 0.7512
+Train time 0.4413, Eval time 0.4369
+Epoch 01825 | Loss 0.2828 | Train Acc 0.9206 | Val Acc 0.9082 | Test Acc 0.7515
+Train time 0.4412, Eval time 0.4370
+Epoch 01830 | Loss 0.2836 | Train Acc 0.9202 | Val Acc 0.9075 | Test Acc 0.7534
+Train time 0.4410, Eval time 0.4372
+Epoch 01835 | Loss 0.2811 | Train Acc 0.9207 | Val Acc 0.9084 | Test Acc 0.7512
+Train time 0.4409, Eval time 0.4371
+Epoch 01840 | Loss 0.2831 | Train Acc 0.9205 | Val Acc 0.9093 | Test Acc 0.7535
+Train time 0.4410, Eval time 0.4371
+Epoch 01845 | Loss 0.2820 | Train Acc 0.9205 | Val Acc 0.9080 | Test Acc 0.7516
+Train time 0.4409, Eval time 0.4372
+Epoch 01850 | Loss 0.2812 | Train Acc 0.9205 | Val Acc 0.9082 | Test Acc 0.7524
+Train time 0.4411, Eval time 0.4369
+Epoch 01855 | Loss 0.2819 | Train Acc 0.9205 | Val Acc 0.9082 | Test Acc 0.7511
+Train time 0.4411, Eval time 0.4371
+Epoch 01860 | Loss 0.2837 | Train Acc 0.9201 | Val Acc 0.9072 | Test Acc 0.7521
+Train time 0.4410, Eval time 0.4372
+Epoch 01865 | Loss 0.2820 | Train Acc 0.9211 | Val Acc 0.9084 | Test Acc 0.7518
+Train time 0.4410, Eval time 0.4372
+Epoch 01870 | Loss 0.2803 | Train Acc 0.9210 | Val Acc 0.9078 | Test Acc 0.7536
+Train time 0.4411, Eval time 0.4371
+Epoch 01875 | Loss 0.2822 | Train Acc 0.9208 | Val Acc 0.9086 | Test Acc 0.7529
+Train time 0.4416, Eval time 0.4367
+Epoch 01880 | Loss 0.2829 | Train Acc 0.9201 | Val Acc 0.9081 | Test Acc 0.7502
+Train time 0.4409, Eval time 0.4371
+Epoch 01885 | Loss 0.2807 | Train Acc 0.9204 | Val Acc 0.9093 | Test Acc 0.7546
+Train time 0.4409, Eval time 0.4372
+Epoch 01890 | Loss 0.2834 | Train Acc 0.9194 | Val Acc 0.9083 | Test Acc 0.7507
+Train time 0.4409, Eval time 0.4371
+Epoch 01895 | Loss 0.2825 | Train Acc 0.9213 | Val Acc 0.9079 | Test Acc 0.7496
+Train time 0.4409, Eval time 0.4372
+Epoch 01900 | Loss 0.2800 | Train Acc 0.9213 | Val Acc 0.9088 | Test Acc 0.7521
+Train time 0.4415, Eval time 0.4368
+Epoch 01905 | Loss 0.2820 | Train Acc 0.9207 | Val Acc 0.9086 | Test Acc 0.7525
+Train time 0.4409, Eval time 0.4371
+Epoch 01910 | Loss 0.2816 | Train Acc 0.9209 | Val Acc 0.9079 | Test Acc 0.7532
+Train time 0.4411, Eval time 0.4371
+Epoch 01915 | Loss 0.2818 | Train Acc 0.9205 | Val Acc 0.9063 | Test Acc 0.7493
+Train time 0.4409, Eval time 0.4371
+Epoch 01920 | Loss 0.2810 | Train Acc 0.9210 | Val Acc 0.9069 | Test Acc 0.7509
+Train time 0.4409, Eval time 0.4371
+Epoch 01925 | Loss 0.2810 | Train Acc 0.9211 | Val Acc 0.9079 | Test Acc 0.7487
+Train time 0.4410, Eval time 0.4372
+Epoch 01930 | Loss 0.2832 | Train Acc 0.9211 | Val Acc 0.9090 | Test Acc 0.7514
+Train time 0.4411, Eval time 0.4370
+Epoch 01935 | Loss 0.2807 | Train Acc 0.9213 | Val Acc 0.9082 | Test Acc 0.7533
+Train time 0.4410, Eval time 0.4372
+Epoch 01940 | Loss 0.2794 | Train Acc 0.9213 | Val Acc 0.9093 | Test Acc 0.7525
+Train time 0.4409, Eval time 0.4372
+Epoch 01945 | Loss 0.2815 | Train Acc 0.9205 | Val Acc 0.9081 | Test Acc 0.7522
+Train time 0.4409, Eval time 0.4381
+Epoch 01950 | Loss 0.2815 | Train Acc 0.9206 | Val Acc 0.9068 | Test Acc 0.7511
+Train time 0.4410, Eval time 0.4372
+Epoch 01955 | Loss 0.2801 | Train Acc 0.9209 | Val Acc 0.9081 | Test Acc 0.7522
+Train time 0.4409, Eval time 0.4372
+Epoch 01960 | Loss 0.2824 | Train Acc 0.9206 | Val Acc 0.9077 | Test Acc 0.7509
+Train time 0.4410, Eval time 0.4372
+Epoch 01965 | Loss 0.2825 | Train Acc 0.9205 | Val Acc 0.9074 | Test Acc 0.7546
+Train time 0.4410, Eval time 0.4371
+Epoch 01970 | Loss 0.2808 | Train Acc 0.9207 | Val Acc 0.9087 | Test Acc 0.7540
+Train time 0.4409, Eval time 0.4371
+Epoch 01975 | Loss 0.2805 | Train Acc 0.9212 | Val Acc 0.9093 | Test Acc 0.7522
+Train time 0.4410, Eval time 0.4371
+Epoch 01980 | Loss 0.2817 | Train Acc 0.9210 | Val Acc 0.9080 | Test Acc 0.7518
+Train time 0.4466, Eval time 0.4369
+Epoch 01985 | Loss 0.2796 | Train Acc 0.9217 | Val Acc 0.9071 | Test Acc 0.7517
+Train time 0.4411, Eval time 0.4371
+Epoch 01990 | Loss 0.2771 | Train Acc 0.9219 | Val Acc 0.9084 | Test Acc 0.7521
+Train time 0.4408, Eval time 0.4372
+Epoch 01995 | Loss 0.2795 | Train Acc 0.9212 | Val Acc 0.9090 | Test Acc 0.7530
+Train time 0.4410, Eval time 0.4372
+device = cuda:0
+<function relu at 0x7f03c5feeaf0>
+Training...
+Epoch 00000 | Loss 129.2997 | Train Acc 0.0127 | Val Acc 0.0121 | Test Acc 0.0304
+Train time 0.5186, Eval time 0.5166
+Epoch 00005 | Loss 5.1846 | Train Acc 0.1542 | Val Acc 0.1453 | Test Acc 0.1156
+Train time 0.4975, Eval time 0.5013
+Epoch 00010 | Loss 3.3284 | Train Acc 0.2141 | Val Acc 0.2052 | Test Acc 0.1526
+Train time 0.4977, Eval time 0.5014
+Epoch 00015 | Loss 3.0467 | Train Acc 0.2690 | Val Acc 0.2604 | Test Acc 0.2010
+Train time 0.4978, Eval time 0.5013
+Epoch 00020 | Loss 2.8930 | Train Acc 0.2912 | Val Acc 0.2860 | Test Acc 0.2289
+Train time 0.4979, Eval time 0.5013
+Epoch 00025 | Loss 2.7634 | Train Acc 0.2949 | Val Acc 0.2911 | Test Acc 0.2346
+Train time 0.4977, Eval time 0.5014
+Epoch 00030 | Loss 2.6627 | Train Acc 0.2972 | Val Acc 0.2944 | Test Acc 0.2403
+Train time 0.4979, Eval time 0.5014
+Epoch 00035 | Loss 2.5591 | Train Acc 0.2993 | Val Acc 0.2967 | Test Acc 0.2422
+Train time 0.4978, Eval time 0.5013
+Epoch 00040 | Loss 2.4594 | Train Acc 0.3054 | Val Acc 0.3049 | Test Acc 0.2498
+Train time 0.4988, Eval time 0.5005
+Epoch 00045 | Loss 2.3554 | Train Acc 0.3139 | Val Acc 0.3143 | Test Acc 0.2601
+Train time 0.4978, Eval time 0.5013
+Epoch 00050 | Loss 2.2622 | Train Acc 0.3344 | Val Acc 0.3352 | Test Acc 0.2728
+Train time 0.4978, Eval time 0.5013
+Epoch 00055 | Loss 2.1726 | Train Acc 0.3584 | Val Acc 0.3595 | Test Acc 0.2836
+Train time 0.4978, Eval time 0.5014
+Epoch 00060 | Loss 2.1035 | Train Acc 0.3728 | Val Acc 0.3705 | Test Acc 0.2880
+Train time 0.4978, Eval time 0.5014
+Epoch 00065 | Loss 2.0453 | Train Acc 0.3867 | Val Acc 0.3864 | Test Acc 0.2954
+Train time 0.4978, Eval time 0.5012
+Epoch 00070 | Loss 1.9803 | Train Acc 0.4047 | Val Acc 0.4033 | Test Acc 0.3051
+Train time 0.4979, Eval time 0.5013
+Epoch 00075 | Loss 1.9094 | Train Acc 0.4308 | Val Acc 0.4262 | Test Acc 0.3211
+Train time 0.4977, Eval time 0.5014
+Epoch 00080 | Loss 1.8259 | Train Acc 0.4567 | Val Acc 0.4551 | Test Acc 0.3384
+Train time 0.4986, Eval time 0.5013
+Epoch 00085 | Loss 1.7342 | Train Acc 0.4912 | Val Acc 0.4862 | Test Acc 0.3590
+Train time 0.4980, Eval time 0.5011
+Epoch 00090 | Loss 1.6420 | Train Acc 0.5249 | Val Acc 0.5182 | Test Acc 0.3794
+Train time 0.4978, Eval time 0.5014
+Epoch 00095 | Loss 1.5609 | Train Acc 0.5510 | Val Acc 0.5424 | Test Acc 0.3994
+Train time 0.4978, Eval time 0.5013
+Epoch 00100 | Loss 1.4821 | Train Acc 0.5753 | Val Acc 0.5664 | Test Acc 0.4183
+Train time 0.4978, Eval time 0.5014
+Epoch 00105 | Loss 1.4196 | Train Acc 0.5910 | Val Acc 0.5814 | Test Acc 0.4300
+Train time 0.4979, Eval time 0.5011
+Epoch 00110 | Loss 1.3676 | Train Acc 0.6035 | Val Acc 0.5941 | Test Acc 0.4391
+Train time 0.4977, Eval time 0.5014
+Epoch 00115 | Loss 1.3225 | Train Acc 0.6173 | Val Acc 0.6104 | Test Acc 0.4504
+Train time 0.4978, Eval time 0.5013
+Epoch 00120 | Loss 1.2715 | Train Acc 0.6306 | Val Acc 0.6225 | Test Acc 0.4603
+Train time 0.4979, Eval time 0.5013
+Epoch 00125 | Loss 1.2283 | Train Acc 0.6450 | Val Acc 0.6382 | Test Acc 0.4743
+Train time 0.4983, Eval time 0.5009
+Epoch 00130 | Loss 1.1897 | Train Acc 0.6574 | Val Acc 0.6519 | Test Acc 0.4845
+Train time 0.4978, Eval time 0.5015
+Epoch 00135 | Loss 1.1492 | Train Acc 0.6683 | Val Acc 0.6641 | Test Acc 0.4930
+Train time 0.4977, Eval time 0.5014
+Epoch 00140 | Loss 1.1039 | Train Acc 0.6829 | Val Acc 0.6761 | Test Acc 0.5023
+Train time 0.4978, Eval time 0.5013
+Epoch 00145 | Loss 1.0570 | Train Acc 0.6945 | Val Acc 0.6873 | Test Acc 0.5104
+Train time 0.4979, Eval time 0.5012
+Epoch 00150 | Loss 1.0206 | Train Acc 0.7073 | Val Acc 0.6996 | Test Acc 0.5191
+Train time 0.4980, Eval time 0.5014
+Epoch 00155 | Loss 0.9769 | Train Acc 0.7216 | Val Acc 0.7114 | Test Acc 0.5293
+Train time 0.4979, Eval time 0.5013
+Epoch 00160 | Loss 0.9392 | Train Acc 0.7316 | Val Acc 0.7250 | Test Acc 0.5425
+Train time 0.4977, Eval time 0.5013
+Epoch 00165 | Loss 0.9052 | Train Acc 0.7421 | Val Acc 0.7339 | Test Acc 0.5508
+Train time 0.4978, Eval time 0.5013
+Epoch 00170 | Loss 0.8709 | Train Acc 0.7498 | Val Acc 0.7434 | Test Acc 0.5567
+Train time 0.4979, Eval time 0.5016
+Epoch 00175 | Loss 0.8437 | Train Acc 0.7614 | Val Acc 0.7599 | Test Acc 0.5705
+Train time 0.4981, Eval time 0.5013
+Epoch 00180 | Loss 0.8155 | Train Acc 0.7699 | Val Acc 0.7643 | Test Acc 0.5760
+Train time 0.4979, Eval time 0.5015
+Epoch 00185 | Loss 0.7904 | Train Acc 0.7815 | Val Acc 0.7756 | Test Acc 0.5882
+Train time 0.4979, Eval time 0.5013
+Epoch 00190 | Loss 0.7717 | Train Acc 0.7894 | Val Acc 0.7851 | Test Acc 0.5939
+Train time 0.4979, Eval time 0.5040
+Epoch 00195 | Loss 0.7486 | Train Acc 0.7992 | Val Acc 0.7957 | Test Acc 0.6045
+Train time 0.4985, Eval time 0.5012
+Epoch 00200 | Loss 0.7378 | Train Acc 0.8005 | Val Acc 0.7969 | Test Acc 0.6073
+Train time 0.4981, Eval time 0.5013
+Epoch 00205 | Loss 0.7043 | Train Acc 0.8161 | Val Acc 0.8106 | Test Acc 0.6190
+Train time 0.4979, Eval time 0.5013
+Epoch 00210 | Loss 0.6813 | Train Acc 0.8235 | Val Acc 0.8175 | Test Acc 0.6236
+Train time 0.4978, Eval time 0.5014
+Epoch 00215 | Loss 0.6662 | Train Acc 0.8284 | Val Acc 0.8221 | Test Acc 0.6290
+Train time 0.4977, Eval time 0.5013
+Epoch 00220 | Loss 0.6437 | Train Acc 0.8374 | Val Acc 0.8307 | Test Acc 0.6347
+Train time 0.4978, Eval time 0.5014
+Epoch 00225 | Loss 0.6222 | Train Acc 0.8432 | Val Acc 0.8362 | Test Acc 0.6402
+Train time 0.4977, Eval time 0.5014
+Epoch 00230 | Loss 0.6038 | Train Acc 0.8497 | Val Acc 0.8404 | Test Acc 0.6443
+Train time 0.4978, Eval time 0.5014
+Epoch 00235 | Loss 0.5896 | Train Acc 0.8524 | Val Acc 0.8457 | Test Acc 0.6492
+Train time 0.5026, Eval time 0.5013
+Epoch 00240 | Loss 0.5840 | Train Acc 0.8537 | Val Acc 0.8460 | Test Acc 0.6521
+Train time 0.4985, Eval time 0.5010
+Epoch 00245 | Loss 0.5734 | Train Acc 0.8573 | Val Acc 0.8500 | Test Acc 0.6540
+Train time 0.4978, Eval time 0.5013
+Epoch 00250 | Loss 0.5576 | Train Acc 0.8614 | Val Acc 0.8523 | Test Acc 0.6573
+Train time 0.4978, Eval time 0.5014
+Epoch 00255 | Loss 0.5510 | Train Acc 0.8645 | Val Acc 0.8575 | Test Acc 0.6634
+Train time 0.4978, Eval time 0.5013
+Epoch 00260 | Loss 0.5445 | Train Acc 0.8655 | Val Acc 0.8570 | Test Acc 0.6632
+Train time 0.4979, Eval time 0.5013
+Epoch 00265 | Loss 0.5398 | Train Acc 0.8656 | Val Acc 0.8577 | Test Acc 0.6647
+Train time 0.4981, Eval time 0.5013
+Epoch 00270 | Loss 0.5299 | Train Acc 0.8676 | Val Acc 0.8602 | Test Acc 0.6651
+Train time 0.4978, Eval time 0.5014
+Epoch 00275 | Loss 0.5259 | Train Acc 0.8700 | Val Acc 0.8636 | Test Acc 0.6694
+Train time 0.4978, Eval time 0.5012
+Epoch 00280 | Loss 0.5213 | Train Acc 0.8696 | Val Acc 0.8621 | Test Acc 0.6676
+Train time 0.4979, Eval time 0.5014
+Epoch 00285 | Loss 0.5153 | Train Acc 0.8717 | Val Acc 0.8655 | Test Acc 0.6708
+Train time 0.4978, Eval time 0.5013
+Epoch 00290 | Loss 0.5047 | Train Acc 0.8733 | Val Acc 0.8656 | Test Acc 0.6730
+Train time 0.4979, Eval time 0.5014
+Epoch 00295 | Loss 0.5040 | Train Acc 0.8734 | Val Acc 0.8664 | Test Acc 0.6733
+Train time 0.4979, Eval time 0.5012
+Epoch 00300 | Loss 0.5000 | Train Acc 0.8740 | Val Acc 0.8678 | Test Acc 0.6747
+Train time 0.4979, Eval time 0.5013
+Epoch 00305 | Loss 0.5082 | Train Acc 0.8717 | Val Acc 0.8657 | Test Acc 0.6735
+Train time 0.4984, Eval time 0.5013
+Epoch 00310 | Loss 0.4954 | Train Acc 0.8750 | Val Acc 0.8686 | Test Acc 0.6773
+Train time 0.4985, Eval time 0.5012
+Epoch 00315 | Loss 0.4894 | Train Acc 0.8768 | Val Acc 0.8713 | Test Acc 0.6793
+Train time 0.4980, Eval time 0.5011
+Epoch 00320 | Loss 0.4826 | Train Acc 0.8788 | Val Acc 0.8737 | Test Acc 0.6802
+Train time 0.4978, Eval time 0.5014
+Epoch 00325 | Loss 0.4819 | Train Acc 0.8777 | Val Acc 0.8701 | Test Acc 0.6792
+Train time 0.4978, Eval time 0.5014
+Epoch 00330 | Loss 0.4792 | Train Acc 0.8781 | Val Acc 0.8721 | Test Acc 0.6808
+Train time 0.4978, Eval time 0.5014
+Epoch 00335 | Loss 0.4731 | Train Acc 0.8801 | Val Acc 0.8729 | Test Acc 0.6818
+Train time 0.4979, Eval time 0.5011
+Epoch 00340 | Loss 0.4742 | Train Acc 0.8791 | Val Acc 0.8721 | Test Acc 0.6816
+Train time 0.4979, Eval time 0.5014
+Epoch 00345 | Loss 0.4756 | Train Acc 0.8799 | Val Acc 0.8737 | Test Acc 0.6820
+Train time 0.4978, Eval time 0.5013
+Epoch 00350 | Loss 0.4728 | Train Acc 0.8790 | Val Acc 0.8720 | Test Acc 0.6822
+Train time 0.4979, Eval time 0.5013
+Epoch 00355 | Loss 0.4678 | Train Acc 0.8801 | Val Acc 0.8733 | Test Acc 0.6819
+Train time 0.4984, Eval time 0.5009
+Epoch 00360 | Loss 0.4617 | Train Acc 0.8828 | Val Acc 0.8750 | Test Acc 0.6851
+Train time 0.4978, Eval time 0.5015
+Epoch 00365 | Loss 0.4630 | Train Acc 0.8827 | Val Acc 0.8765 | Test Acc 0.6866
+Train time 0.4981, Eval time 0.5011
+Epoch 00370 | Loss 0.4557 | Train Acc 0.8838 | Val Acc 0.8767 | Test Acc 0.6871
+Train time 0.4979, Eval time 0.5013
+Epoch 00375 | Loss 0.4535 | Train Acc 0.8835 | Val Acc 0.8765 | Test Acc 0.6860
+Train time 0.4979, Eval time 0.5012
+Epoch 00380 | Loss 0.4554 | Train Acc 0.8835 | Val Acc 0.8772 | Test Acc 0.6852
+Train time 0.4981, Eval time 0.5015
+Epoch 00385 | Loss 0.4520 | Train Acc 0.8839 | Val Acc 0.8783 | Test Acc 0.6863
+Train time 0.4979, Eval time 0.5013
+Epoch 00390 | Loss 0.4528 | Train Acc 0.8840 | Val Acc 0.8775 | Test Acc 0.6887
+Train time 0.4978, Eval time 0.5014
+Epoch 00395 | Loss 0.4483 | Train Acc 0.8850 | Val Acc 0.8777 | Test Acc 0.6883
+Train time 0.4978, Eval time 0.5013
+Epoch 00400 | Loss 0.4443 | Train Acc 0.8851 | Val Acc 0.8779 | Test Acc 0.6875
+Train time 0.4977, Eval time 0.5014
+Epoch 00405 | Loss 0.4452 | Train Acc 0.8857 | Val Acc 0.8786 | Test Acc 0.6868
+Train time 0.4978, Eval time 0.5012
+Epoch 00410 | Loss 0.4437 | Train Acc 0.8853 | Val Acc 0.8797 | Test Acc 0.6892
+Train time 0.4979, Eval time 0.5013
+Epoch 00415 | Loss 0.4384 | Train Acc 0.8871 | Val Acc 0.8795 | Test Acc 0.6902
+Train time 0.4978, Eval time 0.5013
+Epoch 00420 | Loss 0.4366 | Train Acc 0.8872 | Val Acc 0.8817 | Test Acc 0.6909
+Train time 0.4978, Eval time 0.5014
+Epoch 00425 | Loss 0.4410 | Train Acc 0.8848 | Val Acc 0.8779 | Test Acc 0.6885
+Train time 0.4985, Eval time 0.5012
+Epoch 00430 | Loss 0.4383 | Train Acc 0.8863 | Val Acc 0.8795 | Test Acc 0.6890
+Train time 0.4981, Eval time 0.5012
+Epoch 00435 | Loss 0.4365 | Train Acc 0.8875 | Val Acc 0.8810 | Test Acc 0.6904
+Train time 0.4977, Eval time 0.5014
+Epoch 00440 | Loss 0.4348 | Train Acc 0.8870 | Val Acc 0.8790 | Test Acc 0.6908
+Train time 0.4978, Eval time 0.5015
+Epoch 00445 | Loss 0.4386 | Train Acc 0.8856 | Val Acc 0.8776 | Test Acc 0.6908
+Train time 0.4978, Eval time 0.5014
+Epoch 00450 | Loss 0.4360 | Train Acc 0.8865 | Val Acc 0.8796 | Test Acc 0.6908
+Train time 0.4978, Eval time 0.5014
+Epoch 00455 | Loss 0.4307 | Train Acc 0.8880 | Val Acc 0.8808 | Test Acc 0.6940
+Train time 0.4978, Eval time 0.5013
+Epoch 00460 | Loss 0.4245 | Train Acc 0.8895 | Val Acc 0.8822 | Test Acc 0.6944
+Train time 0.4978, Eval time 0.5014
+Epoch 00465 | Loss 0.4238 | Train Acc 0.8884 | Val Acc 0.8823 | Test Acc 0.6931
+Train time 0.4979, Eval time 0.5013
+Epoch 00470 | Loss 0.4208 | Train Acc 0.8894 | Val Acc 0.8829 | Test Acc 0.6962
+Train time 0.4984, Eval time 0.5011
+Epoch 00475 | Loss 0.4209 | Train Acc 0.8903 | Val Acc 0.8831 | Test Acc 0.6955
+Train time 0.4977, Eval time 0.5015
+Epoch 00480 | Loss 0.4208 | Train Acc 0.8901 | Val Acc 0.8822 | Test Acc 0.6959
+Train time 0.4978, Eval time 0.5014
+Epoch 00485 | Loss 0.4191 | Train Acc 0.8909 | Val Acc 0.8824 | Test Acc 0.6967
+Train time 0.4979, Eval time 0.5013
+Epoch 00490 | Loss 0.4184 | Train Acc 0.8902 | Val Acc 0.8833 | Test Acc 0.6959
+Train time 0.4979, Eval time 0.5015
+Epoch 00495 | Loss 0.4156 | Train Acc 0.8903 | Val Acc 0.8845 | Test Acc 0.6967
+Train time 0.4978, Eval time 0.5012
+Epoch 00500 | Loss 0.4159 | Train Acc 0.8906 | Val Acc 0.8836 | Test Acc 0.6982
+Train time 0.4978, Eval time 0.5014
+Epoch 00505 | Loss 0.4097 | Train Acc 0.8921 | Val Acc 0.8856 | Test Acc 0.6993
+Train time 0.4978, Eval time 0.5013
+Epoch 00510 | Loss 0.4152 | Train Acc 0.8911 | Val Acc 0.8843 | Test Acc 0.6976
+Train time 0.4978, Eval time 0.5014
+Epoch 00515 | Loss 0.4091 | Train Acc 0.8924 | Val Acc 0.8864 | Test Acc 0.6995
+Train time 0.4977, Eval time 0.5013
+Epoch 00520 | Loss 0.4114 | Train Acc 0.8923 | Val Acc 0.8841 | Test Acc 0.6996
+Train time 0.4978, Eval time 0.5014
+Epoch 00525 | Loss 0.4098 | Train Acc 0.8920 | Val Acc 0.8852 | Test Acc 0.7001
+Train time 0.4978, Eval time 0.5013
+Epoch 00530 | Loss 0.4109 | Train Acc 0.8932 | Val Acc 0.8859 | Test Acc 0.7002
+Train time 0.4978, Eval time 0.5014
+Epoch 00535 | Loss 0.4078 | Train Acc 0.8921 | Val Acc 0.8844 | Test Acc 0.7018
+Train time 0.4978, Eval time 0.5012
+Epoch 00540 | Loss 0.4077 | Train Acc 0.8919 | Val Acc 0.8856 | Test Acc 0.7052
+Train time 0.4980, Eval time 0.5013
+Epoch 00545 | Loss 0.4041 | Train Acc 0.8937 | Val Acc 0.8877 | Test Acc 0.7033
+Train time 0.4978, Eval time 0.5013
+Epoch 00550 | Loss 0.4064 | Train Acc 0.8930 | Val Acc 0.8852 | Test Acc 0.7052
+Train time 0.4978, Eval time 0.5015
+Epoch 00555 | Loss 0.4015 | Train Acc 0.8942 | Val Acc 0.8888 | Test Acc 0.7053
+Train time 0.4978, Eval time 0.5013
+Epoch 00560 | Loss 0.4013 | Train Acc 0.8935 | Val Acc 0.8871 | Test Acc 0.7055
+Train time 0.4978, Eval time 0.5014
+Epoch 00565 | Loss 0.4004 | Train Acc 0.8949 | Val Acc 0.8878 | Test Acc 0.7071
+Train time 0.4978, Eval time 0.5013
+Epoch 00570 | Loss 0.3988 | Train Acc 0.8936 | Val Acc 0.8867 | Test Acc 0.7080
+Train time 0.4980, Eval time 0.5012
+Epoch 00575 | Loss 0.4012 | Train Acc 0.8941 | Val Acc 0.8866 | Test Acc 0.7066
+Train time 0.4978, Eval time 0.5013
+Epoch 00580 | Loss 0.3956 | Train Acc 0.8951 | Val Acc 0.8882 | Test Acc 0.7088
+Train time 0.4979, Eval time 0.5014
+Epoch 00585 | Loss 0.4035 | Train Acc 0.8930 | Val Acc 0.8867 | Test Acc 0.7042
+Train time 0.4978, Eval time 0.5013
+Epoch 00590 | Loss 0.4033 | Train Acc 0.8939 | Val Acc 0.8870 | Test Acc 0.7073
+Train time 0.4979, Eval time 0.5013
+Epoch 00595 | Loss 0.4009 | Train Acc 0.8948 | Val Acc 0.8871 | Test Acc 0.7113
+Train time 0.4978, Eval time 0.5013
+Epoch 00600 | Loss 0.4025 | Train Acc 0.8931 | Val Acc 0.8857 | Test Acc 0.7088
+Train time 0.4978, Eval time 0.5013
+Epoch 00605 | Loss 0.3969 | Train Acc 0.8943 | Val Acc 0.8873 | Test Acc 0.7098
+Train time 0.4978, Eval time 0.5013
+Epoch 00610 | Loss 0.3912 | Train Acc 0.8959 | Val Acc 0.8888 | Test Acc 0.7122
+Train time 0.4979, Eval time 0.5014
+Epoch 00615 | Loss 0.3916 | Train Acc 0.8966 | Val Acc 0.8885 | Test Acc 0.7111
+Train time 0.4985, Eval time 0.5013
+Epoch 00620 | Loss 0.3925 | Train Acc 0.8958 | Val Acc 0.8866 | Test Acc 0.7118
+Train time 0.4979, Eval time 0.5015
+Epoch 00625 | Loss 0.3887 | Train Acc 0.8962 | Val Acc 0.8900 | Test Acc 0.7152
+Train time 0.4978, Eval time 0.5013
+Epoch 00630 | Loss 0.3865 | Train Acc 0.8972 | Val Acc 0.8884 | Test Acc 0.7138
+Train time 0.4982, Eval time 0.5013
+Epoch 00635 | Loss 0.3854 | Train Acc 0.8979 | Val Acc 0.8906 | Test Acc 0.7143
+Train time 0.4980, Eval time 0.5013
+Epoch 00640 | Loss 0.3903 | Train Acc 0.8960 | Val Acc 0.8884 | Test Acc 0.7132
+Train time 0.4980, Eval time 0.5011
+Epoch 00645 | Loss 0.3959 | Train Acc 0.8948 | Val Acc 0.8887 | Test Acc 0.7120
+Train time 0.4979, Eval time 0.5012
+Epoch 00650 | Loss 0.3867 | Train Acc 0.8984 | Val Acc 0.8895 | Test Acc 0.7117
+Train time 0.4978, Eval time 0.5013
+Epoch 00655 | Loss 0.3878 | Train Acc 0.8973 | Val Acc 0.8894 | Test Acc 0.7166
+Train time 0.4979, Eval time 0.5012
+Epoch 00660 | Loss 0.3895 | Train Acc 0.8960 | Val Acc 0.8894 | Test Acc 0.7159
+Train time 0.4979, Eval time 0.5013
+Epoch 00665 | Loss 0.3851 | Train Acc 0.8977 | Val Acc 0.8895 | Test Acc 0.7160
+Train time 0.4978, Eval time 0.5014
+Epoch 00670 | Loss 0.3828 | Train Acc 0.8986 | Val Acc 0.8904 | Test Acc 0.7164
+Train time 0.4979, Eval time 0.5014
+Epoch 00675 | Loss 0.3840 | Train Acc 0.8970 | Val Acc 0.8904 | Test Acc 0.7155
+Train time 0.4985, Eval time 0.5012
+Epoch 00680 | Loss 0.3832 | Train Acc 0.8985 | Val Acc 0.8892 | Test Acc 0.7176
+Train time 0.4981, Eval time 0.5012
+Epoch 00685 | Loss 0.3845 | Train Acc 0.8999 | Val Acc 0.8915 | Test Acc 0.7176
+Train time 0.4978, Eval time 0.5015
+Epoch 00690 | Loss 0.3824 | Train Acc 0.8975 | Val Acc 0.8895 | Test Acc 0.7187
+Train time 0.4978, Eval time 0.5014
+Epoch 00695 | Loss 0.3794 | Train Acc 0.8996 | Val Acc 0.8904 | Test Acc 0.7155
+Train time 0.4977, Eval time 0.5013
+Epoch 00700 | Loss 0.3807 | Train Acc 0.8981 | Val Acc 0.8903 | Test Acc 0.7189
+Train time 0.4979, Eval time 0.5014
+Epoch 00705 | Loss 0.3834 | Train Acc 0.8973 | Val Acc 0.8897 | Test Acc 0.7167
+Train time 0.4979, Eval time 0.5014
+Epoch 00710 | Loss 0.3818 | Train Acc 0.8989 | Val Acc 0.8896 | Test Acc 0.7187
+Train time 0.4978, Eval time 0.5013
+Epoch 00715 | Loss 0.3762 | Train Acc 0.8993 | Val Acc 0.8900 | Test Acc 0.7217
+Train time 0.4979, Eval time 0.5013
+Epoch 00720 | Loss 0.3745 | Train Acc 0.8999 | Val Acc 0.8916 | Test Acc 0.7214
+Train time 0.5182, Eval time 0.5015
+Epoch 00725 | Loss 0.3742 | Train Acc 0.8996 | Val Acc 0.8910 | Test Acc 0.7203
+Train time 0.4978, Eval time 0.5013
+Epoch 00730 | Loss 0.3719 | Train Acc 0.9008 | Val Acc 0.8908 | Test Acc 0.7222
+Train time 0.4979, Eval time 0.5013
+Epoch 00735 | Loss 0.3732 | Train Acc 0.9005 | Val Acc 0.8906 | Test Acc 0.7225
+Train time 0.4977, Eval time 0.5014
+Epoch 00740 | Loss 0.3747 | Train Acc 0.8994 | Val Acc 0.8906 | Test Acc 0.7210
+Train time 0.4980, Eval time 0.5013
+Epoch 00745 | Loss 0.3713 | Train Acc 0.9020 | Val Acc 0.8937 | Test Acc 0.7222
+Train time 0.4980, Eval time 0.5013
+Epoch 00750 | Loss 0.3713 | Train Acc 0.9006 | Val Acc 0.8921 | Test Acc 0.7222
+Train time 0.4981, Eval time 0.5013
+Epoch 00755 | Loss 0.3723 | Train Acc 0.9009 | Val Acc 0.8912 | Test Acc 0.7213
+Train time 0.4978, Eval time 0.5013
+Epoch 00760 | Loss 0.3729 | Train Acc 0.9017 | Val Acc 0.8931 | Test Acc 0.7224
+Train time 0.4979, Eval time 0.5014
+Epoch 00765 | Loss 0.3690 | Train Acc 0.9019 | Val Acc 0.8934 | Test Acc 0.7222
+Train time 0.4978, Eval time 0.5014
+Epoch 00770 | Loss 0.3684 | Train Acc 0.9010 | Val Acc 0.8924 | Test Acc 0.7214
+Train time 0.4979, Eval time 0.5014
+Epoch 00775 | Loss 0.3680 | Train Acc 0.9023 | Val Acc 0.8932 | Test Acc 0.7232
+Train time 0.4978, Eval time 0.5013
+Epoch 00780 | Loss 0.3665 | Train Acc 0.9018 | Val Acc 0.8939 | Test Acc 0.7245
+Train time 0.4977, Eval time 0.5014
+Epoch 00785 | Loss 0.3695 | Train Acc 0.9009 | Val Acc 0.8921 | Test Acc 0.7223
+Train time 0.4978, Eval time 0.5014
+Epoch 00790 | Loss 0.3663 | Train Acc 0.9011 | Val Acc 0.8918 | Test Acc 0.7233
+Train time 0.4985, Eval time 0.5013
+Epoch 00795 | Loss 0.3669 | Train Acc 0.9025 | Val Acc 0.8937 | Test Acc 0.7257
+Train time 0.4980, Eval time 0.5012
+Epoch 00800 | Loss 0.3649 | Train Acc 0.9019 | Val Acc 0.8934 | Test Acc 0.7246
+Train time 0.4978, Eval time 0.5014
+Epoch 00805 | Loss 0.3650 | Train Acc 0.9018 | Val Acc 0.8927 | Test Acc 0.7200
+Train time 0.4977, Eval time 0.5013
+Epoch 00810 | Loss 0.3640 | Train Acc 0.9017 | Val Acc 0.8930 | Test Acc 0.7238
+Train time 0.4978, Eval time 0.5014
+Epoch 00815 | Loss 0.3629 | Train Acc 0.9034 | Val Acc 0.8931 | Test Acc 0.7251
+Train time 0.4978, Eval time 0.5014
+Epoch 00820 | Loss 0.3625 | Train Acc 0.9023 | Val Acc 0.8947 | Test Acc 0.7260
+Train time 0.4978, Eval time 0.5015
+Epoch 00825 | Loss 0.3606 | Train Acc 0.9032 | Val Acc 0.8933 | Test Acc 0.7235
+Train time 0.4978, Eval time 0.5013
+Epoch 00830 | Loss 0.3656 | Train Acc 0.9036 | Val Acc 0.8921 | Test Acc 0.7222
+Train time 0.4979, Eval time 0.5014
+Epoch 00835 | Loss 0.3618 | Train Acc 0.9027 | Val Acc 0.8946 | Test Acc 0.7262
+Train time 0.4978, Eval time 0.5016
+Epoch 00840 | Loss 0.3621 | Train Acc 0.9025 | Val Acc 0.8941 | Test Acc 0.7242
+Train time 0.4978, Eval time 0.5014
+Epoch 00845 | Loss 0.3645 | Train Acc 0.9029 | Val Acc 0.8946 | Test Acc 0.7259
+Train time 0.4978, Eval time 0.5012
+Epoch 00850 | Loss 0.3612 | Train Acc 0.9037 | Val Acc 0.8941 | Test Acc 0.7242
+Train time 0.4979, Eval time 0.5013
+Epoch 00855 | Loss 0.3570 | Train Acc 0.9038 | Val Acc 0.8944 | Test Acc 0.7254
+Train time 0.4977, Eval time 0.5013
+Epoch 00860 | Loss 0.3581 | Train Acc 0.9036 | Val Acc 0.8945 | Test Acc 0.7269
+Train time 0.4979, Eval time 0.5014
+Epoch 00865 | Loss 0.3611 | Train Acc 0.9024 | Val Acc 0.8943 | Test Acc 0.7268
+Train time 0.4978, Eval time 0.5013
+Epoch 00870 | Loss 0.3597 | Train Acc 0.9038 | Val Acc 0.8941 | Test Acc 0.7262
+Train time 0.4979, Eval time 0.5013
+Epoch 00875 | Loss 0.3581 | Train Acc 0.9036 | Val Acc 0.8945 | Test Acc 0.7270
+Train time 0.4977, Eval time 0.5014
+Epoch 00880 | Loss 0.3574 | Train Acc 0.9038 | Val Acc 0.8934 | Test Acc 0.7260
+Train time 0.4985, Eval time 0.5013
+Epoch 00885 | Loss 0.3573 | Train Acc 0.9037 | Val Acc 0.8954 | Test Acc 0.7288
+Train time 0.4978, Eval time 0.5014
+Epoch 00890 | Loss 0.3552 | Train Acc 0.9047 | Val Acc 0.8958 | Test Acc 0.7261
+Train time 0.4978, Eval time 0.5013
+Epoch 00895 | Loss 0.3561 | Train Acc 0.9041 | Val Acc 0.8947 | Test Acc 0.7253
+Train time 0.4978, Eval time 0.5014
+Epoch 00900 | Loss 0.3567 | Train Acc 0.9034 | Val Acc 0.8946 | Test Acc 0.7302
+Train time 0.4979, Eval time 0.5014
+Epoch 00905 | Loss 0.3550 | Train Acc 0.9044 | Val Acc 0.8960 | Test Acc 0.7267
+Train time 0.4979, Eval time 0.5013
+Epoch 00910 | Loss 0.3543 | Train Acc 0.9048 | Val Acc 0.8959 | Test Acc 0.7272
+Train time 0.4979, Eval time 0.5014
+Epoch 00915 | Loss 0.3506 | Train Acc 0.9056 | Val Acc 0.8970 | Test Acc 0.7262
+Train time 0.4978, Eval time 0.5014
+Epoch 00920 | Loss 0.3550 | Train Acc 0.9033 | Val Acc 0.8922 | Test Acc 0.7291
+Train time 0.4979, Eval time 0.5014
+Epoch 00925 | Loss 0.3546 | Train Acc 0.9045 | Val Acc 0.8952 | Test Acc 0.7278
+Train time 0.4978, Eval time 0.5014
+Epoch 00930 | Loss 0.3519 | Train Acc 0.9053 | Val Acc 0.8973 | Test Acc 0.7295
+Train time 0.4979, Eval time 0.5014
+Epoch 00935 | Loss 0.3545 | Train Acc 0.9039 | Val Acc 0.8930 | Test Acc 0.7251
+Train time 0.4977, Eval time 0.5013
+Epoch 00940 | Loss 0.3558 | Train Acc 0.9041 | Val Acc 0.8936 | Test Acc 0.7278
+Train time 0.4979, Eval time 0.5013
+Epoch 00945 | Loss 0.3517 | Train Acc 0.9055 | Val Acc 0.8952 | Test Acc 0.7285
+Train time 0.4979, Eval time 0.5012
+Epoch 00950 | Loss 0.3515 | Train Acc 0.9052 | Val Acc 0.8948 | Test Acc 0.7320
+Train time 0.4979, Eval time 0.5013
+Epoch 00955 | Loss 0.3579 | Train Acc 0.9031 | Val Acc 0.8923 | Test Acc 0.7281
+Train time 0.4979, Eval time 0.5014
+Epoch 00960 | Loss 0.3805 | Train Acc 0.8976 | Val Acc 0.8864 | Test Acc 0.7195
+Train time 0.4979, Eval time 0.5013
+Epoch 00965 | Loss 0.3622 | Train Acc 0.9026 | Val Acc 0.8947 | Test Acc 0.7295
+Train time 0.4979, Eval time 0.5013
+Epoch 00970 | Loss 0.3604 | Train Acc 0.9024 | Val Acc 0.8930 | Test Acc 0.7332
+Train time 0.4981, Eval time 0.5010
+Epoch 00975 | Loss 0.3586 | Train Acc 0.9035 | Val Acc 0.8957 | Test Acc 0.7312
+Train time 0.4979, Eval time 0.5013
+Epoch 00980 | Loss 0.3538 | Train Acc 0.9049 | Val Acc 0.8964 | Test Acc 0.7326
+Train time 0.4980, Eval time 0.5013
+Epoch 00985 | Loss 0.3547 | Train Acc 0.9044 | Val Acc 0.8958 | Test Acc 0.7304
+Train time 0.4979, Eval time 0.5012
+Epoch 00990 | Loss 0.3502 | Train Acc 0.9045 | Val Acc 0.8953 | Test Acc 0.7326
+Train time 0.4980, Eval time 0.5013
+Epoch 00995 | Loss 0.3486 | Train Acc 0.9058 | Val Acc 0.8965 | Test Acc 0.7337
+Train time 0.4985, Eval time 0.5012
+Epoch 01000 | Loss 0.3459 | Train Acc 0.9057 | Val Acc 0.8968 | Test Acc 0.7295
+Train time 0.4982, Eval time 0.5013
+Epoch 01005 | Loss 0.3468 | Train Acc 0.9065 | Val Acc 0.8976 | Test Acc 0.7305
+Train time 0.4978, Eval time 0.5013
+Epoch 01010 | Loss 0.3482 | Train Acc 0.9057 | Val Acc 0.8955 | Test Acc 0.7307
+Train time 0.4978, Eval time 0.5014
+Epoch 01015 | Loss 0.3458 | Train Acc 0.9067 | Val Acc 0.8969 | Test Acc 0.7297
+Train time 0.4978, Eval time 0.5013
+Epoch 01020 | Loss 0.3461 | Train Acc 0.9062 | Val Acc 0.8966 | Test Acc 0.7318
+Train time 0.4980, Eval time 0.5012
+Epoch 01025 | Loss 0.3446 | Train Acc 0.9067 | Val Acc 0.8963 | Test Acc 0.7325
+Train time 0.4978, Eval time 0.5013
+Epoch 01030 | Loss 0.3460 | Train Acc 0.9064 | Val Acc 0.8965 | Test Acc 0.7337
+Train time 0.4978, Eval time 0.5014
+Epoch 01035 | Loss 0.3446 | Train Acc 0.9053 | Val Acc 0.8958 | Test Acc 0.7353
+Train time 0.4978, Eval time 0.5013
+Epoch 01040 | Loss 0.3436 | Train Acc 0.9071 | Val Acc 0.8979 | Test Acc 0.7315
+Train time 0.4985, Eval time 0.5009
+Epoch 01045 | Loss 0.3433 | Train Acc 0.9075 | Val Acc 0.8981 | Test Acc 0.7325
+Train time 0.4982, Eval time 0.5009
+Epoch 01050 | Loss 0.3414 | Train Acc 0.9078 | Val Acc 0.8971 | Test Acc 0.7317
+Train time 0.4977, Eval time 0.5013
+Epoch 01055 | Loss 0.3413 | Train Acc 0.9073 | Val Acc 0.8973 | Test Acc 0.7348
+Train time 0.4977, Eval time 0.5013
+Epoch 01060 | Loss 0.3448 | Train Acc 0.9062 | Val Acc 0.8973 | Test Acc 0.7343
+Train time 0.4978, Eval time 0.5012
+Epoch 01065 | Loss 0.3432 | Train Acc 0.9070 | Val Acc 0.8989 | Test Acc 0.7342
+Train time 0.4977, Eval time 0.5013
+Epoch 01070 | Loss 0.3415 | Train Acc 0.9073 | Val Acc 0.8971 | Test Acc 0.7341
+Train time 0.4979, Eval time 0.5013
+Epoch 01075 | Loss 0.3429 | Train Acc 0.9059 | Val Acc 0.8967 | Test Acc 0.7324
+Train time 0.4977, Eval time 0.5012
+Epoch 01080 | Loss 0.3418 | Train Acc 0.9073 | Val Acc 0.9000 | Test Acc 0.7362
+Train time 0.4980, Eval time 0.5012
+Epoch 01085 | Loss 0.3411 | Train Acc 0.9074 | Val Acc 0.8985 | Test Acc 0.7365
+Train time 0.4978, Eval time 0.5013
+Epoch 01090 | Loss 0.3395 | Train Acc 0.9069 | Val Acc 0.8980 | Test Acc 0.7326
+Train time 0.4978, Eval time 0.5013
+Epoch 01095 | Loss 0.3424 | Train Acc 0.9067 | Val Acc 0.8986 | Test Acc 0.7340
+Train time 0.4979, Eval time 0.5011
+Epoch 01100 | Loss 0.3401 | Train Acc 0.9085 | Val Acc 0.8985 | Test Acc 0.7354
+Train time 0.4978, Eval time 0.5013
+Epoch 01105 | Loss 0.3379 | Train Acc 0.9077 | Val Acc 0.8986 | Test Acc 0.7346
+Train time 0.4978, Eval time 0.5012
+Epoch 01110 | Loss 0.3385 | Train Acc 0.9080 | Val Acc 0.8997 | Test Acc 0.7354
+Train time 0.4979, Eval time 0.5013
+Epoch 01115 | Loss 0.3413 | Train Acc 0.9072 | Val Acc 0.8976 | Test Acc 0.7342
+Train time 0.4977, Eval time 0.5013
+Epoch 01120 | Loss 0.3376 | Train Acc 0.9083 | Val Acc 0.8989 | Test Acc 0.7386
+Train time 0.4980, Eval time 0.5013
+Epoch 01125 | Loss 0.3379 | Train Acc 0.9075 | Val Acc 0.8990 | Test Acc 0.7343
+Train time 0.4978, Eval time 0.5012
+Epoch 01130 | Loss 0.3355 | Train Acc 0.9086 | Val Acc 0.8993 | Test Acc 0.7361
+Train time 0.4979, Eval time 0.5014
+Epoch 01135 | Loss 0.3358 | Train Acc 0.9086 | Val Acc 0.8987 | Test Acc 0.7374
+Train time 0.4985, Eval time 0.5011
+Epoch 01140 | Loss 0.3397 | Train Acc 0.9067 | Val Acc 0.8984 | Test Acc 0.7369
+Train time 0.4980, Eval time 0.5012
+Epoch 01145 | Loss 0.3378 | Train Acc 0.9079 | Val Acc 0.8996 | Test Acc 0.7391
+Train time 0.4978, Eval time 0.5013
+Epoch 01150 | Loss 0.3348 | Train Acc 0.9087 | Val Acc 0.8993 | Test Acc 0.7384
+Train time 0.4978, Eval time 0.5014
+Epoch 01155 | Loss 0.3369 | Train Acc 0.9083 | Val Acc 0.8986 | Test Acc 0.7379
+Train time 0.4977, Eval time 0.5013
+Epoch 01160 | Loss 0.3371 | Train Acc 0.9085 | Val Acc 0.8981 | Test Acc 0.7348
+Train time 0.4978, Eval time 0.5013
+Epoch 01165 | Loss 0.3359 | Train Acc 0.9078 | Val Acc 0.9001 | Test Acc 0.7377
+Train time 0.4976, Eval time 0.5013
+Epoch 01170 | Loss 0.3359 | Train Acc 0.9083 | Val Acc 0.8987 | Test Acc 0.7378
+Train time 0.4978, Eval time 0.5013
+Epoch 01175 | Loss 0.3327 | Train Acc 0.9091 | Val Acc 0.8989 | Test Acc 0.7377
+Train time 0.4978, Eval time 0.5013
+Epoch 01180 | Loss 0.3355 | Train Acc 0.9087 | Val Acc 0.8997 | Test Acc 0.7360
+Train time 0.5048, Eval time 0.4944
+Epoch 01185 | Loss 0.3322 | Train Acc 0.9086 | Val Acc 0.8998 | Test Acc 0.7384
+Train time 0.5010, Eval time 0.5013
+Epoch 01190 | Loss 0.3336 | Train Acc 0.9090 | Val Acc 0.8982 | Test Acc 0.7366
+Train time 0.4978, Eval time 0.5012
+Epoch 01195 | Loss 0.3341 | Train Acc 0.9085 | Val Acc 0.8988 | Test Acc 0.7403
+Train time 0.4977, Eval time 0.5013
+Epoch 01200 | Loss 0.3349 | Train Acc 0.9082 | Val Acc 0.9002 | Test Acc 0.7386
+Train time 0.4977, Eval time 0.5013
+Epoch 01205 | Loss 0.3351 | Train Acc 0.9076 | Val Acc 0.8975 | Test Acc 0.7411
+Train time 0.4977, Eval time 0.5013
+Epoch 01210 | Loss 0.3326 | Train Acc 0.9096 | Val Acc 0.9001 | Test Acc 0.7408
+Train time 0.4978, Eval time 0.5013
+Epoch 01215 | Loss 0.3318 | Train Acc 0.9089 | Val Acc 0.8998 | Test Acc 0.7391
+Train time 0.4977, Eval time 0.5012
+Epoch 01220 | Loss 0.3308 | Train Acc 0.9092 | Val Acc 0.9017 | Test Acc 0.7425
+Train time 0.4979, Eval time 0.5013
+Epoch 01225 | Loss 0.3289 | Train Acc 0.9103 | Val Acc 0.9000 | Test Acc 0.7372
+Train time 0.4977, Eval time 0.5013
+Epoch 01230 | Loss 0.3324 | Train Acc 0.9088 | Val Acc 0.8991 | Test Acc 0.7413
+Train time 0.4978, Eval time 0.5013
+Epoch 01235 | Loss 0.3363 | Train Acc 0.9078 | Val Acc 0.8979 | Test Acc 0.7365
+Train time 0.4978, Eval time 0.5044
+Epoch 01240 | Loss 0.3299 | Train Acc 0.9096 | Val Acc 0.8995 | Test Acc 0.7390
+Train time 0.4979, Eval time 0.5012
+Epoch 01245 | Loss 0.3314 | Train Acc 0.9087 | Val Acc 0.9000 | Test Acc 0.7380
+Train time 0.4978, Eval time 0.5012
+Epoch 01250 | Loss 0.3297 | Train Acc 0.9103 | Val Acc 0.9015 | Test Acc 0.7391
+Train time 0.4979, Eval time 0.5012
+Epoch 01255 | Loss 0.3273 | Train Acc 0.9101 | Val Acc 0.9002 | Test Acc 0.7409
+Train time 0.4978, Eval time 0.5012
+Epoch 01260 | Loss 0.3281 | Train Acc 0.9096 | Val Acc 0.8995 | Test Acc 0.7401
+Train time 0.4978, Eval time 0.5013
+Epoch 01265 | Loss 0.3265 | Train Acc 0.9097 | Val Acc 0.8997 | Test Acc 0.7442
+Train time 0.4978, Eval time 0.5012
+Epoch 01270 | Loss 0.3290 | Train Acc 0.9091 | Val Acc 0.8985 | Test Acc 0.7402
+Train time 0.4978, Eval time 0.5012
+Epoch 01275 | Loss 0.3270 | Train Acc 0.9106 | Val Acc 0.9011 | Test Acc 0.7410
+Train time 0.4977, Eval time 0.5013
+Epoch 01280 | Loss 0.3276 | Train Acc 0.9112 | Val Acc 0.9010 | Test Acc 0.7445
+Train time 0.4978, Eval time 0.5013
+Epoch 01285 | Loss 0.3297 | Train Acc 0.9092 | Val Acc 0.9005 | Test Acc 0.7416
+Train time 0.4978, Eval time 0.5012
+Epoch 01290 | Loss 0.3309 | Train Acc 0.9090 | Val Acc 0.8991 | Test Acc 0.7425
+Train time 0.4978, Eval time 0.5013
+Epoch 01295 | Loss 0.3270 | Train Acc 0.9100 | Val Acc 0.9002 | Test Acc 0.7412
+Train time 0.4977, Eval time 0.5012
+Epoch 01300 | Loss 0.3316 | Train Acc 0.9091 | Val Acc 0.8995 | Test Acc 0.7396
+Train time 0.4979, Eval time 0.5013
+Epoch 01305 | Loss 0.3275 | Train Acc 0.9096 | Val Acc 0.9010 | Test Acc 0.7430
+Train time 0.4978, Eval time 0.5012
+Epoch 01310 | Loss 0.3264 | Train Acc 0.9098 | Val Acc 0.9021 | Test Acc 0.7437
+Train time 0.4980, Eval time 0.5013
+Epoch 01315 | Loss 0.3260 | Train Acc 0.9110 | Val Acc 0.9017 | Test Acc 0.7435
+Train time 0.4977, Eval time 0.5015
+Epoch 01320 | Loss 0.3238 | Train Acc 0.9106 | Val Acc 0.9005 | Test Acc 0.7424
+Train time 0.4988, Eval time 0.5002
+Epoch 01325 | Loss 0.3257 | Train Acc 0.9105 | Val Acc 0.9002 | Test Acc 0.7431
+Train time 0.4978, Eval time 0.5013
+Epoch 01330 | Loss 0.3237 | Train Acc 0.9113 | Val Acc 0.8990 | Test Acc 0.7429
+Train time 0.4979, Eval time 0.5013
+Epoch 01335 | Loss 0.3257 | Train Acc 0.9114 | Val Acc 0.9022 | Test Acc 0.7450
+Train time 0.4979, Eval time 0.5012
+Epoch 01340 | Loss 0.3271 | Train Acc 0.9107 | Val Acc 0.9000 | Test Acc 0.7429
+Train time 0.4980, Eval time 0.5013
+Epoch 01345 | Loss 0.3258 | Train Acc 0.9108 | Val Acc 0.8994 | Test Acc 0.7418
+Train time 0.4981, Eval time 0.5011
+Epoch 01350 | Loss 0.3258 | Train Acc 0.9108 | Val Acc 0.9009 | Test Acc 0.7402
+Train time 0.4979, Eval time 0.5013
+Epoch 01355 | Loss 0.3244 | Train Acc 0.9104 | Val Acc 0.9012 | Test Acc 0.7444
+Train time 0.4978, Eval time 0.5013
+Epoch 01360 | Loss 0.3243 | Train Acc 0.9106 | Val Acc 0.9028 | Test Acc 0.7450
+Train time 0.4978, Eval time 0.5013
+Epoch 01365 | Loss 0.3219 | Train Acc 0.9114 | Val Acc 0.9019 | Test Acc 0.7432
+Train time 0.4981, Eval time 0.5009
+Epoch 01370 | Loss 0.3215 | Train Acc 0.9115 | Val Acc 0.9026 | Test Acc 0.7448
+Train time 0.4979, Eval time 0.5012
+Epoch 01375 | Loss 0.3209 | Train Acc 0.9121 | Val Acc 0.9024 | Test Acc 0.7449
+Train time 0.4978, Eval time 0.5012
+Epoch 01380 | Loss 0.3235 | Train Acc 0.9109 | Val Acc 0.9019 | Test Acc 0.7439
+Train time 0.4978, Eval time 0.5013
+Epoch 01385 | Loss 0.3214 | Train Acc 0.9117 | Val Acc 0.9006 | Test Acc 0.7459
+Train time 0.4984, Eval time 0.5012
+Epoch 01390 | Loss 0.3258 | Train Acc 0.9105 | Val Acc 0.9022 | Test Acc 0.7434
+Train time 0.4980, Eval time 0.5014
+Epoch 01395 | Loss 0.3239 | Train Acc 0.9113 | Val Acc 0.9000 | Test Acc 0.7439
+Train time 0.4977, Eval time 0.5013
+Epoch 01400 | Loss 0.3207 | Train Acc 0.9129 | Val Acc 0.9010 | Test Acc 0.7423
+Train time 0.4979, Eval time 0.5012
+Epoch 01405 | Loss 0.3222 | Train Acc 0.9105 | Val Acc 0.9014 | Test Acc 0.7458
+Train time 0.4978, Eval time 0.5013
+Epoch 01410 | Loss 0.3214 | Train Acc 0.9118 | Val Acc 0.9020 | Test Acc 0.7426
+Train time 0.4977, Eval time 0.5013
+Epoch 01415 | Loss 0.3199 | Train Acc 0.9116 | Val Acc 0.9008 | Test Acc 0.7420
+Train time 0.4978, Eval time 0.5013
+Epoch 01420 | Loss 0.3192 | Train Acc 0.9121 | Val Acc 0.9009 | Test Acc 0.7469
+Train time 0.4979, Eval time 0.5014
+Epoch 01425 | Loss 0.3192 | Train Acc 0.9123 | Val Acc 0.9025 | Test Acc 0.7436
+Train time 0.4977, Eval time 0.5012
+Epoch 01430 | Loss 0.3226 | Train Acc 0.9113 | Val Acc 0.9008 | Test Acc 0.7438
+Train time 0.4978, Eval time 0.5015
+Epoch 01435 | Loss 0.3207 | Train Acc 0.9111 | Val Acc 0.9014 | Test Acc 0.7437
+Train time 0.4977, Eval time 0.5013
+Epoch 01440 | Loss 0.3205 | Train Acc 0.9127 | Val Acc 0.9032 | Test Acc 0.7448
+Train time 0.4978, Eval time 0.5012
+Epoch 01445 | Loss 0.3239 | Train Acc 0.9107 | Val Acc 0.9003 | Test Acc 0.7463
+Train time 0.4979, Eval time 0.5011
+Epoch 01450 | Loss 0.3205 | Train Acc 0.9122 | Val Acc 0.9001 | Test Acc 0.7443
+Train time 0.4978, Eval time 0.5013
+Epoch 01455 | Loss 0.3197 | Train Acc 0.9112 | Val Acc 0.9032 | Test Acc 0.7458
+Train time 0.4979, Eval time 0.5012
+Epoch 01460 | Loss 0.3214 | Train Acc 0.9115 | Val Acc 0.9015 | Test Acc 0.7433
+Train time 0.4978, Eval time 0.5013
+Epoch 01465 | Loss 0.3201 | Train Acc 0.9112 | Val Acc 0.9020 | Test Acc 0.7463
+Train time 0.4978, Eval time 0.5011
+Epoch 01470 | Loss 0.3183 | Train Acc 0.9128 | Val Acc 0.9009 | Test Acc 0.7445
+Train time 0.4979, Eval time 0.5013
+Epoch 01475 | Loss 0.3197 | Train Acc 0.9113 | Val Acc 0.9020 | Test Acc 0.7444
+Train time 0.4978, Eval time 0.5012
+Epoch 01480 | Loss 0.3223 | Train Acc 0.9114 | Val Acc 0.9003 | Test Acc 0.7419
+Train time 0.4978, Eval time 0.5013
+Epoch 01485 | Loss 0.3202 | Train Acc 0.9118 | Val Acc 0.9010 | Test Acc 0.7456
+Train time 0.4978, Eval time 0.5012
+Epoch 01490 | Loss 0.3202 | Train Acc 0.9118 | Val Acc 0.9036 | Test Acc 0.7456
+Train time 0.4978, Eval time 0.5012
+Epoch 01495 | Loss 0.3174 | Train Acc 0.9114 | Val Acc 0.9018 | Test Acc 0.7449
+Train time 0.4977, Eval time 0.5013
+Epoch 01500 | Loss 0.3168 | Train Acc 0.9125 | Val Acc 0.9015 | Test Acc 0.7448
+Train time 0.4979, Eval time 0.5012
+Epoch 01505 | Loss 0.3171 | Train Acc 0.9131 | Val Acc 0.9027 | Test Acc 0.7458
+Train time 0.4978, Eval time 0.5012
+Epoch 01510 | Loss 0.3185 | Train Acc 0.9116 | Val Acc 0.9021 | Test Acc 0.7455
+Train time 0.4978, Eval time 0.5013
+Epoch 01515 | Loss 0.3193 | Train Acc 0.9114 | Val Acc 0.8999 | Test Acc 0.7437
+Train time 0.4978, Eval time 0.5012
+Epoch 01520 | Loss 0.3149 | Train Acc 0.9133 | Val Acc 0.9033 | Test Acc 0.7450
+Train time 0.4978, Eval time 0.5013
+Epoch 01525 | Loss 0.3188 | Train Acc 0.9117 | Val Acc 0.9015 | Test Acc 0.7435
+Train time 0.4978, Eval time 0.5012
+Epoch 01530 | Loss 0.3180 | Train Acc 0.9125 | Val Acc 0.9030 | Test Acc 0.7442
+Train time 0.4978, Eval time 0.5013
+Epoch 01535 | Loss 0.3148 | Train Acc 0.9129 | Val Acc 0.9026 | Test Acc 0.7449
+Train time 0.4978, Eval time 0.5012
+Epoch 01540 | Loss 0.3171 | Train Acc 0.9119 | Val Acc 0.9023 | Test Acc 0.7457
+Train time 0.4979, Eval time 0.5013
+Epoch 01545 | Loss 0.3135 | Train Acc 0.9137 | Val Acc 0.9031 | Test Acc 0.7452
+Train time 0.4980, Eval time 0.5012
+Epoch 01550 | Loss 0.3174 | Train Acc 0.9124 | Val Acc 0.9028 | Test Acc 0.7459
+Train time 0.4980, Eval time 0.5012
+Epoch 01555 | Loss 0.3162 | Train Acc 0.9132 | Val Acc 0.9031 | Test Acc 0.7439
+Train time 0.4979, Eval time 0.5012
+Epoch 01560 | Loss 0.3179 | Train Acc 0.9124 | Val Acc 0.9023 | Test Acc 0.7451
+Train time 0.4979, Eval time 0.5013
+Epoch 01565 | Loss 0.3149 | Train Acc 0.9130 | Val Acc 0.9032 | Test Acc 0.7441
+Train time 0.4977, Eval time 0.5013
+Epoch 01570 | Loss 0.3161 | Train Acc 0.9126 | Val Acc 0.9029 | Test Acc 0.7458
+Train time 0.4979, Eval time 0.5013
+Epoch 01575 | Loss 0.3187 | Train Acc 0.9126 | Val Acc 0.9034 | Test Acc 0.7424
+Train time 0.4978, Eval time 0.5012
+Epoch 01580 | Loss 0.3162 | Train Acc 0.9130 | Val Acc 0.9016 | Test Acc 0.7416
+Train time 0.4982, Eval time 0.5010
+Epoch 01585 | Loss 0.3153 | Train Acc 0.9126 | Val Acc 0.9016 | Test Acc 0.7446
+Train time 0.4978, Eval time 0.5013
+Epoch 01590 | Loss 0.3171 | Train Acc 0.9122 | Val Acc 0.9025 | Test Acc 0.7429
+Train time 0.4985, Eval time 0.5011
+Epoch 01595 | Loss 0.3151 | Train Acc 0.9130 | Val Acc 0.9037 | Test Acc 0.7453
+Train time 0.4980, Eval time 0.5010
+Epoch 01600 | Loss 0.3170 | Train Acc 0.9123 | Val Acc 0.9030 | Test Acc 0.7448
+Train time 0.4978, Eval time 0.5014
+Epoch 01605 | Loss 0.3137 | Train Acc 0.9131 | Val Acc 0.9029 | Test Acc 0.7463
+Train time 0.4977, Eval time 0.5014
+Epoch 01610 | Loss 0.3137 | Train Acc 0.9142 | Val Acc 0.9044 | Test Acc 0.7473
+Train time 0.4978, Eval time 0.5013
+Epoch 01615 | Loss 0.3157 | Train Acc 0.9125 | Val Acc 0.9011 | Test Acc 0.7477
+Train time 0.4979, Eval time 0.5011
+Epoch 01620 | Loss 0.3163 | Train Acc 0.9122 | Val Acc 0.9026 | Test Acc 0.7466
+Train time 0.4978, Eval time 0.5013
+Epoch 01625 | Loss 0.3155 | Train Acc 0.9132 | Val Acc 0.9037 | Test Acc 0.7463
+Train time 0.4976, Eval time 0.5013
+Epoch 01630 | Loss 0.3146 | Train Acc 0.9129 | Val Acc 0.9032 | Test Acc 0.7443
+Train time 0.4979, Eval time 0.5012
+Epoch 01635 | Loss 0.3138 | Train Acc 0.9130 | Val Acc 0.9029 | Test Acc 0.7454
+Train time 0.4983, Eval time 0.5008
+Epoch 01640 | Loss 0.3131 | Train Acc 0.9124 | Val Acc 0.9038 | Test Acc 0.7456
+Train time 0.4979, Eval time 0.5014
+Epoch 01645 | Loss 0.3141 | Train Acc 0.9129 | Val Acc 0.9039 | Test Acc 0.7452
+Train time 0.4978, Eval time 0.5012
+Epoch 01650 | Loss 0.3125 | Train Acc 0.9135 | Val Acc 0.9045 | Test Acc 0.7485
+Train time 0.4978, Eval time 0.5013
+Epoch 01655 | Loss 0.3142 | Train Acc 0.9133 | Val Acc 0.9019 | Test Acc 0.7474
+Train time 0.4978, Eval time 0.5012
+Epoch 01660 | Loss 0.3149 | Train Acc 0.9133 | Val Acc 0.9018 | Test Acc 0.7462
+Train time 0.5093, Eval time 0.5013
+Epoch 01665 | Loss 0.3148 | Train Acc 0.9127 | Val Acc 0.9021 | Test Acc 0.7470
+Train time 0.4980, Eval time 0.5011
+Epoch 01670 | Loss 0.3122 | Train Acc 0.9139 | Val Acc 0.9029 | Test Acc 0.7464
+Train time 0.4979, Eval time 0.5012
+Epoch 01675 | Loss 0.3119 | Train Acc 0.9133 | Val Acc 0.9023 | Test Acc 0.7474
+Train time 0.4978, Eval time 0.5012
+Epoch 01680 | Loss 0.3118 | Train Acc 0.9137 | Val Acc 0.9034 | Test Acc 0.7487
+Train time 0.4977, Eval time 0.5014
+Epoch 01685 | Loss 0.3108 | Train Acc 0.9148 | Val Acc 0.9049 | Test Acc 0.7465
+Train time 0.4977, Eval time 0.5012
+Epoch 01690 | Loss 0.3108 | Train Acc 0.9135 | Val Acc 0.9041 | Test Acc 0.7471
+Train time 0.4979, Eval time 0.5012
+Epoch 01695 | Loss 0.3115 | Train Acc 0.9136 | Val Acc 0.9028 | Test Acc 0.7477
+Train time 0.4978, Eval time 0.5013
+Epoch 01700 | Loss 0.3115 | Train Acc 0.9133 | Val Acc 0.9033 | Test Acc 0.7469
+Train time 0.4978, Eval time 0.5013
+Epoch 01705 | Loss 0.3112 | Train Acc 0.9138 | Val Acc 0.9031 | Test Acc 0.7470
+Train time 0.4985, Eval time 0.5011
+Epoch 01710 | Loss 0.3141 | Train Acc 0.9120 | Val Acc 0.9045 | Test Acc 0.7475
+Train time 0.4981, Eval time 0.5011
+Epoch 01715 | Loss 0.3123 | Train Acc 0.9142 | Val Acc 0.9036 | Test Acc 0.7478
+Train time 0.4978, Eval time 0.5013
+Epoch 01720 | Loss 0.3081 | Train Acc 0.9147 | Val Acc 0.9048 | Test Acc 0.7465
+Train time 0.4979, Eval time 0.5013
+Epoch 01725 | Loss 0.3109 | Train Acc 0.9137 | Val Acc 0.9029 | Test Acc 0.7486
+Train time 0.4977, Eval time 0.5013
+Epoch 01730 | Loss 0.3109 | Train Acc 0.9138 | Val Acc 0.9031 | Test Acc 0.7457
+Train time 0.4978, Eval time 0.5013
+Epoch 01735 | Loss 0.3103 | Train Acc 0.9147 | Val Acc 0.9038 | Test Acc 0.7469
+Train time 0.4977, Eval time 0.5013
+Epoch 01740 | Loss 0.3087 | Train Acc 0.9141 | Val Acc 0.9043 | Test Acc 0.7485
+Train time 0.4977, Eval time 0.5020
+Epoch 01745 | Loss 0.3115 | Train Acc 0.9139 | Val Acc 0.9028 | Test Acc 0.7480
+Train time 0.4977, Eval time 0.5012
+Epoch 01750 | Loss 0.3105 | Train Acc 0.9142 | Val Acc 0.9036 | Test Acc 0.7463
+Train time 0.4984, Eval time 0.5009
+Epoch 01755 | Loss 0.3083 | Train Acc 0.9144 | Val Acc 0.9046 | Test Acc 0.7463
+Train time 0.4977, Eval time 0.5014
+Epoch 01760 | Loss 0.3094 | Train Acc 0.9140 | Val Acc 0.9036 | Test Acc 0.7472
+Train time 0.4979, Eval time 0.5013
+Epoch 01765 | Loss 0.3089 | Train Acc 0.9138 | Val Acc 0.9032 | Test Acc 0.7476
+Train time 0.4979, Eval time 0.5012
+Epoch 01770 | Loss 0.3097 | Train Acc 0.9139 | Val Acc 0.9039 | Test Acc 0.7514
+Train time 0.4978, Eval time 0.5014
+Epoch 01775 | Loss 0.3100 | Train Acc 0.9132 | Val Acc 0.9025 | Test Acc 0.7471
+Train time 0.4978, Eval time 0.5012
+Epoch 01780 | Loss 0.3089 | Train Acc 0.9141 | Val Acc 0.9038 | Test Acc 0.7493
+Train time 0.4978, Eval time 0.5013
+Epoch 01785 | Loss 0.3095 | Train Acc 0.9135 | Val Acc 0.9039 | Test Acc 0.7476
+Train time 0.4979, Eval time 0.5012
+Epoch 01790 | Loss 0.3079 | Train Acc 0.9144 | Val Acc 0.9034 | Test Acc 0.7497
+Train time 0.4978, Eval time 0.5013
+Epoch 01795 | Loss 0.3079 | Train Acc 0.9147 | Val Acc 0.9021 | Test Acc 0.7486
+Train time 0.4977, Eval time 0.5013
+Epoch 01800 | Loss 0.3099 | Train Acc 0.9144 | Val Acc 0.9040 | Test Acc 0.7463
+Train time 0.4978, Eval time 0.5013
+Epoch 01805 | Loss 0.3090 | Train Acc 0.9145 | Val Acc 0.9011 | Test Acc 0.7453
+Train time 0.4978, Eval time 0.5012
+Epoch 01810 | Loss 0.3087 | Train Acc 0.9150 | Val Acc 0.9057 | Test Acc 0.7475
+Train time 0.4977, Eval time 0.5013
+Epoch 01815 | Loss 0.3071 | Train Acc 0.9151 | Val Acc 0.9034 | Test Acc 0.7487
+Train time 0.4977, Eval time 0.5012
+Epoch 01820 | Loss 0.3084 | Train Acc 0.9142 | Val Acc 0.9036 | Test Acc 0.7442
+Train time 0.4980, Eval time 0.5012
+Epoch 01825 | Loss 0.3066 | Train Acc 0.9150 | Val Acc 0.9049 | Test Acc 0.7476
+Train time 0.4978, Eval time 0.5012
+Epoch 01830 | Loss 0.3081 | Train Acc 0.9149 | Val Acc 0.9045 | Test Acc 0.7496
+Train time 0.4977, Eval time 0.5013
+Epoch 01835 | Loss 0.3072 | Train Acc 0.9142 | Val Acc 0.9029 | Test Acc 0.7475
+Train time 0.4977, Eval time 0.5014
+Epoch 01840 | Loss 0.3117 | Train Acc 0.9136 | Val Acc 0.9040 | Test Acc 0.7473
+Train time 0.4978, Eval time 0.5013
+Epoch 01845 | Loss 0.3114 | Train Acc 0.9140 | Val Acc 0.9015 | Test Acc 0.7485
+Train time 0.4978, Eval time 0.5012
+Epoch 01850 | Loss 0.3075 | Train Acc 0.9150 | Val Acc 0.9046 | Test Acc 0.7504
+Train time 0.4979, Eval time 0.5013
+Epoch 01855 | Loss 0.3074 | Train Acc 0.9151 | Val Acc 0.9045 | Test Acc 0.7481
+Train time 0.4978, Eval time 0.5012
+Epoch 01860 | Loss 0.3055 | Train Acc 0.9155 | Val Acc 0.9056 | Test Acc 0.7485
+Train time 0.4978, Eval time 0.5013
+Epoch 01865 | Loss 0.3071 | Train Acc 0.9154 | Val Acc 0.9046 | Test Acc 0.7478
+Train time 0.4977, Eval time 0.5013
+Epoch 01870 | Loss 0.3063 | Train Acc 0.9140 | Val Acc 0.9056 | Test Acc 0.7482
+Train time 0.4979, Eval time 0.5013
+Epoch 01875 | Loss 0.3062 | Train Acc 0.9148 | Val Acc 0.9047 | Test Acc 0.7459
+Train time 0.4979, Eval time 0.5012
+Epoch 01880 | Loss 0.3061 | Train Acc 0.9153 | Val Acc 0.9024 | Test Acc 0.7471
+Train time 0.4979, Eval time 0.5012
+Epoch 01885 | Loss 0.3078 | Train Acc 0.9142 | Val Acc 0.9044 | Test Acc 0.7485
+Train time 0.4996, Eval time 0.5012
+Epoch 01890 | Loss 0.3069 | Train Acc 0.9154 | Val Acc 0.9045 | Test Acc 0.7471
+Train time 0.4979, Eval time 0.5013
+Epoch 01895 | Loss 0.3063 | Train Acc 0.9149 | Val Acc 0.9039 | Test Acc 0.7485
+Train time 0.4978, Eval time 0.5012
+Epoch 01900 | Loss 0.3074 | Train Acc 0.9151 | Val Acc 0.9052 | Test Acc 0.7463
+Train time 0.4979, Eval time 0.5072
+Epoch 01905 | Loss 0.3065 | Train Acc 0.9141 | Val Acc 0.9044 | Test Acc 0.7509
+Train time 0.4980, Eval time 0.5011
+Epoch 01910 | Loss 0.3086 | Train Acc 0.9145 | Val Acc 0.9045 | Test Acc 0.7483
+Train time 0.4981, Eval time 0.5013
+Epoch 01915 | Loss 0.3053 | Train Acc 0.9147 | Val Acc 0.9041 | Test Acc 0.7476
+Train time 0.4981, Eval time 0.5011
+Epoch 01920 | Loss 0.3076 | Train Acc 0.9138 | Val Acc 0.9034 | Test Acc 0.7471
+Train time 0.4978, Eval time 0.5013
+Epoch 01925 | Loss 0.3069 | Train Acc 0.9141 | Val Acc 0.9047 | Test Acc 0.7476
+Train time 0.4978, Eval time 0.5012
+Epoch 01930 | Loss 0.3043 | Train Acc 0.9158 | Val Acc 0.9040 | Test Acc 0.7491
+Train time 0.4979, Eval time 0.5014
+Epoch 01935 | Loss 0.3048 | Train Acc 0.9153 | Val Acc 0.9059 | Test Acc 0.7495
+Train time 0.4980, Eval time 0.5011
+Epoch 01940 | Loss 0.3052 | Train Acc 0.9148 | Val Acc 0.9048 | Test Acc 0.7484
+Train time 0.4985, Eval time 0.5011
+Epoch 01945 | Loss 0.3043 | Train Acc 0.9150 | Val Acc 0.9046 | Test Acc 0.7497
+Train time 0.4985, Eval time 0.5009
+Epoch 01950 | Loss 0.3055 | Train Acc 0.9150 | Val Acc 0.9040 | Test Acc 0.7484
+Train time 0.4987, Eval time 0.5009
+Epoch 01955 | Loss 0.3050 | Train Acc 0.9149 | Val Acc 0.9052 | Test Acc 0.7503
+Train time 0.4992, Eval time 0.5006
+Epoch 01960 | Loss 0.3058 | Train Acc 0.9152 | Val Acc 0.9043 | Test Acc 0.7485
+Train time 0.4985, Eval time 0.5012
+Epoch 01965 | Loss 0.3047 | Train Acc 0.9151 | Val Acc 0.9052 | Test Acc 0.7503
+Train time 0.4986, Eval time 0.5008
+Epoch 01970 | Loss 0.3033 | Train Acc 0.9152 | Val Acc 0.9044 | Test Acc 0.7501
+Train time 0.4984, Eval time 0.5010
+Epoch 01975 | Loss 0.3031 | Train Acc 0.9158 | Val Acc 0.9057 | Test Acc 0.7486
+Train time 0.4987, Eval time 0.5009
+Epoch 01980 | Loss 0.3044 | Train Acc 0.9151 | Val Acc 0.9037 | Test Acc 0.7465
+Train time 0.4987, Eval time 0.5009
+Epoch 01985 | Loss 0.3060 | Train Acc 0.9153 | Val Acc 0.9039 | Test Acc 0.7466
+Train time 0.4987, Eval time 0.5009
+Epoch 01990 | Loss 0.3037 | Train Acc 0.9154 | Val Acc 0.9035 | Test Acc 0.7487
+Train time 0.4986, Eval time 0.5010
+Epoch 01995 | Loss 0.3054 | Train Acc 0.9149 | Val Acc 0.9042 | Test Acc 0.7468
+Train time 0.4987, Eval time 0.5009
+device = cuda:0
+<function relu at 0x7f03c5feeaf0>
+Training...
+Epoch 00000 | Loss 318.6301 | Train Acc 0.0053 | Val Acc 0.0051 | Test Acc 0.0085
+Train time 0.5783, Eval time 0.5792
+Epoch 00005 | Loss 7.4058 | Train Acc 0.2165 | Val Acc 0.2072 | Test Acc 0.1607
+Train time 0.5552, Eval time 0.5654
+Epoch 00010 | Loss 3.4281 | Train Acc 0.1557 | Val Acc 0.1497 | Test Acc 0.1206
+Train time 0.5554, Eval time 0.5653
+Epoch 00015 | Loss 3.1736 | Train Acc 0.1711 | Val Acc 0.1674 | Test Acc 0.1320
+Train time 0.5557, Eval time 0.5651
+Epoch 00020 | Loss 3.0070 | Train Acc 0.2311 | Val Acc 0.2234 | Test Acc 0.1718
+Train time 0.5555, Eval time 0.5653
+Epoch 00025 | Loss 2.8736 | Train Acc 0.2678 | Val Acc 0.2607 | Test Acc 0.2081
+Train time 0.5556, Eval time 0.5652
+Epoch 00030 | Loss 2.7557 | Train Acc 0.2859 | Val Acc 0.2795 | Test Acc 0.2250
+Train time 0.5556, Eval time 0.5651
+Epoch 00035 | Loss 2.7090 | Train Acc 0.2914 | Val Acc 0.2874 | Test Acc 0.2324
+Train time 0.5554, Eval time 0.5653
+Epoch 00040 | Loss 2.6733 | Train Acc 0.2958 | Val Acc 0.2917 | Test Acc 0.2392
+Train time 0.5555, Eval time 0.5651
+Epoch 00045 | Loss 2.6239 | Train Acc 0.2973 | Val Acc 0.2932 | Test Acc 0.2405
+Train time 0.5557, Eval time 0.5651
+Epoch 00050 | Loss 2.5871 | Train Acc 0.2995 | Val Acc 0.2956 | Test Acc 0.2443
+Train time 0.5559, Eval time 0.5652
+Epoch 00055 | Loss 2.5624 | Train Acc 0.3006 | Val Acc 0.2966 | Test Acc 0.2464
+Train time 0.5555, Eval time 0.5652
+Epoch 00060 | Loss 2.5210 | Train Acc 0.3027 | Val Acc 0.3009 | Test Acc 0.2483
+Train time 0.5554, Eval time 0.5653
+Epoch 00065 | Loss 2.4743 | Train Acc 0.3037 | Val Acc 0.3021 | Test Acc 0.2499
+Train time 0.5556, Eval time 0.5652
+Epoch 00070 | Loss 2.4165 | Train Acc 0.3044 | Val Acc 0.3019 | Test Acc 0.2512
+Train time 0.5556, Eval time 0.5651
+Epoch 00075 | Loss 2.3561 | Train Acc 0.3053 | Val Acc 0.3037 | Test Acc 0.2530
+Train time 0.5559, Eval time 0.5650
+Epoch 00080 | Loss 2.2877 | Train Acc 0.3080 | Val Acc 0.3081 | Test Acc 0.2559
+Train time 0.5555, Eval time 0.5653
+Epoch 00085 | Loss 2.2315 | Train Acc 0.3146 | Val Acc 0.3154 | Test Acc 0.2613
+Train time 0.5554, Eval time 0.5653
+Epoch 00090 | Loss 2.1859 | Train Acc 0.3295 | Val Acc 0.3302 | Test Acc 0.2688
+Train time 0.5556, Eval time 0.5653
+Epoch 00095 | Loss 2.1440 | Train Acc 0.3397 | Val Acc 0.3385 | Test Acc 0.2719
+Train time 0.5555, Eval time 0.5653
+Epoch 00100 | Loss 2.1110 | Train Acc 0.3529 | Val Acc 0.3530 | Test Acc 0.2762
+Train time 0.5555, Eval time 0.5652
+Epoch 00105 | Loss 2.0657 | Train Acc 0.3695 | Val Acc 0.3670 | Test Acc 0.2869
+Train time 0.5556, Eval time 0.5652
+Epoch 00110 | Loss 2.0258 | Train Acc 0.3879 | Val Acc 0.3847 | Test Acc 0.2988
+Train time 0.5556, Eval time 0.5650
+Epoch 00115 | Loss 1.9626 | Train Acc 0.4117 | Val Acc 0.4084 | Test Acc 0.3116
+Train time 0.5555, Eval time 0.5652
+Epoch 00120 | Loss 1.8950 | Train Acc 0.4352 | Val Acc 0.4300 | Test Acc 0.3280
+Train time 0.5555, Eval time 0.5651
+Epoch 00125 | Loss 1.8425 | Train Acc 0.4454 | Val Acc 0.4410 | Test Acc 0.3365
+Train time 0.5555, Eval time 0.5651
+Epoch 00130 | Loss 1.8079 | Train Acc 0.4526 | Val Acc 0.4483 | Test Acc 0.3394
+Train time 0.5554, Eval time 0.5652
+Epoch 00135 | Loss 1.7726 | Train Acc 0.4604 | Val Acc 0.4538 | Test Acc 0.3437
+Train time 0.5555, Eval time 0.5652
+Epoch 00140 | Loss 1.7329 | Train Acc 0.4649 | Val Acc 0.4593 | Test Acc 0.3488
+Train time 0.5553, Eval time 0.5654
+Epoch 00145 | Loss 1.6989 | Train Acc 0.4779 | Val Acc 0.4693 | Test Acc 0.3541
+Train time 0.5555, Eval time 0.5652
+Epoch 00150 | Loss 1.6539 | Train Acc 0.4944 | Val Acc 0.4870 | Test Acc 0.3629
+Train time 0.5555, Eval time 0.5652
+Epoch 00155 | Loss 1.6120 | Train Acc 0.5122 | Val Acc 0.5026 | Test Acc 0.3748
+Train time 0.5627, Eval time 0.5650
+Epoch 00160 | Loss 1.5620 | Train Acc 0.5377 | Val Acc 0.5241 | Test Acc 0.3892
+Train time 0.5556, Eval time 0.5651
+Epoch 00165 | Loss 1.5095 | Train Acc 0.5563 | Val Acc 0.5471 | Test Acc 0.4023
+Train time 0.5556, Eval time 0.5652
+Epoch 00170 | Loss 1.4600 | Train Acc 0.5692 | Val Acc 0.5580 | Test Acc 0.4110
+Train time 0.5555, Eval time 0.5651
+Epoch 00175 | Loss 1.4134 | Train Acc 0.5823 | Val Acc 0.5707 | Test Acc 0.4194
+Train time 0.5555, Eval time 0.5651
+Epoch 00180 | Loss 1.3749 | Train Acc 0.5893 | Val Acc 0.5789 | Test Acc 0.4272
+Train time 0.5554, Eval time 0.5653
+Epoch 00185 | Loss 1.3430 | Train Acc 0.5953 | Val Acc 0.5887 | Test Acc 0.4333
+Train time 0.5555, Eval time 0.5651
+Epoch 00190 | Loss 1.3098 | Train Acc 0.6028 | Val Acc 0.5922 | Test Acc 0.4398
+Train time 0.5554, Eval time 0.5652
+Epoch 00195 | Loss 1.2809 | Train Acc 0.6067 | Val Acc 0.5992 | Test Acc 0.4457
+Train time 0.5572, Eval time 0.5651
+Epoch 00200 | Loss 1.2583 | Train Acc 0.6133 | Val Acc 0.6045 | Test Acc 0.4510
+Train time 0.5555, Eval time 0.5652
+Epoch 00205 | Loss 1.2302 | Train Acc 0.6227 | Val Acc 0.6167 | Test Acc 0.4578
+Train time 0.5554, Eval time 0.5653
+Epoch 00210 | Loss 1.2044 | Train Acc 0.6309 | Val Acc 0.6232 | Test Acc 0.4665
+Train time 0.5555, Eval time 0.5652
+Epoch 00215 | Loss 1.1792 | Train Acc 0.6387 | Val Acc 0.6321 | Test Acc 0.4707
+Train time 0.5556, Eval time 0.5651
+Epoch 00220 | Loss 1.1539 | Train Acc 0.6468 | Val Acc 0.6357 | Test Acc 0.4746
+Train time 0.5556, Eval time 0.5650
+Epoch 00225 | Loss 1.1249 | Train Acc 0.6562 | Val Acc 0.6484 | Test Acc 0.4842
+Train time 0.5556, Eval time 0.5651
+Epoch 00230 | Loss 1.1004 | Train Acc 0.6633 | Val Acc 0.6523 | Test Acc 0.4867
+Train time 0.5554, Eval time 0.5652
+Epoch 00235 | Loss 1.0739 | Train Acc 0.6753 | Val Acc 0.6646 | Test Acc 0.4932
+Train time 0.5557, Eval time 0.5649
+Epoch 00240 | Loss 1.0500 | Train Acc 0.6843 | Val Acc 0.6746 | Test Acc 0.4986
+Train time 0.5554, Eval time 0.5652
+Epoch 00245 | Loss 1.0222 | Train Acc 0.6955 | Val Acc 0.6855 | Test Acc 0.5084
+Train time 0.5556, Eval time 0.5651
+Epoch 00250 | Loss 0.9905 | Train Acc 0.7084 | Val Acc 0.6979 | Test Acc 0.5173
+Train time 0.5555, Eval time 0.5652
+Epoch 00255 | Loss 0.9655 | Train Acc 0.7204 | Val Acc 0.7087 | Test Acc 0.5246
+Train time 0.5556, Eval time 0.5652
+Epoch 00260 | Loss 0.9466 | Train Acc 0.7295 | Val Acc 0.7192 | Test Acc 0.5308
+Train time 0.5553, Eval time 0.5653
+Epoch 00265 | Loss 0.9150 | Train Acc 0.7373 | Val Acc 0.7288 | Test Acc 0.5387
+Train time 0.5555, Eval time 0.5651
+Epoch 00270 | Loss 0.8984 | Train Acc 0.7417 | Val Acc 0.7336 | Test Acc 0.5428
+Train time 0.5554, Eval time 0.5651
+Epoch 00275 | Loss 0.8744 | Train Acc 0.7481 | Val Acc 0.7412 | Test Acc 0.5497
+Train time 0.5556, Eval time 0.5652
+Epoch 00280 | Loss 0.8455 | Train Acc 0.7601 | Val Acc 0.7520 | Test Acc 0.5549
+Train time 0.5554, Eval time 0.5653
+Epoch 00285 | Loss 0.8295 | Train Acc 0.7655 | Val Acc 0.7572 | Test Acc 0.5603
+Train time 0.5555, Eval time 0.5651
+Epoch 00290 | Loss 0.8069 | Train Acc 0.7723 | Val Acc 0.7654 | Test Acc 0.5672
+Train time 0.5554, Eval time 0.5652
+Epoch 00295 | Loss 0.7900 | Train Acc 0.7776 | Val Acc 0.7719 | Test Acc 0.5717
+Train time 0.5563, Eval time 0.5649
+Epoch 00300 | Loss 0.7788 | Train Acc 0.7804 | Val Acc 0.7718 | Test Acc 0.5722
+Train time 0.5555, Eval time 0.5651
+Epoch 00305 | Loss 0.7628 | Train Acc 0.7837 | Val Acc 0.7743 | Test Acc 0.5773
+Train time 0.5555, Eval time 0.5652
+Epoch 00310 | Loss 0.7476 | Train Acc 0.7921 | Val Acc 0.7858 | Test Acc 0.5863
+Train time 0.5554, Eval time 0.5652
+Epoch 00315 | Loss 0.7438 | Train Acc 0.7947 | Val Acc 0.7870 | Test Acc 0.5873
+Train time 0.5557, Eval time 0.5653
+Epoch 00320 | Loss 0.7161 | Train Acc 0.8037 | Val Acc 0.7945 | Test Acc 0.5931
+Train time 0.5554, Eval time 0.5653
+Epoch 00325 | Loss 0.7111 | Train Acc 0.8062 | Val Acc 0.7980 | Test Acc 0.5980
+Train time 0.5554, Eval time 0.5652
+Epoch 00330 | Loss 0.6972 | Train Acc 0.8163 | Val Acc 0.8075 | Test Acc 0.6019
+Train time 0.5555, Eval time 0.5651
+Epoch 00335 | Loss 0.6932 | Train Acc 0.8166 | Val Acc 0.8114 | Test Acc 0.6054
+Train time 0.5554, Eval time 0.5652
+Epoch 00340 | Loss 0.6745 | Train Acc 0.8234 | Val Acc 0.8161 | Test Acc 0.6145
+Train time 0.5555, Eval time 0.5652
+Epoch 00345 | Loss 0.6514 | Train Acc 0.8338 | Val Acc 0.8256 | Test Acc 0.6216
+Train time 0.5556, Eval time 0.5650
+Epoch 00350 | Loss 0.6461 | Train Acc 0.8340 | Val Acc 0.8266 | Test Acc 0.6268
+Train time 0.5556, Eval time 0.5650
+Epoch 00355 | Loss 0.6406 | Train Acc 0.8371 | Val Acc 0.8307 | Test Acc 0.6271
+Train time 0.5554, Eval time 0.5652
+Epoch 00360 | Loss 0.6260 | Train Acc 0.8426 | Val Acc 0.8336 | Test Acc 0.6333
+Train time 0.5556, Eval time 0.5652
+Epoch 00365 | Loss 0.6249 | Train Acc 0.8459 | Val Acc 0.8345 | Test Acc 0.6368
+Train time 0.5555, Eval time 0.5651
+Epoch 00370 | Loss 0.6140 | Train Acc 0.8446 | Val Acc 0.8361 | Test Acc 0.6380
+Train time 0.5555, Eval time 0.5652
+Epoch 00375 | Loss 0.6035 | Train Acc 0.8491 | Val Acc 0.8430 | Test Acc 0.6448
+Train time 0.5555, Eval time 0.5652
+Epoch 00380 | Loss 0.5911 | Train Acc 0.8513 | Val Acc 0.8433 | Test Acc 0.6467
+Train time 0.5558, Eval time 0.5651
+Epoch 00385 | Loss 0.5855 | Train Acc 0.8530 | Val Acc 0.8429 | Test Acc 0.6486
+Train time 0.5554, Eval time 0.5652
+Epoch 00390 | Loss 0.5824 | Train Acc 0.8544 | Val Acc 0.8462 | Test Acc 0.6499
+Train time 0.5555, Eval time 0.5651
+Epoch 00395 | Loss 0.5730 | Train Acc 0.8557 | Val Acc 0.8485 | Test Acc 0.6535
+Train time 0.5555, Eval time 0.5652
+Epoch 00400 | Loss 0.5664 | Train Acc 0.8576 | Val Acc 0.8484 | Test Acc 0.6543
+Train time 0.5563, Eval time 0.5647
+Epoch 00405 | Loss 0.5639 | Train Acc 0.8586 | Val Acc 0.8502 | Test Acc 0.6552
+Train time 0.5556, Eval time 0.5651
+Epoch 00410 | Loss 0.5579 | Train Acc 0.8602 | Val Acc 0.8525 | Test Acc 0.6548
+Train time 0.5554, Eval time 0.5653
+Epoch 00415 | Loss 0.5531 | Train Acc 0.8614 | Val Acc 0.8532 | Test Acc 0.6576
+Train time 0.5554, Eval time 0.5651
+Epoch 00420 | Loss 0.5447 | Train Acc 0.8626 | Val Acc 0.8546 | Test Acc 0.6587
+Train time 0.5554, Eval time 0.5651
+Epoch 00425 | Loss 0.5463 | Train Acc 0.8621 | Val Acc 0.8560 | Test Acc 0.6625
+Train time 0.5554, Eval time 0.5653
+Epoch 00430 | Loss 0.5407 | Train Acc 0.8646 | Val Acc 0.8552 | Test Acc 0.6637
+Train time 0.5557, Eval time 0.5651
+Epoch 00435 | Loss 0.5385 | Train Acc 0.8646 | Val Acc 0.8551 | Test Acc 0.6649
+Train time 0.5556, Eval time 0.5651
+Epoch 00440 | Loss 0.5368 | Train Acc 0.8642 | Val Acc 0.8557 | Test Acc 0.6642
+Train time 0.5556, Eval time 0.5651
+Epoch 00445 | Loss 0.5277 | Train Acc 0.8667 | Val Acc 0.8598 | Test Acc 0.6646
+Train time 0.5555, Eval time 0.5651
+Epoch 00450 | Loss 0.5260 | Train Acc 0.8666 | Val Acc 0.8595 | Test Acc 0.6660
+Train time 0.5556, Eval time 0.5651
+Epoch 00455 | Loss 0.5225 | Train Acc 0.8674 | Val Acc 0.8581 | Test Acc 0.6648
+Train time 0.5555, Eval time 0.5652
+Epoch 00460 | Loss 0.5167 | Train Acc 0.8686 | Val Acc 0.8614 | Test Acc 0.6676
+Train time 0.5554, Eval time 0.5651
+Epoch 00465 | Loss 0.5153 | Train Acc 0.8685 | Val Acc 0.8609 | Test Acc 0.6668
+Train time 0.5554, Eval time 0.5651
+Epoch 00470 | Loss 0.5177 | Train Acc 0.8681 | Val Acc 0.8626 | Test Acc 0.6675
+Train time 0.5555, Eval time 0.5649
+Epoch 00475 | Loss 0.5185 | Train Acc 0.8681 | Val Acc 0.8596 | Test Acc 0.6672
+Train time 0.5554, Eval time 0.5652
+Epoch 00480 | Loss 0.5178 | Train Acc 0.8678 | Val Acc 0.8588 | Test Acc 0.6677
+Train time 0.5555, Eval time 0.5650
+Epoch 00485 | Loss 0.5113 | Train Acc 0.8717 | Val Acc 0.8630 | Test Acc 0.6707
+Train time 0.5555, Eval time 0.5653
+Epoch 00490 | Loss 0.5047 | Train Acc 0.8703 | Val Acc 0.8631 | Test Acc 0.6716
+Train time 0.5554, Eval time 0.5652
+Epoch 00495 | Loss 0.5089 | Train Acc 0.8695 | Val Acc 0.8610 | Test Acc 0.6680
+Train time 0.5556, Eval time 0.5651
+Epoch 00500 | Loss 0.5122 | Train Acc 0.8691 | Val Acc 0.8621 | Test Acc 0.6704
+Train time 0.5555, Eval time 0.5652
+Epoch 00505 | Loss 0.5011 | Train Acc 0.8728 | Val Acc 0.8629 | Test Acc 0.6740
+Train time 0.5554, Eval time 0.5651
+Epoch 00510 | Loss 0.5156 | Train Acc 0.8678 | Val Acc 0.8600 | Test Acc 0.6671
+Train time 0.5555, Eval time 0.5651
+Epoch 00515 | Loss 0.4988 | Train Acc 0.8709 | Val Acc 0.8638 | Test Acc 0.6760
+Train time 0.5555, Eval time 0.5651
+Epoch 00520 | Loss 0.5011 | Train Acc 0.8733 | Val Acc 0.8642 | Test Acc 0.6717
+Train time 0.5555, Eval time 0.5651
+Epoch 00525 | Loss 0.4926 | Train Acc 0.8735 | Val Acc 0.8665 | Test Acc 0.6751
+Train time 0.5556, Eval time 0.5650
+Epoch 00530 | Loss 0.4892 | Train Acc 0.8748 | Val Acc 0.8666 | Test Acc 0.6743
+Train time 0.5555, Eval time 0.5651
+Epoch 00535 | Loss 0.4872 | Train Acc 0.8749 | Val Acc 0.8683 | Test Acc 0.6769
+Train time 0.5554, Eval time 0.5652
+Epoch 00540 | Loss 0.4856 | Train Acc 0.8753 | Val Acc 0.8669 | Test Acc 0.6749
+Train time 0.5555, Eval time 0.5651
+Epoch 00545 | Loss 0.4785 | Train Acc 0.8771 | Val Acc 0.8686 | Test Acc 0.6772
+Train time 0.5555, Eval time 0.5653
+Epoch 00550 | Loss 0.4833 | Train Acc 0.8764 | Val Acc 0.8689 | Test Acc 0.6783
+Train time 0.5554, Eval time 0.5652
+Epoch 00555 | Loss 0.4826 | Train Acc 0.8757 | Val Acc 0.8678 | Test Acc 0.6756
+Train time 0.5566, Eval time 0.5640
+Epoch 00560 | Loss 0.4786 | Train Acc 0.8784 | Val Acc 0.8690 | Test Acc 0.6781
+Train time 0.5554, Eval time 0.5651
+Epoch 00565 | Loss 0.4783 | Train Acc 0.8763 | Val Acc 0.8693 | Test Acc 0.6763
+Train time 0.5556, Eval time 0.5651
+Epoch 00570 | Loss 0.4765 | Train Acc 0.8772 | Val Acc 0.8681 | Test Acc 0.6790
+Train time 0.5555, Eval time 0.5651
+Epoch 00575 | Loss 0.4721 | Train Acc 0.8782 | Val Acc 0.8700 | Test Acc 0.6800
+Train time 0.5555, Eval time 0.5651
+Epoch 00580 | Loss 0.4733 | Train Acc 0.8773 | Val Acc 0.8693 | Test Acc 0.6799
+Train time 0.5555, Eval time 0.5652
+Epoch 00585 | Loss 0.4774 | Train Acc 0.8788 | Val Acc 0.8692 | Test Acc 0.6778
+Train time 0.5555, Eval time 0.5651
+Epoch 00590 | Loss 0.4662 | Train Acc 0.8801 | Val Acc 0.8733 | Test Acc 0.6808
+Train time 0.5555, Eval time 0.5650
+Epoch 00595 | Loss 0.4678 | Train Acc 0.8792 | Val Acc 0.8718 | Test Acc 0.6822
+Train time 0.5555, Eval time 0.5652
+Epoch 00600 | Loss 0.4757 | Train Acc 0.8786 | Val Acc 0.8680 | Test Acc 0.6765
+Train time 0.5556, Eval time 0.5651
+Epoch 00605 | Loss 0.4647 | Train Acc 0.8791 | Val Acc 0.8705 | Test Acc 0.6809
+Train time 0.5555, Eval time 0.5651
+Epoch 00610 | Loss 0.4614 | Train Acc 0.8810 | Val Acc 0.8727 | Test Acc 0.6846
+Train time 0.5555, Eval time 0.5652
+Epoch 00615 | Loss 0.4639 | Train Acc 0.8811 | Val Acc 0.8711 | Test Acc 0.6826
+Train time 0.5668, Eval time 0.5650
+Epoch 00620 | Loss 0.4659 | Train Acc 0.8796 | Val Acc 0.8716 | Test Acc 0.6806
+Train time 0.5555, Eval time 0.5651
+Epoch 00625 | Loss 0.4660 | Train Acc 0.8782 | Val Acc 0.8721 | Test Acc 0.6832
+Train time 0.5555, Eval time 0.5651
+Epoch 00630 | Loss 0.4547 | Train Acc 0.8834 | Val Acc 0.8733 | Test Acc 0.6827
+Train time 0.5555, Eval time 0.5651
+Epoch 00635 | Loss 0.4631 | Train Acc 0.8807 | Val Acc 0.8707 | Test Acc 0.6827
+Train time 0.5555, Eval time 0.5651
+Epoch 00640 | Loss 0.4620 | Train Acc 0.8805 | Val Acc 0.8725 | Test Acc 0.6780
+Train time 0.5555, Eval time 0.5651
+Epoch 00645 | Loss 0.4617 | Train Acc 0.8806 | Val Acc 0.8745 | Test Acc 0.6830
+Train time 0.5555, Eval time 0.5652
+Epoch 00650 | Loss 0.4512 | Train Acc 0.8830 | Val Acc 0.8764 | Test Acc 0.6843
+Train time 0.5555, Eval time 0.5651
+Epoch 00655 | Loss 0.4508 | Train Acc 0.8832 | Val Acc 0.8746 | Test Acc 0.6867
+Train time 0.5555, Eval time 0.5651
+Epoch 00660 | Loss 0.4534 | Train Acc 0.8828 | Val Acc 0.8738 | Test Acc 0.6869
+Train time 0.5556, Eval time 0.5651
+Epoch 00665 | Loss 0.4477 | Train Acc 0.8836 | Val Acc 0.8766 | Test Acc 0.6851
+Train time 0.5555, Eval time 0.5652
+Epoch 00670 | Loss 0.4477 | Train Acc 0.8836 | Val Acc 0.8751 | Test Acc 0.6864
+Train time 0.5554, Eval time 0.5653
+Epoch 00675 | Loss 0.4458 | Train Acc 0.8852 | Val Acc 0.8760 | Test Acc 0.6879
+Train time 0.5556, Eval time 0.5650
+Epoch 00680 | Loss 0.4485 | Train Acc 0.8858 | Val Acc 0.8766 | Test Acc 0.6890
+Train time 0.5555, Eval time 0.5651
+Epoch 00685 | Loss 0.4442 | Train Acc 0.8842 | Val Acc 0.8776 | Test Acc 0.6875
+Train time 0.5554, Eval time 0.5651
+Epoch 00690 | Loss 0.4446 | Train Acc 0.8850 | Val Acc 0.8767 | Test Acc 0.6926
+Train time 0.5556, Eval time 0.5650
+Epoch 00695 | Loss 0.4382 | Train Acc 0.8865 | Val Acc 0.8770 | Test Acc 0.6853
+Train time 0.5556, Eval time 0.5651
+Epoch 00700 | Loss 0.4435 | Train Acc 0.8859 | Val Acc 0.8786 | Test Acc 0.6925
+Train time 0.5556, Eval time 0.5650
+Epoch 00705 | Loss 0.4409 | Train Acc 0.8846 | Val Acc 0.8776 | Test Acc 0.6845
+Train time 0.5557, Eval time 0.5650
+Epoch 00710 | Loss 0.4411 | Train Acc 0.8852 | Val Acc 0.8764 | Test Acc 0.6884
+Train time 0.5556, Eval time 0.5650
+Epoch 00715 | Loss 0.4354 | Train Acc 0.8869 | Val Acc 0.8791 | Test Acc 0.6909
+Train time 0.5555, Eval time 0.5652
+Epoch 00720 | Loss 0.4350 | Train Acc 0.8854 | Val Acc 0.8780 | Test Acc 0.6904
+Train time 0.5555, Eval time 0.5650
+Epoch 00725 | Loss 0.4461 | Train Acc 0.8850 | Val Acc 0.8755 | Test Acc 0.6886
+Train time 0.5558, Eval time 0.5652
+Epoch 00730 | Loss 0.4326 | Train Acc 0.8870 | Val Acc 0.8797 | Test Acc 0.6899
+Train time 0.5555, Eval time 0.5720
+Epoch 00735 | Loss 0.4315 | Train Acc 0.8874 | Val Acc 0.8783 | Test Acc 0.6922
+Train time 0.5555, Eval time 0.5650
+Epoch 00740 | Loss 0.4312 | Train Acc 0.8873 | Val Acc 0.8788 | Test Acc 0.6909
+Train time 0.5576, Eval time 0.5631
+Epoch 00745 | Loss 0.4314 | Train Acc 0.8874 | Val Acc 0.8780 | Test Acc 0.6928
+Train time 0.5556, Eval time 0.5650
+Epoch 00750 | Loss 0.4284 | Train Acc 0.8891 | Val Acc 0.8796 | Test Acc 0.6940
+Train time 0.5555, Eval time 0.5652
+Epoch 00755 | Loss 0.4355 | Train Acc 0.8872 | Val Acc 0.8783 | Test Acc 0.6927
+Train time 0.5555, Eval time 0.5651
+Epoch 00760 | Loss 0.4360 | Train Acc 0.8870 | Val Acc 0.8773 | Test Acc 0.6925
+Train time 0.5554, Eval time 0.5651
+Epoch 00765 | Loss 0.4270 | Train Acc 0.8887 | Val Acc 0.8806 | Test Acc 0.6941
+Train time 0.5563, Eval time 0.5649
+Epoch 00770 | Loss 0.4297 | Train Acc 0.8871 | Val Acc 0.8787 | Test Acc 0.6947
+Train time 0.5555, Eval time 0.5652
+Epoch 00775 | Loss 0.4276 | Train Acc 0.8893 | Val Acc 0.8799 | Test Acc 0.6950
+Train time 0.5555, Eval time 0.5652
+Epoch 00780 | Loss 0.4318 | Train Acc 0.8881 | Val Acc 0.8786 | Test Acc 0.6948
+Train time 0.5554, Eval time 0.5652
+Epoch 00785 | Loss 0.4271 | Train Acc 0.8885 | Val Acc 0.8809 | Test Acc 0.6936
+Train time 0.5557, Eval time 0.5651
+Epoch 00790 | Loss 0.4269 | Train Acc 0.8861 | Val Acc 0.8798 | Test Acc 0.6926
+Train time 0.5620, Eval time 0.5650
+Epoch 00795 | Loss 0.4255 | Train Acc 0.8899 | Val Acc 0.8809 | Test Acc 0.6975
+Train time 0.5556, Eval time 0.5650
+Epoch 00800 | Loss 0.4257 | Train Acc 0.8899 | Val Acc 0.8812 | Test Acc 0.6947
+Train time 0.5556, Eval time 0.5651
+Epoch 00805 | Loss 0.4228 | Train Acc 0.8897 | Val Acc 0.8799 | Test Acc 0.7001
+Train time 0.5563, Eval time 0.5647
+Epoch 00810 | Loss 0.4276 | Train Acc 0.8884 | Val Acc 0.8790 | Test Acc 0.6948
+Train time 0.5558, Eval time 0.5650
+Epoch 00815 | Loss 0.4261 | Train Acc 0.8882 | Val Acc 0.8788 | Test Acc 0.6965
+Train time 0.5554, Eval time 0.5651
+Epoch 00820 | Loss 0.4203 | Train Acc 0.8890 | Val Acc 0.8804 | Test Acc 0.7000
+Train time 0.5554, Eval time 0.5652
+Epoch 00825 | Loss 0.4169 | Train Acc 0.8909 | Val Acc 0.8811 | Test Acc 0.7000
+Train time 0.5562, Eval time 0.5650
+Epoch 00830 | Loss 0.4216 | Train Acc 0.8894 | Val Acc 0.8793 | Test Acc 0.6953
+Train time 0.5555, Eval time 0.5653
+Epoch 00835 | Loss 0.4155 | Train Acc 0.8911 | Val Acc 0.8836 | Test Acc 0.7006
+Train time 0.5554, Eval time 0.5652
+Epoch 00840 | Loss 0.4179 | Train Acc 0.8896 | Val Acc 0.8807 | Test Acc 0.6982
+Train time 0.5556, Eval time 0.5650
+Epoch 00845 | Loss 0.4128 | Train Acc 0.8915 | Val Acc 0.8822 | Test Acc 0.7016
+Train time 0.5557, Eval time 0.5652
+Epoch 00850 | Loss 0.4123 | Train Acc 0.8926 | Val Acc 0.8837 | Test Acc 0.7030
+Train time 0.5552, Eval time 0.5652
+Epoch 00855 | Loss 0.4138 | Train Acc 0.8910 | Val Acc 0.8825 | Test Acc 0.6987
+Train time 0.5556, Eval time 0.5650
+Epoch 00860 | Loss 0.4119 | Train Acc 0.8929 | Val Acc 0.8843 | Test Acc 0.7027
+Train time 0.5555, Eval time 0.5652
+Epoch 00865 | Loss 0.4111 | Train Acc 0.8931 | Val Acc 0.8845 | Test Acc 0.7024
+Train time 0.5561, Eval time 0.5648
+Epoch 00870 | Loss 0.4142 | Train Acc 0.8920 | Val Acc 0.8836 | Test Acc 0.6996
+Train time 0.5557, Eval time 0.5650
+Epoch 00875 | Loss 0.4103 | Train Acc 0.8924 | Val Acc 0.8829 | Test Acc 0.7050
+Train time 0.5554, Eval time 0.5651
+Epoch 00880 | Loss 0.4099 | Train Acc 0.8925 | Val Acc 0.8821 | Test Acc 0.7001
+Train time 0.5556, Eval time 0.5652
+Epoch 00885 | Loss 0.4115 | Train Acc 0.8922 | Val Acc 0.8830 | Test Acc 0.7046
+Train time 0.5562, Eval time 0.5778
+Epoch 00890 | Loss 0.4099 | Train Acc 0.8928 | Val Acc 0.8843 | Test Acc 0.7044
+Train time 0.5554, Eval time 0.5651
+Epoch 00895 | Loss 0.4184 | Train Acc 0.8903 | Val Acc 0.8835 | Test Acc 0.7018
+Train time 0.5555, Eval time 0.5651
+Epoch 00900 | Loss 0.4127 | Train Acc 0.8910 | Val Acc 0.8834 | Test Acc 0.7060
+Train time 0.5647, Eval time 0.5559
+Epoch 00905 | Loss 0.4092 | Train Acc 0.8922 | Val Acc 0.8852 | Test Acc 0.7056
+Train time 0.5556, Eval time 0.5654
+Epoch 00910 | Loss 0.4032 | Train Acc 0.8939 | Val Acc 0.8840 | Test Acc 0.7067
+Train time 0.5558, Eval time 0.5649
+Epoch 00915 | Loss 0.4063 | Train Acc 0.8929 | Val Acc 0.8849 | Test Acc 0.7047
+Train time 0.5557, Eval time 0.5649
+Epoch 00920 | Loss 0.4031 | Train Acc 0.8946 | Val Acc 0.8853 | Test Acc 0.7077
+Train time 0.5555, Eval time 0.5651
+Epoch 00925 | Loss 0.4037 | Train Acc 0.8940 | Val Acc 0.8842 | Test Acc 0.7065
+Train time 0.5562, Eval time 0.5647
+Epoch 00930 | Loss 0.4050 | Train Acc 0.8921 | Val Acc 0.8843 | Test Acc 0.7082
+Train time 0.5569, Eval time 0.5639
+Epoch 00935 | Loss 0.4043 | Train Acc 0.8936 | Val Acc 0.8851 | Test Acc 0.7046
+Train time 0.5554, Eval time 0.5651
+Epoch 00940 | Loss 0.4053 | Train Acc 0.8937 | Val Acc 0.8840 | Test Acc 0.7094
+Train time 0.5555, Eval time 0.5651
+Epoch 00945 | Loss 0.4004 | Train Acc 0.8948 | Val Acc 0.8864 | Test Acc 0.7090
+Train time 0.5554, Eval time 0.5652
+Epoch 00950 | Loss 0.4002 | Train Acc 0.8952 | Val Acc 0.8865 | Test Acc 0.7092
+Train time 0.5555, Eval time 0.5660
+Epoch 00955 | Loss 0.3987 | Train Acc 0.8943 | Val Acc 0.8844 | Test Acc 0.7093
+Train time 0.5565, Eval time 0.5642
+Epoch 00960 | Loss 0.4020 | Train Acc 0.8949 | Val Acc 0.8857 | Test Acc 0.7123
+Train time 0.5555, Eval time 0.5650
+Epoch 00965 | Loss 0.4014 | Train Acc 0.8937 | Val Acc 0.8855 | Test Acc 0.7053
+Train time 0.5555, Eval time 0.5653
+Epoch 00970 | Loss 0.4020 | Train Acc 0.8948 | Val Acc 0.8855 | Test Acc 0.7084
+Train time 0.5557, Eval time 0.5650
+Epoch 00975 | Loss 0.3986 | Train Acc 0.8950 | Val Acc 0.8866 | Test Acc 0.7113
+Train time 0.5555, Eval time 0.5651
+Epoch 00980 | Loss 0.3965 | Train Acc 0.8960 | Val Acc 0.8859 | Test Acc 0.7097
+Train time 0.5565, Eval time 0.5642
+Epoch 00985 | Loss 0.3964 | Train Acc 0.8951 | Val Acc 0.8850 | Test Acc 0.7095
+Train time 0.5555, Eval time 0.5651
+Epoch 00990 | Loss 0.3963 | Train Acc 0.8950 | Val Acc 0.8856 | Test Acc 0.7095
+Train time 0.5554, Eval time 0.5652
+Epoch 00995 | Loss 0.3950 | Train Acc 0.8959 | Val Acc 0.8862 | Test Acc 0.7115
+Train time 0.5554, Eval time 0.5651
+Epoch 01000 | Loss 0.3971 | Train Acc 0.8959 | Val Acc 0.8868 | Test Acc 0.7144
+Train time 0.5555, Eval time 0.5652
+Epoch 01005 | Loss 0.3963 | Train Acc 0.8950 | Val Acc 0.8874 | Test Acc 0.7061
+Train time 0.5556, Eval time 0.5651
+Epoch 01010 | Loss 0.3933 | Train Acc 0.8956 | Val Acc 0.8858 | Test Acc 0.7127
+Train time 0.5555, Eval time 0.5652
+Epoch 01015 | Loss 0.3974 | Train Acc 0.8952 | Val Acc 0.8853 | Test Acc 0.7110
+Train time 0.5555, Eval time 0.5652
+Epoch 01020 | Loss 0.3978 | Train Acc 0.8951 | Val Acc 0.8881 | Test Acc 0.7152
+Train time 0.5555, Eval time 0.5650
+Epoch 01025 | Loss 0.4068 | Train Acc 0.8918 | Val Acc 0.8840 | Test Acc 0.7083
+Train time 0.5555, Eval time 0.5654
+Epoch 01030 | Loss 0.4036 | Train Acc 0.8929 | Val Acc 0.8839 | Test Acc 0.7126
+Train time 0.5577, Eval time 0.5650
+Epoch 01035 | Loss 0.3951 | Train Acc 0.8952 | Val Acc 0.8880 | Test Acc 0.7178
+Train time 0.5555, Eval time 0.5652
+Epoch 01040 | Loss 0.3958 | Train Acc 0.8944 | Val Acc 0.8868 | Test Acc 0.7077
+Train time 0.5555, Eval time 0.5651
+Epoch 01045 | Loss 0.3920 | Train Acc 0.8962 | Val Acc 0.8880 | Test Acc 0.7184
+Train time 0.5552, Eval time 0.5653
+Epoch 01050 | Loss 0.3927 | Train Acc 0.8971 | Val Acc 0.8864 | Test Acc 0.7164
+Train time 0.5554, Eval time 0.5652
+Epoch 01055 | Loss 0.3926 | Train Acc 0.8954 | Val Acc 0.8873 | Test Acc 0.7150
+Train time 0.5561, Eval time 0.5651
+Epoch 01060 | Loss 0.3874 | Train Acc 0.8977 | Val Acc 0.8879 | Test Acc 0.7121
+Train time 0.5554, Eval time 0.5652
+Epoch 01065 | Loss 0.3926 | Train Acc 0.8960 | Val Acc 0.8869 | Test Acc 0.7152
+Train time 0.5554, Eval time 0.5652
+Epoch 01070 | Loss 0.3884 | Train Acc 0.8976 | Val Acc 0.8884 | Test Acc 0.7197
+Train time 0.5555, Eval time 0.5653
+Epoch 01075 | Loss 0.3874 | Train Acc 0.8978 | Val Acc 0.8884 | Test Acc 0.7180
+Train time 0.5657, Eval time 0.5652
+Epoch 01080 | Loss 0.3849 | Train Acc 0.8982 | Val Acc 0.8893 | Test Acc 0.7159
+Train time 0.5557, Eval time 0.5650
+Epoch 01085 | Loss 0.3836 | Train Acc 0.8982 | Val Acc 0.8888 | Test Acc 0.7199
+Train time 0.5554, Eval time 0.5651
+Epoch 01090 | Loss 0.3827 | Train Acc 0.8986 | Val Acc 0.8902 | Test Acc 0.7152
+Train time 0.5554, Eval time 0.5652
+Epoch 01095 | Loss 0.3861 | Train Acc 0.8986 | Val Acc 0.8885 | Test Acc 0.7184
+Train time 0.5556, Eval time 0.5651
+Epoch 01100 | Loss 0.3956 | Train Acc 0.8940 | Val Acc 0.8869 | Test Acc 0.7144
+Train time 0.5555, Eval time 0.5651
+Epoch 01105 | Loss 0.3857 | Train Acc 0.8983 | Val Acc 0.8885 | Test Acc 0.7155
+Train time 0.5555, Eval time 0.5651
+Epoch 01110 | Loss 0.3811 | Train Acc 0.8998 | Val Acc 0.8908 | Test Acc 0.7187
+Train time 0.5557, Eval time 0.5650
+Epoch 01115 | Loss 0.3851 | Train Acc 0.8987 | Val Acc 0.8886 | Test Acc 0.7214
+Train time 0.5556, Eval time 0.5651
+Epoch 01120 | Loss 0.3830 | Train Acc 0.8986 | Val Acc 0.8902 | Test Acc 0.7191
+Train time 0.5554, Eval time 0.5651
+Epoch 01125 | Loss 0.3832 | Train Acc 0.8985 | Val Acc 0.8900 | Test Acc 0.7196
+Train time 0.5555, Eval time 0.5652
+Epoch 01130 | Loss 0.3843 | Train Acc 0.8975 | Val Acc 0.8888 | Test Acc 0.7175
+Train time 0.5554, Eval time 0.5652
+Epoch 01135 | Loss 0.3841 | Train Acc 0.8978 | Val Acc 0.8899 | Test Acc 0.7171
+Train time 0.5555, Eval time 0.5652
+Epoch 01140 | Loss 0.3890 | Train Acc 0.8981 | Val Acc 0.8871 | Test Acc 0.7157
+Train time 0.5581, Eval time 0.5651
+Epoch 01145 | Loss 0.3833 | Train Acc 0.8973 | Val Acc 0.8886 | Test Acc 0.7186
+Train time 0.5548, Eval time 0.5656
+Epoch 01150 | Loss 0.3825 | Train Acc 0.8988 | Val Acc 0.8902 | Test Acc 0.7211
+Train time 0.5546, Eval time 0.5655
+Epoch 01155 | Loss 0.3795 | Train Acc 0.8992 | Val Acc 0.8890 | Test Acc 0.7202
+Train time 0.5547, Eval time 0.5654
+Epoch 01160 | Loss 0.3807 | Train Acc 0.8993 | Val Acc 0.8894 | Test Acc 0.7233
+Train time 0.5547, Eval time 0.5654
+Epoch 01165 | Loss 0.3833 | Train Acc 0.8988 | Val Acc 0.8889 | Test Acc 0.7188
+Train time 0.5547, Eval time 0.5655
+Epoch 01170 | Loss 0.3794 | Train Acc 0.8998 | Val Acc 0.8890 | Test Acc 0.7167
+Train time 0.5548, Eval time 0.5663
+Epoch 01175 | Loss 0.3827 | Train Acc 0.8989 | Val Acc 0.8895 | Test Acc 0.7191
+Train time 0.5547, Eval time 0.5655
+Epoch 01180 | Loss 0.3774 | Train Acc 0.9002 | Val Acc 0.8906 | Test Acc 0.7213
+Train time 0.5546, Eval time 0.5655
+Epoch 01185 | Loss 0.3793 | Train Acc 0.8989 | Val Acc 0.8889 | Test Acc 0.7188
+Train time 0.5546, Eval time 0.5655
+Epoch 01190 | Loss 0.3785 | Train Acc 0.8994 | Val Acc 0.8895 | Test Acc 0.7243
+Train time 0.5546, Eval time 0.5655
+Epoch 01195 | Loss 0.3797 | Train Acc 0.8983 | Val Acc 0.8895 | Test Acc 0.7147
+Train time 0.5547, Eval time 0.5655
+Epoch 01200 | Loss 0.3870 | Train Acc 0.8976 | Val Acc 0.8892 | Test Acc 0.7157
+Train time 0.5548, Eval time 0.5653
+Epoch 01205 | Loss 0.3833 | Train Acc 0.8990 | Val Acc 0.8897 | Test Acc 0.7224
+Train time 0.5548, Eval time 0.5655
+Epoch 01210 | Loss 0.3781 | Train Acc 0.8997 | Val Acc 0.8910 | Test Acc 0.7204
+Train time 0.5547, Eval time 0.5654
+Epoch 01215 | Loss 0.3766 | Train Acc 0.8997 | Val Acc 0.8914 | Test Acc 0.7209
+Train time 0.5547, Eval time 0.5655
+Epoch 01220 | Loss 0.3751 | Train Acc 0.9003 | Val Acc 0.8910 | Test Acc 0.7238
+Train time 0.5546, Eval time 0.5654
+Epoch 01225 | Loss 0.3759 | Train Acc 0.9006 | Val Acc 0.8900 | Test Acc 0.7233
+Train time 0.5547, Eval time 0.5654
+Epoch 01230 | Loss 0.3775 | Train Acc 0.8997 | Val Acc 0.8903 | Test Acc 0.7206
+Train time 0.5547, Eval time 0.5654
+Epoch 01235 | Loss 0.3756 | Train Acc 0.9010 | Val Acc 0.8897 | Test Acc 0.7222
+Train time 0.5546, Eval time 0.5655
+Epoch 01240 | Loss 0.3756 | Train Acc 0.9010 | Val Acc 0.8914 | Test Acc 0.7218
+Train time 0.5546, Eval time 0.5655
+Epoch 01245 | Loss 0.3764 | Train Acc 0.8999 | Val Acc 0.8915 | Test Acc 0.7226
+Train time 0.5546, Eval time 0.5655
+Epoch 01250 | Loss 0.3734 | Train Acc 0.9004 | Val Acc 0.8908 | Test Acc 0.7226
+Train time 0.5548, Eval time 0.5655
+Epoch 01255 | Loss 0.3712 | Train Acc 0.9011 | Val Acc 0.8915 | Test Acc 0.7212
+Train time 0.5549, Eval time 0.5655
+Epoch 01260 | Loss 0.3712 | Train Acc 0.9010 | Val Acc 0.8913 | Test Acc 0.7244
+Train time 0.5547, Eval time 0.5654
+Epoch 01265 | Loss 0.3737 | Train Acc 0.9006 | Val Acc 0.8917 | Test Acc 0.7246
+Train time 0.5548, Eval time 0.5654
+Epoch 01270 | Loss 0.3749 | Train Acc 0.9011 | Val Acc 0.8911 | Test Acc 0.7257
+Train time 0.5548, Eval time 0.5655
+Epoch 01275 | Loss 0.3716 | Train Acc 0.9009 | Val Acc 0.8905 | Test Acc 0.7214
+Train time 0.5547, Eval time 0.5655
+Epoch 01280 | Loss 0.3709 | Train Acc 0.9016 | Val Acc 0.8909 | Test Acc 0.7235
+Train time 0.5546, Eval time 0.5655
+Epoch 01285 | Loss 0.3798 | Train Acc 0.8978 | Val Acc 0.8884 | Test Acc 0.7233
+Train time 0.5547, Eval time 0.5655
+Epoch 01290 | Loss 0.3789 | Train Acc 0.8995 | Val Acc 0.8898 | Test Acc 0.7198
+Train time 0.5546, Eval time 0.5654
+Epoch 01295 | Loss 0.3706 | Train Acc 0.9007 | Val Acc 0.8912 | Test Acc 0.7247
+Train time 0.5546, Eval time 0.5655
+Epoch 01300 | Loss 0.3702 | Train Acc 0.9020 | Val Acc 0.8926 | Test Acc 0.7219
+Train time 0.5547, Eval time 0.5654
+Epoch 01305 | Loss 0.3755 | Train Acc 0.9005 | Val Acc 0.8896 | Test Acc 0.7227
+Train time 0.5549, Eval time 0.5654
+Epoch 01310 | Loss 0.3678 | Train Acc 0.9015 | Val Acc 0.8928 | Test Acc 0.7271
+Train time 0.5547, Eval time 0.5654
+Epoch 01315 | Loss 0.3689 | Train Acc 0.9015 | Val Acc 0.8916 | Test Acc 0.7250
+Train time 0.5547, Eval time 0.5655
+Epoch 01320 | Loss 0.3711 | Train Acc 0.9014 | Val Acc 0.8904 | Test Acc 0.7224
+Train time 0.5547, Eval time 0.5655
+Epoch 01325 | Loss 0.3702 | Train Acc 0.9018 | Val Acc 0.8916 | Test Acc 0.7249
+Train time 0.5548, Eval time 0.5654
+Epoch 01330 | Loss 0.3718 | Train Acc 0.9014 | Val Acc 0.8911 | Test Acc 0.7232
+Train time 0.5548, Eval time 0.5655
+Epoch 01335 | Loss 0.3846 | Train Acc 0.8970 | Val Acc 0.8870 | Test Acc 0.7197
+Train time 0.5546, Eval time 0.5655
+Epoch 01340 | Loss 0.3743 | Train Acc 0.8998 | Val Acc 0.8924 | Test Acc 0.7227
+Train time 0.5546, Eval time 0.5655
+Epoch 01345 | Loss 0.3674 | Train Acc 0.9022 | Val Acc 0.8921 | Test Acc 0.7241
+Train time 0.5547, Eval time 0.5656
+Epoch 01350 | Loss 0.3675 | Train Acc 0.9020 | Val Acc 0.8920 | Test Acc 0.7272
+Train time 0.5550, Eval time 0.5656
+Epoch 01355 | Loss 0.3682 | Train Acc 0.9005 | Val Acc 0.8932 | Test Acc 0.7264
+Train time 0.5556, Eval time 0.5646
+Epoch 01360 | Loss 0.3643 | Train Acc 0.9025 | Val Acc 0.8934 | Test Acc 0.7247
+Train time 0.5548, Eval time 0.5654
+Epoch 01365 | Loss 0.3644 | Train Acc 0.9035 | Val Acc 0.8937 | Test Acc 0.7266
+Train time 0.5548, Eval time 0.5654
+Epoch 01370 | Loss 0.3669 | Train Acc 0.9016 | Val Acc 0.8915 | Test Acc 0.7258
+Train time 0.5547, Eval time 0.5654
+Epoch 01375 | Loss 0.3707 | Train Acc 0.9012 | Val Acc 0.8928 | Test Acc 0.7246
+Train time 0.5548, Eval time 0.5655
+Epoch 01380 | Loss 0.3701 | Train Acc 0.9007 | Val Acc 0.8918 | Test Acc 0.7233
+Train time 0.5547, Eval time 0.5654
+Epoch 01385 | Loss 0.3657 | Train Acc 0.9015 | Val Acc 0.8930 | Test Acc 0.7220
+Train time 0.5546, Eval time 0.5655
+Epoch 01390 | Loss 0.3634 | Train Acc 0.9041 | Val Acc 0.8936 | Test Acc 0.7294
+Train time 0.5548, Eval time 0.5655
+Epoch 01395 | Loss 0.3660 | Train Acc 0.9022 | Val Acc 0.8927 | Test Acc 0.7269
+Train time 0.5547, Eval time 0.5657
+Epoch 01400 | Loss 0.3640 | Train Acc 0.9030 | Val Acc 0.8944 | Test Acc 0.7274
+Train time 0.5547, Eval time 0.5655
+Epoch 01405 | Loss 0.3647 | Train Acc 0.9022 | Val Acc 0.8920 | Test Acc 0.7267
+Train time 0.5548, Eval time 0.5654
+Epoch 01410 | Loss 0.3633 | Train Acc 0.9029 | Val Acc 0.8952 | Test Acc 0.7235
+Train time 0.5549, Eval time 0.5657
+Epoch 01415 | Loss 0.3672 | Train Acc 0.9027 | Val Acc 0.8926 | Test Acc 0.7252
+Train time 0.5549, Eval time 0.5654
+Epoch 01420 | Loss 0.3635 | Train Acc 0.9022 | Val Acc 0.8922 | Test Acc 0.7260
+Train time 0.5547, Eval time 0.5655
+Epoch 01425 | Loss 0.3574 | Train Acc 0.9038 | Val Acc 0.8931 | Test Acc 0.7295
+Train time 0.5546, Eval time 0.5655
+Epoch 01430 | Loss 0.3618 | Train Acc 0.9036 | Val Acc 0.8943 | Test Acc 0.7288
+Train time 0.5553, Eval time 0.5651
+Epoch 01435 | Loss 0.3610 | Train Acc 0.9036 | Val Acc 0.8929 | Test Acc 0.7312
+Train time 0.5550, Eval time 0.5655
+Epoch 01440 | Loss 0.3596 | Train Acc 0.9032 | Val Acc 0.8938 | Test Acc 0.7248
+Train time 0.5547, Eval time 0.5655
+Epoch 01445 | Loss 0.3605 | Train Acc 0.9031 | Val Acc 0.8938 | Test Acc 0.7289
+Train time 0.5547, Eval time 0.5655
+Epoch 01450 | Loss 0.3626 | Train Acc 0.9035 | Val Acc 0.8928 | Test Acc 0.7268
+Train time 0.5546, Eval time 0.5655
+Epoch 01455 | Loss 0.3599 | Train Acc 0.9035 | Val Acc 0.8944 | Test Acc 0.7268
+Train time 0.5547, Eval time 0.5656
+Epoch 01460 | Loss 0.3590 | Train Acc 0.9036 | Val Acc 0.8950 | Test Acc 0.7281
+Train time 0.5546, Eval time 0.5656
+Epoch 01465 | Loss 0.3603 | Train Acc 0.9037 | Val Acc 0.8932 | Test Acc 0.7269
+Train time 0.5547, Eval time 0.5656
+Epoch 01470 | Loss 0.3603 | Train Acc 0.9036 | Val Acc 0.8940 | Test Acc 0.7294
+Train time 0.5546, Eval time 0.5657
+Epoch 01475 | Loss 0.3592 | Train Acc 0.9035 | Val Acc 0.8949 | Test Acc 0.7266
+Train time 0.5550, Eval time 0.5653
+Epoch 01480 | Loss 0.3590 | Train Acc 0.9038 | Val Acc 0.8955 | Test Acc 0.7313
+Train time 0.5548, Eval time 0.5653
+Epoch 01485 | Loss 0.3586 | Train Acc 0.9039 | Val Acc 0.8941 | Test Acc 0.7284
+Train time 0.5548, Eval time 0.5655
+Epoch 01490 | Loss 0.3621 | Train Acc 0.9038 | Val Acc 0.8953 | Test Acc 0.7247
+Train time 0.5546, Eval time 0.5656
+Epoch 01495 | Loss 0.3561 | Train Acc 0.9042 | Val Acc 0.8957 | Test Acc 0.7304
+Train time 0.5547, Eval time 0.5656
+Epoch 01500 | Loss 0.3591 | Train Acc 0.9043 | Val Acc 0.8941 | Test Acc 0.7266
+Train time 0.5547, Eval time 0.5655
+Epoch 01505 | Loss 0.3578 | Train Acc 0.9039 | Val Acc 0.8950 | Test Acc 0.7277
+Train time 0.5547, Eval time 0.5655
+Epoch 01510 | Loss 0.3549 | Train Acc 0.9050 | Val Acc 0.8954 | Test Acc 0.7295
+Train time 0.5546, Eval time 0.5656
+Epoch 01515 | Loss 0.3561 | Train Acc 0.9042 | Val Acc 0.8965 | Test Acc 0.7309
+Train time 0.5546, Eval time 0.5655
+Epoch 01520 | Loss 0.3554 | Train Acc 0.9048 | Val Acc 0.8956 | Test Acc 0.7309
+Train time 0.5547, Eval time 0.5655
+Epoch 01525 | Loss 0.3595 | Train Acc 0.9041 | Val Acc 0.8950 | Test Acc 0.7230
+Train time 0.5548, Eval time 0.5655
+Epoch 01530 | Loss 0.3716 | Train Acc 0.8995 | Val Acc 0.8894 | Test Acc 0.7227
+Train time 0.5547, Eval time 0.5654
+Epoch 01535 | Loss 0.3615 | Train Acc 0.9031 | Val Acc 0.8946 | Test Acc 0.7273
+Train time 0.5548, Eval time 0.5654
+Epoch 01540 | Loss 0.3597 | Train Acc 0.9044 | Val Acc 0.8942 | Test Acc 0.7267
+Train time 0.5548, Eval time 0.5655
+Epoch 01545 | Loss 0.3621 | Train Acc 0.9025 | Val Acc 0.8932 | Test Acc 0.7269
+Train time 0.5547, Eval time 0.5656
+Epoch 01550 | Loss 0.3544 | Train Acc 0.9049 | Val Acc 0.8945 | Test Acc 0.7334
+Train time 0.5547, Eval time 0.5660
+Epoch 01555 | Loss 0.3643 | Train Acc 0.9031 | Val Acc 0.8943 | Test Acc 0.7259
+Train time 0.5547, Eval time 0.5655
+Epoch 01560 | Loss 0.3535 | Train Acc 0.9048 | Val Acc 0.8943 | Test Acc 0.7309
+Train time 0.5547, Eval time 0.5656
+Epoch 01565 | Loss 0.3591 | Train Acc 0.9039 | Val Acc 0.8943 | Test Acc 0.7286
+Train time 0.5546, Eval time 0.5656
+Epoch 01570 | Loss 0.3565 | Train Acc 0.9047 | Val Acc 0.8961 | Test Acc 0.7313
+Train time 0.5547, Eval time 0.5655
+Epoch 01575 | Loss 0.3565 | Train Acc 0.9037 | Val Acc 0.8951 | Test Acc 0.7338
+Train time 0.5547, Eval time 0.5655
+Epoch 01580 | Loss 0.3553 | Train Acc 0.9051 | Val Acc 0.8939 | Test Acc 0.7313
+Train time 0.5547, Eval time 0.5655
+Epoch 01585 | Loss 0.3531 | Train Acc 0.9050 | Val Acc 0.8965 | Test Acc 0.7308
+Train time 0.5548, Eval time 0.5655
+Epoch 01590 | Loss 0.3536 | Train Acc 0.9048 | Val Acc 0.8965 | Test Acc 0.7297
+Train time 0.5547, Eval time 0.5655
+Epoch 01595 | Loss 0.3570 | Train Acc 0.9043 | Val Acc 0.8944 | Test Acc 0.7262
+Train time 0.5548, Eval time 0.5655
+Epoch 01600 | Loss 0.3560 | Train Acc 0.9040 | Val Acc 0.8931 | Test Acc 0.7292
+Train time 0.5547, Eval time 0.5655
+Epoch 01605 | Loss 0.3545 | Train Acc 0.9054 | Val Acc 0.8953 | Test Acc 0.7293
+Train time 0.5547, Eval time 0.5655
+Epoch 01610 | Loss 0.3545 | Train Acc 0.9046 | Val Acc 0.8954 | Test Acc 0.7316
+Train time 0.5547, Eval time 0.5655
+Epoch 01615 | Loss 0.3545 | Train Acc 0.9049 | Val Acc 0.8965 | Test Acc 0.7329
+Train time 0.5547, Eval time 0.5655
+Epoch 01620 | Loss 0.3544 | Train Acc 0.9046 | Val Acc 0.8957 | Test Acc 0.7326
+Train time 0.5547, Eval time 0.5656
+Epoch 01625 | Loss 0.3507 | Train Acc 0.9056 | Val Acc 0.8963 | Test Acc 0.7269
+Train time 0.5548, Eval time 0.5654
+Epoch 01630 | Loss 0.3506 | Train Acc 0.9062 | Val Acc 0.8961 | Test Acc 0.7298
+Train time 0.5547, Eval time 0.5655
+Epoch 01635 | Loss 0.3490 | Train Acc 0.9066 | Val Acc 0.8960 | Test Acc 0.7330
+Train time 0.5548, Eval time 0.5654
+Epoch 01640 | Loss 0.3488 | Train Acc 0.9053 | Val Acc 0.8947 | Test Acc 0.7336
+Train time 0.5547, Eval time 0.5654
+Epoch 01645 | Loss 0.3481 | Train Acc 0.9068 | Val Acc 0.8966 | Test Acc 0.7343
+Train time 0.5547, Eval time 0.5655
+Epoch 01650 | Loss 0.3475 | Train Acc 0.9065 | Val Acc 0.8950 | Test Acc 0.7336
+Train time 0.5547, Eval time 0.5654
+Epoch 01655 | Loss 0.3514 | Train Acc 0.9061 | Val Acc 0.8949 | Test Acc 0.7295
+Train time 0.5547, Eval time 0.5655
+Epoch 01660 | Loss 0.3524 | Train Acc 0.9051 | Val Acc 0.8954 | Test Acc 0.7310
+Train time 0.5545, Eval time 0.5656
+Epoch 01665 | Loss 0.3489 | Train Acc 0.9065 | Val Acc 0.8953 | Test Acc 0.7291
+Train time 0.5546, Eval time 0.5656
+Epoch 01670 | Loss 0.3512 | Train Acc 0.9050 | Val Acc 0.8971 | Test Acc 0.7315
+Train time 0.5546, Eval time 0.5656
+Epoch 01675 | Loss 0.3507 | Train Acc 0.9049 | Val Acc 0.8965 | Test Acc 0.7341
+Train time 0.5549, Eval time 0.5657
+Epoch 01680 | Loss 0.3500 | Train Acc 0.9057 | Val Acc 0.8956 | Test Acc 0.7305
+Train time 0.5547, Eval time 0.5655
+Epoch 01685 | Loss 0.3530 | Train Acc 0.9045 | Val Acc 0.8943 | Test Acc 0.7339
+Train time 0.5548, Eval time 0.5654
+Epoch 01690 | Loss 0.3486 | Train Acc 0.9068 | Val Acc 0.8978 | Test Acc 0.7270
+Train time 0.5547, Eval time 0.5655
+Epoch 01695 | Loss 0.3520 | Train Acc 0.9054 | Val Acc 0.8934 | Test Acc 0.7308
+Train time 0.5548, Eval time 0.5654
+Epoch 01700 | Loss 0.3490 | Train Acc 0.9062 | Val Acc 0.8971 | Test Acc 0.7341
+Train time 0.5548, Eval time 0.5654
+Epoch 01705 | Loss 0.3503 | Train Acc 0.9058 | Val Acc 0.8961 | Test Acc 0.7325
+Train time 0.5547, Eval time 0.5654
+Epoch 01710 | Loss 0.3505 | Train Acc 0.9053 | Val Acc 0.8960 | Test Acc 0.7313
+Train time 0.5547, Eval time 0.5655
+Epoch 01715 | Loss 0.3481 | Train Acc 0.9057 | Val Acc 0.8978 | Test Acc 0.7280
+Train time 0.5548, Eval time 0.5655
+Epoch 01720 | Loss 0.3472 | Train Acc 0.9075 | Val Acc 0.8974 | Test Acc 0.7357
+Train time 0.5546, Eval time 0.5673
+Epoch 01725 | Loss 0.3503 | Train Acc 0.9055 | Val Acc 0.8962 | Test Acc 0.7316
+Train time 0.5547, Eval time 0.5655
+Epoch 01730 | Loss 0.3471 | Train Acc 0.9061 | Val Acc 0.8976 | Test Acc 0.7314
+Train time 0.5546, Eval time 0.5655
+Epoch 01735 | Loss 0.3504 | Train Acc 0.9056 | Val Acc 0.8961 | Test Acc 0.7318
+Train time 0.5561, Eval time 0.5655
+Epoch 01740 | Loss 0.3510 | Train Acc 0.9060 | Val Acc 0.8968 | Test Acc 0.7278
+Train time 0.5546, Eval time 0.5656
+Epoch 01745 | Loss 0.3454 | Train Acc 0.9065 | Val Acc 0.8963 | Test Acc 0.7307
+Train time 0.5548, Eval time 0.5655
+Epoch 01750 | Loss 0.3472 | Train Acc 0.9064 | Val Acc 0.8984 | Test Acc 0.7317
+Train time 0.5548, Eval time 0.5654
+Epoch 01755 | Loss 0.3460 | Train Acc 0.9069 | Val Acc 0.8986 | Test Acc 0.7353
+Train time 0.5549, Eval time 0.5654
+Epoch 01760 | Loss 0.3456 | Train Acc 0.9068 | Val Acc 0.8980 | Test Acc 0.7305
+Train time 0.5546, Eval time 0.5656
+Epoch 01765 | Loss 0.3450 | Train Acc 0.9072 | Val Acc 0.8958 | Test Acc 0.7332
+Train time 0.5547, Eval time 0.5655
+Epoch 01770 | Loss 0.3452 | Train Acc 0.9071 | Val Acc 0.8965 | Test Acc 0.7291
+Train time 0.5547, Eval time 0.5656
+Epoch 01775 | Loss 0.3447 | Train Acc 0.9076 | Val Acc 0.8984 | Test Acc 0.7338
+Train time 0.5555, Eval time 0.5654
+Epoch 01780 | Loss 0.3473 | Train Acc 0.9066 | Val Acc 0.8977 | Test Acc 0.7360
+Train time 0.5547, Eval time 0.5655
+Epoch 01785 | Loss 0.3470 | Train Acc 0.9059 | Val Acc 0.8963 | Test Acc 0.7343
+Train time 0.5546, Eval time 0.5656
+Epoch 01790 | Loss 0.3460 | Train Acc 0.9065 | Val Acc 0.8960 | Test Acc 0.7336
+Train time 0.5547, Eval time 0.5654
+Epoch 01795 | Loss 0.3458 | Train Acc 0.9071 | Val Acc 0.8964 | Test Acc 0.7327
+Train time 0.5550, Eval time 0.5655
+Epoch 01800 | Loss 0.3462 | Train Acc 0.9065 | Val Acc 0.8972 | Test Acc 0.7330
+Train time 0.5546, Eval time 0.5655
+Epoch 01805 | Loss 0.3446 | Train Acc 0.9073 | Val Acc 0.8986 | Test Acc 0.7375
+Train time 0.5547, Eval time 0.5655
+Epoch 01810 | Loss 0.3461 | Train Acc 0.9064 | Val Acc 0.8972 | Test Acc 0.7317
+Train time 0.5546, Eval time 0.5655
+Epoch 01815 | Loss 0.3471 | Train Acc 0.9069 | Val Acc 0.8968 | Test Acc 0.7341
+Train time 0.5552, Eval time 0.5651
+Epoch 01820 | Loss 0.3437 | Train Acc 0.9069 | Val Acc 0.8979 | Test Acc 0.7311
+Train time 0.5549, Eval time 0.5654
+Epoch 01825 | Loss 0.3423 | Train Acc 0.9075 | Val Acc 0.8976 | Test Acc 0.7311
+Train time 0.5547, Eval time 0.5655
+Epoch 01830 | Loss 0.3472 | Train Acc 0.9069 | Val Acc 0.8969 | Test Acc 0.7336
+Train time 0.5546, Eval time 0.5656
+Epoch 01835 | Loss 0.3457 | Train Acc 0.9076 | Val Acc 0.8967 | Test Acc 0.7284
+Train time 0.5554, Eval time 0.5653
+Epoch 01840 | Loss 0.3432 | Train Acc 0.9071 | Val Acc 0.8983 | Test Acc 0.7346
+Train time 0.5547, Eval time 0.5655
+Epoch 01845 | Loss 0.3445 | Train Acc 0.9065 | Val Acc 0.8965 | Test Acc 0.7357
+Train time 0.5546, Eval time 0.5655
+Epoch 01850 | Loss 0.3441 | Train Acc 0.9077 | Val Acc 0.8982 | Test Acc 0.7324
+Train time 0.5546, Eval time 0.5654
+Epoch 01855 | Loss 0.3455 | Train Acc 0.9075 | Val Acc 0.8973 | Test Acc 0.7292
+Train time 0.5546, Eval time 0.5657
+Epoch 01860 | Loss 0.3445 | Train Acc 0.9074 | Val Acc 0.8976 | Test Acc 0.7349
+Train time 0.5550, Eval time 0.5652
+Epoch 01865 | Loss 0.3452 | Train Acc 0.9072 | Val Acc 0.8977 | Test Acc 0.7341
+Train time 0.5547, Eval time 0.5655
+Epoch 01870 | Loss 0.3470 | Train Acc 0.9060 | Val Acc 0.8967 | Test Acc 0.7324
+Train time 0.5547, Eval time 0.5655
+Epoch 01875 | Loss 0.3413 | Train Acc 0.9082 | Val Acc 0.8975 | Test Acc 0.7356
+Train time 0.5554, Eval time 0.5654
+Epoch 01880 | Loss 0.3448 | Train Acc 0.9072 | Val Acc 0.8980 | Test Acc 0.7339
+Train time 0.5550, Eval time 0.5654
+Epoch 01885 | Loss 0.3407 | Train Acc 0.9081 | Val Acc 0.8995 | Test Acc 0.7351
+Train time 0.5547, Eval time 0.5656
+Epoch 01890 | Loss 0.3399 | Train Acc 0.9079 | Val Acc 0.8985 | Test Acc 0.7343
+Train time 0.5546, Eval time 0.5654
+Epoch 01895 | Loss 0.3424 | Train Acc 0.9078 | Val Acc 0.8981 | Test Acc 0.7331
+Train time 0.5546, Eval time 0.5656
+Epoch 01900 | Loss 0.3433 | Train Acc 0.9069 | Val Acc 0.8962 | Test Acc 0.7311
+Train time 0.5547, Eval time 0.5654
+Epoch 01905 | Loss 0.3423 | Train Acc 0.9073 | Val Acc 0.8980 | Test Acc 0.7352
+Train time 0.5547, Eval time 0.5655
+Epoch 01910 | Loss 0.3421 | Train Acc 0.9071 | Val Acc 0.8974 | Test Acc 0.7375
+Train time 0.5547, Eval time 0.5654
+Epoch 01915 | Loss 0.3439 | Train Acc 0.9074 | Val Acc 0.8995 | Test Acc 0.7277
+Train time 0.5546, Eval time 0.5655
+Epoch 01920 | Loss 0.3414 | Train Acc 0.9070 | Val Acc 0.8997 | Test Acc 0.7298
+Train time 0.5547, Eval time 0.5655
+Epoch 01925 | Loss 0.3402 | Train Acc 0.9072 | Val Acc 0.8977 | Test Acc 0.7367
+Train time 0.5546, Eval time 0.5654
+Epoch 01930 | Loss 0.3411 | Train Acc 0.9084 | Val Acc 0.8980 | Test Acc 0.7375
+Train time 0.5547, Eval time 0.5654
+Epoch 01935 | Loss 0.3437 | Train Acc 0.9076 | Val Acc 0.8959 | Test Acc 0.7352
+Train time 0.5546, Eval time 0.5655
+Epoch 01940 | Loss 0.3423 | Train Acc 0.9079 | Val Acc 0.8979 | Test Acc 0.7356
+Train time 0.5547, Eval time 0.5819
+Epoch 01945 | Loss 0.3413 | Train Acc 0.9075 | Val Acc 0.8974 | Test Acc 0.7385
+Train time 0.5547, Eval time 0.5655
+Epoch 01950 | Loss 0.3395 | Train Acc 0.9078 | Val Acc 0.8984 | Test Acc 0.7350
+Train time 0.5546, Eval time 0.5654
+Epoch 01955 | Loss 0.3383 | Train Acc 0.9080 | Val Acc 0.9002 | Test Acc 0.7350
+Train time 0.5547, Eval time 0.5655
+Epoch 01960 | Loss 0.3389 | Train Acc 0.9091 | Val Acc 0.9001 | Test Acc 0.7361
+Train time 0.5546, Eval time 0.5655
+Epoch 01965 | Loss 0.3420 | Train Acc 0.9083 | Val Acc 0.8981 | Test Acc 0.7344
+Train time 0.5547, Eval time 0.5654
+Epoch 01970 | Loss 0.3432 | Train Acc 0.9074 | Val Acc 0.8976 | Test Acc 0.7316
+Train time 0.5547, Eval time 0.5654
+Epoch 01975 | Loss 0.3450 | Train Acc 0.9063 | Val Acc 0.8971 | Test Acc 0.7314
+Train time 0.5547, Eval time 0.5654
+Epoch 01980 | Loss 0.3400 | Train Acc 0.9085 | Val Acc 0.8986 | Test Acc 0.7381
+Train time 0.5548, Eval time 0.5654
+Epoch 01985 | Loss 0.3402 | Train Acc 0.9071 | Val Acc 0.8991 | Test Acc 0.7356
+Train time 0.5547, Eval time 0.5655
+Epoch 01990 | Loss 0.3420 | Train Acc 0.9074 | Val Acc 0.8984 | Test Acc 0.7305
+Train time 0.5547, Eval time 0.5655
+Epoch 01995 | Loss 0.3422 | Train Acc 0.9071 | Val Acc 0.8975 | Test Acc 0.7328
+Train time 0.5547, Eval time 0.5655

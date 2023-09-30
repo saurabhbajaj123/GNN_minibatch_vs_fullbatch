@@ -9,6 +9,7 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel
 
 from torch_geometric.nn import SAGEConv
+from torch_geometric.nn.models import GCN, GAT
 from torch_geometric.datasets import Reddit
 from torch_geometric.datasets import Planetoid
 
@@ -114,7 +115,13 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
 
     if args.seed:
         torch.manual_seed(args.seed)
-    model = SAGE(num_features, args.n_hidden, num_classes, num_layers=args.n_layers, dropout=args.dropout).to(rank)
+    if args.model == "graphsage":
+        model = SAGE(num_features, args.n_hidden, num_classes, num_layers=args.n_layers, dropout=args.dropout).to(rank)
+    elif args.model == "gat":
+        model = GAT(num_features, args.n_hidden, num_classes, num_layers=args.n_layers, heads=args.num_heads, dropout=args.dropout).to(rank)
+    elif args.model == "gcn":
+        model = GCN(num_features, args.n_hidden, num_classes, num_layers=args.n_layers, dropout=args.dropout).to(rank)
+
     model = DistributedDataParallel(model, device_ids=[rank])
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 

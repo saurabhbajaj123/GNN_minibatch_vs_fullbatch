@@ -86,7 +86,7 @@ def train(g, features, labels, masks, model, args):
         #     )
         # )
         train_time += t1 - t0
-        scheduler.step(best_val_acc)
+        # scheduler.step(best_val_acc)
 
         if epoch % args.log_every == 0:
             # train_acc, val_acc, test_acc = evaluate(g, features, labels, masks, model)
@@ -158,6 +158,7 @@ def main():
 
     device = torch.device("cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu")
     # g = g.int().to(device)
+    print(f"device = {device}")
     g = g.to(device)
     features = g.ndata["feat"].to(device)
     labels = g.ndata["label"].to(device)
@@ -188,34 +189,34 @@ if __name__ == "__main__":
     
     args = create_parser()
 
-    main()
+    # main()
 
-    # sweep_configuration = {
-    #     # 'name': f"Multiple runs best parameters {args.n_gpus}",
-    #     'name': f"lr vary",
-    #     # 'name': "checking if 5 layers is the best",
-    #     'method': 'grid',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters':
-    #     {
-    #         # 'n_layers': {'values': [6, 7, 8, 9, 10]},
-    #         # 'n_hidden': {'values': [16, 32, 64]},
-    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 256},
-    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
-    #         # 'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
-    #         'lr': {'values': [args.lr, args.lr*2]}
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
-    #         # 'n_gpus': {'values': [4,3,2,1]},
-    #         # 'dummy': {'values': [1, 2, 3, 4, 5]},
-    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # "fanout": {'values': [4, 7, 10, 15, 20]}
-    #         # 'dummy': {'distribution': 'uniform', 'min': 3, 'max': 10},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration,
-    #                        project="GCN-fullbatch-{}".format(args.dataset))
+    sweep_configuration = {
+        # 'name': f"Multiple runs best parameters {args.n_gpus}",
+        'name': f"n_layers vary",
+        # 'name': "checking if 5 layers is the best",
+        'method': 'grid',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters':
+        {
+            'n_layers': {'values': [7, 8, 9, 10]},
+            # 'n_hidden': {'values': [16, 32, 64, 128]},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 32, 'max': 128},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
+            # 'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
+            # 'lr': {'values': [args.lr, args.lr*2]}
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
+            # 'n_gpus': {'values': [4,3,2,1]},
+            # 'dummy': {'values': [1, 2, 3, 4, 5]},
+            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # "fanout": {'values': [4, 7, 10, 15, 20]}
+            # 'dummy': {'distribution': 'uniform', 'min': 3, 'max': 10},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration,
+                           project="SAGE-fullbatch-{}".format(args.dataset))
 
-    # wandb.agent(sweep_id, function=main, count=5)
+    wandb.agent(sweep_id, function=main, count=1000)
 
