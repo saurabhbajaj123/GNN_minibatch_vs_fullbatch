@@ -96,13 +96,13 @@ if __name__ == '__main__':
     # main()
     args = create_parser() 
     sweep_configuration = {
-        'name': f"Ablation with n_layers",
+        'name': f"Ablation with n_hidden ; n_layers {args.n_layers}",
         'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters': 
         {
-            # 'n_hidden': {'values': [64, 128, 256, 512, 1024]},
-            'n_layers': {'values': [6, 7, 8]},
+            'n_hidden': {'values': [64, 256, 1024]},
+            'n_layers': {'values': [2, 4, 6]},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},

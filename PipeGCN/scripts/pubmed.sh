@@ -24,7 +24,7 @@ python main.py \
   --patience 50 \
   --enable-pipeline \
   --fix-seed \
-  --seed 1344439319 \
+  # --seed 1344439319 \
 
 
 

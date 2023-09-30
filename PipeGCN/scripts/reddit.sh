@@ -2,7 +2,7 @@
 
 #SBATCH --job-name reddit   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=100GB  # memory per CPU core
+#SBATCH --mem=150GB  # memory per CPU core
 #SBATCH --time=0-12:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --constraint=m40
 #SBATCH --nodes=1
@@ -16,7 +16,7 @@ python main.py \
   --n-partitions 4 \
   --n-epochs 1000 \
   --model graphsage \
-  --n-layers 4 \
+  --n-layers 7 \
   --n-hidden 1024 \
   --log-every 10 \
   --patience 100 \
