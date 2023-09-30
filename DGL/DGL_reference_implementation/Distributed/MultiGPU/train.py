@@ -288,6 +288,7 @@ def run(proc_id, nprocs, devices, g, data, args):
     g = g.to(device if args.mode == "puregpu" else "cpu")
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
+    print(g.ndata["feat"].device)
     activation = F.relu
     # model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     if "sage" in args.model.lower():
