@@ -1,0 +1,20 @@
+python3 /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/tools/launch.py --workspace /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/examples/pytorch/graphsage/dist --num_trainers 2 --num_samplers 0 --num_servers 1 --part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/ogbn-arxiv-4-metis-vol-trans/ogbn-arxiv-4-metis-vol-trans.json --ip-config ip_config.txt "python3 /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/examples/distributed/graphsage/node_classification.py --graph_name ogbn-arxiv --ip_config ip_config.txt --num_epochs 30 --batch_size 1000 --num_gpus 2"
+
+python3 /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/tools/launch.py \
+--workspace /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/examples/pytorch/graphsage/dist/ \
+--num_trainers 4 \
+--num_samplers 0 \
+--num_servers 1 \
+--part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/ogbn-products-4-metis-vol-trans/ogbn-products-4-metis-vol-trans.json \
+--ip_config /work/sbajaj_umass_edu/ip_config.txt \
+"python3 node_classification.py --graph_name ogbn-products --ip_config /work/sbajaj_umass_edu/ip_config.txt --num_epochs 30 --batch_size 1000 --num_gpus 2"
+
+
+python3 /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/tools/launch.py \
+--workspace /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/examples/pytorch/graphsage/dist/ \
+--num_trainers 1 \
+--num_samplers 0 \
+--num_servers 1 \
+--part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/ogbn-products-2-metis-vol-trans/ogbn-products-2-metis-vol-trans.json \
+--ip_config /work/sbajaj_umass_edu/ip_config.txt \
+"python3 /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/dgl/examples/distributed/graphsage/node_classification.py --graph_name ogbn-products --ip_config /work/sbajaj_umass_edu/ip_config.txt --num_epochs 30 --batch_size 1000"

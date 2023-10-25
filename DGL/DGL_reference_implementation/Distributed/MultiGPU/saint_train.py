@@ -19,7 +19,7 @@ from dgl.dataloading import (
     SAINTSampler,
 )
 from dgl.multiprocessing import shared_tensor
-from ogb.nodeproppred import DglNodePropPredDataset
+from ogb.nodeproppred import DglNodePropPredDataset, Evaluator
 from torch.nn.parallel import DistributedDataParallel
 from model import GraphSAGE, SAGE, SaintSAGE
 from parser import create_parser
@@ -31,17 +31,18 @@ import wandb
 
 
 def evaluate(g, features, labels, masks, model):
-    print(f"graph = {g.device}")
-    print(f"features = {features.device}")
-    print(f"labels = {labels.device}")
-    model = model.to(g.device)
-    print(f"model = {model.device}")
+    # model = model.to(g.device)
+    model = model.cpu()
     model.eval()
+    # print(f"graph = {g.device}")
+    # print(f"features = {features.device}")
+    # print(f"labels = {labels.device}")
+    # print(f"model = {model.device}")
     with torch.no_grad():
         train_mask = masks[0]
         val_mask = masks[1]
         test_mask = masks[2]
-        logits = model(g, features)
+        logits = model.module.inference(g, features)
 
         val_logits = logits[val_mask]
         val_labels = labels[val_mask]
@@ -80,6 +81,18 @@ def evaluate(g, features, labels, masks, model):
 #         task="multiclass",
 #         num_classes=n_classes,
 #     )
+
+
+
+# @torch.no_grad()
+# def evaluate(evaluator, predictions, labels):
+#     # print(labels.size(), predictions.size())
+#     acc = evaluator.eval({
+#         'y_true': torch.reshape(labels, (-1, 1)),
+#         'y_pred': torch.reshape(predictions, (-1, 1)),
+#     })['acc']
+#     # eacc = sklearn.metrics.accuracy_score(labels, predictions)
+#     return acc
 
 
 def layerwise_infer(
@@ -153,9 +166,10 @@ def train(
     # sampler = NeighborSampler(
     #     [args.fanout for _ in range(args.n_layers)], prefetch_node_feats=["feat"], prefetch_labels=["label"]
     # )
+    print(f"device = {device}")
     dataloader = DataLoader(
-        g.subgraph(train_idx.to('cpu')),
-        torch.arange(len(train_idx)/args.batch_size).to(device),
+        g,
+        torch.arange(args.num_iters),
         sampler,
         device=device,
         batch_size=args.batch_size,
@@ -166,22 +180,22 @@ def train(
         use_uva=use_uva,
     )
     # print(val_idx)
-    eval_dataloader = DataLoader(
-        g,
-        torch.arange((len(train_idx))/args.batch_size).to(device),
-        sampler,
-        device=device,
-        batch_size=args.batch_size,
-        shuffle=True,
-        drop_last=False,
-        num_workers=0,
-        use_ddp=True,
-        use_uva=use_uva,
-    )
+    # eval_dataloader = DataLoader(
+    #     g,
+    #     torch.arange((len(train_idx))/args.batch_size).to(device),
+    #     sampler,
+    #     device=device,
+    #     batch_size=args.batch_size,
+    #     shuffle=True,
+    #     drop_last=False,
+    #     num_workers=0,
+    #     use_ddp=True,
+    #     use_uva=use_uva,
+    # )
     # for sg in eval_dataloader:
     #     print(sg.ndata['val_mask'])
     # print(len(eval_dataloader))
-
+    evaluator = Evaluator(name='ogbn-arxiv')
     train_dur = []
     eval_dur = []
     best_val_acc = 0
@@ -190,37 +204,49 @@ def train(
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
     masks = (train_idx, val_idx, test_idx)
-
+    no_improvement_count = 0
+    train_time = 0
     for epoch in range(n_epochs):
         model = model.to(device)
         t0 = time.time()
         model.train()
         total_loss = 0
+        # print(epoch)
         for it, sg in enumerate(dataloader):
             x = sg.ndata["feat"]
             y = sg.ndata["label"]
-            # m = sg.ndata["train_mask"].bool()
+            m = sg.ndata["train_mask"].bool()
             
             y_hat = model(sg, x)
-            loss = F.cross_entropy(y_hat, y)
+            loss = F.cross_entropy(y_hat[m], y[m])
 
             opt.zero_grad()
             loss.backward()
             opt.step()
             total_loss += loss
         t1 = time.time()
-
+        train_time += t1 - t0
+        no_improvement_count = 0
         train_dur.append(t1-t0)
 
-        if (epoch + 1) % args.log_every == 0:
-            model = model.to('cpu')
-            train_acc, val_acc, test_acc = evaluate(g, g.ndata["feat"], g.ndata["label"], masks, model)
-            train_acc, val_acc, test_acc = train_acc/nprocs, val_acc/nprocs, test_acc/nprocs
+        if (epoch + 1) % args.log_every == 0 and proc_id == 0:
+            # model.eval()
+            train_acc, val_acc, test_acc = evaluate(g, g.ndata["feat"].to('cpu'), g.ndata["label"], masks, model)
+            # model = model.to('cpu')
+            # print(f"features device = {g.ndata['feat'].device}, graph device = {g.device}, model = {model.to('cpu').device}")
+            # pred = model(g, g.ndata['feat'])
+            # print(f"pred device = {pred.device}")
+            # train_acc = evaluate(evaluator, pred[train_idx].argmax(1), g.ndata['label'][train_idx])
+            # val_acc = evaluate(evaluator, pred[val_idx].argmax(1), g.ndata['label'][val_idx])
+            # test_acc = evaluate(evaluator, pred[test_idx].argmax(1), g.ndata['label'][test_idx])
+            # print(train_acc, val_acc, test_acc)
+            # train_acc, val_acc, test_acc = train_acc/nprocs, val_acc/nprocs, test_acc/nprocs
+
             # model.eval()
             # with torch.no_grad():
             #     train_preds, val_preds, test_preds = [], [], []
             #     train_labels, val_labels, test_labels = [], [], []
-            #     for it, sg in enumerate(eval_dataloader):
+            #     for it, sg in enumerate(dataloader):
             #         x = sg.ndata["feat"]
             #         y = sg.ndata["label"]
             #         m_train = sg.ndata["train_mask"].bool()
@@ -247,14 +273,12 @@ def train(
             #         num_classes=n_classes,
             #     ).to(device) / nprocs
                 
-            #     # print(val_preds, val_labels)
             #     val_acc = MF.accuracy(
             #         val_preds,
             #         val_labels,
             #         task="multiclass",
             #         num_classes=n_classes,
             #     ).to(device) / nprocs
-
             #     test_acc = MF.accuracy(
             #         test_preds,
             #         test_labels,
@@ -262,17 +286,17 @@ def train(
             #         num_classes=n_classes,
             #     ).to(device) / nprocs
 
-
             t2 = time.time()
             # print(f"Proc_id: {proc_id}, Train acc: {train_acc:.4f}, Val acc: {val_acc:.4f}, Test acc: {test_acc:.4f}")
-            eval_dur.append(t2 - t1)
-            dist.reduce(train_acc, 0)
-            dist.reduce(val_acc, 0)
-            dist.reduce(test_acc, 0)
-            # dist.reduce(test_acc_1, 0)
-            train_acc = train_acc.item()
-            val_acc = val_acc.item()
-            test_acc = test_acc.item()
+            # print(type(train_acc), type(val_acc), type(test_acc))
+            # eval_dur.append(t2 - t1)
+            # dist.reduce(train_acc, 0)
+            # dist.reduce(val_acc, 0)
+            # dist.reduce(test_acc, 0)
+            # # dist.reduce(test_acc_1, 0)
+            # train_acc = train_acc.item()
+            # val_acc = val_acc.item()
+            # test_acc = test_acc.item()
             if proc_id == 0:
                 print("Test Acc {:.4f}".format(test_acc))
                 print(
@@ -285,27 +309,46 @@ def train(
                     best_train_acc = train_acc
                     best_val_acc = val_acc
                     best_test_acc = test_acc
-                
+                    no_improvement_count = 0
+                else:
+                    no_improvement_count += args.log_every
+
                 wandb.log({'val_acc': val_acc,
                         'test_acc': test_acc,
                         'train_acc': train_acc,
                         'best_val_acc': best_val_acc,
                         'best_test_acc': best_test_acc,
                         'best_train_acc': best_train_acc,
+                        'train_time': train_time,
                     })
 
-    dist.barrier()
-    train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
-    dist.reduce(train_dur_sum_tensor, 0)
-    train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
+        # dist.barrier()
+        # break_condition = False
+        # if epoch > 50 and no_improvement_count >= args.patience:
+        #     break_condition = True
+        # dist.barrier()
+        # break_condition_tensor = torch.tensor(int(break_condition)).cuda()
+        # dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.BOR)
+        # break_condition = bool(break_condition_tensor.item())
+        # # print(break_condition)
+        
+        # if break_condition:
+        #     print(f'Early stopping after {epoch + 1} epochs.')
+        #     break
 
-    train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
-    dist.reduce(train_dur_mean_tensor, 0)
-    train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
+
+    # dist.barrier()
+    # train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
+    # dist.reduce(train_dur_sum_tensor, 0)
+    # train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
+
+    # train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
+    # dist.reduce(train_dur_mean_tensor, 0)
+    # train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
     
-    eval_dur_tensor = torch.tensor(np.sum(eval_dur)).cuda()
-    dist.reduce(eval_dur_tensor, 0)
-    eval_dur_sum = eval_dur_tensor.item() / args.n_gpus
+    # eval_dur_tensor = torch.tensor(np.sum(eval_dur)).cuda()
+    # dist.reduce(eval_dur_tensor, 0)
+    # eval_dur_sum = eval_dur_tensor.item() / args.n_gpus
 
     # print(train_dur_sum)
     if proc_id == 0:
@@ -315,12 +358,12 @@ def train(
 
         print(f"best val acc = {best_val_acc} | best test acc = {best_test_acc}")
 
-        wandb.log({
-            "epoch": epoch,
-            "Time_per_epoch": train_dur_mean,
-            "Time_to_train": train_dur_sum,
-            "Time_to_eval": eval_dur_sum,
-        })
+        # wandb.log({
+        #     "epoch": epoch,
+        #     "Time_per_epoch": train_dur_mean,
+        #     "Time_to_train": train_dur_sum,
+        #     "Time_to_eval": eval_dur_sum,
+        # })
 
 def run(proc_id, nprocs, devices, g, data, args):
     # find corresponding device for my rank
@@ -331,16 +374,18 @@ def run(proc_id, nprocs, devices, g, data, args):
     # print(torch.initial_seed())
     # initialize process group and unpack data for sub-processes
     dist.init_process_group(
-        backend="nccl",
+        backend="gloo",
         init_method=f"tcp://{args.master_addr}:{args.port}",
         world_size=nprocs,
         rank=proc_id,
     )
     n_classes, train_idx, val_idx, test_idx = data
-    train_idx = train_idx.to(device)
-    val_idx = val_idx.to(device)
-    test_idx = test_idx.to(device)
+    train_idx = train_idx.to(device if args.mode == "puregpu" else "cpu")
+    val_idx = val_idx.to(device if args.mode == "puregpu" else "cpu")
+    test_idx = test_idx.to(device if args.mode == "puregpu" else "cpu")
+    # print(f"print device = {device}")
     g = g.to(device if args.mode == "puregpu" else "cpu")
+    # print(f"graph device = {g.device}")
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
     activation = F.relu

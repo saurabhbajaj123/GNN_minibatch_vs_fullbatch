@@ -56,7 +56,7 @@ def main():
     args.batch_size = config.batch_size
     args.budget_node_edge = config.budget_node_edge
 
-    devices = list(map(int, args.gpu.split(",")))
+    devices = list(range(args.n_gpus))
     nprocs = len(devices)
     assert (
         torch.cuda.is_available()
@@ -113,24 +113,26 @@ if __name__ == "__main__":
 
 
     # sweep_configuration = {
-    #     'name': "n_layers, n_hidden, batch_size, budget_node_edge",
-    #     'method': 'bayes',
+    #     'name': "batch_size",
+    #     'method': 'grid',
     #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
     #     'parameters': 
     #     {
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+    #         # 'n_hidden': {'values': [64, 128, 256]},
+    #         # 'n_layers': {'values': [2,3,4,5]},
+    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
     #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
     #         # 'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
     #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'batch_size': {'values': [128, 256, 512, 1024]},
-    #         "batch_size": {'distribution': 'int_uniform', 'min': 100, 'max': 2000},
+    #         'batch_size': {'values': [1024, 2048, 4096]},
+    #         # "batch_size": {'distribution': 'int_uniform', 'min': 100, 'max': 2000},
     #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         "budget_node_edge": {'distribution': 'int_uniform', 'min': 256, 'max': 2048}
+    #         # "budget_node_edge": {'values': [2000, 4000, 8000, 10000]}
     #     }
     # }
     # sweep_id = wandb.sweep(sweep=sweep_configuration,
     #                        project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling))
 
-    # wandb.agent(sweep_id, function=main, count=30)
+    # wandb.agent(sweep_id, function=main, count=300)
 

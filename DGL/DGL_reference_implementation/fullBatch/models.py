@@ -66,7 +66,7 @@ class SAGE(nn.Module):
 
 class GAT(nn.Module):
     def __init__(
-        self, in_feats, n_hidden, n_classes, n_layers, num_heads
+        self, in_feats, n_hidden, n_classes, n_layers, num_heads, dropout=0.5
     ):
         super().__init__()
         self.n_layers = n_layers
@@ -79,13 +79,14 @@ class GAT(nn.Module):
         for _ in range(n_layers - 2):
             self.layers.append(GATConv(n_hidden*num_heads, n_hidden, num_heads=num_heads))
         self.layers.append(GATConv(n_hidden*num_heads, n_classes, num_heads=1))
-
+        self.dropout = nn.Dropout(dropout)
 
     def forward(self, g, x):
         h = x
         for i in range(self.n_layers - 1):
             h = self.layers[i](g, h)
             h = h.flatten(1)
+        h = self.dropout(h)
         h = self.layers[-1](g, h)
         h = h.mean(1)
         return h

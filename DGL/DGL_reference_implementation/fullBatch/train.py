@@ -110,7 +110,7 @@ def main():
     args = create_parser()
 
     wandb.init(
-        project="GCN-fullbatch-{}".format(args.dataset),
+        project="{}-fullbatch-{}".format(args.model.upper(), args.dataset),
         config={
             "n_hidden": args.n_hidden,
             "n_layers": args.n_layers,
@@ -150,7 +150,10 @@ def main():
     # create GCN model
     in_size = features.shape[1]
     out_size = data.num_classes
-    model = GCN(in_size, args.n_hidden, out_size, args.n_layers, args.dropout).to(device)
+    if args.model == "gcn":
+        model = GCN(in_size, args.n_hidden, out_size, args.n_layers, args.dropout).to(device)
+    elif args.model == "gat":
+        model = GAT(in_size, args.n_hidden, out_size, args.n_layers, args.num_heads, args.dropout).to(device)
 
     # model training
     print("Training...")
@@ -176,19 +179,19 @@ if __name__ == "__main__":
 
     sweep_configuration = {
         # 'name': f"Multiple runs best parameters {args.n_gpus}",
-        'name': f"lr vary",
+        'name': f"Ablation n_layers, n_hidden",
         # 'name': "checking if 5 layers is the best",
         'method': 'grid',
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters':
         {
-            # 'n_layers': {'values': [6, 7, 8, 9, 10]},
-            # 'n_hidden': {'values': [16, 32, 64]},
+            'n_layers': {'values': [2,3,4,5,6]},
+            'n_hidden': {'values': [32, 64, 128, 256, 512, 1024]},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 128, 'max': 256},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 5},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
             # 'lr': {'distribution': 'uniform', 'min': 1e-4, 'max': 1e-2},
-            'lr': {'values': [args.lr, args.lr*2]}
+            # 'lr': {'values': [args.lr, args.lr*2]}
             # "agg": {'values': ["mean", "gcn", "pool"]},
             # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
             # 'n_gpus': {'values': [4,3,2,1]},
@@ -199,7 +202,7 @@ if __name__ == "__main__":
         }
     }
     sweep_id = wandb.sweep(sweep=sweep_configuration,
-                           project="GCN-fullbatch-{}".format(args.dataset))
+                           project="{}-fullbatch-{}".format(args.model.upper(), args.dataset))
 
-    wandb.agent(sweep_id, function=main, count=5)
+    wandb.agent(sweep_id, function=main, count=5000)
 

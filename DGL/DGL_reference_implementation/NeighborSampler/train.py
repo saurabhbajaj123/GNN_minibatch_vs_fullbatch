@@ -223,7 +223,9 @@ def train(graph, dataset, node_features, device, model, args):
     test_acc = 0
     # best_model_path = 'model.pt'
     # best_model = None
+    no_improvement_count = 0
     train_time = 0
+    eval_time = 0
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
@@ -287,11 +289,14 @@ def train(graph, dataset, node_features, device, model, args):
 
                 # test_acc_fullgraph_no_sample = sklearn.metrics.accuracy_score(graph.ndata['label'][test_nids].cpu().numpy(), pred[test_nids].argmax(1).cpu().numpy())
                 t2 = time.time()
-
+                eval_time += t2 - t1
                 if best_val_acc < val_acc:
                     best_val_acc = val_acc
                     best_test_acc = test_acc
                     best_train_acc = train_acc
+                    no_improvement_count = 0
+                else:
+                    no_improvement_count += args.log_every
 
                 logger.debug('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc, best_train_acc, val_acc, best_val_acc, test_acc, best_test_acc))
                 print(f"Train time = {t1-t0}, Eval time = {t2-t1}")
@@ -308,8 +313,10 @@ def train(graph, dataset, node_features, device, model, args):
 
                         'lr': optimizer.param_groups[0]['lr'],
                         'train_time': train_time,
+                        'eval_time': eval_time,
             })
-            
+        if epoch > 50 and no_improvement_count >= args.patience:
+            break
     return best_train_acc, best_val_acc, best_test_acc, model
 
 
@@ -366,7 +373,8 @@ def main():
         graph = dgl.remove_self_loop(graph)
         graph = dgl.add_self_loop(graph)
 
-    device = "cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # device = "cpu"
 
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
@@ -387,34 +395,34 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
 
-    # args = create_parser()
-    # sweep_configuration = {
-    #     'name': 'HPO-HPO',
-    #     'method': 'grid',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'uniform', 'min': 5*1e-4, 'max': 1e-2},
-    #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-    #         # 'n_hidden': {'values': [256]},
-    #         'n_layers': {'values': [2,3,4,5]},
-    #         # 'n_layers': {'distribution': 'int_uniform', 'min': 2, 'max': 10},
-    #         # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'values': [128, 256, 512, 1024]},
-    #         'fanout': {'values': [8, 10, 15]},
-    #         # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
-    #         'num_heads': {'values': [4, 6, 8]},
+    args = create_parser()
+    sweep_configuration = {
+        'name': 'Smoothing',
+        'method': 'grid',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'uniform', 'min': 5*1e-4, 'max': 1e-2},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            # 'n_hidden': {'values': [256]},
+            'n_layers': {'values': [16, 32, 64, 128]},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 2, 'max': 10},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'num_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'values': [128, 256, 512, 1024]},
+            # 'fanout': {'values': [8, 10, 15]},
+            # 'fanout': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'num_heads': {'distribution': 'int_uniform', 'min': 1, 'max': 10},
+            # 'num_heads': {'values': [4, 6, 8]},
             
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-NS-{}".format(args.model, args.dataset))
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-NS-{}".format(args.model, args.dataset))
 
-    # wandb.agent(sweep_id, function=main, count=5000)
+    wandb.agent(sweep_id, function=main, count=5000)
 
 #tmux
 # ctrl+b -> d

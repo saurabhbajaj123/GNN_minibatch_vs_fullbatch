@@ -28,6 +28,10 @@ from model import *
 from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
+
+# from torch.utils.tensorboard import SummaryWriter
+# writer = SummaryWriter()
+
 import wandb
 
 def evaluate(model, g, n_classes, dataloader):
@@ -180,6 +184,7 @@ def train(
             val_acc = (
                 evaluate(model, g, n_classes, val_dataloader).to(device) / nprocs
             )
+            # val_acc = layerwise_infer(proc_id, device, g, n_classes, val_idx, model, use_uva)
             test_acc = 0
             
             test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
@@ -203,6 +208,7 @@ def train(
                         epoch, train_acc, val_acc, total_loss / (it + 1), t1 - t0, t2 - t1
                     )
                 )
+                # if best_test_acc < test_acc:
                 if best_val_acc < val_acc:
                     best_train_acc = train_acc
                     best_val_acc = val_acc
@@ -221,6 +227,14 @@ def train(
                         'lr': opt.param_groups[0]['lr'],
 
                     })
+                # writer.add_scalar("val_acc", val_acc, epoch)
+                # writer.add_scalar("test_acc", test_acc, epoch)
+                # writer.add_scalar("train_acc", train_acc, epoch)
+                # writer.add_scalar("best_val_acc", best_val_acc, epoch)
+                # writer.add_scalar("best_test_acc", best_test_acc, epoch)
+                # writer.add_scalar("best_train_acc", best_train_acc, epoch)
+                # writer.add_scalar("train_time", train_time, epoch)
+                # writer.add_scalar("lr", opt.param_groups[0]['lr'], epoch)
 
 
         dist.barrier()
@@ -266,6 +280,13 @@ def train(
             "torch seed": torch.initial_seed()  & ((1<<63)-1),
 
         })
+
+        # writer.add_scalar("epoch", epoch, epoch)
+        # writer.add_scalar("Time_per_epoch", train_dur_mean, epoch)
+        # writer.add_scalar("Time_to_train", train_dur_sum, epoch)
+        # writer.add_scalar("Time_to_eval", eval_dur_sum, epoch)
+        # writer.add_scalar("torch seed", torch.initial_seed()  & ((1<<63)-1), epoch)
+
 
 def run(proc_id, nprocs, devices, g, data, args):
     # find corresponding device for my rank
@@ -319,5 +340,6 @@ def run(proc_id, nprocs, devices, g, data, args):
     )
     # layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
     # cleanup process group
+    # writer.flush()
     dist.destroy_process_group()
 

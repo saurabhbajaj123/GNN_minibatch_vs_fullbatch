@@ -30,5 +30,7 @@ def create_parser():
     parser.add_argument("--weight-decay", "--weight_decay", type=float, default=5e-4,
                         help="weight for L2 loss")
     parser.add_argument("--log-every", "--log_every", type=int, default=5)
+    parser.add_argument("--patience", "--patience", type=int, default=50)
+    parser.add_argument("--num-heads", "--num_heads", type=int, default=1)
 
     return parser.parse_args()

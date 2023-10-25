@@ -67,6 +67,8 @@ def train(g, features, labels, masks, model, args):
     best_val_acc = 0
     best_test_acc = 0
     best_train_acc = 0
+    no_improvement_count = 0
+
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
@@ -108,6 +110,10 @@ def train(g, features, labels, masks, model, args):
                 best_test_acc = test_acc
                 best_train_acc = train_acc
 
+                no_improvement_count = 0
+            else:
+                no_improvement_count += args.log_every
+
             wandb.log({'val_acc': val_acc,
                     'test_acc': test_acc,
                     'train_acc': train_acc,
@@ -117,7 +123,9 @@ def train(g, features, labels, masks, model, args):
                     'train_time': train_time,
                     'lr': optimizer.param_groups[0]['lr'],
             })
-
+        if epoch > 50 and no_improvement_count >= args.patience:
+            print(f'Early stopping after {epoch + 1} epochs.')
+            break
 def main():
     args = create_parser()
 
@@ -199,8 +207,8 @@ if __name__ == "__main__":
         'metric': {'goal': 'maximize', 'name': 'val_acc'},
         'parameters':
         {
-            'n_layers': {'values': [7, 8, 9, 10]},
-            # 'n_hidden': {'values': [16, 32, 64, 128]},
+            'n_layers': {'values': [2,3,4,5,6]},
+            'n_hidden': {'values': [256, 512, 1024]},
             # 'n_hidden': {'distribution': 'int_uniform', 'min': 32, 'max': 128},
             # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
             # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},

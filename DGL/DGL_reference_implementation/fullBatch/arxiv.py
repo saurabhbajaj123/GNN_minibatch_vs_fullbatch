@@ -87,6 +87,7 @@ def train():
     node_features = graph.ndata['feat']
     num_features = node_features.shape[1]
     num_classes = (node_labels.max() + 1).item()
+    print(f"num features = {num_features}, shape = {node_features.shape}")
     print('Number of classes:', num_classes)
 
     idx_split = dataset.get_idx_split()
@@ -94,11 +95,11 @@ def train():
     val_mask = idx_split['valid']
     test_mask = idx_split['test']
 
-    
+    print(len(train_mask), len(val_mask), len(test_mask))
     wandb.init(
         project="SAGE-fullbatch-ogbn-arxiv",
         config={
-            "epochs": 1000,
+            "epochs": 1,
             "lr": 0.001,
             "dropout": 0.69, # random.uniform(0.0, 0.5),
             "num_hidden": 512,

@@ -40,5 +40,6 @@ def create_parser():
     parser.add_argument("--num-iters", "--num_iters", type=int, default=1000)
     parser.add_argument("--model", "--model", type=str, default='SAGE')
     parser.add_argument("--agg", "--agg", type=str, default='mean')
+    parser.add_argument("--patience", "--patience", type=int, default=50)
 
     return parser.parse_args()

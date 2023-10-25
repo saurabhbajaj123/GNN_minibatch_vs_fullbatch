@@ -2,20 +2,21 @@
 
 #SBATCH --job-name reddit   ## name that will show up in the queue
 #SBATCH --gpus=1
-#SBATCH --mem=40GB  # memory per CPU core
+#SBATCH --mem=15GB  # memory per CPU core
 #SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --partition=gypsum-m40
-#SBATCH --nodes=1
-
+#SBATCH --constraint=m40
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-python3 sage_train.py \
+python3 train.py \
   --dataset reddit \
+  --model gat \
   --dropout 0.3 \
   --lr 0.003 \
-  --n-epochs 1000 \
-  --n-layers  3 \
+  --n-epochs 2000 \
+  --n-layers  2 \
   --n-hidden 256 \
-  --log-every 5 \
+  --num-heads 2 \
+  --patience 100 \
+  --log-every 10 \
   --seed 42 \

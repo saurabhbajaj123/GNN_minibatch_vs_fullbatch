@@ -50,6 +50,7 @@ def create_parser():
     parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
 
     parser.add_argument("--device-id", "--device_id", type=int, default=0)
+    parser.add_argument("--patience", "--patience", type=int, default=50)
 
 
     return parser.parse_args()

@@ -118,21 +118,21 @@ def load_data(dataset):
         raise ValueError('Unknown dataset: {}'.format(dataset))
 
 def load_reddit():
-    root = "/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
     dataset = AsNodePredDataset(dgl.data.RedditDataset(raw_dir=root))
 
     return dataset
 
 
 def load_pubmed():
-    root = "/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
     dataset = AsNodePredDataset(dgl.data.PubmedGraphDataset(raw_dir=root))
 
     return dataset
 
 
 def load_ogb_dataset(name):
-    root = "/home/ubuntu/GNN_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
     dataset = AsNodePredDataset(DglNodePropPredDataset(name=name, root=root))
 
     return dataset

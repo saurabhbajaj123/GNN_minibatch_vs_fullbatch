@@ -117,7 +117,7 @@ def main():
         graph = dgl.remove_self_loop(graph)
         graph = dgl.add_self_loop(graph)
 
-    device = "cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
     node_features = graph.ndata['feat']

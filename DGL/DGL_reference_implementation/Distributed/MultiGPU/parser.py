@@ -70,6 +70,7 @@ def create_parser():
     parser.add_argument("--num-heads", "--num_heads", type=int, default=1)
     parser.add_argument("--patience", "--patience", type=int, default=50)
     parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
+    parser.add_argument("--num-iters", "--num_iters", type=int, default=1000)
 
 
 

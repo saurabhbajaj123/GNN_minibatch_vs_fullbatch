@@ -119,7 +119,7 @@ def main():
         graph = dgl.remove_self_loop(graph)
         graph = dgl.add_self_loop(graph)
 
-    device = "cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     node_features = graph.ndata['feat']
     in_feats = node_features.shape[1]
@@ -136,24 +136,29 @@ def main():
 def train(graph, dataset, node_features, device, model, args):
 
     # creating the sampler
-
-    # sampler = dgl.dataloading.NeighborSampler([fanout for _ in range(n_layers)])
-    # sampler = dgl.dataloading.SAINTSampler(
-    #     mode='edge', 
-    #     budget=args.budget_node_edge, 
-    #     # prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
-    #     )
     if args.mode_saint == 'walk':
         budget = (args.budget_rw_0,args.budget_rw_1) 
     else:
         budget = args.budget_node_edge 
-    # print(args.mode_saint, budget)
-    sampler = SAINTSampler_custom(
-        mode=args.mode_saint,
-        budget=budget,
-        prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
-        output_device=device,
-    )
+
+    # sampler = dgl.dataloading.NeighborSampler([args.fanout for _ in range(args.n_layers)])
+    sampler = dgl.dataloading.SAINTSampler(
+        mode=args.mode_saint, 
+        budget=budget, 
+        prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"]
+        )
+
+    # if args.mode_saint == 'walk':
+    #     budget = (args.budget_rw_0,args.budget_rw_1) 
+    # else:
+    #     budget = args.budget_node_edge 
+    # # print(args.mode_saint, budget)
+    # sampler = SAINTSampler_custom(
+    #     mode=args.mode_saint,
+    #     budget=budget,
+    #     prefetch_ndata=["feat", "label", "train_mask", "val_mask", "test_mask"],
+    #     output_device=device,
+    # )
 
 
     # getting train, test, val splits
@@ -173,13 +178,14 @@ def train(graph, dataset, node_features, device, model, args):
     best_test_acc = 0
 
     best_model = None
+    no_improvement_count = 0
     train_time = 0
     # print(f"num iterations = {len(train_nids)/args.batch_size}")
     # print(f"num nodes = {graph.num_nodes()}, num_train = {len(train_nids)}, num_val = {len(valid_nids)}, test = {len(test_nids)}")
     # print(graph.num_nodes(), len(train_nids) + len(valid_nids) + len(test_nids))
     for epoch in range(args.n_epochs):
         t0 = time.time()
-        device = "cuda:{}".format(args.device_id) if torch.cuda.is_available() else "cpu"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
         model = model.to(device)
         model.train()
 
@@ -203,7 +209,6 @@ def train(graph, dataset, node_features, device, model, args):
             optimizer.step()
         t1 = time.time()
         train_time += t1 - t0
-
         # scheduler2.step(best_val_acc)
         # scheduler1.step()
 
@@ -279,6 +284,11 @@ def train(graph, dataset, node_features, device, model, args):
                     best_model = model
                     best_test_acc = test_acc_fullgraph_no_sample
                     best_train_acc = train_acc_fullgraph_no_sample
+
+                    no_improvement_count = 0
+                else:
+                    no_improvement_count += args.log_every
+
                 print('Epoch {}, Train Acc {:.4f} (Best {:.4f}), Val Acc {:.4f} (Best {:.4f}), Test Acc {:.4f} (Best {:.4f})'.format(epoch, train_acc_fullgraph_no_sample, best_train_acc, val_acc_fullgraph_no_sample, best_val_acc, test_acc_fullgraph_no_sample, best_test_acc))
                 print(f"Train time = {t1-t0}, Eval time = {t2-t1}")
 
@@ -293,6 +303,10 @@ def train(graph, dataset, node_features, device, model, args):
                         'lr': optimizer.param_groups[0]['lr'],
                         'train_time': train_time,
             })
+
+        if epoch > 50 and no_improvement_count >= args.patience:
+            print(f'Early stopping after {epoch + 1} epochs.')
+            break
             
     # logger.debug("total time for {} epochs = {}".format(n_epochs, total_time))
     # logger.debug("avg time per epoch = {}".format(total_time/n_epochs))
@@ -301,26 +315,28 @@ def train(graph, dataset, node_features, device, model, args):
 if __name__ == "__main__":
 
     # val_acc, model = train()
-    main()
-    # args = create_parser()
-    # sweep_configuration = {
-    #     "name": "HPO",
-    #     'method': 'random',
-    #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
-    #     'parameters': 
-    #     {
-    #         # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-4, 'max': 1e-1},
-    #         'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
-    #         'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
-    #         # 'n_layers': {'values':[6, 7, 8]},
-    #         'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
-    #         # "agg": {'values': ["mean", "gcn", "pool"]},
-    #         # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
-    #         # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
-    #         # 'batch_size': {'values':[7, 6, 5]},
-    #         # 'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
-    #     }
-    # }
-    # sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset),)
+    # main()
+    args = create_parser()
+    sweep_configuration = {
+        "name": "HPO",
+        'method': 'grid',
+        'metric': {'goal': 'maximize', 'name': 'val_acc'},
+        'parameters': 
+        {
+            # 'lr': {'distribution': 'log_uniform_values', 'min': 5*1e-4, 'max': 1e-1},
+            'n_hidden': {'values':[64,128,256,512,1024]},
+            'n_layers': {'values':[2,3,4,5,6]},
+            # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 1024},
+            # 'n_layers': {'distribution': 'int_uniform', 'min': 3, 'max': 10},
+            # 'n_layers': {'values':[6, 7, 8]},
+            # 'dropout': {'distribution': 'uniform', 'min': 0.2, 'max': 0.8},
+            # "agg": {'values': ["mean", "gcn", "pool"]},
+            # 'n_epochs': {'values': [2000, 4000, 6000, 8000]},
+            # 'batch_size': {'distribution': 'int_uniform', 'min': 5, 'max': 10},
+            # 'batch_size': {'values':[7, 6, 5]},
+            # 'budget': {'distribution': 'int_uniform', 'min': 256, 'max': 1024},
+        }
+    }
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="{}-SingleGPU-Saint-{}".format(args.model, args.dataset))
 
-    # wandb.agent(sweep_id, function=main, count=20)
+    wandb.agent(sweep_id, function=main, count=2000)
