@@ -3,9 +3,8 @@
 #SBATCH --job-name pubmed   ## name that will show up in the queue
 #SBATCH --gpus=4
 #SBATCH --mem=20GB  # memory per CPU core
-#SBATCH --cpus-per-gpu=3
 #SBATCH --time=0-05:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --constraint=m40
+#SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
@@ -14,16 +13,16 @@ python main.py \
   --dataset pubmed \
   --dropout 0.7 \
   --lr 0.0002 \
-  --n-partitions 4 \
-  --n-epochs 1000 \
+  --n-partitions 12 \
+  --n-epochs 100 \
   --model graphsage \
   --n-layers 2 \
-  --n-hidden 64 \
+  --n-hidden 1024 \
   --log-every 5 \
   --use-pp \
   --patience 50 \
-  --enable-pipeline \
   --fix-seed \
+  # --enable-pipeline \
   # --seed 1344439319 \
 
 

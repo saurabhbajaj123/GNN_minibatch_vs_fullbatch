@@ -68,6 +68,8 @@ def create_parser():
                         help="enable evaluation")
     parser.add_argument('--no-eval', action='store_false', dest='eval',
                         help="disable evaluation")
+    parser.add_argument("--patience", "--patience", type=int, default=50)
+
     parser.set_defaults(eval=True)
 
     return parser.parse_args()
