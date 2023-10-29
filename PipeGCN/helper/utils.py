@@ -100,7 +100,6 @@ def load_data(dataset):
         raise ValueError('Unknown dataset: {}'.format(dataset))
 
     n_feat = g.ndata['feat'].shape[1]
-    print(n_feat)
     if g.ndata['label'].dim() == 1:
         n_class = g.ndata['label'].max().item() + 1
     else:
