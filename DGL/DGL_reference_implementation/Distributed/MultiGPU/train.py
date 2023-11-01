@@ -295,8 +295,6 @@ def train(
 # def run(proc_id, nprocs, devices, g, data, args):
 def run(proc_id, nprocs, devices, data, args):
     # find corresponding device for my rank
-    g = dgl.hetero_from_shared_memory("train_graph")
-    print(g.ndata)
     device = devices[proc_id]
     torch.cuda.set_device(device)
     if args.seed:
@@ -309,6 +307,8 @@ def run(proc_id, nprocs, devices, data, args):
         world_size=nprocs,
         rank=proc_id,
     )
+    g = dgl.hetero_from_shared_memory("train_graph")
+    print(g.ndata)
     n_classes, train_idx, val_idx, test_idx = data
     train_idx = train_idx.to(device)
     val_idx = val_idx.to(device)
