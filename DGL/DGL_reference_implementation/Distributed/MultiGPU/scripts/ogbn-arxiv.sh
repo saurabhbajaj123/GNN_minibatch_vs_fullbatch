@@ -16,12 +16,12 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 10 \
+  --n-epochs 1000 \
   --n-gpus 4 \
-  --n-layers 6 \
-  --n-hidden 1024 \
+  --n-layers 5 \
+  --n-hidden 128 \
   --num-heads 2 \
-  --batch-size 4096 \
+  --batch-size 1024 \
   --patience 50 \
   --fanout 4 \
   --agg mean \
@@ -29,95 +29,95 @@ python main.py \
   --seed 42 \
   --mode puregpu \
 
-python main.py \
-  --dataset ogbn-arxiv \
-  --model graphsage \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.001 \
-  --n-epochs 10 \
-  --n-gpus 4 \
-  --n-layers 6 \
-  --n-hidden 1024 \
-  --num-heads 2 \
-  --batch-size 4096 \
-  --patience 50 \
-  --fanout 4 \
-  --agg mean \
-  --log-every 5 \
-  --seed 42 \
+# python main.py \
+#   --dataset ogbn-arxiv \
+#   --model graphsage \
+#   --sampling NS \
+#   --dropout 0.3 \
+#   --lr 0.001 \
+#   --n-epochs 10 \
+#   --n-gpus 4 \
+#   --n-layers 6 \
+#   --n-hidden 1024 \
+#   --num-heads 2 \
+#   --batch-size 4096 \
+#   --patience 50 \
+#   --fanout 4 \
+#   --agg mean \
+#   --log-every 5 \
+#   --seed 42 \
 
 
-python main.py \
-  --dataset ogbn-arxiv \
-  --model gat \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.001 \
-  --n-epochs 10 \
-  --n-gpus 4 \
-  --n-layers 3 \
-  --n-hidden 1024 \
-  --num-heads 2 \
-  --batch-size 4096 \
-  --patience 50 \
-  --fanout 4 \
-  --agg mean \
-  --log-every 5 \
-  --seed 42 \
-  --mode puregpu \
+# python main.py \
+#   --dataset ogbn-arxiv \
+#   --model gat \
+#   --sampling NS \
+#   --dropout 0.3 \
+#   --lr 0.001 \
+#   --n-epochs 10 \
+#   --n-gpus 4 \
+#   --n-layers 3 \
+#   --n-hidden 1024 \
+#   --num-heads 2 \
+#   --batch-size 4096 \
+#   --patience 50 \
+#   --fanout 4 \
+#   --agg mean \
+#   --log-every 5 \
+#   --seed 42 \
+#   --mode puregpu \
 
-python main.py \
-  --dataset ogbn-arxiv \
-  --model gat \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.001 \
-  --n-epochs 10 \
-  --n-gpus 4 \
-  --n-layers 3 \
-  --n-hidden 1024 \
-  --num-heads 2 \
-  --batch-size 4096 \
-  --patience 50 \
-  --fanout 4 \
-  --agg mean \
-  --log-every 5 \
-  --seed 42 \
+# python main.py \
+#   --dataset ogbn-arxiv \
+#   --model gat \
+#   --sampling NS \
+#   --dropout 0.3 \
+#   --lr 0.001 \
+#   --n-epochs 10 \
+#   --n-gpus 4 \
+#   --n-layers 3 \
+#   --n-hidden 1024 \
+#   --num-heads 2 \
+#   --batch-size 4096 \
+#   --patience 50 \
+#   --fanout 4 \
+#   --agg mean \
+#   --log-every 5 \
+#   --seed 42 \
 
-python main.py \
-  --dataset ogbn-arxiv \
-  --model gcn \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.001 \
-  --n-epochs 10 \
-  --n-gpus 4 \
-  --n-layers 6 \
-  --n-hidden 1024 \
-  --num-heads 2 \
-  --batch-size 4096 \
-  --patience 50 \
-  --fanout 4 \
-  --agg mean \
-  --log-every 5 \
-  --seed 42 \
-  --mode puregpu \
+# python main.py \
+#   --dataset ogbn-arxiv \
+#   --model gcn \
+#   --sampling NS \
+#   --dropout 0.3 \
+#   --lr 0.001 \
+#   --n-epochs 10 \
+#   --n-gpus 4 \
+#   --n-layers 6 \
+#   --n-hidden 1024 \
+#   --num-heads 2 \
+#   --batch-size 4096 \
+#   --patience 50 \
+#   --fanout 4 \
+#   --agg mean \
+#   --log-every 5 \
+#   --seed 42 \
+#   --mode puregpu \
 
-python main.py \
-  --dataset ogbn-arxiv \
-  --model gcn \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.001 \
-  --n-epochs 10 \
-  --n-gpus 4 \
-  --n-layers 6 \
-  --n-hidden 1024 \
-  --num-heads 2 \
-  --batch-size 4096 \
-  --patience 50 \
-  --fanout 4 \
-  --agg mean \
-  --log-every 5 \
-  --seed 42 \
+# python main.py \
+#   --dataset ogbn-arxiv \
+#   --model gcn \
+#   --sampling NS \
+#   --dropout 0.3 \
+#   --lr 0.001 \
+#   --n-epochs 10 \
+#   --n-gpus 4 \
+#   --n-layers 6 \
+#   --n-hidden 1024 \
+#   --num-heads 2 \
+#   --batch-size 4096 \
+#   --patience 50 \
+#   --fanout 4 \
+#   --agg mean \
+#   --log-every 5 \
+#   --seed 42 \

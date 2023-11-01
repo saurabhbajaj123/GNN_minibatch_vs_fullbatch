@@ -34,6 +34,10 @@ warnings.filterwarnings("ignore")
 
 import wandb
 
+
+os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+
 def evaluate(model, g, n_classes, dataloader):
     model.eval()
     ys = []
@@ -288,8 +292,11 @@ def train(
         # writer.add_scalar("torch seed", torch.initial_seed()  & ((1<<63)-1), epoch)
 
 
-def run(proc_id, nprocs, devices, g, data, args):
+# def run(proc_id, nprocs, devices, g, data, args):
+def run(proc_id, nprocs, devices, data, args):
     # find corresponding device for my rank
+    g = dgl.hetero_from_shared_memory("train_graph")
+    print(g.ndata)
     device = devices[proc_id]
     torch.cuda.set_device(device)
     if args.seed:
@@ -306,7 +313,7 @@ def run(proc_id, nprocs, devices, g, data, args):
     train_idx = train_idx.to(device)
     val_idx = val_idx.to(device)
     test_idx = test_idx.to(device)
-    g = g.to(device if args.mode == "puregpu" else "cpu")
+    # g = g.to(device if args.mode == "puregpu" else "cpu")
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
     print(g.ndata["feat"].device)

@@ -31,6 +31,8 @@ from utils import load_data
 
 import wandb
 os.environ["WANDB__SERVICE_WAIT"] = "300"
+os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
 wandb.login()
 
 def main():
@@ -96,10 +98,19 @@ def main():
         dataset.val_idx,
         dataset.test_idx,
     )
+    print(g.ndata)
+    g = dgl.multiprocessing.pytorch.shared_tensor(g)
+    shared_graph = g.shared_memory("train_graph") 
+    print(shared_graph.ndata)
+    # mp.spawn(
+    #     run,
+    #     args=(nprocs, devices, g, data, args),
+    #     nprocs=nprocs,
+    # )
 
     mp.spawn(
         run,
-        args=(nprocs, devices, g, data, args),
+        args=(nprocs, devices, data, args),
         nprocs=nprocs,
     )
     
