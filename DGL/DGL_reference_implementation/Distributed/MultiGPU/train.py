@@ -302,7 +302,7 @@ def run(proc_id, nprocs, devices, data, args):
     # print(torch.initial_seed())
     # initialize process group and unpack data for sub-processes
     dist.init_process_group(
-        backend="gloo", #"nccl"
+        backend="gloo", # "gloo", #"nccl"
         init_method=f"tcp://{args.master_addr}:{args.port}",
         world_size=nprocs,
         rank=proc_id,
