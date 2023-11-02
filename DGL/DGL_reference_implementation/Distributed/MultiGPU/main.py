@@ -99,7 +99,6 @@ def main():
         dataset.test_idx,
     )
     print(g.ndata)
-    g = dgl.multiprocessing.pytorch.shared_tensor(g)
     shared_graph = g.shared_memory("train_graph") 
     print(shared_graph.ndata)
     # mp.spawn(
