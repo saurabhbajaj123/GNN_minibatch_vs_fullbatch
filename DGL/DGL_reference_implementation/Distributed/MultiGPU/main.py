@@ -98,9 +98,12 @@ def main():
         dataset.val_idx,
         dataset.test_idx,
     )
-    print(g.ndata)
+    # print(g)
+    # print(g.ndata)
+    n_data = g.ndata
+
     shared_graph = g.shared_memory("train_graph") 
-    print(shared_graph.ndata)
+    # print(shared_graph.ndata)
     # mp.spawn(
     #     run,
     #     args=(nprocs, devices, g, data, args),
@@ -109,7 +112,7 @@ def main():
 
     mp.spawn(
         run,
-        args=(nprocs, devices, data, args),
+        args=(nprocs, devices, n_data, data, args),
         nprocs=nprocs,
     )
     

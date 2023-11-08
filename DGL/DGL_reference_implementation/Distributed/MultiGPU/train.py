@@ -293,7 +293,7 @@ def train(
 
 
 # def run(proc_id, nprocs, devices, g, data, args):
-def run(proc_id, nprocs, devices, data, args):
+def run(proc_id, nprocs, devices, n_data, data, args):
     # find corresponding device for my rank
     device = devices[proc_id]
     torch.cuda.set_device(device)
@@ -307,16 +307,24 @@ def run(proc_id, nprocs, devices, data, args):
         world_size=nprocs,
         rank=proc_id,
     )
+
     g = dgl.hetero_from_shared_memory("train_graph")
-    print(g.ndata)
+    print(f"graph device = {g.device}")
+    print(f"graph = {g}")
+    print(f"n_data = {n_data}")
+    g.ndata['label'] = n_data['label']
+    g.ndata['feat'] = n_data['feat']
+
+    # g.ndata = n_data
+    print(f"g.ndata = {g.ndata}")
     n_classes, train_idx, val_idx, test_idx = data
-    train_idx = train_idx.to(device)
-    val_idx = val_idx.to(device)
-    test_idx = test_idx.to(device)
+    train_idx = train_idx.to(device if args.mode == "puregpu" else "cpu")
+    val_idx = val_idx.to(device if args.mode == "puregpu" else "cpu")
+    test_idx = test_idx.to(device if args.mode == "puregpu" else "cpu")
     # g = g.to(device if args.mode == "puregpu" else "cpu")
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
-    print(g.ndata["feat"].device)
+    print("g.ndata[feat].device = {}".format(g.ndata["feat"].device))
     activation = F.relu
     # model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     if "sage" in args.model.lower():
