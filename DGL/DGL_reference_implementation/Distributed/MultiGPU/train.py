@@ -162,6 +162,9 @@ def train(
     scheduler2 = ReduceLROnPlateau(opt, mode='max', cooldown=10, factor=0.99, patience=20, min_lr=1e-5)
     train_time = 0
     no_improvement_count = 0
+    train_acc = 0
+    val_acc = 0
+    test_acc = 0
     for epoch in range(n_epochs):
         t0 = time.time()
         model.train()
@@ -169,6 +172,15 @@ def train(
         for it, (_, _, blocks) in enumerate(train_dataloader):
             x = blocks[0].srcdata["feat"]
             y = blocks[-1].dstdata["label"]
+            # print(f"y[0] = {y[0]}, y = {y}")
+            # print(f"y type = {type(y[0])}")
+            # print(f"type = {y.dtype}")
+            # print(f"type = {y.type()}")
+            try:
+                y = y.type(torch.cuda.LongTensor)
+            except:
+                y = y.to(torch.int64)
+
             y_hat = model(blocks, x)
             loss = F.cross_entropy(y_hat, y)
             opt.zero_grad()
@@ -180,7 +192,7 @@ def train(
         train_dur.append(t1-t0)
         # scheduler.step()
         # scheduler2.step(best_val_acc)
-        
+        print(f"train time = {t1 - t0}")
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
                 evaluate(model, g, n_classes, train_dataloader).to(device) / nprocs
@@ -190,11 +202,14 @@ def train(
             )
             # val_acc = layerwise_infer(proc_id, device, g, n_classes, val_idx, model, use_uva)
             test_acc = 0
-            
+            # print("layerwise infer")
             test_acc = layerwise_infer(proc_id, device, g, n_classes, test_idx, model, use_uva)
+            
+            # print("whole infer")
             # test_acc = whole_infer(proc_id, device, model, g, test_idx, n_classes)
             
-            # test_acc_1 = (
+            # print("evaluate")
+            # test_acc = (
             #     evaluate(model, g, n_classes, test_dataloader).to(device) / nprocs
             # )
             t2 = time.time()
@@ -309,22 +324,22 @@ def run(proc_id, nprocs, devices, n_data, data, args):
     )
 
     g = dgl.hetero_from_shared_memory("train_graph")
-    print(f"graph device = {g.device}")
-    print(f"graph = {g}")
-    print(f"n_data = {n_data}")
+    # print(f"graph device = {g.device}")
+    # print(f"graph = {g}")
+    # print(f"n_data = {n_data}")
     g.ndata['label'] = n_data['label']
     g.ndata['feat'] = n_data['feat']
 
     # g.ndata = n_data
-    print(f"g.ndata = {g.ndata}")
+    # print(f"g.ndata = {g.ndata}")
     n_classes, train_idx, val_idx, test_idx = data
     train_idx = train_idx.to(device if args.mode == "puregpu" else "cpu")
     val_idx = val_idx.to(device if args.mode == "puregpu" else "cpu")
     test_idx = test_idx.to(device if args.mode == "puregpu" else "cpu")
-    # g = g.to(device if args.mode == "puregpu" else "cpu")
+    # g = g.to(device if args.mode == "puregpu" else "cpu")  
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
-    print("g.ndata[feat].device = {}".format(g.ndata["feat"].device))
+    # print("g.ndata[feat].device = {}".format(g.ndata["feat"].device))
     activation = F.relu
     # model = SAGE(in_feats, args.n_hidden, n_classes, args.n_layers, args.dropout, activation, aggregator_type=args.agg).to(device)
     if "sage" in args.model.lower():
