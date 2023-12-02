@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1      # total number of tasks per node
 #SBATCH --cpus-per-task=8        # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --mem=32G                # total memory per node (4 GB per cpu-core is default)
-#SBATCH --gres=gpu:2             # number of gpus per node
+#SBATCH --gres=gpu:4             # number of gpus per node
 #SBATCH --partition=gypsum-m40
 #SBATCH --time=02:00:00          # total run time limit (HH:MM:SS)
 
@@ -39,7 +39,7 @@ python3 /work/sbajaj_umass_edu/dgl/tools/launch.py \
 --num_servers 1 \
 --part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/ogbn-products-2-metis-vol-trans/ogbn-products-2-metis-vol-trans.json \
 --ip_config ip_config.txt \
-"/work/sbajaj_umass_edu/GNNEnv/bin/python3 node_classification.py --graph_name ogbn-products-2-metis-vol-trans --ip_config ip_config.txt --num_epochs 30 --batch_size 1000 --world_size 2 --num_gpus 2 --num_hidden 256 --num_layers 3 --fan_out 4,4,4"
+"/work/sbajaj_umass_edu/GNNEnv/bin/python3 node_classification.py --graph_name ogbn-products-2-metis-vol-trans --ip_config ip_config.txt --num_epochs 30 --batch_size 1000 --world_size 2 --num_gpus 2 --num_hidden 128 --num_layers 5 --fan_out 5,5,5,5,5"
 # "/work/sbajaj_umass_edu/GNNEnv/bin/python3 subprocess_file.py"
 # "python3 node_classification.py"
 # "python3 process_init_group.py"
