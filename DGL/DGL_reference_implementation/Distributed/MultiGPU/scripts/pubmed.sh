@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH --job-name pubmed   ## name that will show up in the queue
-#SBATCH --gpus=4
+#SBATCH --gpus=1
 #SBATCH --mem=12GB  # memory per CPU core
 #SBATCH --time=0-04:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
+#SBATCH --partition=gypsum-m40
 
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
@@ -17,9 +17,9 @@ python main.py \
   --dropout 0.3 \
   --lr 0.001 \
   --n-epochs 10 \
-  --n-gpus 4 \
-  --n-layers 7 \
-  --n-hidden 1024 \
+  --n-gpus 1 \
+  --n-layers 2 \
+  --n-hidden 64 \
   --num-heads 4 \
   --batch-size 1024 \
   --patience 50 \
