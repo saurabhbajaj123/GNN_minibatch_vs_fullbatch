@@ -171,12 +171,13 @@ wandb/
 
 
 DGL/DGL_reference_implementation/ClusterIterSampler/wandb
-<<<<<<< HEAD
-PipeGCN/result.txt
-*.out
-=======
 dataset/
 PipeGCN/result.txt
 result.txt
 *.out
->>>>>>> 00aa2ec36142ccb34cf71a5746b0b73b15a82d08
+
+
+*.bin
+DGL/DistributedSetup/data
+*.sif
+DGL/DistributedSetup/ip_config.txt
