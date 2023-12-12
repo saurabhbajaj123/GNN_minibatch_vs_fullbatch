@@ -67,6 +67,8 @@ def create_parser():
                         help="enable evaluation")
     parser.add_argument('--no-eval', action='store_false', dest='eval',
                         help="disable evaluation")
+    parser.add_argument("--dataset-subgraph-path", "--dataset_subgraph_path", type=str, default='')
+
     parser.set_defaults(eval=True)
 
     return parser.parse_args()
