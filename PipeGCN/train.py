@@ -9,6 +9,9 @@ from sklearn.metrics import f1_score
 
 import random
 import wandb
+import psutil
+from datetime import timedelta
+
 def calc_acc(logits, labels):
     if labels.dim() == 1:
         _, indices = torch.max(logits, dim=1)
@@ -218,10 +221,14 @@ def reduce_hook(param, name, n_train):
 
 
 def construct(part, graph, pos, one_hops):
+    # print(f"part = {part}, graph = {graph}, pos = {pos}, one_hops = {one_hops}")
     rank, size = dist.get_rank(), dist.get_world_size()
+    # print(f"part.num_nodes = {part.num_nodes()}, graph.num_nodes = {graph.num_nodes()}")
     tot = part.num_nodes()
     u, v = part.edges()
+    # print(f"u = {u}, v = {v}")
     u_list, v_list = [u], [v]
+    # print(f"len(u) = {len(u)}, len(v_list) = {len(v)}")
     for i in range(size):
         if i == rank:
             continue
@@ -237,9 +244,17 @@ def construct(part, graph, pos, one_hops):
             v_list.append(v)
     u = torch.cat(u_list)
     v = torch.cat(v_list)
+    # print(f"u = {u}, v = {v}")
+    # print(f"len(u) = {len(u)}, len(v) = {len(v)}")
+    # print(f"len(torch.unique(u)) = {len(torch.unique(u))}, len(torch.unique(v)) = {len(torch.unique(v))}")
     g = dgl.heterograph({('_U', '_E', '_V'): (u, v)})
+    # print(f"g in construct = {g}")
+    # print(f"g.num_nodes() bafore adding new nodes = {g.num_nodes()}")
     if g.num_nodes('_U') < tot:
         g.add_nodes(tot - g.num_nodes('_U'), ntype='_U')
+    # if g.num_nodes('_V') < part.num_nodes():
+    #     g.add_nodes(tot - g.num_nodes('_V'), ntype='_V')
+    # print(f"g.num_nodes() after construct = {g.num_nodes()}")
     return g
 
 
@@ -272,12 +287,17 @@ def run(graph, node_dict, gpb, args):
     torch.autograd.profiler.emit_nvtx(False)
 
     if rank == 0 and args.eval:
-        full_g, n_feat, n_class = load_data(args.dataset)
+        if args.dataset_subgraph_path == '':
+            full_g, n_feat, n_class = load_data(args.dataset)
+        else:
+            full_g, n_feat, n_class = load_subgraph(args.dataset_subgraph_path)
+        # full_g, n_feat, n_class = load_data(args.dataset)
         if args.inductive:
             _, val_g, test_g = inductive_split(full_g)
         else:
-            val_g, test_g = full_g.clone(), full_g.clone()
-        del full_g
+            # val_g, test_g = full_g.clone(), full_g.clone()
+            val_g, test_g = full_g, full_g
+        # del full_g
 
     if rank == 0:
         os.makedirs('checkpoint/', exist_ok=True)
@@ -293,11 +313,13 @@ def run(graph, node_dict, gpb, args):
 
     graph, part, node_dict = move_to_cuda(graph, part, node_dict)
     boundary = get_boundary(node_dict, gpb)
-
+    # print(f"boundary = {boundary}")
     layer_size = get_layer_size(args.n_feat, args.n_hidden, args.n_class, args.n_layers)
-
+    # print(f"layer_size = {layer_size}")
     pos = get_pos(node_dict, gpb)
+    # print(f"pos = {pos}")
     graph = order_graph(part, graph, gpb, node_dict, pos)
+    # print(f"graph = {graph}")
     in_deg = node_dict['in_degree']
 
     graph, node_dict, boundary = move_train_first(graph, node_dict, boundary)
@@ -364,9 +386,13 @@ def run(graph, node_dict, gpb, args):
     
     # prev_loss = float('inf')
     train_time = 0
-    loss_list = []
+    # loss_list = []
     best_val_loss = float('inf')
+    best_test_loss = float('inf')
+    best_train_loss = float('inf')
     no_improvement_count = 0
+
+    # print_memory('before epoch start')
     for epoch in range(args.n_epochs):
         t0 = time.time()
         model.train()
@@ -391,8 +417,8 @@ def run(graph, node_dict, gpb, args):
         reduce_time = time.time() - pre_reduce
         optimizer.step()
         train_time += time.time() - t0
-        avg_loss = loss.item() / len(labels)
-        loss_list.append(avg_loss)
+        # avg_loss = loss.item() / len(labels)
+        # loss_list.append(avg_loss)
         if epoch % args.log_every != 0:
             train_dur.append(time.time() - t0)
             comm_dur.append(ctx.comm_timer.tot_time())
@@ -405,8 +431,9 @@ def run(graph, node_dict, gpb, args):
         ctx.comm_timer.clear()
 
         del loss
-
+        
         if rank == 0 and args.eval and (epoch + 1) % args.log_every == 0:
+            # print_memory(f'Epoch = {epoch}')
             if thread is not None:
                 if args.inductive:
                     model_copy, val_acc = thread.get()
@@ -461,6 +488,7 @@ def run(graph, node_dict, gpb, args):
             else:
                 thread = pool.apply_async(evaluate_induc, args=('Epoch %05d' % epoch, model_copy,
                                                                 val_g, 'val', result_file_name))
+        
         dist.barrier()
         break_condition = False
         if epoch > 50 and no_improvement_count >= args.patience:
@@ -526,13 +554,24 @@ def check_parser(args):
     if args.norm == 'none':
         args.norm = None
 
+def print_memory(s):
+    torch.cuda.synchronize()
+    print(f"cpu memory  = {psutil.virtual_memory()}")
+    print(s + ': current {:.2f}MB, peak {:.2f}MB, reserved {:.2f}MB'.format(
+        torch.cuda.memory_allocated() / 1024 / 1024,
+        torch.cuda.max_memory_allocated() / 1024 / 1024,
+        torch.cuda.memory_reserved() / 1024 / 1024
+    ))
 
 def init_processes(rank, size, args):
     """ Initialize the distributed environment. """
     os.environ['MASTER_ADDR'] = args.master_addr
     os.environ['MASTER_PORT'] = '%d' % args.port
-    dist.init_process_group(args.backend, rank=rank, world_size=size)
+    # dist.init_process_group(args.backend, rank=rank, world_size=size)
+    dist.init_process_group(args.backend, rank=rank, world_size=size, timeout=timedelta(days=1))
     rank, size = dist.get_rank(), dist.get_world_size()
     check_parser(args)
     g, node_dict, gpb = load_partition(args, rank)
+    # print(g, node_dict, gpb)
+    # print_memory('before run')
     run(g, node_dict, gpb, args)
