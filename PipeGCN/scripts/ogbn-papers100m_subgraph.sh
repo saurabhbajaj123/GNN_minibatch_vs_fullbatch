@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=ddp-papers100m     # create a short name for your job
-#SBATCH --nodes=8                # node count
+#SBATCH --nodes=3                # node count
 #SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --mem=120G                # total memory per node (4 GB per cpu-core is default)
-#SBATCH --gres=gpu:4             # number of gpus per node
-#SBATCH --partition=gypsum-titanx
+#SBATCH --mem=100G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --gpus-per-node=4             # number of gpus per node
+#SBATCH --partition=gypsum-m40
 #SBATCH --time=24:00:00          # total run time limit (HH:MM:SS)
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
@@ -18,24 +18,28 @@ master_addr=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
 export MASTER_ADDR=$master_addr
 echo "MASTER_ADDR="$MASTER_ADDR
 
+echo "NUM GPUS PER NODE="$SLURM_GPUS 
+export NUM_PARTITIONS=$(( $SLURM_GPUS * $SLURM_NNODES ))
+echo "NUM_PARTITIONS="$NUM_PARTITIONS
+
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 srun python main.py \
   --dataset ogbn-papers100m \
+  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
   --dropout 0.3 \
-  --lr 0.003 \
-  --n-partitions 64 \
-  --n-epochs 100 \
+  --lr 0.007 \
+  --n-partitions 12 \
+  --n-epochs 1000 \
   --model graphsage \
-  --n-layers 1 \
-  --n-hidden 16 \
-  --log-every 5 \
-  --enable-pipeline \
-  --use-pp \
+  --n-layers 2 \
+  --n-hidden 1024 \
+  --log-every 10 \
   --patience 50 \
-  --parts-per-node 4 \
+  --fix-seed \
+  --use-pp \
   --master-addr $MASTER_ADDR \
   --port $MASTER_PORT \
-  --fix-seed \
+  --parts-per-node 4 \
+  --enable-pipeline \
   --skip-partition \
-  # --partition-method parmetis \

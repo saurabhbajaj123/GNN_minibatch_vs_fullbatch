@@ -12,13 +12,14 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-products \
+  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-products_frac_0.01_hops_2_subgraph.bin \
   --dropout 0.3 \
   --lr 0.003 \
   --n-partitions 4 \
-  --n-epochs 500 \
+  --n-epochs 20 \
   --model graphsage \
-  --n-layers 3 \
-  --n-hidden 128 \
+  --n-layers 2 \
+  --n-hidden 32 \
   --log-every 5 \
   --use-pp \
   --fix-seed \

@@ -1,23 +1,24 @@
 #!/bin/bash
 
 #SBATCH --job-name arxiv   ## name that will show up in the queue
-#SBATCH --gpus=4
+#SBATCH --gpus=2
 #SBATCH --mem=80GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --partition=gypsum-m40
+#SBATCH --time=0-04:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --partition=gypsum-1080ti
 #SBATCH --nodes=1
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-arxiv \
+  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-arxiv_frac_0.01_hops_2_subgraph_no_isolated.bin \
   --dropout 0.3 \
   --lr 0.003 \
-  --n-partitions 4 \
+  --n-partitions 2 \
   --n-epochs 1000 \
   --model graphsage \
-  --n-layers 5 \
-  --n-hidden 128 \
+  --n-layers 2 \
+  --n-hidden 32 \
   --log-every 5 \
   --patience 50 \
   --fix-seed \

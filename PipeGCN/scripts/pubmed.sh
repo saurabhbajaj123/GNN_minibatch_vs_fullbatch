@@ -13,8 +13,8 @@ python main.py \
   --dataset pubmed \
   --dropout 0.7 \
   --lr 0.0002 \
-  --n-partitions 12 \
-  --n-epochs 100 \
+  --n-partitions 4 \
+  --n-epochs 10 \
   --model graphsage \
   --n-layers 2 \
   --n-hidden 1024 \
