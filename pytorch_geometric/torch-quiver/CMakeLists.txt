@@ -1,0 +1,43 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+PROJECT(pytorch-quiver)
+
+# CMAKE_POLICY(SET CMP0104 OLD) # FIXME: set CUDA_ARCHITECTURES
+
+SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+SET(LIBRARY_OUTPUT_PATH lib)
+SET(CMAKE_BUILD_TYPE Release)
+SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/srcs/cmake)
+
+OPTION(USE_STRICT "Enable strict build options." OFF)
+IF(USE_STRICT)
+    ADD_DEFINITIONS(-Wall)
+    ADD_DEFINITIONS(-Werror)
+    ADD_DEFINITIONS(-Wfatal-errors)
+ENDIF()
+
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/srcs/cpp/include)
+INCLUDE(srcs/cmake/common.cmake)
+
+IF(QUIVER_ENABLE_TRACE)
+    INCLUDE(srcs/cmake/fetch_stdtracer.cmake)
+    ADD_COMPILE_OPTIONS(-DQUIVER_ENABLE_TRACE=1)
+ENDIF()
+IF(ENABLE_CUDA)
+    INCLUDE(srcs/cmake/cuda.cmake)
+ENDIF()
+IF(BUILD_TORCH_EXTENSION)
+    INCLUDE(srcs/cmake/torch.cmake)
+ENDIF()
+
+IF(BUILD_LIB)
+    INCLUDE(srcs/cmake/lib.cmake)
+ENDIF()
+
+IF(BUILD_TESTS)
+    INCLUDE(srcs/cmake/tests.cmake)
+ENDIF()
+
+IF(BUILD_BENCHMARKS)
+    INCLUDE(srcs/cmake/benchmarks.cmake)
+ENDIF()

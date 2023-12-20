@@ -1,0 +1,30 @@
+*.a
+*.dylib
+*.so
+*.whl
+/dist
+/3rdparty
+/KungFu
+/Makefile
+/logs
+CTestTestfile.cmake
+Testing/
+_deps
+generated
+__pycache__
+data/
+intermediate/
+result/
+
+# Mac
+.DS_Store
+
+# Pycharm Project Directory
+venvgi/
+.idea/
+build/
+.vscode/
+srcs/python/torch_quiver.egg-info/
+
+compile_commands.json
+*.out
