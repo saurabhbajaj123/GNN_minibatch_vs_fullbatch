@@ -4,15 +4,24 @@ import argparse
 import socket
 import time
 
+import os
 import dgl
 import dgl.nn.pytorch as dglnn
 import numpy as np
 import torch as th
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import tqdm
-
+import torch.distributed as dist
+import wandb
+wandb.login()
+import warnings
+warnings.filterwarnings("ignore")
+os.environ["WANDB__SERVICE_WAIT"] = "300"
+os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
 
 class DistSAGE(nn.Module):
     """
@@ -106,7 +115,7 @@ class DistSAGE(nn.Module):
                 name,
                 persistent=True,
             )
-            print(f"|V|={g.num_nodes()}, inference batch size: {batch_size}")
+            # print(f"|V|={g.num_nodes()}, inference batch size: {batch_size}")
 
             # `-1` indicates all inbound edges will be inlcuded, namely, full
             # neighbor sampling.
@@ -211,6 +220,7 @@ def run(args, device, data):
         Packed data includes train/val/test IDs, feature dimension,
         number of classes, graph.
     """
+    print("entring run")
     train_nid, val_nid, test_nid, in_feats, n_classes, g = data
     sampler = dgl.dataloading.NeighborSampler(
         [int(fanout) for fanout in args.fan_out.split(",")]
@@ -243,13 +253,17 @@ def run(args, device, data):
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     # Training loop.
+    print("starting trianing loop")
     iter_tput = []
     epoch = 0
     epoch_time = []
+    train_time = 0
+    train_dur = []
     test_acc = 0.0
-    for _ in range(args.num_epochs):
-        epoch += 1
-        tic = time.time()
+    best_val_acc, best_test_acc = 0, 0
+    no_improvement_count = 0
+    for epoch in range(args.num_epochs):
+        # epoch += 1
         # Various time statistics.
         sample_time = 0
         forward_time = 0
@@ -257,13 +271,14 @@ def run(args, device, data):
         update_time = 0
         num_seeds = 0
         num_inputs = 0
-        start = time.time()
         step_time = []
+        start = time.time()
+        tic = time.time()
 
         with model.join():
             for step, (input_nodes, seeds, blocks) in enumerate(dataloader):
-                tic_step = time.time()
-                sample_time += tic_step - start
+                # tic_step = time.time()
+                # sample_time += tic_step - start
                 # Slice feature and label.
                 # batch_inputs = g.ndata["features"][input_nodes]
                 batch_inputs = g.ndata["feat"][input_nodes]
@@ -276,50 +291,56 @@ def run(args, device, data):
                 batch_inputs = batch_inputs.to(device)
                 batch_labels = batch_labels.to(device)
                 # Compute loss and prediction.
-                start = time.time()
+                # start = time.time()
                 batch_pred = model(blocks, batch_inputs)
+                # if epoch == 0: print(f"epoch = {epoch} batch_pred = {batch_pred}")
                 loss = loss_fcn(batch_pred, batch_labels)
-                forward_end = time.time()
+                # if epoch == 0: print(f"epoch = {epoch} loss = {loss}")
+                # forward_end = time.time()
                 optimizer.zero_grad()
                 loss.backward()
-                compute_end = time.time()
-                forward_time += forward_end - start
-                backward_time += compute_end - forward_end
+                # compute_end = time.time()
+                # forward_time += forward_end - start
+                # backward_time += compute_end - forward_end
 
                 optimizer.step()
-                update_time += time.time() - compute_end
+                # update_time += time.time() - compute_end
 
-                step_t = time.time() - tic_step
-                step_time.append(step_t)
-                iter_tput.append(len(blocks[-1].dstdata[dgl.NID]) / step_t)
-                if (step + 1) % args.log_every == 0:
-                    acc = compute_acc(batch_pred, batch_labels)
-                    gpu_mem_alloc = (
-                        th.cuda.max_memory_allocated() / 1000000
-                        if th.cuda.is_available()
-                        else 0
-                    )
-                    sample_speed = np.mean(iter_tput[-args.log_every :])
-                    mean_step_time = np.mean(step_time[-args.log_every :])
-                    print(
-                        f"Part {g.rank()} | Epoch {epoch:05d} | Step {step:05d}"
-                        f" | Loss {loss.item():.4f} | Train Acc {acc.item():.4f}"
-                        f" | Speed (samples/sec) {sample_speed:.4f}"
-                        f" | GPU {gpu_mem_alloc:.1f} MB | "
-                        f"Mean step time {mean_step_time:.3f} s"
-                    )
-                start = time.time()
+                
+
+                # step_t = time.time() - tic_step
+                # step_time.append(step_t)
+                # iter_tput.append(len(blocks[-1].dstdata[dgl.NID]) / step_t)
+                # if (step + 1) % args.log_every == 0:
+                #     acc = compute_acc(batch_pred, batch_labels)
+                #     gpu_mem_alloc = (
+                #         th.cuda.max_memory_allocated() / 1000000
+                #         if th.cuda.is_available()
+                #         else 0
+                #     )
+                #     sample_speed = np.mean(iter_tput[-args.log_every :])
+                #     mean_step_time = np.mean(step_time[-args.log_every :])
+                #     print(
+                #         f"Part {g.rank()} | Epoch {epoch:05d} | Step {step:05d}"
+                #         f" | Loss {loss.item():.4f} | Train Acc {acc.item():.4f}"
+                #         f" | Speed (samples/sec) {sample_speed:.4f}"
+                #         f" | GPU {gpu_mem_alloc:.1f} MB | "
+                #         f"Mean step time {mean_step_time:.3f} s"
+                #     )
+                # start = time.time()
 
         toc = time.time()
-        print(
-            f"Part {g.rank()}, Epoch Time(s): {toc - tic:.4f}, "
-            f"sample+data_copy: {sample_time:.4f}, forward: {forward_time:.4f},"
-            f" backward: {backward_time:.4f}, update: {update_time:.4f}, "
-            f"#seeds: {num_seeds}, #inputs: {num_inputs}"
-        )
+        train_time += toc - tic
+        # print(
+        #     f"Part {g.rank()}, Epoch Time(s): {toc - tic:.4f}, "
+        #     f"sample+data_copy: {sample_time:.4f}, forward: {forward_time:.4f},"
+        #     f" backward: {backward_time:.4f}, update: {update_time:.4f}, "
+        #     f"#seeds: {num_seeds}, #inputs: {num_inputs}"
+        # )
         epoch_time.append(toc - tic)
 
-        if epoch % args.eval_every == 0 or epoch == args.num_epochs:
+
+        if (epoch % args.eval_every == 0 or epoch == args.num_epochs):
             start = time.time()
             val_acc, test_acc = evaluate(
                 model.module,
@@ -330,13 +351,34 @@ def run(args, device, data):
                 g.ndata["label"],
                 val_nid,
                 test_nid,
-                args.batch_size_eval,
+                args.batch_size_eval, # args.batch_size,
                 device,
             )
             print(
-                f"Part {g.rank()}, Val Acc {val_acc:.4f}, "
-                f"Test Acc {test_acc:.4f}, time: {time.time() - start:.4f}"
+                f"Epoch {epoch}, Part {g.rank()}, Val Acc {val_acc:.4f}, Test Acc {test_acc:.4f}, "
+                f"Epoch time {epoch_time[-1]:.4f}, Eval time: {time.time() - start:.4f}"
             )
+
+            dist.barrier()
+            dist.reduce(val_acc, 0, op=dist.ReduceOp.SUM)
+            dist.reduce(test_acc, 0, op=dist.ReduceOp.SUM)
+            val_acc = val_acc / th.distributed.get_world_size()
+            test_acc = test_acc / th.distributed.get_world_size()
+            if g.rank() == 0:
+                if val_acc > best_val_acc:
+                    best_val_acc = val_acc
+                    best_test_acc = test_acc
+
+                wandb.log({
+                    'val_acc': val_acc,
+                    'test_acc': test_acc,
+                    'best_val_acc': best_val_acc,
+                    'best_test_acc': best_test_acc,
+                    'train_time': train_time,
+                    'total_epoch_time': sum(epoch_time),
+                })
+                print(f"Best Val Acc {best_val_acc:.4f}, Best Test Acc {best_test_acc:.4f}")
+        # dist.barrier()
 
     return np.mean(epoch_time[-int(args.num_epochs * 0.8) :]), test_acc
 
@@ -360,6 +402,7 @@ def main(args):
     g = dgl.distributed.DistGraph(args.graph_name, part_config=args.part_config)
     print(f"Rank of {host_name}: {g.rank()}")
 
+    print(f"keys of ndata = {g.ndata.keys()}")
     # Split train/val/test IDs for each trainer.
     pb = g.get_partition_book()
     if "trainer_id" in g.ndata:
@@ -408,25 +451,47 @@ def main(args):
         device = th.device("cuda:" + str(dev_id))
     n_classes = args.n_classes
     if n_classes == 0:
-        print(g.ndata.keys())
         # labels = g.ndata["labels"][np.arange(g.num_nodes())]
         labels = g.ndata["label"][np.arange(g.num_nodes())]
-        n_classes = len(th.unique(labels[th.logical_not(th.isnan(labels))]))
+        uniques = th.unique(labels[th.logical_not(th.isnan(labels))])
+        # n_classes = len(uniques)
+        n_classes = int(th.max(uniques).item()) + 1
         del labels
     print(f"Number of classes: {n_classes}")
 
+    # assert 1==2
     # Pack data.
     # in_feats = g.ndata["features"].shape[1]
     in_feats = g.ndata["feat"].shape[1]
     data = train_nid, val_nid, test_nid, in_feats, n_classes, g
 
     # Train and evaluate.
+
+    if g.rank() == 0:
+        wandb.init(
+            project="MultiNode-{}-{}-{}".format(args.dataset, 'graphsage', 'NS'),
+        )
+
+        wandb.log({
+            'torch_seed': torch.initial_seed() & ((1<<63)-1) ,
+        })
     epoch_time, test_acc = run(args, device, data)
     print(
         f"Summary of node classification(GraphSAGE): GraphName "
         f"{args.graph_name} | TrainEpochTime(mean) {epoch_time:.4f} "
         f"| TestAccuracy {test_acc:.4f}"
     )
+
+    dist.barrier()
+    dist.reduce(test_acc, 0, th.distributed.ReduceOp.SUM)
+    print(f"rank = {g.rank()}, test_acc = {test_acc}")
+    print(f"world size = {th.distributed.get_world_size()}")
+    print(f"g.rank = {g.rank()}")
+
+    if g.rank() == 0:
+        print(f"Averaged test accuracy = {test_acc/th.distributed.get_world_size()}")
+
+
 
 
 if __name__ == "__main__":
@@ -462,7 +527,7 @@ if __name__ == "__main__":
     parser.add_argument("--log_every", type=int, default=20)
     parser.add_argument("--eval_every", type=int, default=5)
     parser.add_argument("--lr", type=float, default=0.003)
-    parser.add_argument("--dropout", type=float, default=0.5)
+    parser.add_argument("--dropout", type=float, default=0.3)
     parser.add_argument(
         "--local_rank", type=int, help="get rank of the process"
     )
@@ -477,6 +542,7 @@ if __name__ == "__main__":
         help="Pad train nid to the same length across machine, to ensure num "
         "of batches to be the same.",
     )
+    parser.add_argument("--dataset", type=str, default="ogbn-arxiv")
     args = parser.parse_args()
     print(f"Arguments: {args}")
     main(args)
