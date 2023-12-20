@@ -32,7 +32,11 @@ def load_ogb_dataset(name):
 def load_ogb_arxiv_dataset(name):
     dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset(name=name, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset'))
     g = dataset[0]
-    g = dgl.add_reverse_edges(g)
+    # g = dgl.add_reverse_edges(g)
+    g.edata.clear()
+    g = dgl.to_bidirected(g, copy_ndata=True)
+    g = dgl.remove_self_loop(g)
+    g = dgl.add_self_loop(g)
     return g
 
 
@@ -77,7 +81,7 @@ def load_yelp():
     return g
 
 def load_pubmed():
-    root = "./dataset"
+    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
     g = dataset[0]
     return g
