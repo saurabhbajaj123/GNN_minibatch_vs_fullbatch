@@ -181,3 +181,6 @@ result.txt
 DGL/DistributedSetup/data
 *.sif
 DGL/DistributedSetup/ip_config.txt
+
+PipeGCN/original_papers_partitions
+PipeGCN/3_hops_partitions
