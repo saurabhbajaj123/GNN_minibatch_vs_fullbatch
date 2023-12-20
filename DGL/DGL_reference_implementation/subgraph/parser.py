@@ -71,7 +71,9 @@ def create_parser():
     parser.add_argument("--patience", "--patience", type=int, default=50)
     parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
     parser.add_argument("--num-iters", "--num_iters", type=int, default=1000)
+    parser.add_argument("--frac", "--frac", type=float, default=0.1)
+    parser.add_argument("--dataset-subgraph-path", "--dataset_subgraph_path", type=str, default='')
 
-
+    parser.add_argument("--max-targets", "--max_targets", type=int, default=10)
 
     return parser.parse_args()

@@ -1,10 +1,9 @@
 #!/bin/bash
 
-#SBATCH --job-name arxiv  ## name that will show up in the queue
-#SBATCH --mem=40GB  # memory per CPU core
+#SBATCH --job-name papers100m  ## name that will show up in the queue
+#SBATCH --mem=500GB  # memory per CPU core
 #SBATCH --partition=cpu
-#SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --nodes=1
+#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
 
 
 
@@ -15,9 +14,11 @@ echo "SLURM_JOB_PARTITION = "$SLURM_JOB_PARTITION
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-python papers100m_subgraph.py \
-  --dataset ogbn-arxiv \
-  --n-layers 2 \
+echo y | python create_subgraph.py \
+  --dataset ogbn-papers100M \
+  --n-layers 4 \
+  --frac 1 \
+  --max_targets 20 \
 
 
 # python main.py \

@@ -76,7 +76,8 @@ def main():
     
     
     # loading data from saved subgraph
-    g, _ = dgl.load_graphs("arxiv_subgraph.bin")
+    
+    g, _ = dgl.load_graphs(args.dataset_subgraph_path)
     print(g)
     g = g[0]
 
@@ -108,6 +109,7 @@ def main():
     node_features = g.ndata['feat']
     num_features = node_features.shape[1]
 
+    g.ndata['label'] = g.ndata['label'].to(torch.int64)
     num_classes = (g.ndata['label'].max() + 1).item()
 
     train_nids = g.ndata['train_mask'].nonzero()
