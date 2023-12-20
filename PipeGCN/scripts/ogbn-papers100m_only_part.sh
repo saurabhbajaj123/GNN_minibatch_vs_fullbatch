@@ -5,7 +5,7 @@
 #SBATCH --partition=cpu
 #SBATCH --mem=700GB  # memory per CPU core
 #SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --nodes=2
+#SBATCH --nodes=1
 
 echo "NUM NODES="$SLURM_JOB_NUM_NODES
 
@@ -24,17 +24,18 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-papers100m \
+  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
   --dropout 0.3 \
   --lr 0.003 \
-  --n-partitions 64 \
-  --n-epochs 30 \
+  --n-partitions 1 \
+  --n-epochs 10 \
   --model graphsage \
   --n-layers 2 \
-  --n-hidden 64 \
+  --n-hidden 16 \
   --log-every 5 \
-  --enable-pipeline \
-  --use-pp \
-  --parts-per-node 32 \
-  --skip-partition \
-  --fix-seed \
+  # --use-pp \
+  # --fix-seed \
+  # --enable-pipeline \
+  # --parts-per-node 1 \
+  # --skip-partition \
   # --partition-method parmetis \

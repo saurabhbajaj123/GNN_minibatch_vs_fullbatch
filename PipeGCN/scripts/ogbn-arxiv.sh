@@ -12,12 +12,12 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 python main.py \
   --dataset ogbn-arxiv \
   --dropout 0.3 \
-  --lr 0.003 \
+  --lr 0.01 \
   --n-partitions 4 \
-  --n-epochs 1000 \
+  --n-epochs 500 \
   --model graphsage \
-  --n-layers 5 \
-  --n-hidden 128 \
+  --n-layers 2 \
+  --n-hidden 512 \
   --log-every 5 \
   --patience 50 \
   --fix-seed \
@@ -25,17 +25,17 @@ python main.py \
   # --enable-pipeline \
 
 
-# python main.py \
-#   --dataset ogbn-arxiv \
-#   --dropout 0.3 \
-#   --lr 0.003 \
-#   --n-partitions 1 \
-#   --n-epochs 10 \
-#   --model graphsage \
-#   --n-layers 8 \
-#   --n-hidden 1024 \
-#   --log-every 5 \
-#   --patience 50 \
-#   --fix-seed \
-#   --seed 1261325436 \
-#   # --enable-pipeline \
+  python main.py \
+  --dataset ogbn-arxiv \
+  --dropout 0.3 \
+  --lr 0.01 \
+  --n-partitions 4 \
+  --n-epochs 500 \
+  --model graphsage \
+  --n-layers 2 \
+  --n-hidden 512 \
+  --log-every 5 \
+  --patience 50 \
+  --fix-seed \
+  --seed 1261325436 \
+  --enable-pipeline \

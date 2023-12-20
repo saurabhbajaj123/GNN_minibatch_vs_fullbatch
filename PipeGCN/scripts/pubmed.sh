@@ -12,37 +12,17 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 python main.py \
   --dataset pubmed \
   --dropout 0.7 \
-  --lr 0.0002 \
+  --lr 0.001 \
   --n-partitions 4 \
-  --n-epochs 10 \
+  --n-epochs 1000 \
   --model graphsage \
   --n-layers 2 \
-  --n-hidden 1024 \
+  --n-hidden 64 \
   --log-every 5 \
   --use-pp \
   --patience 50 \
   --fix-seed \
+  --seed 1344439319 \
   # --enable-pipeline \
-  # --seed 1344439319 \
 
 
-
-# python main.py \
-#   --dataset pubmed \
-#   --dropout 0.7565688403188127 \
-#   --lr 0.0001 \
-#   --n-partitions 4 \
-#   --n-epochs 2000 \
-#   --model graphsage \
-#   --n-layers 3 \
-#   --n-hidden 187 \
-#   --log-every 5 \
-#   --use-pp \
-#   --patience 1000 \
-#   --enable-pipeline \
-#   --seed 1344439319  \
-#   --fix-seed \
-#   # --norm layer\
-#   # --inductive \
-#   # --parts-per-node 2 \
-#   # --backend nccl \
