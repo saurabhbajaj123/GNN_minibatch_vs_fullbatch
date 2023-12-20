@@ -16,10 +16,10 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 10 \
+  --n-epochs 200 \
   --n-gpus 1 \
-  --n-layers 2 \
-  --n-hidden 64 \
+  --n-layers 3 \
+  --n-hidden 256 \
   --num-heads 4 \
   --batch-size 1024 \
   --patience 50 \
@@ -27,7 +27,7 @@ python main.py \
   --agg mean \
   --log-every 5 \
   --seed 42 \
-  # --mode puregpu \
+  --mode puregpu \
   # --seed \
 
 

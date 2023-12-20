@@ -192,7 +192,7 @@ def train(
         train_dur.append(t1-t0)
         # scheduler.step()
         # scheduler2.step(best_val_acc)
-        print(f"train time = {t1 - t0}")
+        # print(f"train time = {t1 - t0}")
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
                 evaluate(model, g, n_classes, train_dataloader).to(device) / nprocs
@@ -308,7 +308,7 @@ def train(
 
 
 # def run(proc_id, nprocs, devices, g, data, args):
-def run(proc_id, nprocs, devices, n_data, data, args):
+def run(proc_id, nprocs, devices, g_or_n_data, data, args):
     # find corresponding device for my rank
     device = devices[proc_id]
     torch.cuda.set_device(device)
@@ -322,13 +322,15 @@ def run(proc_id, nprocs, devices, n_data, data, args):
         world_size=nprocs,
         rank=proc_id,
     )
+    if args.dataset.lower() == 'ogbn-papers100m':
+        g = dgl.hetero_from_shared_memory("train_graph")
+        ndata = g_or_n_data
+        g.ndata['label'] = n_data['label']
+        g.ndata['feat'] = n_data['feat']
+    else:
+        g = g_or_n_data
+        g = g.to(device if args.mode == "puregpu" else "cpu")  
 
-    g = dgl.hetero_from_shared_memory("train_graph")
-    # print(f"graph device = {g.device}")
-    # print(f"graph = {g}")
-    # print(f"n_data = {n_data}")
-    g.ndata['label'] = n_data['label']
-    g.ndata['feat'] = n_data['feat']
 
     # g.ndata = n_data
     # print(f"g.ndata = {g.ndata}")
@@ -336,7 +338,7 @@ def run(proc_id, nprocs, devices, n_data, data, args):
     train_idx = train_idx.to(device if args.mode == "puregpu" else "cpu")
     val_idx = val_idx.to(device if args.mode == "puregpu" else "cpu")
     test_idx = test_idx.to(device if args.mode == "puregpu" else "cpu")
-    # g = g.to(device if args.mode == "puregpu" else "cpu")  
+
     # create GraphSAGE model (distributed)
     in_feats = g.ndata["feat"].shape[1]
     # print("g.ndata[feat].device = {}".format(g.ndata["feat"].device))

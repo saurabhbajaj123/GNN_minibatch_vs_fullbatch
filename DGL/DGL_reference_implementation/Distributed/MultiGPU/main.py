@@ -100,21 +100,25 @@ def main():
     )
     # print(g)
     # print(g.ndata)
-    n_data = g.ndata
-
-    shared_graph = g.shared_memory("train_graph") 
     # print(shared_graph.ndata)
-    # mp.spawn(
-    #     run,
-    #     args=(nprocs, devices, g, data, args),
-    #     nprocs=nprocs,
-    # )
 
-    mp.spawn(
-        run,
-        args=(nprocs, devices, n_data, data, args),
-        nprocs=nprocs,
-    )
+    if args.dataset.lower() == 'ogbn-papers100m':
+        n_data = g.ndata
+
+        shared_graph = g.shared_memory("train_graph") 
+
+        mp.spawn(
+            run,
+            args=(nprocs, devices, n_data, data, args),
+            nprocs=nprocs,
+        )
+    else:
+        mp.spawn(
+            run,
+            args=(nprocs, devices, g, data, args),
+            nprocs=nprocs,
+        )
+
     
 
 if __name__ == "__main__":

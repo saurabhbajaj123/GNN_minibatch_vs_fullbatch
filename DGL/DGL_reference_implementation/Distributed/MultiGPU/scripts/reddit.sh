@@ -11,24 +11,24 @@
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-# python main.py \
-#   --dataset reddit \
-#   --model graphsage  \
-#   --sampling NS \
-#   --dropout 0.3 \
-#   --lr 0.001 \
-#   --n-epochs 10 \
-#   --n-gpus 4 \
-#   --n-layers 5 \
-#   --n-hidden 1024 \
-#   --num-heads 2 \
-#   --batch-size 4096 \
-#   --fanout 4 \
-#   --agg mean \
-#   --log-every 5 \
-#   --patience 50 \
-#   --seed 42 \
-#   --mode puregpu \
+python main.py \
+  --dataset reddit \
+  --model graphsage  \
+  --sampling NS \
+  --dropout 0.3 \
+  --lr 0.001 \
+  --n-epochs 200 \
+  --n-gpus 4 \
+  --n-layers 4 \
+  --n-hidden 1024 \
+  --num-heads 2 \
+  --batch-size 1024 \
+  --fanout 4 \
+  --agg mean \
+  --log-every 1 \
+  --patience 50 \
+  --seed 42 \
+  --mode puregpu \
 
 # python main.py \
 #   --dataset reddit \
