@@ -9,7 +9,7 @@
 #SBATCH --constrain=a100|rtx8000|m40
 #SBATCH --output=result.txt
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 
 #vanilla

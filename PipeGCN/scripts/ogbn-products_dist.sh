@@ -25,7 +25,7 @@ echo "SLURM_STEP_GPUS="$SLURM_STEP_GPUS
 echo "SLURM_JOB_GPUS="$SLURM_JOB_GPUS
 echo "SLURM_GPUS="$SLURM_GPUS
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 srun python main.py \
   --dataset ogbn-products \

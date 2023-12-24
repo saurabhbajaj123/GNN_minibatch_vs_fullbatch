@@ -33,10 +33,12 @@ warnings.filterwarnings("ignore")
 # writer = SummaryWriter()
 
 import wandb
+wandb.login(key="b73226189c00daae3e37d32bdc993f9fa103c8c4")
+os.environ["WANDB__SERVICE_WAIT"] = "300"
 
 
-os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
-os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGLDEFAULTDIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
 
 def evaluate(model, g, n_classes, dataloader):
     model.eval()
@@ -189,6 +191,7 @@ def train(
             total_loss += loss
         t1 = time.time()
         train_time += t1 - t0
+        print(f"Train time : {t1 - t0}")
         train_dur.append(t1-t0)
         # scheduler.step()
         # scheduler2.step(best_val_acc)

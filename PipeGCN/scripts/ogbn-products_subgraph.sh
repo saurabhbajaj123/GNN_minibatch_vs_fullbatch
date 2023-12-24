@@ -8,11 +8,11 @@
 #SBATCH --nodes=1
 
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-products \
-  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-products_frac_0.01_hops_2_subgraph.bin \
+  --dataset-subgraph-path /home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-products_frac_0.01_hops_2_subgraph.bin \
   --dropout 0.3 \
   --lr 0.003 \
   --n-partitions 4 \

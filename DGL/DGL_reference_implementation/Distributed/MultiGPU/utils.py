@@ -26,7 +26,7 @@ def load_data(dataset):
         raise ValueError('Unknown dataset: {}'.format(dataset))
 
 def load_reddit():
-    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
     dataset = AsNodePredDataset(dgl.data.RedditDataset(raw_dir=root))
     # graph = dataset[0]
     # graph = dgl.add_reverse_edges(graph)
@@ -44,7 +44,7 @@ def load_reddit():
 
 
 def load_pubmed():
-    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
     dataset = AsNodePredDataset(dgl.data.PubmedGraphDataset(raw_dir=root))
     # graph = dataset[0]
     # graph = dgl.add_reverse_edges(graph)
@@ -62,7 +62,7 @@ def load_pubmed():
 
 
 def load_ogb_dataset(name):
-    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
     dataset = AsNodePredDataset(DglNodePropPredDataset(name=name, root=root))
     # g, label = dataset[0]
     # n_node = g.num_nodes()
@@ -94,7 +94,7 @@ def load_ogb_dataset(name):
     return dataset
     
 # d = return ef load_data(dataset="ogbn-products"):
-#     root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+#     root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
 #     dataset = DglNodePropPredDataset(dataset, root=root)
 
 #     graph, node_labels = dataset[0]

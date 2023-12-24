@@ -1,0 +1,108 @@
+Tesla V100-SXM2-16GB
+Tesla V100-SXM2-16GB
+Tesla V100-SXM2-16GB
+Tesla V100-SXM2-16GB
+	[4mGPU0	GPU1	GPU2	GPU3	CPU Affinity	NUMA Affinity[0m
+GPU0	 X 	NV1	NV1	NV2	0-31		N/A
+GPU1	NV1	 X 	NV2	NV1	0-31		N/A
+GPU2	NV1	NV2	 X 	NV2	0-31		N/A
+GPU3	NV2	NV1	NV2	 X 	0-31		N/A
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+Tesla V100-SXM2-16GB
+Tesla V100-SXM2-16GB
+Tesla V100-SXM2-16GB
+Tesla V100-SXM2-16GB
+	[4mGPU0	GPU1	GPU2	GPU3	CPU Affinity	NUMA Affinity[0m
+GPU0	 X 	NV1	NV1	NV2	0-31		N/A
+GPU1	NV1	 X 	NV2	NV1	0-31		N/A
+GPU2	NV1	NV2	 X 	NV2	0-31		N/A
+GPU3	NV2	NV1	NV2	 X 	0-31		N/A
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+1
+Training in puregpu mode using 1 GPU(s)
+Loading data
+Train time : 3.887974977493286
+Train time : 2.548189163208008
+Train time : 2.5405328273773193
+Train time : 2.544175386428833
+Train time : 2.537977933883667
+Epoch 00004 | Time per epoch 2.8118 | Time to train 14.0589 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+2
+Training in puregpu mode using 2 GPU(s)
+Loading data
+Train time : 3.253912925720215
+Train time : 1.3540139198303223
+Train time : 1.342484474182129
+Train time : 1.3381588459014893
+Train time : 1.3348021507263184
+Train time : 2.8195810317993164
+Train time : 1.3540818691253662
+Train time : 1.342482328414917
+Train time : 1.338137149810791
+Train time : 1.3348705768585205
+Epoch 00004 | Time per epoch 1.6813 | Time to train 8.4063 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+3
+Training in puregpu mode using 3 GPU(s)
+Loading data
+Train time : 2.8513317108154297
+Train time : 0.9116561412811279
+Train time : 0.9345536231994629
+Train time : 0.9219300746917725
+Train time : 0.9173629283905029
+Train time : 2.3844852447509766
+Train time : 0.9117088317871094
+Train time : 0.9346535205841064
+Train time : 0.9220423698425293
+Train time : 0.9174404144287109
+Epoch 00004 | Time per epoch 1.2762 | Time to train 6.3812 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+Train time : 2.8508429527282715
+Train time : 0.9116916656494141
+Train time : 0.9346411228179932
+Train time : 0.921947717666626
+Train time : 0.917428731918335
+4
+Training in puregpu mode using 4 GPU(s)
+Loading data
+Train time : 2.241316318511963
+Train time : 0.7279057502746582
+Train time : 0.7238044738769531
+Train time : 0.7505030632019043
+Train time : 0.7176403999328613
+Epoch 00004 | Time per epoch 1.0998 | Time to train 5.4989 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+Train time : 2.69187068939209
+Train time : 0.727785587310791
+Train time : 0.7237417697906494
+Train time : 0.7504251003265381
+Train time : 0.7175605297088623
+Train time : 2.6919870376586914
+Train time : 0.7276229858398438
+Train time : 0.7236552238464355
+Train time : 0.7503213882446289
+Train time : 0.717484712600708
+Train time : 2.692387580871582
+Train time : 0.72784423828125
+Train time : 0.7237706184387207
+Train time : 0.7504637241363525
+Train time : 0.7174689769744873

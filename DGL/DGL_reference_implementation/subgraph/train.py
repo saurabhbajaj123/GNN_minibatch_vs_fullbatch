@@ -35,8 +35,8 @@ warnings.filterwarnings("ignore")
 import wandb
 
 
-os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
-os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGLDEFAULTDIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
 
 def evaluate(model, g, n_classes, dataloader):
     model.eval()

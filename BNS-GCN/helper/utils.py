@@ -23,7 +23,7 @@ class TransferTag:
 
 
 def load_ogb_dataset(name, data_path):
-    dataset = DglNodePropPredDataset(name=name, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+    dataset = DglNodePropPredDataset(name=name, root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
     split_idx = dataset.get_idx_split()
     g, label = dataset[0]
     n_node = g.num_nodes()
@@ -57,27 +57,27 @@ def load_subgraph(dataset_path):
 
 
 def load_pubmed():
-    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
     g = dataset[0]
     return g
 
 def load_data(args):
     if args.dataset == 'reddit':
-        data = RedditDataset(raw_dir='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        data = RedditDataset(raw_dir='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
         g = data[0]
     elif args.dataset == 'ogbn-products':
-        g = load_ogb_dataset('ogbn-products', '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        g = load_ogb_dataset('ogbn-products', '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
     elif args.dataset == 'ogbn-arxiv':
-        g = load_ogb_dataset('ogbn-arxiv', '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        g = load_ogb_dataset('ogbn-arxiv', '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
 
     elif args.dataset == 'ogbn-papers100m':
-        # g = load_ogb_dataset('ogbn-papers100M', '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        # g = load_ogb_dataset('ogbn-papers100M', '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
         return load_subgraph(args.dataset_subgraph_path)
     elif args.dataset == 'pubmed':
         g = load_pubmed()
     elif args.dataset == 'yelp':
-        data = YelpDataset(raw_dir='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        data = YelpDataset(raw_dir='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
         g = data[0]
         g.ndata['label'] = g.ndata['label'].float()
         # TODO: remove the following three lines later (see Issue #4806 of DGL).

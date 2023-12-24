@@ -7,11 +7,11 @@
 #SBATCH --partition=gypsum-1080ti
 #SBATCH --nodes=1
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-arxiv \
-  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-arxiv_frac_0.01_hops_2_subgraph_no_isolated.bin \
+  --dataset-subgraph-path /home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-arxiv_frac_0.01_hops_2_subgraph_no_isolated.bin \
   --dropout 0.3 \
   --lr 0.003 \
   --n-partitions 2 \

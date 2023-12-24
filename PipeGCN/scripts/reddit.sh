@@ -7,7 +7,7 @@
 #SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 # python main.py \
 #   --dataset reddit \
@@ -25,15 +25,19 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 #   # --fix-seed \
 
 
-python main.py \
-  --dataset reddit \
-  --dropout 0.3 \
-  --lr 0.01 \
-  --n-partitions 4 \
-  --n-epochs 500 \
-  --model graphsage \
-  --n-layers 4 \
-  --n-hidden 1024 \
-  --log-every 10 \
-  --patience 100 \
-  --seed 1122320811 \
+for n_parts in 4
+do
+  echo $n_parts
+  python main.py \
+    --dataset reddit \
+    --dropout 0.3 \
+    --lr 0.01 \
+    --n-partitions $n_parts \
+    --n-epochs 5 \
+    --model graphsage \
+    --n-layers 4 \
+    --n-hidden 512 \
+    --log-every 10 \
+    --patience 100 \
+    --seed 1122320811
+done

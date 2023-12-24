@@ -31,8 +31,8 @@ from utils import load_data
 
 import wandb
 os.environ["WANDB__SERVICE_WAIT"] = "300"
-os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
-os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGLDEFAULTDIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
 wandb.login()
 
 def main():

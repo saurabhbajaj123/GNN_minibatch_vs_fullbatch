@@ -8,7 +8,7 @@
 #SBATCH --partition=gypsum-m40
 
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 python main.py \
   --dataset pubmed \
@@ -16,7 +16,7 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 200 \
+  --n-epochs 5 \
   --n-gpus 1 \
   --n-layers 3 \
   --n-hidden 256 \
@@ -25,7 +25,7 @@ python main.py \
   --patience 50 \
   --fanout 10 \
   --agg mean \
-  --log-every 5 \
+  --log-every 10 \
   --seed 42 \
   --mode puregpu \
   # --seed \

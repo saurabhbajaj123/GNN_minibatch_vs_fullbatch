@@ -7,22 +7,22 @@
 #SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 python main.py \
   --dataset pubmed \
   --dropout 0.7 \
   --lr 0.001 \
-  --n-partitions 4 \
-  --n-epochs 1000 \
+  --n-partitions 1 \
+  --n-epochs 5 \
   --model graphsage \
-  --n-layers 2 \
-  --n-hidden 64 \
-  --log-every 5 \
+  --n-layers 3 \
+  --n-hidden 256 \
+  --log-every 10 \
   --use-pp \
   --patience 50 \
   --fix-seed \
   --seed 1344439319 \
-  # --enable-pipeline \
+  --enable-pipeline \
 
 

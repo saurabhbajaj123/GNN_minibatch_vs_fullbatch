@@ -1,12 +1,96 @@
-
-False
-
-False
-args = Namespace(backend='gloo', corr_momentum=0.95, dataset='ogbn-products', dropout=0.3, enable_pipeline=True, eval=True, feat_corr=False, fix_seed=False, grad_corr=False, graph_name='ogbn-products-7-metis-vol-trans', inductive=False, log_every=5, lr=0.003, master_addr='127.0.0.1', model='graphsage', n_class=47, n_epochs=10, n_feat=100, n_hidden=1400, n_layers=3, n_linear=0, n_partitions=7, n_train=196615, node_rank=0, norm='layer', partition_method='metis', partition_obj='vol', parts_per_node=10, port=18118, seed=394807355, skip_partition=False, use_pp=True, weight_decay=0)
-Process 6 has 578483 nodes, 22807747 edges 360239 inner nodes, and 18954523 inner edges.
-Process 5 has 584046 nodes, 23879713 edges 356747 inner nodes, and 20317495 inner edges.
-Process 4 has 676020 nodes, 21981864 edges 351508 inner nodes, and 17091428 inner edges.
-Process 3 has 523846 nodes, 22256533 edges 342213 inner nodes, and 19440817 inner edges.
-Process 2 has 489387 nodes, 15461144 edges 359014 inner nodes, and 13402564 inner edges.
-Process 0 has 590283 nodes, 16629718 edges 339654 inner nodes, and 13517828 inner edges.
-Process 1 has 581681 nodes, 14803384 edges 339654 inner nodes, and 11789348 inner edges.
+1
+cpu memory  = svmem(total=257541279744, available=252887797760, percent=1.8, used=2371379200, free=157837533184, active=38433853440, inactive=57612500992, buffers=124403712, cached=97207963648, shared=15187968, slab=2813112320)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=250503647232, percent=2.7, used=4755365888, free=155453374464, active=38433869824, inactive=60017381376, buffers=124407808, cached=97208131584, shared=15351808, slab=2812796928)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='reddit', graph_name='reddit-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=1, n_hidden=512, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=602, n_class=41, n_train=153431, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=False, seed=688032641, log_every=10, patience=100, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 0 has 232965 nodes, 114848857 edges 232965 inner nodes, and 114848857 inner edges.
+2
+cpu memory  = svmem(total=257541279744, available=252887175168, percent=1.8, used=2372001792, free=157836697600, active=38433968128, inactive=57612337152, buffers=124489728, cached=97208090624, shared=15187968, slab=2813935616)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=250503958528, percent=2.7, used=4755054592, free=155453734912, active=38433972224, inactive=60017995776, buffers=124502016, cached=97207988224, shared=15351808, slab=2813747200)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='reddit', graph_name='reddit-2-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=2, n_hidden=512, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=602, n_class=41, n_train=153431, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=False, seed=1260171167, log_every=10, patience=100, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 1 has 178153 nodes, 78603614 edges 113086 inner nodes, and 63670094 inner edges.
+Train time = 3.2329535484313965
+Train time = 2.1406450271606445
+Train time = 2.131162166595459
+Train time = 2.1206140518188477
+Train time = 2.113304376602173
+loading partitions
+Process 0 has 216528 nodes, 51178763 edges 119879 inner nodes, and 36245243 inner edges.
+Train time = 3.23075008392334
+Train time = 2.140592336654663
+Train time = 2.1312127113342285
+Train time = 2.120654344558716
+Train time = 2.1133103370666504
+Validation accuracy 0.00%
+3
+cpu memory  = svmem(total=257541279744, available=252934619136, percent=1.8, used=2324545536, free=157883985920, active=38434078720, inactive=57612972032, buffers=124588032, cached=97208160256, shared=15187968, slab=2814730240)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=250519248896, percent=2.7, used=4739764224, free=155468591104, active=38434086912, inactive=60016721920, buffers=124600320, cached=97208324096, shared=15351808, slab=2814791680)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='reddit', graph_name='reddit-3-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=3, n_hidden=512, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=602, n_class=41, n_train=153431, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=False, seed=1083329114, log_every=10, patience=100, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 1 has 177522 nodes, 40517163 edges 77481 inner nodes, and 29416919 inner edges.
+Train time = 2.9230265617370605
+Train time = 1.8198890686035156
+Train time = 1.930060863494873
+Train time = 1.8213071823120117
+Train time = 1.9449422359466553
+loading partitions
+Process 2 has 185897 nodes, 62511029 edges 79987 inner nodes, and 49494757 inner edges.
+Train time = 2.917799472808838
+Train time = 1.819962739944458
+Train time = 1.9301018714904785
+Train time = 1.8213441371917725
+Train time = 1.9450905323028564
+loading partitions
+Process 0 has 151476 nodes, 26708209 edges 75497 inner nodes, and 21049637 inner edges.
+Train time = 2.91802716255188
+Train time = 1.819953441619873
+Train time = 1.9301774501800537
+Train time = 1.8214139938354492
+Train time = 1.9450457096099854
+Validation accuracy 0.00%
+4
+cpu memory  = svmem(total=257541279744, available=252953321472, percent=1.8, used=2305691648, free=157902499840, active=41997017088, inactive=54050340864, buffers=124678144, cached=97208410112, shared=15351808, slab=2812559360)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=250536382464, percent=2.7, used=4722585600, free=155441999872, active=41997062144, inactive=56499597312, buffers=124694528, cached=97251999744, shared=15360000, slab=2813349888)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='reddit', graph_name='reddit-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=5, n_linear=0, norm='none', weight_decay=0, n_feat=602, n_class=41, n_train=153431, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=False, seed=605179421, log_every=10, patience=100, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 3 has 174679 nodes, 28709066 edges 59096 inner nodes, and 16802870 inner edges.
+Train time = 3.0654304027557373
+Train time = 1.9847445487976074
+Train time = 1.9946234226226807
+Train time = 1.9978077411651611
+Train time = 2.024141788482666
+loading partitions
+Process 1 has 131921 nodes, 31780498 edges 56674 inner nodes, and 26298988 inner edges.
+Train time = 3.046314239501953
+Train time = 1.9848742485046387
+Train time = 1.994640588760376
+Train time = 1.9980065822601318
+Train time = 2.0244269371032715
+loading partitions
+Process 2 has 181284 nodes, 51879978 edges 59990 inner nodes, and 38964838 inner edges.
+Train time = 3.0971548557281494
+Train time = 1.984696865081787
+Train time = 1.9946725368499756
+Train time = 1.9978182315826416
+Train time = 2.0242273807525635
+loading partitions
+Process 0 has 103659 nodes, 20275765 edges 57205 inner nodes, and 14985711 inner edges.
+Train time = 2.9946255683898926
+Train time = 1.9849300384521484
+Train time = 1.9948225021362305
+Train time = 1.9979884624481201
+Train time = 2.0245554447174072
+Validation accuracy 0.00%

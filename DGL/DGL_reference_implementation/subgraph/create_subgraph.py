@@ -38,13 +38,13 @@ from ogb.nodeproppred import DglNodePropPredDataset
 import time 
 
 # os.environ["WANDB__SERVICE_WAIT"] = "300"
-os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
-os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGLDEFAULTDIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
 
 
-# root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
-# root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
-root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset/sub_dataset_folder"
+# root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
+# root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
+root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset/sub_dataset_folder"
 
 args = create_parser()
 

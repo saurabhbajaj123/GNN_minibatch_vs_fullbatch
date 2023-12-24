@@ -21,14 +21,14 @@ echo "MASTER_ADDR="$MASTER_ADDR
 
 echo "NUM GPUS PER NODE="$SLURM_GPUS 
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 python main.py \
   --dataset reddit \
   --dropout 0.5 \
   --lr 0.01 \
   --n-partitions 4 \
-  --n-epochs 3000 \
+  --n-epochs 5 \
   --model graphsage \
   --sampling-rate .1 \
   --n-layers 4 \

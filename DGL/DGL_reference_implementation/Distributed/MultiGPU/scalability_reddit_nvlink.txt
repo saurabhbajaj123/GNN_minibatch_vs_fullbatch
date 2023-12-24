@@ -1,0 +1,75 @@
+1
+Training in puregpu mode using 1 GPU(s)
+Loading data
+2
+Training in puregpu mode using 2 GPU(s)
+Loading data
+Train time : 9.645949125289917
+Train time : 7.976341962814331
+Train time : 7.999858856201172
+Train time : 8.010434627532959
+Train time : 8.027909517288208
+Train time : 9.189232349395752
+Train time : 7.976486921310425
+Train time : 7.999931335449219
+Train time : 8.010484218597412
+Train time : 8.028060913085938
+Epoch 00004 | Time per epoch 8.2865 | Time to train 41.4323 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+3
+Training in puregpu mode using 3 GPU(s)
+Loading data
+Train time : 6.927937984466553
+Train time : 5.680343866348267
+Train time : 5.652859687805176
+Train time : 5.678210258483887
+Train time : 5.662784576416016
+Epoch 00004 | Time per epoch 5.9810 | Time to train 29.9052 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+Train time : 7.381375074386597
+Train time : 5.680282115936279
+Train time : 5.652794122695923
+Train time : 5.678203344345093
+Train time : 5.662698745727539
+Train time : 7.384358882904053
+Train time : 5.680236339569092
+Train time : 5.652825832366943
+Train time : 5.678096771240234
+Train time : 5.662672758102417
+4
+Training in puregpu mode using 4 GPU(s)
+Loading data
+Train time : 5.814810514450073
+Train time : 7.743928909301758
+1
+Training in puregpu mode using 1 GPU(s)
+Loading data
+2
+Training in puregpu mode using 2 GPU(s)
+Loading data
+Train time : 9.597299337387085
+Train time : 8.016963481903076
+Train time : 7.990132570266724
+Train time : 8.143599271774292
+Train time : 8.106831789016724
+Train time : 9.171021461486816
+Train time : 8.017048835754395
+Train time : 7.990189790725708
+Train time : 8.143608331680298
+Train time : 8.106960535049438
+Epoch 00004 | Time per epoch 8.3284 | Time to train 41.6418 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+3
+Training in puregpu mode using 3 GPU(s)
+Loading data
+4
+Training in puregpu mode using 4 GPU(s)
+Loading data
+1
+2
+3
+4
+1
+2
+3
+4

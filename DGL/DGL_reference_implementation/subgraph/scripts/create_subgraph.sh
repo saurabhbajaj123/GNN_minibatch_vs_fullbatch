@@ -12,7 +12,7 @@ echo "SLURM_NODELIST = "$SLURM_NODELIST
 echo "SLURM_MEM_PER_NODE = "$SLURM_MEM_PER_NODE "MB"
 echo "SLURM_JOB_PARTITION = "$SLURM_JOB_PARTITION
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 echo y | python create_subgraph.py \
   --dataset ogbn-papers100M \

@@ -1,0 +1,70 @@
+1
+Training in puregpu mode using 1 GPU(s)
+Loading data
+Train time : 19.147160291671753
+Train time : 18.018287181854248
+Train time : 18.062960863113403
+Train time : 18.045585870742798
+Train time : 18.067392349243164
+Epoch 00004 | Time per epoch 18.2683 | Time to train 91.3414 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+2
+Training in puregpu mode using 2 GPU(s)
+Loading data
+Train time : 11.659905433654785
+Train time : 9.73873496055603
+Train time : 9.710805177688599
+Train time : 9.783676624298096
+Train time : 9.729249477386475
+Train time : 11.248409032821655
+Train time : 9.738755941390991
+Train time : 9.710821866989136
+Train time : 9.783679485321045
+Train time : 9.729292392730713
+Epoch 00004 | Time per epoch 10.0833 | Time to train 50.4167 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+3
+Training in puregpu mode using 3 GPU(s)
+Loading data
+Train time : 8.35033130645752
+Train time : 6.885630130767822
+Train time : 6.837486982345581
+Train time : 6.865584135055542
+Train time : 6.817822217941284
+Epoch 00004 | Time per epoch 7.2106 | Time to train 36.0532 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+Train time : 8.801625490188599
+Train time : 6.885574102401733
+Train time : 6.837420701980591
+Train time : 6.865465879440308
+Train time : 6.817752122879028
+Train time : 8.788728952407837
+Train time : 6.885571479797363
+Train time : 6.837396860122681
+Train time : 6.865500450134277
+Train time : 6.81775426864624
+4
+Training in puregpu mode using 4 GPU(s)
+Loading data
+Train time : 7.039169549942017
+Train time : 5.59544563293457
+Train time : 5.549830913543701
+Train time : 5.5846030712127686
+Train time : 5.567712783813477
+Epoch 00004 | Time per epoch 5.9286 | Time to train 29.6432 | Time to eval 0.0000
+best val acc = 0 | best test acc = 0
+Train time : 7.4363343715667725
+Train time : 5.595269203186035
+Train time : 5.549581527709961
+Train time : 5.5841498374938965
+Train time : 5.567014217376709
+Train time : 7.472103834152222
+Train time : 5.595871925354004
+Train time : 5.549607038497925
+Train time : 5.584437131881714
+Train time : 5.567426919937134
+Train time : 7.436244964599609
+Train time : 5.5958497524261475
+Train time : 5.549759387969971
+Train time : 5.584813117980957
+Train time : 5.56771183013916

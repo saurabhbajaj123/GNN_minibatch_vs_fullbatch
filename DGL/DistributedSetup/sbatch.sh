@@ -19,6 +19,6 @@ echo "MASTER_ADDR="$MASTER_ADDR
 module purge
 # module load anaconda3/2021.11
 # conda activate torch-env
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 srun python myscript.py

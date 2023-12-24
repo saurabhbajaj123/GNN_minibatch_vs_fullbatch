@@ -30,10 +30,10 @@ from train import *
 from utils import load_data
 
 import wandb
+wandb.login(key="b73226189c00daae3e37d32bdc993f9fa103c8c4")
 os.environ["WANDB__SERVICE_WAIT"] = "300"
-os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
-os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
-wandb.login()
+os.environ["DGLDEFAULTDIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
 
 def main():
     args = create_parser()

@@ -16,7 +16,7 @@ def load_reddit(self_loop=True):
     return g, data.num_classes
 
 
-def load_ogb(name, root="dataset"):
+def load_ogb(name, root="/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"):
     """Load ogbn dataset."""
     data = DglNodePropPredDataset(name=name, root=root)
     splitted_idx = data.get_idx_split()
@@ -84,23 +84,23 @@ if __name__ == "__main__":
     argparser.add_argument(
         "--output",
         type=str,
-        default="/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DistributedSetup/partitions/partitioned_graph",
+        default="/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DistributedSetup/partitions/partitioned_graph",
         help="Output path of partitioned graph.",
     )
 
     argparser.add_argument(
         "--subgraph-dataset", "--subgraph_dataset",
         type=str,
-        default="/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset/papers_subgraphs/ogbn-papers100M_frac_1_hops_3_subgraph.bin",
+        default="/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset/papers_subgraphs/ogbn-papers100M_frac_1_hops_3_subgraph.bin",
         help="Input path of subgraph.",
     )
     args = argparser.parse_args()
     print(f"args = {args}")
     start = time.time()
     # if args.dataset == "reddit":
-    #     g, _ = load_reddit(root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+    #     g, _ = load_reddit(root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
     # elif args.dataset in ["ogbn-products", "ogbn-papers100M"]:
-    #     g, _ = load_ogb(args.dataset, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+    #     g, _ = load_ogb(args.dataset, root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
     # elif 'subgraph' in args.dataset:
     #     g, _ = dgl.load_graphs(args.subgraph_dataset)
     #     g = g[0]

@@ -20,17 +20,18 @@ echo "MASTER_ADDR="$MASTER_ADDR
 
 echo "NUM GPUS PER NODE="$SLURM_GPUS 
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+cd /home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/BNS-GCN
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-products \
   --dropout 0.3 \
   --lr 0.003 \
   --n-partitions 4 \
-  --n-epochs 500 \
+  --n-epochs 5 \
   --model graphsage \
   --sampling-rate 0.1 \
   --n-layers 5 \
-  --n-hidden 256 \
+  --n-hidden 128 \
   --log-every 10 \
   --use-pp

@@ -425,9 +425,9 @@ def run(graph, node_dict, gpb, args):
         ctx.reducer.synchronize()
         reduce_time = time.time() - pre_reduce
         optimizer.step()
-
-        train_time += time.time() - t0
-
+        t1 = time.time()
+        train_time += t1 - t0
+        print(f"Train time: {t1 - t0}")
         if epoch >= 5:
             train_dur.append(time.time() - t0)
             comm_dur.append(comm_timer.tot_time())

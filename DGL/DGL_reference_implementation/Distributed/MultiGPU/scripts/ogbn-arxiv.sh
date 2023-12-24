@@ -8,23 +8,26 @@
 #SBATCH --nodes=1
 
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
-
-python main.py \
-  --dataset ogbn-arxiv \
-  --model graphsage \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.007 \
-  --n-epochs 1000 \
-  --n-gpus 4 \
-  --n-layers 2 \
-  --n-hidden 512 \
-  --num-heads 2 \
-  --batch-size 1024 \
-  --patience 200 \
-  --fanout 25 \
-  --agg mean \
-  --log-every 5 \
-  --seed 42 \
-  --mode puregpu \
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
+for n_parts in 2 3 4
+do
+  echo $n_parts
+  python main.py \
+    --dataset ogbn-arxiv \
+    --model graphsage \
+    --sampling NS \
+    --dropout 0.3 \
+    --lr 0.007 \
+    --n-epochs 5 \
+    --n-gpus $n_parts \
+    --n-layers 6 \
+    --n-hidden 1024 \
+    --num-heads 2 \
+    --batch-size 1024 \
+    --patience 200 \
+    --fanout 5 \
+    --agg mean \
+    --log-every 10 \
+    --seed 42 \
+    --mode puregpu
+done

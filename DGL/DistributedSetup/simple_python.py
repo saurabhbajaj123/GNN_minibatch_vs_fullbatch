@@ -1,4 +1,4 @@
-#!/work/sbajaj_umass_edu/GNNEnv/bin/activate 
+#!/home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate 
 import torch
 
 import dgl

@@ -10,8 +10,8 @@ import warnings
 if __name__ == '__main__':
 
     args = create_parser()
-    args.node_rank = int(os.environ["SLURM_PROCID"]) # int( int(os.environ["SLURM_PROCID"]) // args.parts_per_node)
-    print(f"args.node_rank = {args.node_rank}")
+    # args.node_rank = int(os.environ["SLURM_PROCID"]) # int( int(os.environ["SLURM_PROCID"]) // args.parts_per_node)
+    # print(f"args.node_rank = {args.node_rank}")
 
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:

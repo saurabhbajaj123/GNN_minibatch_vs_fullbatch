@@ -7,35 +7,46 @@
 #SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
-
-python main.py \
-  --dataset ogbn-arxiv \
-  --dropout 0.3 \
-  --lr 0.01 \
-  --n-partitions 4 \
-  --n-epochs 500 \
-  --model graphsage \
-  --n-layers 2 \
-  --n-hidden 512 \
-  --log-every 5 \
-  --patience 50 \
-  --fix-seed \
-  --seed 1261325436 \
-  # --enable-pipeline \
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 
+for n_parts in 1
+do
+  echo $n_parts
   python main.py \
-  --dataset ogbn-arxiv \
-  --dropout 0.3 \
-  --lr 0.01 \
-  --n-partitions 4 \
-  --n-epochs 500 \
-  --model graphsage \
-  --n-layers 2 \
-  --n-hidden 512 \
-  --log-every 5 \
-  --patience 50 \
-  --fix-seed \
-  --seed 1261325436 \
-  --enable-pipeline \
+    --dataset ogbn-arxiv \
+    --dropout 0.3 \
+    --lr 0.01 \
+    --n-partitions 4 \
+    --n-epochs 5 \
+    --model graphsage \
+    --n-layers 6 \
+    --n-hidden 1024 \
+    --log-every 10 \
+    --patience 50 \
+    --fix-seed \
+    --seed 1261325436
+done
+
+for n_parts in 1
+do
+  echo $n_parts
+  python main.py \
+    --dataset ogbn-arxiv \
+    --dropout 0.3 \
+    --lr 0.01 \
+    --n-partitions $n_parts \
+    --n-epochs 5 \
+    --model graphsage \
+    --n-layers 6 \
+    --n-hidden 1024 \
+    --log-every 10 \
+    --patience 50 \
+    --fix-seed \
+    --seed 1261325436 \
+    --enable-pipeline
+done
+
+
+
+

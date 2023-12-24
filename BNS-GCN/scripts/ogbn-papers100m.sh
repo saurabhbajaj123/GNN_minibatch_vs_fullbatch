@@ -21,11 +21,11 @@ echo "MASTER_ADDR="$MASTER_ADDR
 echo "NUM GPUS PER NODE="$SLURM_GPUS 
 echo "Nodes = "$SLURM_JOB_NODELIST
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 srun python main.py \
   --dataset ogbn-papers100m \
-  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
+  --dataset-subgraph-path /home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
   --dropout 0.3 \
   --lr 0.01 \
   --n-partitions 12 \

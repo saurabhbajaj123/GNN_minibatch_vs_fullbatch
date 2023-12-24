@@ -17,7 +17,7 @@ echo "SLURM_MEM_PER_NODE = "$SLURM_MEM_PER_NODE "MB"
 echo "SLURM_JOB_PARTITION = "$SLURM_JOB_PARTITION
 echo "SLURM_GPUS = "$SLURM_GPUS # 
 
-source /work/sbajaj_umass_edu/GNNEnv/bin/activate
+source /home/ubuntu/gnn_mini_vs_full/GNNEnv/bin/activate
 
 # python papers100m_subgraph.py \
 #   --dataset ogbn-arxiv \
@@ -26,7 +26,7 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 python main.py \
   --dataset ogbn-papers100m \
-  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
+  --dataset-subgraph-path /home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
   --model graphsage \
   --sampling NS \
   --dropout 0.3 \

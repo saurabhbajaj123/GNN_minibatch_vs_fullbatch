@@ -13,9 +13,8 @@ import json
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-
 def load_ogb_dataset(name):
-    dataset = DglNodePropPredDataset(name=name, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+    dataset = DglNodePropPredDataset(name=name, root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
     split_idx = dataset.get_idx_split()
     g, label = dataset[0]
     n_node = g.num_nodes()
@@ -30,7 +29,7 @@ def load_ogb_dataset(name):
     return g
 
 def load_ogb_arxiv_dataset(name):
-    dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset(name=name, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset'))
+    dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset(name=name, root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset'))
     g = dataset[0]
     # g = dgl.add_reverse_edges(g)
     g.edata.clear()
@@ -41,7 +40,7 @@ def load_ogb_arxiv_dataset(name):
 
 
 def load_yelp():
-    prefix = '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/datasetyelp/'
+    prefix = '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/datasetyelp/'
 
     with open(prefix + 'class_map.json') as f:
         class_map = json.load(f)
@@ -81,7 +80,7 @@ def load_yelp():
     return g
 
 def load_pubmed():
-    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+    root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
     dataset = dgl.data.PubmedGraphDataset(raw_dir=root)
     g = dataset[0]
     return g
@@ -104,7 +103,7 @@ def load_subgraph(dataset_path):
 
 def load_data(dataset):
     if dataset == 'reddit':
-        data = RedditDataset(raw_dir='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        data = RedditDataset(raw_dir='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
         g = data[0]
     elif dataset == 'ogbn-products':
         g = load_ogb_dataset('ogbn-products')

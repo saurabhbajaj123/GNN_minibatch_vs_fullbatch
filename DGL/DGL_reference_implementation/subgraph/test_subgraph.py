@@ -38,13 +38,13 @@ from ogb.nodeproppred import DglNodePropPredDataset
 import time 
 
 # os.environ["WANDB__SERVICE_WAIT"] = "300"
-os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
-os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+os.environ["DGLDEFAULTDIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
+os.environ["DGL_DOWNLOAD_DIR"] = "/home/ubuntu/gnn_mini_vs_full/.dgl"
 
 
-# root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
-# root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
-root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset/sub_dataset_folder"
+# root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
+# root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset"
+root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/dataset/sub_dataset_folder"
 
 
 def load_subgraph(dataset_path):
@@ -61,8 +61,8 @@ def load_subgraph(dataset_path):
         n_class = g.ndata['label'].shape[1]
     return g, n_feat, n_class
 
-# path = '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_3_subgraph.bin'
-path = '/work/sbajaj_umass_edu/MGG-OSDI23-AE/dgl_pydirect_internal/graphdata/com-orkut.mtx_dgl_graph.bin'
+# path = '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_3_subgraph.bin'
+path = '/home/ubuntu/gnn_mini_vs_full/MGG-OSDI23-AE/dgl_pydirect_internal/graphdata/com-orkut.mtx_dgl_graph.bin'
 g, n_feat, n_class = load_subgraph(path)
 
 

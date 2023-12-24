@@ -1,0 +1,545 @@
+1
+cpu memory  = svmem(total=257541279744, available=252769824768, percent=1.9, used=2489188352, free=125355683840, active=46011879424, inactive=81523699712, buffers=127627264, cached=129568780288, shared=15351808, slab=3793563648)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252513488896, percent=2.0, used=2745524224, free=125099347968, active=46011879424, inactive=81818615808, buffers=127627264, cached=129568780288, shared=15351808, slab=3793563648)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.2190048694610596
+Train time = 0.10309505462646484
+Train time = 0.10460257530212402
+Train time = 0.10654759407043457
+Train time = 0.09079861640930176
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.2453882694244385
+Train time = 0.10322427749633789
+Train time = 0.10454201698303223
+Train time = 0.10639548301696777
+Train time = 0.09084391593933105
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.238252878189087
+Train time = 0.10333514213562012
+Train time = 0.10468435287475586
+Train time = 0.10660219192504883
+Train time = 0.09097099304199219
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.2052218914031982
+Train time = 0.10353732109069824
+Train time = 0.10481595993041992
+Train time = 0.10666394233703613
+Train time = 0.09102010726928711
+Validation accuracy 0.00%
+2
+cpu memory  = svmem(total=257541279744, available=252799885312, percent=1.8, used=2459291648, free=125385445376, active=46026354688, inactive=81508442112, buffers=127688704, cached=129568854016, shared=15187968, slab=3793743872)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252516548608, percent=2.0, used=2742628352, free=125102108672, active=46026354688, inactive=81809137664, buffers=127688704, cached=129568854016, shared=15187968, slab=3793743872)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 0.8475387096405029
+Train time = 0.09822607040405273
+Train time = 0.09906625747680664
+Train time = 0.09672260284423828
+Train time = 0.09517407417297363
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 0.8448419570922852
+Train time = 0.09807229042053223
+Train time = 0.09906268119812012
+Train time = 0.09674620628356934
+Train time = 0.09517168998718262
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 0.8340542316436768
+Train time = 0.09821844100952148
+Train time = 0.09913396835327148
+Train time = 0.09669017791748047
+Train time = 0.09523153305053711
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 0.836228609085083
+Train time = 0.09846138954162598
+Train time = 0.09928178787231445
+Train time = 0.09685325622558594
+Train time = 0.09529376029968262
+Validation accuracy 0.00%
+3
+cpu memory  = svmem(total=257541279744, available=252818833408, percent=1.8, used=2440331264, free=125404299264, active=46026403840, inactive=81509957632, buffers=127721472, cached=129568927744, shared=15187968, slab=3796123648)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252552888320, percent=1.9, used=2706112512, free=125138358272, active=46026395648, inactive=81772785664, buffers=127721472, cached=129569087488, shared=15351808, slab=3796389888)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.2201154232025146
+Train time = 0.09697985649108887
+Train time = 0.09426021575927734
+Train time = 0.09464907646179199
+Train time = 0.09693694114685059
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.1963505744934082
+Train time = 0.09709000587463379
+Train time = 0.09412598609924316
+Train time = 0.09455752372741699
+Train time = 0.09693288803100586
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.2034387588500977
+Train time = 0.0972435474395752
+Train time = 0.09429454803466797
+Train time = 0.09467124938964844
+Train time = 0.0969698429107666
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.1787116527557373
+Train time = 0.09711670875549316
+Train time = 0.09453868865966797
+Train time = 0.09494972229003906
+Train time = 0.09725046157836914
+Validation accuracy 0.00%
+4
+cpu memory  = svmem(total=257541279744, available=252808126464, percent=1.8, used=2451050496, free=125393420288, active=46026502144, inactive=81509482496, buffers=127770624, cached=129569038336, shared=15187968, slab=3796447232)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252508303360, percent=2.0, used=2750873600, free=125093597184, active=46026514432, inactive=81822072832, buffers=127770624, cached=129569038336, shared=15187968, slab=3796557824)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.1855425834655762
+Train time = 0.09613656997680664
+Train time = 0.09710288047790527
+Train time = 0.09979605674743652
+Train time = 0.09371304512023926
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.1909925937652588
+Train time = 0.09611296653747559
+Train time = 0.09701323509216309
+Train time = 0.09975886344909668
+Train time = 0.09372162818908691
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.1981406211853027
+Train time = 0.09624457359313965
+Train time = 0.09705948829650879
+Train time = 0.09987020492553711
+Train time = 0.09367918968200684
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.1909513473510742
+Train time = 0.09633016586303711
+Train time = 0.09710144996643066
+Train time = 0.09996247291564941
+Train time = 0.09401535987854004
+Validation accuracy 0.00%
+1
+cpu memory  = svmem(total=257541279744, available=252812599296, percent=1.8, used=2446413824, free=125397692416, active=46026620928, inactive=81508982784, buffers=127844352, cached=129569329152, shared=15351808, slab=3795369984)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252507684864, percent=2.0, used=2751328256, free=125092777984, active=46026620928, inactive=81836175360, buffers=127844352, cached=129569329152, shared=15351808, slab=3795468288)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=1, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 0 has 169343 nodes, 2484941 edges 169343 inner nodes, and 2484941 inner edges.
+Train time = 0.7567431926727295
+Train time = 0.04680180549621582
+Train time = 0.046323537826538086
+Train time = 0.04673504829406738
+Train time = 0.04621624946594238
+Validation accuracy 0.00%
+2
+cpu memory  = svmem(total=257541279744, available=252790243328, percent=1.8, used=2468933632, free=125209550848, active=46026772480, inactive=81675427840, buffers=127954944, cached=129734840320, shared=15187968, slab=3795075072)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252511698944, percent=2.0, used=2747314176, free=124930994176, active=46026764288, inactive=81978277888, buffers=127954944, cached=129735016448, shared=15351808, slab=3795542016)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-2-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=2, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 1 has 98032 nodes, 1778338 edges 87138 inner nodes, and 1697774 inner edges.
+Train time = 1.0832574367523193
+Train time = 0.02947545051574707
+Train time = 0.029419898986816406
+Train time = 0.029298067092895508
+Train time = 0.029783010482788086
+loading partitions
+Process 0 has 96650 nodes, 787167 edges 82205 inner nodes, and 706603 inner edges.
+Train time = 1.0748004913330078
+Train time = 0.0296328067779541
+Train time = 0.028605937957763672
+Train time = 0.028907060623168945
+Train time = 0.029770374298095703
+Validation accuracy 0.00%
+3
+cpu memory  = svmem(total=257541279744, available=252811710464, percent=1.8, used=2447302656, free=125230649344, active=46026895360, inactive=81677258752, buffers=128024576, cached=129735303168, shared=15351808, slab=3795091456)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252514365440, percent=2.0, used=2744647680, free=124933304320, active=46026895360, inactive=81979060224, buffers=128024576, cached=129735303168, shared=15351808, slab=3795320832)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-3-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=3, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 77764 nodes, 717752 edges 56254 inner nodes, and 499658 inner edges.
+Train time = 1.19740891456604
+Train time = 0.0229189395904541
+Train time = 0.026154518127441406
+Train time = 0.02766561508178711
+Train time = 0.027033567428588867
+loading partitions
+Process 1 has 78882 nodes, 1444016 edges 58140 inner nodes, and 1225586 inner edges.
+Train time = 1.1969883441925049
+Train time = 0.022999048233032227
+Train time = 0.026839256286621094
+Train time = 0.02794051170349121
+Train time = 0.027074337005615234
+loading partitions
+Process 0 has 64294 nodes, 565387 edges 54949 inner nodes, and 517483 inner edges.
+Train time = 1.1727268695831299
+Train time = 0.02296757698059082
+Train time = 0.02620220184326172
+Train time = 0.027777433395385742
+Train time = 0.02707648277282715
+Validation accuracy 0.00%
+4
+cpu memory  = svmem(total=257541279744, available=252789071872, percent=1.8, used=2469974016, free=125207453696, active=46027005952, inactive=81677807616, buffers=128094208, cached=129735757824, shared=15319040, slab=3796086784)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252496850944, percent=2.0, used=2762194944, free=124915232768, active=46027005952, inactive=81979748352, buffers=128094208, cached=129735757824, shared=15319040, slab=3796238336)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=2, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.0587494373321533
+Train time = 0.0230257511138916
+Train time = 0.023528575897216797
+Train time = 0.021904468536376953
+Train time = 0.022253751754760742
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.0641987323760986
+Train time = 0.02311396598815918
+Train time = 0.023192644119262695
+Train time = 0.021861791610717773
+Train time = 0.02225494384765625
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.094308614730835
+Train time = 0.023049116134643555
+Train time = 0.023303747177124023
+Train time = 0.021959543228149414
+Train time = 0.022181272506713867
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.0912091732025146
+Train time = 0.02295660972595215
+Train time = 0.023647546768188477
+Train time = 0.022269725799560547
+Train time = 0.02264857292175293
+Validation accuracy 0.00%
+
+
+
+6, 1024
+
+1
+cpu memory  = svmem(total=257541279744, available=252802379776, percent=1.8, used=2456616960, free=125220929536, active=46027112448, inactive=81676603392, buffers=128172032, cached=129735561216, shared=15351808, slab=3795697664)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252550295552, percent=1.9, used=2708701184, free=124968865792, active=46027104256, inactive=81941417984, buffers=128172032, cached=129735540736, shared=15351808, slab=3795890176)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.6476917266845703
+Train time = 0.926443338394165
+Train time = 0.9278223514556885
+Train time = 0.9380638599395752
+Train time = 0.9013192653656006
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.6495428085327148
+Train time = 0.9262876510620117
+Train time = 0.9278097152709961
+Train time = 0.9382100105285645
+Train time = 0.9013187885284424
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.6769251823425293
+Train time = 0.9263284206390381
+Train time = 0.927924394607544
+Train time = 0.9381401538848877
+Train time = 0.901378870010376
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.6560373306274414
+Train time = 0.9264492988586426
+Train time = 0.9280533790588379
+Train time = 0.9383156299591064
+Train time = 0.901512861251831
+Validation accuracy 0.00%
+2
+cpu memory  = svmem(total=257541279744, available=252800118784, percent=1.8, used=2459058176, free=125218516992, active=46027337728, inactive=81677070336, buffers=128282624, cached=129735421952, shared=15187968, slab=3797118976)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252551569408, percent=1.9, used=2707443712, free=124969967616, active=46027325440, inactive=81949761536, buffers=128282624, cached=129735585792, shared=15351808, slab=3797258240)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 2.0484015941619873
+Train time = 0.9446344375610352
+Train time = 0.922828197479248
+Train time = 0.9062502384185791
+Train time = 0.9302561283111572
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 2.053192377090454
+Train time = 0.944650411605835
+Train time = 0.9229233264923096
+Train time = 0.9063510894775391
+Train time = 0.9302232265472412
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 2.06716251373291
+Train time = 0.9445967674255371
+Train time = 0.9228765964508057
+Train time = 0.9063878059387207
+Train time = 0.9302065372467041
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 2.051180601119995
+Train time = 0.9446456432342529
+Train time = 0.9230074882507324
+Train time = 0.9065287113189697
+Train time = 0.9304201602935791
+Validation accuracy 0.00%
+3
+cpu memory  = svmem(total=257541279744, available=252779290624, percent=1.8, used=2479722496, free=125197250560, active=46027399168, inactive=81677750272, buffers=128344064, cached=129735962624, shared=15351808, slab=3795406848)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252511752192, percent=2.0, used=2747260928, free=124929712128, active=46027399168, inactive=81967878144, buffers=128344064, cached=129735962624, shared=15351808, slab=3795333120)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.9145686626434326
+Train time = 0.9323680400848389
+Train time = 0.9156358242034912
+Train time = 0.9143996238708496
+Train time = 0.9222009181976318
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.946887731552124
+Train time = 0.9328703880310059
+Train time = 0.9152331352233887
+Train time = 0.9141173362731934
+Train time = 0.9226865768432617
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.9538874626159668
+Train time = 0.9324471950531006
+Train time = 0.9158644676208496
+Train time = 0.9141929149627686
+Train time = 0.9223113059997559
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.9071621894836426
+Train time = 0.9330034255981445
+Train time = 0.915424108505249
+Train time = 0.9143424034118652
+Train time = 0.9229378700256348
+Validation accuracy 0.00%
+4
+cpu memory  = svmem(total=257541279744, available=252819918848, percent=1.8, used=2439258112, free=125238145024, active=46027497472, inactive=81677144064, buffers=128425984, cached=129735450624, shared=15187968, slab=3795017728)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252494790656, percent=2.0, used=2764222464, free=124913016832, active=46027497472, inactive=82004807680, buffers=128425984, cached=129735614464, shared=15351808, slab=3795083264)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.8645737171173096
+Train time = 0.9227602481842041
+Train time = 0.9487276077270508
+Train time = 0.9437649250030518
+Train time = 0.934133768081665
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.8847558498382568
+Train time = 0.9232547283172607
+Train time = 0.9482464790344238
+Train time = 0.9439260959625244
+Train time = 0.934039831161499
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.8845312595367432
+Train time = 0.9233531951904297
+Train time = 0.9488179683685303
+Train time = 0.9437131881713867
+Train time = 0.9341630935668945
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.8967006206512451
+Train time = 0.9228808879852295
+Train time = 0.9484379291534424
+Train time = 0.9440984725952148
+Train time = 0.9342138767242432
+Validation accuracy 0.00%
+1
+cpu memory  = svmem(total=257541279744, available=252834648064, percent=1.8, used=2424520704, free=125252554752, active=46027571200, inactive=81676587008, buffers=128495616, cached=129735708672, shared=15187968, slab=3797106688)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252553891840, percent=1.9, used=2705113088, free=124971810816, active=46027571200, inactive=81965830144, buffers=128495616, cached=129735860224, shared=15351808, slab=3797106688)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=1, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 0 has 169343 nodes, 2484941 edges 169343 inner nodes, and 2484941 inner edges.
+2
+cpu memory  = svmem(total=257541279744, available=252818681856, percent=1.8, used=2440495104, free=125236469760, active=46167887872, inactive=81536548864, buffers=128544768, cached=129735770112, shared=15187968, slab=3797655552)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252502073344, percent=2.0, used=2756939776, free=124919861248, active=46167887872, inactive=81853530112, buffers=128544768, cached=129735933952, shared=15351808, slab=3797934080)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-2-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=2, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 1 has 98032 nodes, 1778338 edges 87138 inner nodes, and 1697774 inner edges.
+Train time = 1.6217198371887207
+Train time = 0.4671902656555176
+Train time = 0.4627699851989746
+Train time = 0.463930606842041
+Train time = 0.4608142375946045
+loading partitions
+Process 0 has 96650 nodes, 787167 edges 82205 inner nodes, and 706603 inner edges.
+Train time = 1.6153466701507568
+Train time = 0.46727657318115234
+Train time = 0.4627997875213623
+Train time = 0.4639716148376465
+Train time = 0.46141695976257324
+Validation accuracy 0.00%
+3
+cpu memory  = svmem(total=257541279744, available=252790534144, percent=1.8, used=2468642816, free=125208166400, active=46315966464, inactive=81390104576, buffers=128622592, cached=129735847936, shared=15187968, slab=3797061632)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252471873536, percent=2.0, used=2787139584, free=124889505792, active=46315958272, inactive=81715679232, buffers=128622592, cached=129736011776, shared=15351808, slab=3797118976)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-3-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=3, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 77764 nodes, 717752 edges 56254 inner nodes, and 499658 inner edges.
+Train time = 1.440626621246338
+Train time = 0.3229987621307373
+Train time = 0.3223123550415039
+Train time = 0.3219172954559326
+Train time = 0.32401180267333984
+loading partitions
+Process 1 has 78882 nodes, 1444016 edges 58140 inner nodes, and 1225586 inner edges.
+Train time = 1.4641680717468262
+Train time = 0.3229386806488037
+Train time = 0.3224527835845947
+Train time = 0.32186365127563477
+Train time = 0.3238401412963867
+loading partitions
+Process 0 has 64294 nodes, 565387 edges 54949 inner nodes, and 517483 inner edges.
+Train time = 1.4367671012878418
+Train time = 0.32302236557006836
+Train time = 0.3223750591278076
+Train time = 0.3222033977508545
+Train time = 0.3239328861236572
+Validation accuracy 0.00%
+4
+cpu memory  = svmem(total=257541279744, available=252795867136, percent=1.8, used=2463309824, free=125213114368, active=46468153344, inactive=81237041152, buffers=128692224, cached=129736163328, shared=15187968, slab=3796754432)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252472045568, percent=2.0, used=2786967552, free=124889292800, active=46468153344, inactive=81563279360, buffers=128704512, cached=129736314880, shared=15351808, slab=3797262336)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.3455634117126465
+Train time = 0.25661587715148926
+Train time = 0.2686784267425537
+Train time = 0.2523183822631836
+Train time = 0.25870537757873535
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.350330114364624
+Train time = 0.25647497177124023
+Train time = 0.26775407791137695
+Train time = 0.2524592876434326
+Train time = 0.2589111328125
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.412898302078247
+Train time = 0.25717663764953613
+Train time = 0.2679893970489502
+Train time = 0.25228071212768555
+Train time = 0.25902700424194336
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.370744228363037
+Train time = 0.25665783882141113
+Train time = 0.26790761947631836
+Train time = 0.252396821975708
+Train time = 0.2589607238769531
+Validation accuracy 0.00%
+1
+cpu memory  = svmem(total=257541279744, available=252786831360, percent=1.8, used=2472345600, free=125203660800, active=46468489216, inactive=81237553152, buffers=128966656, cached=129736306688, shared=15187968, slab=3796631552)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252526043136, percent=1.9, used=2733133824, free=124942872576, active=46468489216, inactive=81519226880, buffers=128966656, cached=129736306688, shared=15187968, slab=3797147648)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=1, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 0 has 169343 nodes, 2484941 edges 169343 inner nodes, and 2484941 inner edges.
+1
+cpu memory  = svmem(total=257541279744, available=252825919488, percent=1.8, used=2433249280, free=125242699776, active=46483214336, inactive=81222873088, buffers=129167360, cached=129736163328, shared=15187968, slab=3797196800)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252575449088, percent=1.9, used=2683564032, free=124992221184, active=46483222528, inactive=81478230016, buffers=129167360, cached=129736327168, shared=15351808, slab=3797233664)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=4, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=False, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 2 has 63619 nodes, 485184 edges 41100 inner nodes, and 319332 inner edges.
+Train time = 1.9452102184295654
+Train time = 0.9305539131164551
+Train time = 0.9178526401519775
+Train time = 0.9117941856384277
+Train time = 0.9426684379577637
+loading partitions
+Process 1 has 62459 nodes, 631380 edges 43536 inner nodes, and 441576 inner edges.
+Train time = 1.9329745769500732
+Train time = 0.9304978847503662
+Train time = 0.9183399677276611
+Train time = 0.9121105670928955
+Train time = 0.9426469802856445
+loading partitions
+Process 3 has 65930 nodes, 1259665 edges 43607 inner nodes, and 993397 inner edges.
+Train time = 1.9781756401062012
+Train time = 0.93052077293396
+Train time = 0.9185431003570557
+Train time = 0.9124572277069092
+Train time = 0.9426460266113281
+loading partitions
+Process 0 has 48572 nodes, 438400 edges 41100 inner nodes, and 400948 inner edges.
+Train time = 1.9437470436096191
+Train time = 0.9305932521820068
+Train time = 0.9180009365081787
+Train time = 0.9118776321411133
+Train time = 0.9427928924560547
+Validation accuracy 0.00%
+1
+cpu memory  = svmem(total=257541279744, available=252791431168, percent=1.8, used=2467581952, free=125208043520, active=46483316736, inactive=81222819840, buffers=129245184, cached=129736409088, shared=15351808, slab=3797557248)
+before skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+cpu memory  = svmem(total=257541279744, available=252489773056, percent=2.0, used=2769240064, free=124906385408, active=46483316736, inactive=81548091392, buffers=129245184, cached=129736409088, shared=15351808, slab=3797753856)
+after skip partition: current 0.00MB, peak 0.00MB, reserved 0.00MB
+args = Namespace(dataset='ogbn-arxiv', graph_name='ogbn-arxiv-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.01, n_epochs=5, n_partitions=1, n_hidden=1024, n_layers=6, n_linear=0, norm='none', weight_decay=0, n_feat=128, n_class=40, n_train=90941, skip_partition=False, partition_obj='vol', partition_method='metis', enable_pipeline=True, feat_corr=False, grad_corr=False, corr_momentum=0.95, convergence_threshold=1e-10, use_pp=False, inductive=False, fix_seed=True, seed=1261325436, log_every=10, patience=50, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, eval=True, dataset_subgraph_path='')
+devices = ['0', '1', '2', '3'], len devices = 4
+loading partitions
+Process 0 has 169343 nodes, 2484941 edges 169343 inner nodes, and 2484941 inner edges.
