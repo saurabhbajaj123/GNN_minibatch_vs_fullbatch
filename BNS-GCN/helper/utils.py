@@ -16,6 +16,9 @@ from dgl.data import RedditDataset
 import torch.distributed as dist
 import time
 
+from dgl.data import DGLDataset
+import pandas as pd
+
 class TransferTag:
     NODE = 0
     FEAT = 1
@@ -36,6 +39,74 @@ def load_ogb_dataset(name, data_path):
     node_data['val_mask'][split_idx["valid"]] = True
     node_data['test_mask'][split_idx["test"]] = True
 
+    return g
+
+
+class OrkutDataset(DGLDataset):
+    def __init__(self):
+        super().__init__(name="orkut")
+
+    def process(self):
+        root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset"
+        edges_data = pd.read_csv(root + "/orkut/orkut_edges.csv")
+        node_labels = pd.read_csv(root + "/orkut/orkut_labels.csv")
+
+
+        node_features = torch.load(root + '/orkut/orkut_features.pt')
+        # print(f"node_features = {node_features}")
+
+        node_labels = torch.from_numpy(
+            node_labels.astype("category").to_numpy()
+        ).view(-1)
+        # print(f"node_labels = {node_labels}")
+
+        self.num_classes = (node_labels.max() + 1).item()
+        # edge_features = torch.from_numpy(edges_data["Weight"].to_numpy())
+        edges_src = torch.from_numpy(edges_data["Src"].to_numpy())
+        edges_dst = torch.from_numpy(edges_data["Dst"].to_numpy())
+        # print(f"node_features.shape = {node_features.shape}")
+        self.graph = dgl.graph(
+            (edges_src, edges_dst), num_nodes=node_features.shape[0]
+        )
+        self.graph.ndata["feat"] = node_features
+        self.graph.ndata["label"] = node_labels
+        # self.graph.edata["weight"] = edge_features
+
+        # If your dataset is a node classification dataset, you will need to assign
+        # masks indicating whether a node belongs to training, validation, and test set.
+        n_nodes = node_features.shape[0]
+        n_train = int(n_nodes * 0.6)
+        n_val = int(n_nodes * 0.2)
+        train_mask = torch.zeros(n_nodes, dtype=torch.bool)
+        val_mask = torch.zeros(n_nodes, dtype=torch.bool)
+        test_mask = torch.zeros(n_nodes, dtype=torch.bool)
+        train_mask[:n_train] = True
+        val_mask[n_train : n_train + n_val] = True
+        test_mask[n_train + n_val :] = True
+        self.graph.ndata["train_mask"] = train_mask
+        self.graph.ndata["val_mask"] = val_mask
+        self.graph.ndata["test_mask"] = test_mask
+
+        self.train_idx = self.graph.ndata["train_mask"].nonzero().view(-1)
+        self.val_idx = self.graph.ndata["val_mask"].nonzero().view(-1)
+        self.test_idx = self.graph.ndata["test_mask"].nonzero().view(-1)
+
+
+    def __getitem__(self, i):
+        return self.graph
+
+    def __len__(self):
+        return 1
+
+
+def load_orkut():
+    dataset = OrkutDataset()
+    g = dataset[0]
+    g = dgl.to_bidirected(g, copy_ndata=True)
+    g.ndata['in_deg'] = g.in_degrees()
+    g.ndata['out_deg'] = g.out_degrees()
+    # g = dgl.remove_self_loop(g)
+    # g = dgl.add_self_loop(g)
     return g
 
 
@@ -89,6 +160,8 @@ def load_data(args):
         scaler.fit(feats[g.ndata['train_mask']])
         feats = scaler.transform(feats)
         g.ndata['feat'] = torch.tensor(feats, dtype=torch.float)
+    elif args.dataset == "orkut":
+        g = load_orkut()
     else:
         raise ValueError('Unknown dataset: {}'.format(args.dataset))
 
@@ -151,6 +224,7 @@ def load_partition(args, rank):
 
     subg, node_feat, _, gpb, _, node_type, _ = dgl.distributed.load_partition(part_config, rank)
     node_type = node_type[0]
+    print(node_feat.keys())
     node_feat[dgl.NID] = subg.ndata[dgl.NID]
     if 'part_id' in subg.ndata:
         node_feat['part_id'] = subg.ndata['part_id']

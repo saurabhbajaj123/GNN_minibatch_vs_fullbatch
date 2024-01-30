@@ -9,7 +9,7 @@ from helper.parser import create_parser
 import os
 import torch.nn.functional as F
 import wandb
-
+from datetime import timedelta
 
 def calc_acc(logits, labels):
     if labels.dim() == 1:
@@ -425,9 +425,10 @@ def run(graph, node_dict, gpb, args):
         ctx.reducer.synchronize()
         reduce_time = time.time() - pre_reduce
         optimizer.step()
+        t1 = time.time()
 
-        train_time += time.time() - t0
-
+        train_time += t1 - t0
+        print(f"Epoch Time: {t1-t0}")
         if epoch >= 5:
             train_dur.append(time.time() - t0)
             comm_dur.append(comm_timer.tot_time())
@@ -502,7 +503,7 @@ def init_processes(rank, size, args):
     else:
         os.environ['MASTER_ADDR'] = args.master_addr
         os.environ['MASTER_PORT'] = '%d' % args.port
-    dist.init_process_group(args.backend, rank=rank, world_size=size)
+    dist.init_process_group(args.backend, rank=rank, world_size=size, timeout=timedelta(days=1))
     g, node_dict, gpb = load_partition(args, rank)
     run(g, node_dict, gpb, args)
 

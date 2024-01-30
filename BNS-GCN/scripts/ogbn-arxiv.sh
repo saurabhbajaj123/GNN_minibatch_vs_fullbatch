@@ -22,15 +22,20 @@ echo "NUM GPUS PER NODE="$SLURM_GPUS
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-python main.py \
-  --dataset ogbn-arxiv \
-  --dropout 0.3 \
-  --lr 0.01 \
-  --n-partitions 4 \
-  --n-epochs 500 \
-  --model graphsage \
-  --sampling-rate 0.1 \
-  --n-layers 2 \
-  --n-hidden 512 \
-  --log-every 5 \
-  --use-pp
+for n_parts in 1 2 3 4
+do
+  echo $n_parts
+  python main.py \
+    --dataset ogbn-arxiv \
+    --dropout 0.3 \
+    --lr 0.01 \
+    --n-partitions $n_parts \
+    --n-epochs 5 \
+    --model gat \
+    --sampling-rate 0.1 \
+    --n-layers 3 \
+    --n-hidden 1024 \
+    --heads 2 \
+    --log-every 10 \
+    --use-pp
+done
