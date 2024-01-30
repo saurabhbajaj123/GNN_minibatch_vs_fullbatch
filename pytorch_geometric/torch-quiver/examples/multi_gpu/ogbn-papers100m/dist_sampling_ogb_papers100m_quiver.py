@@ -120,7 +120,8 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
 
             optimizer.zero_grad()
             out = model(quiver_feature[n_id], adjs)
-            loss = F.nll_loss(out, y[n_id[:batch_size]])
+            print(f"out = {out}")
+            loss = F.nll_loss(out, y[n_id[:batch_size]].long())
             loss.backward()
             optimizer.step()
 
@@ -154,19 +155,20 @@ def main():
     args = create_parser()
 
     root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset"
-    dataset = PygNodePropPredDataset('ogbn-papers100M', root)
+    # dataset = PygNodePropPredDataset('ogbn-papers100M', root)
 
-    # data = torch.load(args.dataset_subgraph_path)
-    data = dataset[0]
+    data = torch.load(args.dataset_subgraph_path)
+    data.edge_index = to_undirected(data.edge_index)
+    # data = dataset[0]
 
-    split_idx = dataset.get_idx_split()
-    # num_feat = data.x.shape[1]
-    # num_classes = 172
-    # split_idx = {
-    #     'train': data.train_mask.nonzero(as_tuple=False).view(-1),
-    #     'valid': data.train_mask.nonzero(as_tuple=False).view(-1),
-    #     'test': data.train_mask.nonzero(as_tuple=False).view(-1)
-    # }
+    # split_idx = dataset.get_idx_split()
+    num_feat = data.x.shape[1]
+    num_classes = 172
+    split_idx = {
+        'train': data.train_mask.nonzero(as_tuple=False).view(-1),
+        'valid': data.train_mask.nonzero(as_tuple=False).view(-1),
+        'test': data.train_mask.nonzero(as_tuple=False).view(-1)
+    }
 
     world_size = torch.cuda.device_count()
     
@@ -174,17 +176,34 @@ def main():
     # Create Sampler And Feature
     ##############################
     csr_topo = quiver.CSRTopo(data.edge_index)
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="UVA")
     # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
     feature = torch.zeros(data.x.shape)
     feature[:] = data.x
-    quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
+
+    # csr_topo = quiver.CSRTopo(indptr=dataset.indptr, indices=dataset.indices)
+    # csr_topo.feature_order = dataset.new_order
+    # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5],
+    #                                              0,
+    #                                              mode="UVA")
+    quiver_feature = quiver.Feature(rank=0,
+                                    device_list=list(range(world_size)),
+                                    device_cache_size="8G",
+                                    cache_policy="p2p_clique_replicate",
+                                    csr_topo=csr_topo)
+    # quiver_feature.from_cpu_tensor(dataset.feature)
+
+
+    # quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
     quiver_feature.from_cpu_tensor(feature)
 
+    l = list(range(world_size))
+    qv.init_p2p(l)
+    
     print('Let\'s use', world_size, 'GPUs!')
     mp.spawn(
         run,
-        args=(world_size, quiver_sampler, quiver_feature, data.y.squeeze(), data.edge_index, split_idx, dataset.num_features, dataset.num_classes, args),
+        args=(world_size, quiver_sampler, quiver_feature, data.y.squeeze(), data.edge_index, split_idx, num_feat, num_classes, args),
         nprocs=world_size,
         join=True
     )

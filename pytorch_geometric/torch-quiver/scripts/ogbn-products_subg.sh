@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --job-name products-mb   ## name that will show up in the queue
-#SBATCH --gpus-per-node=4
+#SBATCH --job-name quiv-prod   ## name that will show up in the queue
+#SBATCH --gpus-per-node=1
 #SBATCH --mem=50GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --time=0-05:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --nodes=1
-#SBATCH --partition=gypsum-m40
+#SBATCH --partition=gypsum-titanx
 
 
 nvidia-smi --query-gpu=gpu_name --format=csv,noheader
@@ -29,22 +29,16 @@ module load NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
 QUIVER_ENABLE_CUDA=1 python setup.py install
 
 
-for n_parts in 1
-do
-  echo $n_parts
-  python3 examples/multi_gpu/pyg/ogb-products/dist_sampling_ogb_products_quiver.py \
-    --model gat \
-    --n-epochs 5 \
-    --n-gpus $n_parts \
-    --n-layers 3 \
-    --n-hidden 128 \
-    --batch-size 1024 \
-    --eval-batch-size 100000 \
-    --weight-decay 0 \
-    --fanout 10 \
-    --heads 1 \
-    --agg mean \
-    --log-every 10
-done
 
-# python3 examples/pyg/ogbn_products_sage_quiver.py
+python3 examples/multi_gpu/ogbn-papers100m/dist_sampling_ogb_products_quiver.py \
+  --dataset_subgraph_path preprocess/products_pyg_subgraph.bin \
+  --n-epochs 5 \
+  --n-gpus 1 \
+  --n-layers 5 \
+  --n-hidden 128 \
+  --batch-size 4096 \
+  --eval-batch-size 100000 \
+  --weight-decay 0 \
+  --fanout 10 \
+  --agg mean \
+  --log-every 10

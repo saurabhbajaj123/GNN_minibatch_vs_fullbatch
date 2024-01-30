@@ -14,33 +14,15 @@ python main.py \
   --dropout 0.3 \
   --lr 0.001 \
   --n-partitions 4 \
-  --n-epochs 10 \
-  --model gcn \
-  --n-layers 6 \
+  --n-epochs 5 \
+  --model gat \
+  --n-layers 2 \
   --n-hidden 1024 \
-  --num-heads 2 \
-  --log-every 5 \
+  --num-heads 1 \
+  --log-every 10 \
   --patience 50 \
   --fix-seed \
   --use-pp \
   --seed 42 \
-  # --enable-pipeline \
-  # --inductive \
+  --enable-pipeline \
 
-
-# python main.py \
-#   --dataset reddit \
-#   --dropout 0.3 \
-#   --lr 0.001 \
-#   --n-partitions 4 \
-#   --n-epochs 10 \
-#   --model gat \
-#   --n-layers 4 \
-#   --n-hidden 512 \
-#   --num-heads 2 \
-#   --log-every 5 \
-#   --patience 50 \
-#   --fix-seed \
-#   --use-pp \
-#   --seed 42 \
-#   --enable-pipeline \

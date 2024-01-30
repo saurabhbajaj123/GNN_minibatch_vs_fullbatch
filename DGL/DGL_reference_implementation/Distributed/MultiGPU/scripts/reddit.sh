@@ -10,25 +10,28 @@
 
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
-
+# for n_gpu in 1 2 3 4
+# do
+#   echo "number of gpus "$n_gpu
 python main.py \
   --dataset reddit \
-  --model graphsage  \
+  --model gat  \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 200 \
-  --n-gpus 4 \
-  --n-layers 4 \
+  --n-epochs 5 \
+  --n-gpus 3 \
+  --n-layers 2 \
   --n-hidden 1024 \
-  --num-heads 2 \
+  --num-heads 1 \
   --batch-size 1024 \
-  --fanout 4 \
+  --fanout 15 \
   --agg mean \
-  --log-every 1 \
+  --log-every 10 \
   --patience 50 \
   --seed 42 \
-  --mode puregpu \
+  --mode puregpu
+  # done
 
 # python main.py \
 #   --dataset reddit \

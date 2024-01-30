@@ -17,5 +17,17 @@ module load NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
 
 QUIVER_ENABLE_CUDA=1 python setup.py install
 
-python3 examples/multi_gpu/pyg/reddit/dist_sampling_ogb_reddit_quiver.py
+for n_parts in 1 2 3 4
+do
+  echo $n_parts
+    python3 examples/multi_gpu/pyg/reddit/dist_sampling_ogb_reddit_quiver.py \
+    --n-epochs 5 \
+    --n-gpus $n_parts \
+    --fanout 15 \
+    --n_hidden 1024 \
+    --n_layers 2 \
+    --heads 1 \
+    --batch_size 1024 \
+    --log_every 10
+done
 # python3 examples/pyg/reddit_quiver.py

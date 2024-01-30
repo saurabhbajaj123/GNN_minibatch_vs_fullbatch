@@ -8,7 +8,7 @@ import torch.multiprocessing as mp
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel
 
-from torch_geometric.nn import SAGEConv, GATConv
+from torch_geometric.nn import SAGEConv
 from torch_geometric.datasets import Reddit
 from torch_geometric.loader import NeighborSampler
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
@@ -24,81 +24,6 @@ import quiver
 
 import warnings
 warnings.filterwarnings("ignore")
-
-class GAT(torch.nn.Module):
-    def __init__(self, in_channels, hidden_channels, out_channels, num_layers,
-                 heads):
-        super().__init__()
-
-        self.num_layers = num_layers
-
-        self.convs = torch.nn.ModuleList()
-        self.convs.append(GATConv(in_channels, hidden_channels,
-                                  heads))
-        for _ in range(num_layers - 2):
-            self.convs.append(
-                GATConv(heads * hidden_channels, hidden_channels, heads))
-        self.convs.append(
-            GATConv(heads * hidden_channels, out_channels, heads,
-                    concat=False))
-
-        # self.skips = torch.nn.ModuleList()
-        # self.skips.append(Lin(in_channels, hidden_channels * heads))
-        # for _ in range(num_layers - 2):
-        #     self.skips.append(
-        #         Lin(hidden_channels * heads, hidden_channels * heads))
-        # self.skips.append(Lin(hidden_channels * heads, out_channels))
-
-    def reset_parameters(self):
-        for conv in self.convs:
-            conv.reset_parameters()
-        # for skip in self.skips:
-        #     skip.reset_parameters()
-        
-
-
-    def forward(self, x, adjs):
-        # print(f"len(edge_index) = {len(edge_index)}")
-        # # for i, (conv, skip) in enumerate(zip(self.convs, self.skips)):
-        # for i, (conv) in enumerate(self.convs):
-        #     x = conv(x, edge_index) # + skip(x)
-        #     if i != self.num_layers - 1:
-        #         x = F.elu(x)
-        #         x = F.dropout(x, p=0.5, training=self.training)
-        # return x
-        for i, (edge_index, _, size) in enumerate(adjs):
-            x_target = x[:size[1]]  # Target nodes are always placed first.
-            x = self.convs[i]((x, x_target), edge_index)
-            if i != self.num_layers - 1:
-                x = F.elu(x)
-                x = F.dropout(x, p=0.5, training=self.training)
-        return x.log_softmax(dim=-1)
-
-    def inference(self, x_all, device, subgraph_loader):
-        # pbar = tqdm(total=x_all.size(0) * self.num_layers)
-        # pbar.set_description('Evaluating')
-
-        # Compute representations of nodes layer by layer, using *all*
-        # available edges. This leads to faster computation in contrast to
-        # immediately computing the final representations of each batch.
-        for i in range(self.num_layers):
-            xs = []
-            for batch in subgraph_loader:
-                x = x_all[batch.n_id].to(device)
-                edge_index = batch.edge_index.to(device)
-                x = self.convs[i](x, edge_index) # + self.skips[i](x)
-                x = x[:batch.batch_size]
-                if i != self.num_layers - 1:
-                    x = F.elu(x)
-                xs.append(x.cpu())
-
-                # pbar.update(batch.batch_size)
-
-            x_all = torch.cat(xs, dim=0)
-
-        # pbar.close()
-
-        return x_all
 
 class SAGE(torch.nn.Module):
     def __init__(self, in_channels, hidden_channels, out_channels, num_layers):
@@ -170,18 +95,15 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     train_idx, val_idx, test_idx = split_idx['train'], split_idx['valid'], split_idx['test']
     train_idx = train_idx.split(train_idx.size(0) // world_size)[rank]
 
-    train_loader = torch.utils.data.DataLoader(train_idx, batch_size=args.batch_size, pin_memory=True)
+    train_loader = torch.utils.data.DataLoader(train_idx, batch_size=1024, pin_memory=True)
 
     if rank == 0:
         subgraph_loader = NeighborSampler(edge_index, node_idx=None,
-                                          sizes=[-1], batch_size=4096,
-                                          shuffle=False, num_workers=1)
+                                          sizes=[-1], batch_size=1000000,
+                                          shuffle=False, num_workers=6)
 
     torch.manual_seed(12345)
-    if "sage" in args.model.lower():
-        model = SAGE(num_features, args.n_hidden, num_classes, num_layers=args.n_layers).to(rank)
-    elif "gat" in args.model.lower():
-        model = GAT(num_features, args.n_hidden, out_channels=num_classes,num_layers=args.n_layers, heads=args.heads).to(rank)
+    model = SAGE(num_features, args.n_hidden, num_classes, num_layers=args.n_layers).to(rank)
     model = DistributedDataParallel(model, device_ids=[rank])
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
@@ -203,7 +125,9 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
             optimizer.step()
 
         dist.barrier()
-        train_time += time.time() - epoch_start
+        epoch_end = time.time()
+        train_time += epoch_end - epoch_start
+        # print(f"Epoch time = {epoch_end - epoch_start}")
         count += 1
         if rank == 0:
             print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, Epoch Time: {time.time() - epoch_start}')
@@ -231,14 +155,19 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
 def main():
     args = create_parser()
 
-    root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset"
-    dataset = PygNodePropPredDataset('ogbn-arxiv', root)
-    data = dataset[0]
-
-    to_undirected(data.edge_index)
-    add_remaining_self_loops(data.edge_index)
-
-    split_idx = dataset.get_idx_split()
+    # root = "/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset"
+    # dataset = PygNodePropPredDataset('ogbn-products', root)
+    # data = dataset[0]
+    data = torch.load(args.dataset_subgraph_path)
+    split_idx = {
+        'train': data.train_mask.nonzero(as_tuple=False).view(-1),
+        'valid': data.train_mask.nonzero(as_tuple=False).view(-1),
+        'test': data.train_mask.nonzero(as_tuple=False).view(-1)
+    }
+    # split_idx = dataset.get_idx_split()
+    
+    num_feat = data.x.shape[1]
+    num_classes = max(data.y) + 1
     world_size = args.n_gpus # torch.cuda.device_count()
     
     ##############################
@@ -255,7 +184,7 @@ def main():
     print('Let\'s use', world_size, 'GPUs!')
     mp.spawn(
         run,
-        args=(world_size, quiver_sampler, quiver_feature, data.y.squeeze(), data.edge_index, split_idx, dataset.num_features, dataset.num_classes, args),
+        args=(world_size, quiver_sampler, quiver_feature, data.y.squeeze(), data.edge_index, split_idx, num_feat, num_classes, args),
         nprocs=world_size,
         join=True
     )

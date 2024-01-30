@@ -85,7 +85,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
 
     torch.manual_seed(12345)
     # model = SAGE(num_features, 256, num_classes).to(rank)
-    model = SAGE(num_features, 256, num_classes, num_layers=3).to(rank)
+    model = SAGE(num_features, 64, num_classes, num_layers=4).to(rank)
     model = DistributedDataParallel(model, device_ids=[rank])
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     # Create Sampler And Feature
     ##############################
     # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [25, 10], 0, mode='GPU')
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [4, 4, 4], 0, mode='GPU')
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [10, 10, 10, 10], 0, mode='GPU')
 
     quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
     quiver_feature.from_cpu_tensor(data.x)

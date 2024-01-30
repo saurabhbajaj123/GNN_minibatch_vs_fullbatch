@@ -1,12 +1,9 @@
 #!/bin/bash
 
-#SBATCH --job-name products-mb   ## name that will show up in the queue
-#SBATCH --gpus-per-node=4
-#SBATCH --mem=50GB  # memory per CPU core
+#SBATCH --job-name papers100m  ## name that will show up in the queue
+#SBATCH --mem=500GB  # memory per CPU core
+#SBATCH --partition=cpu
 #SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --nodes=1
-#SBATCH --partition=gypsum-m40
-
 
 nvidia-smi --query-gpu=gpu_name --format=csv,noheader
 
@@ -28,23 +25,5 @@ module load NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
 
 QUIVER_ENABLE_CUDA=1 python setup.py install
 
+python3 /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/torch-quiver/benchmarks/ogbn-papers100M/preprocess.py
 
-for n_parts in 1
-do
-  echo $n_parts
-  python3 examples/multi_gpu/pyg/ogb-products/dist_sampling_ogb_products_quiver.py \
-    --model gat \
-    --n-epochs 5 \
-    --n-gpus $n_parts \
-    --n-layers 3 \
-    --n-hidden 128 \
-    --batch-size 1024 \
-    --eval-batch-size 100000 \
-    --weight-decay 0 \
-    --fanout 10 \
-    --heads 1 \
-    --agg mean \
-    --log-every 10
-done
-
-# python3 examples/pyg/ogbn_products_sage_quiver.py

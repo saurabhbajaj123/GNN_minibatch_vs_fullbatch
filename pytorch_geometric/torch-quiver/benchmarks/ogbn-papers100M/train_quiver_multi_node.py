@@ -273,8 +273,8 @@ def run(rank, args, quiver_sampler, quiver_feature, label, train_idx,
     print(f'{rank} beg')
     global_rank = rank + host * local_size
     global_size = host_size * local_size
-    os.environ['MASTER_ADDR'] = MASTER_ADDR
-    os.environ['MASTER_PORT'] = '12355'
+    os.environ['MASTER_ADDR'] = args.master_address
+    os.environ['MASTER_PORT'] = args.port
     dist.init_process_group('nccl', rank=global_rank, world_size=global_size)
 
     train_idx = train_idx.split(train_idx.size(0) // global_size)[global_rank]

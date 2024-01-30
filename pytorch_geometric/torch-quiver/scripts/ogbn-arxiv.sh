@@ -3,7 +3,7 @@
 #SBATCH --job-name arx-quiver   ## name that will show up in the queue
 #SBATCH --gpus=4
 #SBATCH --mem=40GB  # memory per CPU core
-#SBATCH --time=0-01:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --nodes=1
 #SBATCH --partition=gypsum-m40
 
@@ -27,18 +27,25 @@ module load NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
 
 QUIVER_ENABLE_CUDA=1 python setup.py install
 
-python3 examples/multi_gpu/pyg/ogb-arxiv/dist_sampling_ogb_arxiv_quiver.py \
-  --dataset ogbn-arxiv \
-  --model graphsage \
-  --sampling NS \
-  --dropout 0.3 \
-  --lr 0.001 \
-  --n-epochs 11 \
-  --n-gpus 4 \
-  --n-layers 2 \
-  --n-hidden 512 \
-  --weight-decay 0 \
-  --fanout 25 \
-  --agg mean \
-  --log-every 10 \
-  --seed 12345 \
+for n_parts in 1 2 3 4
+do
+  echo "ogbn-arxiv"
+  echo $n_parts
+  python3 examples/multi_gpu/pyg/ogb-arxiv/dist_sampling_ogb_arxiv_quiver.py \
+    --dataset ogbn-arxiv \
+    --model gat \
+    --sampling NS \
+    --dropout 0.3 \
+    --lr 0.001 \
+    --n-epochs 5 \
+    --n-gpus $n_parts \
+    --n-layers 3\
+    --n-hidden 1024 \
+    --batch-size 1024 \
+    --weight-decay 0 \
+    --heads 2 \
+    --fanout 25 \
+    --agg mean \
+    --log-every 10 \
+    --seed 12345
+done

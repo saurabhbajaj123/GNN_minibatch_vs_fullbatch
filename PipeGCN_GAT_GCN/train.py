@@ -414,7 +414,10 @@ def run(graph, node_dict, gpb, args):
         ctx.reducer.synchronize()
         reduce_time = time.time() - pre_reduce
         optimizer.step()
-        train_time += time.time() - t0
+        t1 = time.time()
+
+        print(f"Epoch time= {t1 - t0}")
+        train_time += t1 - t0
         avg_loss = loss.item() / len(labels)
 
         if epoch % args.log_every != 0:

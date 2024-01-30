@@ -10,21 +10,25 @@
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
+# for n_gpu in 1 2 3 4
+# do
+#   echo "number of gpus "$n_gpu
 python main.py \
   --dataset ogbn-arxiv \
-  --model graphsage \
+  --model gat \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.007 \
-  --n-epochs 1000 \
+  --n-epochs 5 \
   --n-gpus 4 \
-  --n-layers 2 \
-  --n-hidden 512 \
+  --n-layers 3 \
+  --n-hidden 1024 \
   --num-heads 2 \
   --batch-size 1024 \
   --patience 200 \
   --fanout 25 \
   --agg mean \
-  --log-every 5 \
+  --log-every 10 \
   --seed 42 \
-  --mode puregpu \
+  --mode puregpu
+# done

@@ -14,7 +14,7 @@ from pathlib import Path
 import quiver
 from quiver.partition import partition_without_replication, select_nodes
 
-root = '/data'
+root = '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset'
 
 data_root = f"{root}/ogbn_papers100M/raw/"
 label = np.load(osp.join(data_root, "node-label.npz"))

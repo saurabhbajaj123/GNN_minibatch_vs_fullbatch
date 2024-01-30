@@ -172,10 +172,6 @@ def train(
         for it, (_, _, blocks) in enumerate(train_dataloader):
             x = blocks[0].srcdata["feat"]
             y = blocks[-1].dstdata["label"]
-            # print(f"y[0] = {y[0]}, y = {y}")
-            # print(f"y type = {type(y[0])}")
-            # print(f"type = {y.dtype}")
-            # print(f"type = {y.type()}")
             try:
                 y = y.type(torch.cuda.LongTensor)
             except:
@@ -190,6 +186,7 @@ def train(
         t1 = time.time()
         train_time += t1 - t0
         train_dur.append(t1-t0)
+        print(f"Train time = {t1 - t0}")
         # scheduler.step()
         # scheduler2.step(best_val_acc)
         # print(f"train time = {t1 - t0}")
@@ -246,14 +243,6 @@ def train(
                         'lr': opt.param_groups[0]['lr'],
 
                     })
-                # writer.add_scalar("val_acc", val_acc, epoch)
-                # writer.add_scalar("test_acc", test_acc, epoch)
-                # writer.add_scalar("train_acc", train_acc, epoch)
-                # writer.add_scalar("best_val_acc", best_val_acc, epoch)
-                # writer.add_scalar("best_test_acc", best_test_acc, epoch)
-                # writer.add_scalar("best_train_acc", best_train_acc, epoch)
-                # writer.add_scalar("train_time", train_time, epoch)
-                # writer.add_scalar("lr", opt.param_groups[0]['lr'], epoch)
 
 
         dist.barrier()
@@ -284,28 +273,23 @@ def train(
     
 
     # print(train_dur_sum)
-    if proc_id == 0:
-        print(
-            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
-        )
+    # if proc_id == 0:
+    #     print(
+    #         "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
+    #     )
 
-        print(f"best val acc = {best_val_acc} | best test acc = {best_test_acc}")
+    #     print(f"best val acc = {best_val_acc} | best test acc = {best_test_acc}")
 
-        wandb.log({
-            "epoch": epoch,
-            "Time_per_epoch": train_dur_mean,
-            "Time_to_train": train_dur_sum,
-            "Time_to_eval": eval_dur_sum,
-            "torch seed": torch.initial_seed()  & ((1<<63)-1),
+    #     wandb.log({
+    #         "epoch": epoch,
+    #         "Time_per_epoch": train_dur_mean,
+    #         "Time_to_train": train_dur_sum,
+    #         "Time_to_eval": eval_dur_sum,
+    #         "torch seed": torch.initial_seed()  & ((1<<63)-1),
 
-        })
-
-        # writer.add_scalar("epoch", epoch, epoch)
-        # writer.add_scalar("Time_per_epoch", train_dur_mean, epoch)
-        # writer.add_scalar("Time_to_train", train_dur_sum, epoch)
-        # writer.add_scalar("Time_to_eval", eval_dur_sum, epoch)
-        # writer.add_scalar("torch seed", torch.initial_seed()  & ((1<<63)-1), epoch)
-
+    #     })
+    
+    return
 
 # def run(proc_id, nprocs, devices, g, data, args):
 def run(proc_id, nprocs, devices, g_or_n_data, data, args):
@@ -322,19 +306,27 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
         world_size=nprocs,
         rank=proc_id,
     )
-    if args.dataset.lower() == 'ogbn-papers100m':
+    if args.dataset.lower() == 'ogbn-papers100m' or args.dataset.lower() == 'orkut':
         g = dgl.hetero_from_shared_memory("train_graph")
-        ndata = g_or_n_data
-        g.ndata['label'] = n_data['label']
-        g.ndata['feat'] = n_data['feat']
+        g.ndata['label'] = g_or_n_data['label']
+        g.ndata['feat'] = g_or_n_data['feat']
     else:
         g = g_or_n_data
+        del g.ndata['val_mask']
+        del g.ndata['test_mask']
+        del g.ndata['train_mask']
+        # print(g)
+        # print(g.ndata)
+        import sys
+
+        # print(sys.getsizeof(g))
         g = g.to(device if args.mode == "puregpu" else "cpu")  
 
 
     # g.ndata = n_data
     # print(f"g.ndata = {g.ndata}")
     n_classes, train_idx, val_idx, test_idx = data
+    # removing transfer of unecessary things to gpu
     train_idx = train_idx.to(device if args.mode == "puregpu" else "cpu")
     val_idx = val_idx.to(device if args.mode == "puregpu" else "cpu")
     test_idx = test_idx.to(device if args.mode == "puregpu" else "cpu")
@@ -355,6 +347,15 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
         model, device_ids=[device], output_device=device
     )
     # training + testing
+
+    def print_memory(s):
+        torch.cuda.synchronize()
+        print(s + ': current {:.2f}MB, peak {:.2f}MB, reserved {:.2f}MB'.format(
+            torch.cuda.memory_allocated() / 1024 / 1024,
+            torch.cuda.max_memory_allocated() / 1024 / 1024,
+            torch.cuda.memory_reserved() / 1024 / 1024
+        ))
+    print_memory("before train function")
     use_uva = args.mode == "mixed"
     train(
         proc_id,

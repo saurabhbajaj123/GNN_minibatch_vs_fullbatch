@@ -48,6 +48,7 @@ def main():
             "batch_size": args.batch_size,
             "agg": args.agg,
             "n_gpus": args.n_gpus,
+            "num_heads": args.num_heads,
             }
     )
 
@@ -60,6 +61,7 @@ def main():
     args.batch_size = config.batch_size
     args.agg = config.agg
     args.n_gpus = config.n_gpus
+    args.num_heads = config.num_heads
 
     # devices = list(map(int, args.gpu.split(",")))
     devices = list(range(args.n_gpus))
@@ -81,11 +83,12 @@ def main():
     g = dataset[0]
     # avoid creating certain graph formats in each sub-process to save momory
     g.create_formats_()
-    if args.dataset == "ogbn-arxiv":
+    if args.dataset == "ogbn-arxiv" or args.dataset == "orkut":
         g.edata.clear()
         g = dgl.to_bidirected(g, copy_ndata=True)
         g = dgl.remove_self_loop(g)
         g = dgl.add_self_loop(g)
+    # elif args.dataset != "ogbn-products":
     else:
         g.edata.clear()
         g = dgl.remove_self_loop(g)
@@ -102,7 +105,7 @@ def main():
     # print(g.ndata)
     # print(shared_graph.ndata)
 
-    if args.dataset.lower() == 'ogbn-papers100m':
+    if args.dataset.lower() == 'ogbn-papers100m' or args.dataset.lower() == 'orkut':
         n_data = g.ndata
 
         shared_graph = g.shared_memory("train_graph") 
@@ -133,7 +136,7 @@ if __name__ == "__main__":
 
     # sweep_configuration = {
     #     # 'name': f"Multiple runs best parameters {args.n_gpus}",
-    #     'name': f"Scalability {args.mode}",
+    #     'name': f"scalability {args.mode}",
     #     # 'name': "checking if 5 layers is the best",
     #     'method': 'grid',
     #     'metric': {'goal': 'maximize', 'name': 'val_acc'},
@@ -144,7 +147,8 @@ if __name__ == "__main__":
     #         # 'n_hidden': {'distribution': 'int_uniform', 'min': 64, 'max': 256},
     #         # 'n_layers': {'distribution': 'int_uniform', 'min': 15, 'max': 20},
     #         # 'dropout': {'distribution': 'uniform', 'min': 0.3, 'max': 0.8},
-    #         # 'dropout': {'values': [0.3, 0.5, 0.8]},
+    #         # 'dropout': {'values': [0.5, 0.7]},
+    #         # 'lr': {'values': [0.0005, 0.0001]},
     #         # 'lr': {'distribution': 'uniform', 'min': 1e-3, 'max': 1e-2},
     #         # "agg": {'values': ["mean", "gcn", "pool"]},
     #         # 'batch_size': {'values': [256, 512, 1024, 2048, 4096]},
