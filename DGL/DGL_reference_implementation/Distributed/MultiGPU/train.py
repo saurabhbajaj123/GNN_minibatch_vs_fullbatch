@@ -303,13 +303,6 @@ def train(
 
         })
 
-        # writer.add_scalar("epoch", epoch, epoch)
-        # writer.add_scalar("Time_per_epoch", train_dur_mean, epoch)
-        # writer.add_scalar("Time_to_train", train_dur_sum, epoch)
-        # writer.add_scalar("Time_to_eval", eval_dur_sum, epoch)
-        # writer.add_scalar("torch seed", torch.initial_seed()  & ((1<<63)-1), epoch)
-
-
 # def run(proc_id, nprocs, devices, g, data, args):
 def run(proc_id, nprocs, devices, g_or_n_data, data, args):
     # find corresponding device for my rank
@@ -325,11 +318,10 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
         world_size=nprocs,
         rank=proc_id,
     )
-    if args.dataset.lower() == 'ogbn-papers100m':
+    if args.dataset.lower() == 'ogbn-papers100m' or args.dataset.lower() == 'orkut':
         g = dgl.hetero_from_shared_memory("train_graph")
-        ndata = g_or_n_data
-        g.ndata['label'] = n_data['label']
-        g.ndata['feat'] = n_data['feat']
+        g.ndata['label'] = g_or_n_data['label']
+        g.ndata['feat'] = g_or_n_data['feat']
     else:
         g = g_or_n_data
         g = g.to(device if args.mode == "puregpu" else "cpu")  

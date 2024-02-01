@@ -1,0 +1,117 @@
+Converting to homogeneous graph takes 1.501s, peak mem: 38.382 GB
+Save partitions: 7.461 seconds, peak memory: 39.150 GB
+There are 126167053 edges in the graph and 0 edge cuts for 1 partitions.
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=1, n_hidden=128, n_layers=5, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=372771724, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=4, n_hidden=128, n_layers=5, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=70029579, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=1, n_hidden=128, n_layers=3, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=167971643, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-1-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=1, n_hidden=128, n_layers=3, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=19664656, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 0 has 2449029 nodes, 126167053 edges 2449029 inner nodes, and 126167053 inner edges.
+Process 0 start training
+Converting to homogeneous graph takes 1.526s, peak mem: 38.400 GB
+Convert a graph into a bidirected graph: 21.618 seconds, peak memory: 39.828 GB
+Construct multi-constraint weights: 0.000 seconds, peak memory: 39.828 GB
+Metis partitioning: 74.710 seconds, peak memory: 42.588 GB
+Assigning nodes to METIS partitions takes 96.426s, peak mem: 42.588 GB
+Reshuffle nodes and edges: 41.553 seconds
+Split the graph: 63.027 seconds
+Construct subgraphs: 10.141 seconds
+Splitting the graph into partitions takes 115.027s, peak mem: 52.197 GB
+part 0 has 1412934 nodes and 1188801 are inside the partition
+part 0 has 54964695 edges and 53270138 are inside the partition
+part 1 has 1440874 nodes and 1260228 are inside the partition
+part 1 has 74591472 edges and 72896915 are inside the partition
+Save partitions: 7.236 seconds, peak memory: 52.197 GB
+There are 126167053 edges in the graph and 0 edge cuts for 2 partitions.
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-2-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=2, n_hidden=128, n_layers=3, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=85651436, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 1 has 1440874 nodes, 74591472 edges 1260228 inner nodes, and 71202358 inner edges.
+Process 1 start training
+loading partitions
+Process 0 has 1412934 nodes, 54964695 edges 1188801 inner nodes, and 51575581 inner edges.
+Process 0 start training
+Converting to homogeneous graph takes 1.571s, peak mem: 38.390 GB
+Convert a graph into a bidirected graph: 20.952 seconds, peak memory: 39.818 GB
+Construct multi-constraint weights: 0.000 seconds, peak memory: 39.818 GB
+Metis partitioning: 93.233 seconds, peak memory: 42.577 GB
+Assigning nodes to METIS partitions takes 114.281s, peak mem: 42.577 GB
+Reshuffle nodes and edges: 39.241 seconds
+Split the graph: 47.812 seconds
+Construct subgraphs: 10.614 seconds
+Splitting the graph into partitions takes 97.995s, peak mem: 51.949 GB
+part 0 has 952089 nodes and 810989 are inside the partition
+part 0 has 33725243 edges and 32833747 are inside the partition
+part 1 has 1128758 nodes and 840868 are inside the partition
+part 1 has 53402102 edges and 50736667 are inside the partition
+part 2 has 1059703 nodes and 797172 are inside the partition
+part 2 has 44619066 edges and 42596639 are inside the partition
+Save partitions: 7.605 seconds, peak memory: 51.949 GB
+There are 126167053 edges in the graph and 0 edge cuts for 3 partitions.
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-3-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=3, n_hidden=128, n_layers=3, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=445698859, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 0 has 952089 nodes, 33725243 edges 810989 inner nodes, and 31942251 inner edges.
+Process 0 start training
+Train time: 0.5737862586975098
+Train time: 0.3308424949645996
+Train time: 0.33536863327026367
+Train time: 0.3385274410247803
+Train time: 0.33340930938720703
+Max Validation Accuracy 0.00%
+loading partitions
+Process 2 has 1059703 nodes, 44619066 edges 797172 inner nodes, and 40574212 inner edges.
+Process 2 start training
+Train time: 0.5371522903442383
+Train time: 0.33097243309020996
+Train time: 0.335219144821167
+Train time: 0.3390538692474365
+Train time: 0.33376169204711914
+loading partitions
+Process 1 has 1128758 nodes, 53402102 edges 840868 inner nodes, and 48071232 inner edges.
+Process 1 start training
+Train time: 0.5233690738677979
+Train time: 0.3314697742462158
+Train time: 0.3355214595794678
+Train time: 0.33875370025634766
+Train time: 0.33386874198913574
+Namespace(dataset='ogbn-products', data_path='./dataset/', part_path='./partitions/', graph_name='ogbn-products-4-metis-vol-trans', model='graphsage', dropout=0.3, lr=0.003, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=4, n_hidden=128, n_layers=3, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=1754216740, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 1 has 770997 nodes, 26356231 edges 594395 inner nodes, and 23993271 inner edges.
+Process 1 start training
+Train time: 0.8284947872161865
+Train time: 0.2760787010192871
+Train time: 0.2745199203491211
+Train time: 0.28038954734802246
+Train time: 0.2836320400238037
+loading partitions
+Process 0 has 895176 nodes, 26110170 edges 594402 inner nodes, and 22704822 inner edges.
+Process 0 start training
+Train time: 0.8331453800201416
+Train time: 0.27560925483703613
+Train time: 0.27442312240600586
+Train time: 0.2800922393798828
+Train time: 0.2832968235015869
+Max Validation Accuracy 0.00%
+loading partitions
+Process 3 has 914962 nodes, 40580923 edges 629975 inner nodes, and 34919303 inner edges.
+Process 3 start training
+Train time: 0.46603965759277344
+Train time: 0.27571797370910645
+Train time: 0.274874210357666
+Train time: 0.2808189392089844
+Train time: 0.28322410583496094
+loading partitions
+Process 2 has 953142 nodes, 42136477 edges 630257 inner nodes, and 35532909 inner edges.
+Process 2 start training
+Train time: 0.7919020652770996
+Train time: 0.2755858898162842
+Train time: 0.27485108375549316
+Train time: 0.28074049949645996
+Train time: 0.28316831588745117

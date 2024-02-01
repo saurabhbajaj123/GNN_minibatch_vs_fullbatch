@@ -13,9 +13,11 @@ import json
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
+from dgl.data import DGLDataset
+import pandas as pd
 
 def load_ogb_dataset(name):
-    dataset = DglNodePropPredDataset(name=name, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+    dataset = DglNodePropPredDataset(name=name, root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
     split_idx = dataset.get_idx_split()
     g, label = dataset[0]
     n_node = g.num_nodes()
@@ -29,15 +31,83 @@ def load_ogb_dataset(name):
     node_data['test_mask'][split_idx["test"]] = True
     return g
 
+
+
+class OrkutDataset(DGLDataset):
+    def __init__(self):
+        super().__init__(name="orkut")
+
+    def process(self):
+        root = "/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset"
+        edges_data = pd.read_csv(root + "/orkut/orkut_edges.csv")
+        node_labels = pd.read_csv(root + "/orkut/orkut_labels.csv")
+
+
+        node_features = torch.load(root + '/orkut/orkut_features.pt')
+        # print(f"node_features = {node_features}")
+
+        node_labels = torch.from_numpy(
+            node_labels.astype("category").to_numpy()
+        ).view(-1)
+        # print(f"node_labels = {node_labels}")
+
+        self.num_classes = (node_labels.max() + 1).item()
+        # edge_features = torch.from_numpy(edges_data["Weight"].to_numpy())
+        edges_src = torch.from_numpy(edges_data["Src"].to_numpy())
+        edges_dst = torch.from_numpy(edges_data["Dst"].to_numpy())
+        # print(f"node_features.shape = {node_features.shape}")
+        self.graph = dgl.graph(
+            (edges_src, edges_dst), num_nodes=node_features.shape[0]
+        )
+        self.graph.ndata["feat"] = node_features
+        self.graph.ndata["label"] = node_labels
+        # self.graph.edata["weight"] = edge_features
+
+        # If your dataset is a node classification dataset, you will need to assign
+        # masks indicating whether a node belongs to training, validation, and test set.
+        n_nodes = node_features.shape[0]
+        n_train = int(n_nodes * 0.6)
+        n_val = int(n_nodes * 0.2)
+        train_mask = torch.zeros(n_nodes, dtype=torch.bool)
+        val_mask = torch.zeros(n_nodes, dtype=torch.bool)
+        test_mask = torch.zeros(n_nodes, dtype=torch.bool)
+        train_mask[:n_train] = True
+        val_mask[n_train : n_train + n_val] = True
+        test_mask[n_train + n_val :] = True
+        self.graph.ndata["train_mask"] = train_mask
+        self.graph.ndata["val_mask"] = val_mask
+        self.graph.ndata["test_mask"] = test_mask
+
+        self.train_idx = self.graph.ndata["train_mask"].nonzero().view(-1)
+        self.val_idx = self.graph.ndata["val_mask"].nonzero().view(-1)
+        self.test_idx = self.graph.ndata["test_mask"].nonzero().view(-1)
+
+
+    def __getitem__(self, i):
+        return self.graph
+
+    def __len__(self):
+        return 1
+
+
+def load_orkut():
+    dataset = OrkutDataset()
+    g = dataset[0]
+    g = dgl.to_bidirected(g, copy_ndata=True)
+    g = dgl.remove_self_loop(g)
+    g = dgl.add_self_loop(g)
+    return g
+
+
 def load_ogb_arxiv_dataset(name):
-    dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset(name=name, root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset'))
+    dataset = dgl.data.AsNodePredDataset(DglNodePropPredDataset(name=name, root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset'))
     g = dataset[0]
     g = dgl.add_reverse_edges(g)
     return g
 
 
 def load_yelp():
-    prefix = '/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/datasetyelp/'
+    prefix = '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/datasetyelp/'
 
     with open(prefix + 'class_map.json') as f:
         class_map = json.load(f)
@@ -84,7 +154,7 @@ def load_pubmed():
 
 def load_data(dataset):
     if dataset == 'reddit':
-        data = RedditDataset(raw_dir='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/dataset')
+        data = RedditDataset(raw_dir='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/dataset')
         g = data[0]
     elif dataset == 'ogbn-products':
         g = load_ogb_dataset('ogbn-products')
@@ -96,6 +166,8 @@ def load_data(dataset):
         g = load_pubmed()
     elif dataset == 'yelp':
         g = load_yelp()
+    elif dataset == "orkut":
+        g = load_orkut()
     else:
         raise ValueError('Unknown dataset: {}'.format(dataset))
 
@@ -107,15 +179,16 @@ def load_data(dataset):
         n_class = g.ndata['label'].shape[1]
 
     g.edata.clear()
-    g = dgl.remove_self_loop(g)
-    g = dgl.add_self_loop(g)
+    if dataset != "orkut":
+        g = dgl.remove_self_loop(g)
+        g = dgl.add_self_loop(g)
     return g, n_feat, n_class
 
 
 
 
 def load_partition(args, rank):
-    graph_dir = 'partitions/' + args.graph_name + '/'
+    graph_dir = '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/' + args.graph_name + '/'
     part_config = graph_dir + args.graph_name + '.json'
 
     print('loading partitions')
@@ -148,7 +221,7 @@ def load_partition(args, rank):
 
 
 def graph_partition(g, args):
-    graph_dir = 'partitions/' + args.graph_name + '/'
+    graph_dir = '/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/' + args.graph_name + '/'
     part_config = graph_dir + args.graph_name + '.json'
 
     # TODO: after being saved, a bool tensor becomes a uint8 tensor (including 'inner_node')

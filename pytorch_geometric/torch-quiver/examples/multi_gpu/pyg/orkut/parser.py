@@ -35,6 +35,8 @@ def create_parser():
                         help="the number of partitions")
     parser.add_argument("--n-hidden", "--n_hidden", type=int, default=256,
                         help="the number of hidden units")
+    parser.add_argument("--heads", "--heads", type=int, default=1,
+                        help="the number of hidden units")
     parser.add_argument("--n-layers", "--n_layers", type=int, default=3,
                         help="the number of GCN layers")
     parser.add_argument("--batch-size", "--batch_size", type=int, default=1024,
@@ -53,7 +55,6 @@ def create_parser():
                         help="the network port for communication")
     parser.add_argument("--master-addr", "--master_addr", type=str, default="127.0.0.1")
 
-    parser.add_argument("--heads", "--heads", type=int, default=1,
-                        help="the number of hidden units")
+
 
     return parser.parse_args()

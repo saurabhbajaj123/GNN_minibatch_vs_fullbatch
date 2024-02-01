@@ -52,7 +52,8 @@ def create_parser():
     parser.add_argument("--port", type=int, default=12345,
                         help="the network port for communication")
     parser.add_argument("--master-addr", "--master_addr", type=str, default="127.0.0.1")
-
+    parser.add_argument("--heads", "--heads", type=int, default=1,
+                        help="the number of hidden units")
 
 
     return parser.parse_args()

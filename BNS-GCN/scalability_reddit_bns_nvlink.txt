@@ -1,0 +1,106 @@
+Converting to homogeneous graph takes 1.408s, peak mem: 36.615 GB
+Save partitions: 6.122 seconds, peak memory: 36.932 GB
+There are 114848857 edges in the graph and 0 edge cuts for 1 partitions.
+Namespace(dataset='reddit', data_path='./dataset/', part_path='./partitions/', graph_name='reddit-1-metis-vol-trans', model='graphsage', dropout=0.5, lr=0.01, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=1, n_hidden=512, n_layers=5, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=1515486138, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 0 has 232965 nodes, 114848857 edges 232965 inner nodes, and 114848857 inner edges.
+Process 0 start training
+Namespace(dataset='reddit', data_path='./dataset/', part_path='./partitions/', graph_name='reddit-2-metis-vol-trans', model='graphsage', dropout=0.5, lr=0.01, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=2, n_hidden=512, n_layers=5, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=1454222035, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 0 has 216528 nodes, 51178763 edges 119879 inner nodes, and 36245243 inner edges.
+Process 0 start training
+Train time: 1.0469672679901123
+Train time: 0.8273978233337402
+Train time: 0.8400421142578125
+Train time: 0.8310391902923584
+Train time: 0.8364946842193604
+Max Validation Accuracy 0.00%
+loading partitions
+Process 1 has 178153 nodes, 78603614 edges 113086 inner nodes, and 63670094 inner edges.
+Process 1 start training
+Train time: 0.9954657554626465
+Train time: 0.8268811702728271
+Train time: 0.8402988910675049
+Train time: 0.8312995433807373
+Train time: 0.836745023727417
+Converting to homogeneous graph takes 1.405s, peak mem: 36.612 GB
+Convert a graph into a bidirected graph: 7.746 seconds, peak memory: 37.900 GB
+Construct multi-constraint weights: 0.000 seconds, peak memory: 37.900 GB
+Metis partitioning: 58.968 seconds, peak memory: 41.967 GB
+Assigning nodes to METIS partitions takes 66.798s, peak mem: 41.967 GB
+Reshuffle nodes and edges: 10.967 seconds
+Split the graph: 23.145 seconds
+Construct subgraphs: 10.487 seconds
+Splitting the graph into partitions takes 44.926s, peak mem: 48.284 GB
+part 0 has 157303 nodes and 75390 are inside the partition
+part 0 has 26984272 edges and 24040414 are inside the partition
+part 1 has 186590 nodes and 79988 are inside the partition
+part 1 has 59453094 edges and 53198802 are inside the partition
+part 2 has 172887 nodes and 77587 are inside the partition
+part 2 has 42732629 edges and 37609641 are inside the partition
+Save partitions: 6.563 seconds, peak memory: 48.284 GB
+There are 114848857 edges in the graph and 0 edge cuts for 3 partitions.
+Namespace(dataset='reddit', data_path='./dataset/', part_path='./partitions/', graph_name='reddit-3-metis-vol-trans', model='graphsage', dropout=0.5, lr=0.01, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=3, n_hidden=512, n_layers=5, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=2092457287, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 0 has 157303 nodes, 26984272 edges 75390 inner nodes, and 21096556 inner edges.
+Process 0 start training
+Train time: 1.1607551574707031
+Train time: 0.6305525302886963
+Train time: 0.6265256404876709
+Train time: 0.6327836513519287
+Train time: 0.6262490749359131
+Max Validation Accuracy 0.00%
+loading partitions
+Process 2 has 172887 nodes, 42732629 edges 77587 inner nodes, and 32486653 inner edges.
+Process 2 start training
+Train time: 0.7937960624694824
+Train time: 0.6316070556640625
+Train time: 0.6260762214660645
+Train time: 0.6323299407958984
+Train time: 0.6270439624786377
+loading partitions
+Process 1 has 186590 nodes, 59453094 edges 79988 inner nodes, and 46944510 inner edges.
+Process 1 start training
+Train time: 1.0629534721374512
+Train time: 0.6309089660644531
+Train time: 0.627570629119873
+Train time: 0.6316637992858887
+Train time: 0.6269111633300781
+Namespace(dataset='reddit', data_path='./dataset/', part_path='./partitions/', graph_name='reddit-4-metis-vol-trans', model='graphsage', dropout=0.5, lr=0.01, sampling_rate=0.1, heads=1, n_epochs=5, n_partitions=4, n_hidden=512, n_layers=5, log_every=10, weight_decay=0, norm='layer', partition_obj='vol', partition_method='metis', n_linear=0, use_pp=True, inductive=False, fix_seed=False, seed=1591031008, backend='gloo', port=18118, master_addr='127.0.0.1', node_rank=0, parts_per_node=10, skip_partition=False, eval=True, dataset_subgraph_path='')
+['0', '1', '2', '3']
+loading partitions
+Process 0 has 174714 nodes, 22626041 edges 56543 inner nodes, and 15513231 inner edges.
+Process 0 start training
+Train time: 1.2579305171966553
+Train time: 0.5535640716552734
+Train time: 0.5588037967681885
+Train time: 0.5467381477355957
+Train time: 0.5497004985809326
+Max Validation Accuracy 0.00%
+loading partitions
+Process 1 has 114867 nodes, 26957541 edges 57191 inner nodes, and 18543529 inner edges.
+Process 1 start training
+Train time: 1.2063078880310059
+Train time: 0.5532119274139404
+Train time: 0.5596649646759033
+Train time: 0.5470180511474609
+Train time: 0.5494081974029541
+loading partitions
+Process 3 has 174789 nodes, 34389683 edges 59241 inner nodes, and 21080983 inner edges.
+Process 3 start training
+Train time: 1.2352006435394287
+Train time: 0.5538084506988525
+Train time: 0.5593101978302002
+Train time: 0.5471794605255127
+Train time: 0.5517137050628662
+loading partitions
+Process 2 has 178259 nodes, 52723652 edges 59990 inner nodes, and 37863054 inner edges.
+Process 2 start training
+Train time: 0.7186667919158936
+Train time: 0.5538270473480225
+Train time: 0.5591001510620117
+Train time: 0.5471222400665283
+Train time: 0.5497844219207764

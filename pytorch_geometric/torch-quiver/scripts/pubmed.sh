@@ -7,8 +7,9 @@
 #SBATCH --nodes=1
 #SBATCH --partition=gypsum-m40
 
-cd /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/torch-quiver
-source /work/sbajaj_umass_edu/pygenv1/bin/activate
+cd /home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/pytorch_geometric/torch-quiver
+source /home/ubuntu/gnn_mini_vs_full/pygenv1/bin/activate
+
 
 module load cuda/11.8.0
 module load gcc/11.2.0

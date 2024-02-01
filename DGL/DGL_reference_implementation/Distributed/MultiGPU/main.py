@@ -48,6 +48,7 @@ def main():
             "batch_size": args.batch_size,
             "agg": args.agg,
             "n_gpus": args.n_gpus,
+            "num_heads": args.num_heads,
             }
     )
 
@@ -60,7 +61,7 @@ def main():
     args.batch_size = config.batch_size
     args.agg = config.agg
     args.n_gpus = config.n_gpus
-
+    args.num_heads = config.num_heads
     # devices = list(map(int, args.gpu.split(",")))
     devices = list(range(args.n_gpus))
     nprocs = len(devices)
@@ -81,7 +82,7 @@ def main():
     g = dataset[0]
     # avoid creating certain graph formats in each sub-process to save momory
     g.create_formats_()
-    if args.dataset == "ogbn-arxiv":
+    if args.dataset == "ogbn-arxiv" or args.dataset == "orkut":
         g.edata.clear()
         g = dgl.to_bidirected(g, copy_ndata=True)
         g = dgl.remove_self_loop(g)

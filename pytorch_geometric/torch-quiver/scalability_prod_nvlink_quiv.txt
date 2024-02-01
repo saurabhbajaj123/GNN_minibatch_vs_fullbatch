@@ -1,0 +1,116 @@
+1
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+Let's use 1 GPUs!
+Epoch: 001, Loss: 0.1077, Epoch Time: 5.678739070892334
+Epoch: 002, Loss: 0.0215, Epoch Time: 5.364943504333496
+Epoch: 003, Loss: 0.0117, Epoch Time: 5.255770921707153
+Epoch: 004, Loss: 0.1132, Epoch Time: 5.253338098526001
+Epoch: 005, Loss: 0.0413, Epoch Time: 5.3635523319244385
+Time per epoch = 5.383220863342285
+epoch per second = 0.18576239492784422
+total train time = 26.916104316711426
+num epochs = 5
+2
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+LOG >>> Memory Budge On 1 is 934 MB
+Let's use 2 GPUs!
+Epoch: 001, Loss: 0.3677, Epoch Time: 3.09921932220459
+Epoch: 002, Loss: 0.0343, Epoch Time: 2.621530771255493
+Epoch: 003, Loss: 0.0156, Epoch Time: 2.7204766273498535
+Epoch: 004, Loss: 0.0250, Epoch Time: 2.688433885574341
+Epoch: 005, Loss: 0.0167, Epoch Time: 2.6209781169891357
+Time per epoch = 2.7500834465026855
+epoch per second = 0.36362532972288975
+total train time = 13.750417232513428
+num epochs = 5
+3
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+LOG >>> Memory Budge On 1 is 934 MB
+LOG >>> Memory Budge On 2 is 934 MB
+Let's use 3 GPUs!
+Epoch: 001, Loss: 0.2937, Epoch Time: 2.223381996154785
+Epoch: 002, Loss: 0.0723, Epoch Time: 1.762326717376709
+Epoch: 003, Loss: 0.1948, Epoch Time: 1.763636589050293
+Epoch: 004, Loss: 0.0190, Epoch Time: 1.8558790683746338
+Epoch: 005, Loss: 0.0187, Epoch Time: 1.762977123260498
+Time per epoch = 1.8735960960388183
+epoch per second = 0.533732965239527
+total train time = 9.367980480194092
+num epochs = 5
+4
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+LOG >>> Memory Budge On 1 is 934 MB
+LOG >>> Memory Budge On 2 is 934 MB
+LOG >>> Memory Budge On 3 is 934 MB
+Let's use 4 GPUs!
+Epoch: 001, Loss: 0.0738, Epoch Time: 1.8465840816497803
+Epoch: 002, Loss: 0.0011, Epoch Time: 1.3541464805603027
+Epoch: 003, Loss: 0.0109, Epoch Time: 1.3511404991149902
+Epoch: 004, Loss: 0.0027, Epoch Time: 1.3570311069488525
+Epoch: 005, Loss: 0.0094, Epoch Time: 1.3513844013214111
+Time per epoch = 1.452012300491333
+epoch per second = 0.6886993999028929
+total train time = 7.260061502456665
+num epochs = 5
+1
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+Let's use 1 GPUs!
+Epoch: 001, Loss: 0.2427, Epoch Time: 7.252291202545166
+Epoch: 002, Loss: 0.0811, Epoch Time: 6.494477272033691
+Epoch: 003, Loss: 0.0886, Epoch Time: 6.378368616104126
+Epoch: 004, Loss: 0.0226, Epoch Time: 6.380436182022095
+Epoch: 005, Loss: 0.0546, Epoch Time: 6.380303144454956
+Time per epoch = 6.577126836776733
+epoch per second = 0.1520420732056419
+total train time = 32.88563418388367
+num epochs = 5
+2
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+LOG >>> Memory Budge On 1 is 934 MB
+Let's use 2 GPUs!
+Epoch: 001, Loss: 0.3866, Epoch Time: 3.6418192386627197
+Epoch: 002, Loss: 0.1241, Epoch Time: 3.1797289848327637
+Epoch: 003, Loss: 0.0367, Epoch Time: 3.1806492805480957
+Epoch: 004, Loss: 0.0114, Epoch Time: 3.3722119331359863
+Epoch: 005, Loss: 0.0239, Epoch Time: 3.179150104522705
+Time per epoch = 3.31066575050354
+epoch per second = 0.30205405056306384
+total train time = 16.5533287525177
+num epochs = 5
+3
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+LOG >>> Memory Budge On 1 is 934 MB
+LOG >>> Memory Budge On 2 is 934 MB
+Let's use 3 GPUs!
+Epoch: 001, Loss: 0.2253, Epoch Time: 2.5878210067749023
+Epoch: 002, Loss: 0.0355, Epoch Time: 2.125175952911377
+Epoch: 003, Loss: 0.2117, Epoch Time: 2.126772165298462
+Epoch: 004, Loss: 0.1021, Epoch Time: 2.1337335109710693
+Epoch: 005, Loss: 0.0955, Epoch Time: 2.1364145278930664
+Time per epoch = 2.2219382762908935
+epoch per second = 0.45005750639901265
+total train time = 11.109691381454468
+num epochs = 5
+4
+LOG>>> 100% data cached
+LOG >>> Memory Budge On 0 is 934 MB
+LOG >>> Memory Budge On 1 is 934 MB
+LOG >>> Memory Budge On 2 is 934 MB
+LOG >>> Memory Budge On 3 is 934 MB
+Let's use 4 GPUs!
+Epoch: 001, Loss: 0.0589, Epoch Time: 2.1134190559387207
+Epoch: 002, Loss: 0.0213, Epoch Time: 1.621079683303833
+Epoch: 003, Loss: 0.0034, Epoch Time: 1.6132190227508545
+Epoch: 004, Loss: 0.0259, Epoch Time: 1.6277310848236084
+Epoch: 005, Loss: 0.0169, Epoch Time: 1.6147246360778809
+Time per epoch = 1.7179906845092774
+epoch per second = 0.5820753331300149
+total train time = 8.589953422546387
+num epochs = 5

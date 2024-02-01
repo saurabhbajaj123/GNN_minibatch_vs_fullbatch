@@ -33,6 +33,9 @@ def main():
     args.n_partitions = config.n_partitions
     args.lr = config.lr
 
+    args.node_rank = int(os.environ["SLURM_PROCID"])
+    print(f"args.node_rank = {args.node_rank}")
+    
     if args.fix_seed is False:
         if args.parts_per_node < args.n_partitions:
             warnings.warn('Please enable `--fix-seed` for multi-node training.')

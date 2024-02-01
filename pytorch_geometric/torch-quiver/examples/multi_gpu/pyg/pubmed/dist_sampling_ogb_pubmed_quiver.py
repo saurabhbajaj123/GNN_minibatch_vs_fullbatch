@@ -92,7 +92,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
     # Simulate cases those data can not be fully stored by GPU memory
     y = y.to(rank)
 
-    for epoch in range(1, 200):
+    for epoch in range(1, 20):
         model.train()
         epoch_start = time.time()
         for seeds in train_loader:
@@ -128,7 +128,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
 
 if __name__ == '__main__':
     # dataset = Reddit('/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/torch-quiver/examples/data/Reddit')
-    dataset = Planetoid(root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset', name='Pubmed')
+    dataset = Planetoid(root='/home/ubuntu/gnn_mini_vs_full/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset', name='Pubmed')
     world_size = torch.cuda.device_count()
 
     data = dataset[0]
