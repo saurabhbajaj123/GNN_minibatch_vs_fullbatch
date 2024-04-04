@@ -8,10 +8,10 @@ Here is the extended version of the report that was submitted to VLDB April 1st 
 [VLDB25_GNN_benchmarking.pdf](https://github.com/saurabhbajaj123/GNN_minibatch_vs_fullbatch/files/14873261/VLDB25_GNN_benchmarking.pdf)
 
 Please go to the official repositories of the systems for updated code:
-PipeGCN - https://github.com/GATECH-EIC/PipeGCN
-BNS-GCN - https://github.com/GATECH-EIC/BNS-GCN
-Quiver - https://github.com/quiver-team/torch-quiver
-DGL - https://github.com/dmlc/dgl/tree/master/examples/multigpu (https://github.com/dmlc/dgl/tree/master/examples/pytorch)
-DIstDGL - https://github.com/dmlc/dgl/tree/master/examples/distributed
+- PipeGCN - https://github.com/GATECH-EIC/PipeGCN
+- BNS-GCN - https://github.com/GATECH-EIC/BNS-GCN
+- Quiver - https://github.com/quiver-team/torch-quiver
+- DGL - https://github.com/dmlc/dgl/tree/master/examples/multigpu (https://github.com/dmlc/dgl/tree/master/examples/pytorch)
+- DistDGL - https://github.com/dmlc/dgl/tree/master/examples/distributed
 
 
