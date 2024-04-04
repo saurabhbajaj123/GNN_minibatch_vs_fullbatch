@@ -105,7 +105,7 @@ def train(
     if proc_id == 0:
         wandb.init(
             project="MultiGPU-{}-{}-{}".format(args.dataset, args.model, args.sampling),
-            name=f"n_gpus-{args.n_gpus}, n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, agg-{args.agg}, batch_size-{args.batch_size}, fanout-{args.fanout}",
+            name=f"n_gpus-{args.n_gpus}, n_hidden-{args.n_hidden}, n_layers-{args.n_layers}, num_heads-{args.num_heads}, batch_size-{args.batch_size}, fanout-{args.fanout}",
             # notes="HPO by varying only the n_hidden and n_layers"
         # project="PipeGCN-{}-{}".format(args.dataset, args.model),
         )
@@ -165,11 +165,28 @@ def train(
     train_acc = 0
     val_acc = 0
     test_acc = 0
+
     for epoch in range(n_epochs):
         t0 = time.time()
         model.train()
         total_loss = 0
-        for it, (_, _, blocks) in enumerate(train_dataloader):
+        number_of_batches = 0
+        # timers  = [torch.cuda.Event(enable_timing=True) for _ in range(10)]
+        # sampling_microbatch_accumulator = []
+        # train_microbatch_accumulator = []
+        # d = iter(train_dataloader)
+        # try:
+            # while d:
+        for it, (_, _,blocks) in enumerate(train_dataloader):
+            # print(d)
+            # timers[0].record()
+            # _,_,blocks = next(d)
+            # timers[1].record()
+
+            # timers[2].record()
+            # start_micro_batch_time = time.time()
+
+            number_of_batches += 1
             x = blocks[0].srcdata["feat"]
             y = blocks[-1].dstdata["label"]
             try:
@@ -181,12 +198,31 @@ def train(
             loss = F.cross_entropy(y_hat, y)
             opt.zero_grad()
             loss.backward()
-            opt.step()
+            opt.step()  # Gradients are synchronized in DDP
             total_loss += loss
+            # timers[3].record()
+            # timers[3].synchronize()
+            # timers[5].synchronize()
+            # sampling_microbatch = timers[0].elapsed_time(timers[1])/1000
+            # train_microbatch = timers[2].elapsed_time(timers[3])/1000
+            # print(f"sampling_microbatch = {sampling_microbatch}")
+            # microbatch_train_time = timers[1].elapsed_time(timers[2])/1000
+            # print(f"microbatch_train_time = {microbatch_train_time}")
+            # sampling_microbatch_accumulator.append(sampling_microbatch)
+            # train_microbatch_accumulator.append(train_microbatch)
+            # print(f"sampling_microbatch = {sampling_microbatch}, train_microbatch = {train_microbatch}")
+        # except:
+        #     pass
+
+        # if proc_id == 0: 
+        #     print(f"micro batches per gpu = {number_of_batches}")
+        #     print(f"sampling timers avg = {np.mean(sampling_microbatch_accumulator[int(0.2*len(sampling_microbatch_accumulator)):])}")
+        #     print(f"train timers avg = {np.mean(train_microbatch_accumulator[int(0.2*len(train_microbatch_accumulator)):])}")
         t1 = time.time()
         train_time += t1 - t0
         train_dur.append(t1-t0)
-        print(f"Train time = {t1 - t0}")
+        if proc_id == 0: print(f"Train time = {t1 - t0}")
+        # continue
         # scheduler.step()
         # scheduler2.step(best_val_acc)
         # print(f"train time = {t1 - t0}")
@@ -244,7 +280,7 @@ def train(
 
                     })
 
-
+        
         dist.barrier()
 
         break_condition = False
@@ -258,37 +294,37 @@ def train(
         if break_condition:
             print(f'Early stopping after {epoch + 1} epochs.')
             break
-        
-    train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
-    dist.reduce(train_dur_sum_tensor, 0)
-    train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
-
-    train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
-    dist.reduce(train_dur_mean_tensor, 0)
-    train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
     
-    eval_dur_tensor = torch.tensor(np.sum(eval_dur)).cuda()
-    dist.reduce(eval_dur_tensor, 0)
-    eval_dur_sum = eval_dur_tensor.item() / args.n_gpus
+    # train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
+    # dist.reduce(train_dur_sum_tensor, 0)
+    # train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
+
+    # train_dur_mean_tensor = torch.tensor(np.mean(train_dur)).cuda()
+    # dist.reduce(train_dur_mean_tensor, 0)
+    # train_dur_mean = train_dur_mean_tensor.item() / args.n_gpus
+    
+    # eval_dur_tensor = torch.tensor(np.sum(eval_dur)).cuda()
+    # dist.reduce(eval_dur_tensor, 0)
+    # eval_dur_sum = eval_dur_tensor.item() / args.n_gpus
     
 
     # print(train_dur_sum)
-    # if proc_id == 0:
-    #     print(
-    #         "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
-    #     )
+    if proc_id == 0:
+        print(
+            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
+        )
 
-    #     print(f"best val acc = {best_val_acc} | best test acc = {best_test_acc}")
+        print(f"best val acc = {best_val_acc} | best test acc = {best_test_acc}")
 
-    #     wandb.log({
-    #         "epoch": epoch,
-    #         "Time_per_epoch": train_dur_mean,
-    #         "Time_to_train": train_dur_sum,
-    #         "Time_to_eval": eval_dur_sum,
-    #         "torch seed": torch.initial_seed()  & ((1<<63)-1),
+        wandb.log({
+            "epoch": epoch,
+            "Time_per_epoch": train_dur_mean,
+            "Time_to_train": train_dur_sum,
+            "Time_to_eval": eval_dur_sum,
+            "torch seed": torch.initial_seed()  & ((1<<63)-1),
 
-    #     })
-    
+        })
+    # wandb.finish()
     return
 
 # def run(proc_id, nprocs, devices, g, data, args):
@@ -306,7 +342,7 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
         world_size=nprocs,
         rank=proc_id,
     )
-    if args.dataset.lower() == 'ogbn-papers100m' or args.dataset.lower() == 'orkut':
+    if args.dataset.lower() == 'ogbn-papers100m':
         g = dgl.hetero_from_shared_memory("train_graph")
         g.ndata['label'] = g_or_n_data['label']
         g.ndata['feat'] = g_or_n_data['feat']
@@ -355,7 +391,7 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
             torch.cuda.max_memory_allocated() / 1024 / 1024,
             torch.cuda.memory_reserved() / 1024 / 1024
         ))
-    print_memory("before train function")
+    # print_memory("before train function")
     use_uva = args.mode == "mixed"
     train(
         proc_id,

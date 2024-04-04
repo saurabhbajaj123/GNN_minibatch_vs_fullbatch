@@ -2,14 +2,17 @@
 
 #SBATCH --job-name orkutbns   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=100GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
+#SBATCH --cpus-per-task=56        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem=100G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --partition=gpu-preempt
+#SBATCH --constraint=intel8480
+#SBATCH --time=00:25:00          # total run time limit (HH:MM:SS)
+
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-for n_parts in 3
+for n_parts in 1 2 3 4
 do
   echo "scalability orkut gat single node"
   echo "num parts = "$n_parts
@@ -19,10 +22,10 @@ do
     --lr 0.002 \
     --n-partitions $n_parts \
     --n-epochs 5 \
-    --model gat \
+    --model graphsage \
     --sampling-rate .1 \
-    --heads 1 \
-    --n-layers 2 \
+    --heads 2 \
+    --n-layers 3 \
     --n-hidden 128 \
     --log-every 10 \
     --fix-seed \

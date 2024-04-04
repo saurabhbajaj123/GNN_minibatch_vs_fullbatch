@@ -2,10 +2,12 @@
 
 #SBATCH --job-name bnsarxiv  ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=100GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
+#SBATCH --cpus-per-task=12        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem=50G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --partition=gpu-preempt
+#SBATCH --constraint=m40
+#SBATCH --time=04:00:00          # total run time limit (HH:MM:SS)
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
 
@@ -22,7 +24,7 @@ echo "NUM GPUS PER NODE="$SLURM_GPUS
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-for n_parts in 1 2 3 4
+for n_parts in 4
 do
   echo $n_parts
   python main.py \
@@ -30,12 +32,12 @@ do
     --dropout 0.3 \
     --lr 0.01 \
     --n-partitions $n_parts \
-    --n-epochs 5 \
-    --model gat \
+    --n-epochs 1000 \
+    --model graphsage \
     --sampling-rate 0.1 \
     --n-layers 3 \
     --n-hidden 1024 \
-    --heads 2 \
+    --heads 6 \
     --log-every 10 \
     --use-pp
 done

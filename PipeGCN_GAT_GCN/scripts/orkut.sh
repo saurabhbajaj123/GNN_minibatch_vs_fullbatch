@@ -1,14 +1,22 @@
 #!/bin/bash
 #SBATCH --job-name=ddp-orkut     # create a short name for your job
-#SBATCH --nodes=3                # node count
-#SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --mem=80G                # total memory per node (4 GB per cpu-core is default)
-#SBATCH --gpus-per-node=4             # number of gpus per node
+#SBATCH --gpus=4
+#SBATCH --mem=250GB
+#SBATCH --time=0-00:20:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --partition=gpu-preempt
-#SBATCH --constraint=m40
-#SBATCH --time=24:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --constraint=intel8480
+#SBATCH --exclude=superpod-gpu[001-005]
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=112  # cpu-cores per task
+#SBATCH --reservation=hgxbenchmark
+#SBATCH -A pi_mserafini_umass_edu
+#SBATCH --exclusive
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
+
+nvidia-smi --query-gpu=gpu_name --format=csv,noheader
+
+nvidia-smi topo -m
 
 export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
 export WORLD_SIZE=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
@@ -31,12 +39,11 @@ srun python main.py \
   --dataset orkut \
   --dropout 0.3 \
   --lr 0.002 \
-  --n-partitions 12 \
+  --n-partitions 4 \
   --n-epochs 5 \
   --model graphsage \
-  --num-heads 1 \
-  --n-layers 2 \
-  --n-hidden 128 \
+  --n-layers 3 \
+  --n-hidden 512 \
   --log-every 10 \
   --patience 100 \
   --fix-seed \
@@ -46,4 +53,4 @@ srun python main.py \
   --port $MASTER_PORT \
   --parts-per-node 4 \
   --skip-partition \
-  --enable-pipeline \
+  # --enable-pipeline \

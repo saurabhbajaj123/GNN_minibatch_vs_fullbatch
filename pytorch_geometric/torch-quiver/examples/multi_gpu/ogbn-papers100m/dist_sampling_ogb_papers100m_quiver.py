@@ -20,6 +20,7 @@ from datetime import timedelta
 ####################
 # Import Quiver
 ####################
+import torch_quiver as qv
 import quiver
 
 import warnings
@@ -110,17 +111,20 @@ def run(rank, world_size, quiver_sampler, quiver_feature, y, edge_index, split_i
     y = y.to(rank)
     train_time = 0
     count = 0
+    # micro_batch_size =
     for epoch in range(1, args.n_epochs + 1):
         model.train()
 
         epoch_start = time.time()
         for seeds in train_loader:
+
             n_id, batch_size, adjs = quiver_sampler.sample(seeds)
+            
             adjs = [adj.to(rank) for adj in adjs]
 
             optimizer.zero_grad()
             out = model(quiver_feature[n_id], adjs)
-            print(f"out = {out}")
+            # print(f"out = {out}")
             loss = F.nll_loss(out, y[n_id[:batch_size]].long())
             loss.backward()
             optimizer.step()
@@ -170,13 +174,13 @@ def main():
         'test': data.train_mask.nonzero(as_tuple=False).view(-1)
     }
 
-    world_size = torch.cuda.device_count()
+    world_size = args.n_gpus # torch.cuda.device_count()
     
     ##############################
     # Create Sampler And Feature
     ##############################
     csr_topo = quiver.CSRTopo(data.edge_index)
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="UVA")
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
     # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
     feature = torch.zeros(data.x.shape)
     feature[:] = data.x
@@ -188,7 +192,7 @@ def main():
     #                                              mode="UVA")
     quiver_feature = quiver.Feature(rank=0,
                                     device_list=list(range(world_size)),
-                                    device_cache_size="8G",
+                                    device_cache_size="1.4G",
                                     cache_policy="p2p_clique_replicate",
                                     csr_topo=csr_topo)
     # quiver_feature.from_cpu_tensor(dataset.feature)

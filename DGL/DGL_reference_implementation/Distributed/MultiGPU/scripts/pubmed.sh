@@ -2,10 +2,12 @@
 
 #SBATCH --job-name pubmed   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=12GB  # memory per CPU core
-#SBATCH --time=0-04:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --nodes=1
+#SBATCH --mem=250GB
+#SBATCH --time=0-00:30:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --partition=gypsum-m40
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=12  # cpu-cores per task
+#SBATCH --exclusive
 
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
@@ -16,7 +18,7 @@ python main.py \
   --sampling NS \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 20 \
+  --n-epochs 5 \
   --n-gpus 4 \
   --n-layers 3 \
   --n-hidden 256 \
@@ -25,7 +27,7 @@ python main.py \
   --patience 50 \
   --fanout 10 \
   --agg mean \
-  --log-every 5 \
+  --log-every 10 \
   --seed 42 \
   --mode puregpu \
   # --seed \

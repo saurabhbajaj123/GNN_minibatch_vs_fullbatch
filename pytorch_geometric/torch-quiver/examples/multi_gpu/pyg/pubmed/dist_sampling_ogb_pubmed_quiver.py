@@ -84,15 +84,15 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
                                           shuffle=False, num_workers=6)
 
     torch.manual_seed(12345)
-    # model = SAGE(num_features, 256, num_classes).to(rank)
-    model = SAGE(num_features, 64, num_classes, num_layers=4).to(rank)
+    model = SAGE(num_features, 256, num_classes, num_layers=3).to(rank)
+    # model = SAGE(num_features, 64, num_classes, num_layers=4).to(rank)
     model = DistributedDataParallel(model, device_ids=[rank])
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
     # Simulate cases those data can not be fully stored by GPU memory
     y = y.to(rank)
 
-    for epoch in range(1, 200):
+    for epoch in range(1, 5):
         model.train()
         epoch_start = time.time()
         for seeds in train_loader:
@@ -129,7 +129,7 @@ def run(rank, world_size, data_split, edge_index, x, quiver_sampler, y, num_feat
 if __name__ == '__main__':
     # dataset = Reddit('/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/torch-quiver/examples/data/Reddit')
     dataset = Planetoid(root='/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/dataset', name='Pubmed')
-    world_size = torch.cuda.device_count()
+    world_size = min(4, torch.cuda.device_count())
 
     data = dataset[0]
     print(f"graph= {data}")
@@ -140,9 +140,9 @@ if __name__ == '__main__':
     # Create Sampler And Feature
     ##############################
     # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [25, 10], 0, mode='GPU')
-    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [10, 10, 10, 10], 0, mode='GPU')
+    quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [10, 10, 10], 0, mode='GPU')
 
-    quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
+    quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="1G", cache_policy="device_replicate", csr_topo=csr_topo)
     quiver_feature.from_cpu_tensor(data.x)
 
     print('Let\'s use', world_size, 'GPUs!')

@@ -1,16 +1,19 @@
 #!/bin/bash
 
 #SBATCH --job-name quiv-ork   ## name that will show up in the queue
-#SBATCH --gpus-per-node=4
-#SBATCH --mem=200GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --gpus=4
 #SBATCH --nodes=1
-#SBATCH --partition=gypsum-1080ti
+#SBATCH --cpus-per-task=56        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem=100G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --partition=gpu-preempt
+#SBATCH --constraint=intel8480
+#SBATCH --time=00:25:00          # total run time limit (HH:MM:SS)
 
 
 nvidia-smi --query-gpu=gpu_name --format=csv,noheader
 
 nvidia-smi topo -m
+
 
 echo "SLURM_GPUS="$SLURM_GPUS
 echo "SLURM_NODELIST = "$SLURM_NODELIST
@@ -26,6 +29,8 @@ module load gcc/11.2.0
 module load uri/main
 module load NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
 
+echo "nvlink experiment"
+
 QUIVER_ENABLE_CUDA=1 python setup.py install
 
 
@@ -33,16 +38,16 @@ for n_parts in 1 2 3 4
 do
   echo "using "$n_parts" GPUS"
   python3 examples/multi_gpu/pyg/orkut/dist_sampling_orkut_quiver.py \
-    --model graphsage \
+    --model gat \
     --n-epochs 5 \
     --n-gpus $n_parts \
-    --n-layers 2 \
+    --n-layers 3 \
     --n-hidden 128 \
     --batch-size 1024 \
     --eval-batch-size 100000 \
     --weight-decay 0 \
-    --fanout 10 \
-    --heads 1 \
+    --fanout 5 \
+    --heads 2 \
     --agg mean \
     --log-every 10
 done

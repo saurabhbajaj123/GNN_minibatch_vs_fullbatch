@@ -331,12 +331,12 @@ def run(args, device, data):
 
         toc = time.time()
         train_time += toc - tic
-        # print(
-        #     f"Part {g.rank()}, Epoch Time(s): {toc - tic:.4f}, "
+        print(
+            f"Epoch {epoch}, Part {g.rank()}, Epoch Time(s): {toc - tic:.4f}, "
         #     f"sample+data_copy: {sample_time:.4f}, forward: {forward_time:.4f},"
         #     f" backward: {backward_time:.4f}, update: {update_time:.4f}, "
         #     f"#seeds: {num_seeds}, #inputs: {num_inputs}"
-        # )
+        )
         epoch_time.append(toc - tic)
 
 
@@ -359,11 +359,11 @@ def run(args, device, data):
                 f"Epoch time {epoch_time[-1]:.4f}, Eval time: {time.time() - start:.4f}"
             )
 
-            dist.barrier()
-            dist.reduce(val_acc, 0, op=dist.ReduceOp.SUM)
-            dist.reduce(test_acc, 0, op=dist.ReduceOp.SUM)
-            val_acc = val_acc / th.distributed.get_world_size()
-            test_acc = test_acc / th.distributed.get_world_size()
+            # dist.barrier()
+            # dist.reduce(val_acc, 0, op=dist.ReduceOp.SUM)
+            # dist.reduce(test_acc, 0, op=dist.ReduceOp.SUM)
+            # val_acc = val_acc / th.distributed.get_world_size()
+            # test_acc = test_acc / th.distributed.get_world_size()
             if g.rank() == 0:
                 if val_acc > best_val_acc:
                     best_val_acc = val_acc
@@ -379,7 +379,13 @@ def run(args, device, data):
                 })
                 print(f"Best Val Acc {best_val_acc:.4f}, Best Test Acc {best_test_acc:.4f}")
         # dist.barrier()
-
+    wandb.log({
+        'n_layers': args.n_layers,
+        'n_hidden': args.n_hidden,
+        'num_epoch': args.num_epochs,
+        'fanout': args.fan_out,
+        'lr': args.lr,
+    })
     return np.mean(epoch_time[-int(args.num_epochs * 0.8) :]), test_acc
 
 
@@ -390,7 +396,8 @@ def main(args):
     import os
     # os.environ['MASTER_ADDR'] = 'gypsum-gpu069'
     # os.environ['MASTER_PORT'] = '1234'
-    os.environ["GLOO_SOCKET_IFNAME"] = "enp5s0"
+    os.environ["GLOO_SOCKET_IFNAME"] = "eno12399" 
+    # os.environ["GLOO_SOCKET_IFNAME"] = 'enp5s0'
     print(os.environ["GLOO_SOCKET_IFNAME"])
     print('entering node_classification')
     host_name = socket.gethostname()

@@ -2,10 +2,12 @@
 
 #SBATCH --job-name bnspubmed   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=20GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --mem=250GB
+#SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
+#SBATCH --cpus-per-task=12  # cpu-cores per task
+#SBATCH --exclusive
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
 
@@ -26,12 +28,12 @@ python main.py \
   --dataset pubmed \
   --dropout 0.3 \
   --lr 0.001 \
-  --n-epochs 4 \
+  --n-epochs 5 \
   --n-partitions 4 \
   --model graphsage \
   --sampling-rate 1.0 \
   --n-layers 3 \
   --n-hidden 256 \
-  --log-every 5 \
+  --log-every 10 \
   --use-pp \
   # --seed \

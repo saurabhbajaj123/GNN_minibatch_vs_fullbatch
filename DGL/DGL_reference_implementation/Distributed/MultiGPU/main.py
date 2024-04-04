@@ -27,7 +27,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from train import *
-from utils import load_data
+from utils import load_data, load_subgraph
 
 import wandb
 os.environ["WANDB__SERVICE_WAIT"] = "300"
@@ -62,7 +62,7 @@ def main():
     args.agg = config.agg
     args.n_gpus = config.n_gpus
     args.num_heads = config.num_heads
-
+    
     # devices = list(map(int, args.gpu.split(",")))
     devices = list(range(args.n_gpus))
     nprocs = len(devices)
@@ -74,16 +74,33 @@ def main():
 
     # load and preprocess dataset
     print("Loading data")
-    dataset = load_data(args.dataset)
+    if args.dataset_subgraph_path == '':
+        dataset = load_data(args.dataset)
+        g = dataset[0]
+        data = (
+            dataset.num_classes,
+            dataset.train_idx,
+            dataset.val_idx,
+            dataset.test_idx,
+            )
+    else:
+        g, _, n_class = load_subgraph(args.dataset_subgraph_path)
+        train_ids = torch.nonzero(g.ndata['train_mask']).reshape(-1)
+        print(len(train_ids))
+        valid_ids = torch.nonzero(g.ndata['val_mask']).reshape(-1)
+        print(len(valid_ids))
+        test_ids = torch.nonzero(g.ndata['test_mask']).reshape(-1)
+        print(len(test_ids))
+        data = (
+            n_class, train_ids, valid_ids, test_ids
 
-
+        )
     # dataset = AsNodePredDataset(
     #     DglNodePropPredDataset(args.dataset, root=args.dataset_dir)
     # )
-    g = dataset[0]
     # avoid creating certain graph formats in each sub-process to save momory
     g.create_formats_()
-    if args.dataset == "ogbn-arxiv" or args.dataset == "orkut":
+    if args.dataset == "ogbn-arxiv" or args.dataset == "orkut" or args.dataset.lower() == "ogbn-papers100m":
         g.edata.clear()
         g = dgl.to_bidirected(g, copy_ndata=True)
         g = dgl.remove_self_loop(g)
@@ -95,17 +112,12 @@ def main():
         g = dgl.add_self_loop(g)
     # thread limiting to avoid resource competition
     os.environ["OMP_NUM_THREADS"] = str(mp.cpu_count() // 2 // nprocs)
-    data = (
-        dataset.num_classes,
-        dataset.train_idx,
-        dataset.val_idx,
-        dataset.test_idx,
-    )
+
     # print(g)
     # print(g.ndata)
     # print(shared_graph.ndata)
 
-    if args.dataset.lower() == 'ogbn-papers100m' or args.dataset.lower() == 'orkut':
+    if args.dataset.lower() == 'ogbn-papers100m':
         n_data = g.ndata
 
         shared_graph = g.shared_memory("train_graph") 
@@ -136,7 +148,7 @@ if __name__ == "__main__":
 
     # sweep_configuration = {
     #     # 'name': f"Multiple runs best parameters {args.n_gpus}",
-    #     'name': f"scalability {args.mode}",
+    #     'name': f"fanout and scalability {args.mode}",
     #     # 'name': "checking if 5 layers is the best",
     #     'method': 'grid',
     #     'metric': {'goal': 'maximize', 'name': 'val_acc'},

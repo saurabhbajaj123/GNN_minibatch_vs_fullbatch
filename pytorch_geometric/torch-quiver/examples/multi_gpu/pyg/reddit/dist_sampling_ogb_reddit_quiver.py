@@ -224,7 +224,11 @@ if __name__ == '__main__':
     quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [args.fanout for _ in range(args.n_layers)], 0, mode="GPU")
 
     quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
+    # quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="p2p_clique_replicate", csr_topo=csr_topo)
     quiver_feature.from_cpu_tensor(data.x)
+
+    # l = list(range(world_size))
+    # qv.init_p2p(l)
 
     print('Let\'s use', world_size, 'GPUs!')
     data_split = (data.train_mask, data.val_mask, data.test_mask)

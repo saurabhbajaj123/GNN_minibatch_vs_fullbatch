@@ -290,8 +290,9 @@ def run(graph, node_dict, gpb, args):
         if args.inductive:
             _, val_g, test_g = inductive_split(full_g)
         else:
-            val_g, test_g = full_g.clone(), full_g.clone()
-        del full_g
+            # val_g, test_g = full_g.clone(), full_g.clone()
+            val_g, test_g = full_g, full_g
+        # del full_g
 
     if rank == 0:
         os.makedirs('checkpoint/', exist_ok=True)

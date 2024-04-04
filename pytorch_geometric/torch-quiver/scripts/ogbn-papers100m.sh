@@ -2,10 +2,14 @@
 
 #SBATCH --job-name pap-quiver   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=100GB  # memory per CPU core
-#SBATCH --time=0-01:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --mem=250GB
+#SBATCH --time=0-02:20:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --partition=gpu-preempt
+#SBATCH --constraint=intel8480
+#SBATCH --exclude=superpod-gpu[004-005]
 #SBATCH --nodes=1
-#SBATCH --partition=gypsum-m40
+#SBATCH --cpus-per-task=112  # cpu-cores per task
+#SBATCH --exclusive
 
 nvidia-smi --query-gpu=gpu_name --format=csv,noheader
 
@@ -29,7 +33,7 @@ QUIVER_ENABLE_CUDA=1 python setup.py install
 
 python3 examples/multi_gpu/ogbn-papers100m/dist_sampling_ogb_papers100m_quiver.py \
   --dataset_subgraph_path preprocess/papers100M_pyg_subgraph.bin \
-  --n-epochs 30 \
+  --n-epochs 5 \
   --n-gpus 4 \
   --n-layers 2 \
   --n-hidden 128 \

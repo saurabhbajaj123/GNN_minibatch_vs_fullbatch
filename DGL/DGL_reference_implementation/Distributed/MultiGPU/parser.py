@@ -72,6 +72,7 @@ def create_parser():
     parser.add_argument("--mode_saint", "--mode_saint", type=str, default='node')
     parser.add_argument("--num-iters", "--num_iters", type=int, default=1000)
 
+    parser.add_argument("--dataset-subgraph-path", "--dataset_subgraph_path", type=str, default='')
 
 
     return parser.parse_args()

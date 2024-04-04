@@ -1,11 +1,13 @@
 #!/bin/bash
 
 #SBATCH --job-name quiv-pub   ## name that will show up in the queue
-#SBATCH --gpus=1
-#SBATCH --mem=20GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --nodes=1
+#SBATCH --gpus=4
+#SBATCH --mem=250GB
+#SBATCH --time=0-00:30:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --partition=gypsum-m40
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=12  # cpu-cores per task
+#SBATCH --exclusive
 
 cd /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/pytorch_geometric/torch-quiver
 source /work/sbajaj_umass_edu/pygenv1/bin/activate

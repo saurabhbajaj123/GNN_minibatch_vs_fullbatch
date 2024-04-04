@@ -1,14 +1,21 @@
 #!/bin/bash
-#SBATCH --job-name=ddp-test      # create a short name for your job
-#SBATCH --nodes=3                # node count
+#SBATCH --job-name=distpaper      # create a short name for your job
+#SBATCH --nodes=1                # node count
 #SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --cpus-per-task=8        # cpu-cores per task (>1 if multi-threaded tasks)
-#SBATCH --mem=200G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --cpus-per-task=112        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem=250G                # total memory per node (4 GB per cpu-core is default)
 #SBATCH --gres=gpu:4             # number of gpus per node
-#SBATCH --partition=gypsum-m40
-#SBATCH --time=24:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --partition=gpu-preempt
+#SBATCH --constraint=intel8480
+#SBATCH --time=00:04:00          # total run time limit (HH:MM:SS)
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
+
+
+echo "GLOO_SOCKET_IFNAME="$GLOO_SOCKET_IFNAME
+nvidia-smi --query-gpu=gpu_name --format=csv,noheader
+
+nvidia-smi topo -m
 
 export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
 export WORLD_SIZE=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
@@ -37,11 +44,6 @@ python3 /work/sbajaj_umass_edu/dgl/tools/launch.py \
 --num_trainers 4 \
 --num_samplers 0 \
 --num_servers 1 \
---part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DistributedSetup/partitions/ogbn-papers100m_frac_100.0_hops_2_subgraph-3-metis-vol-trans/ogbn-papers100m_frac_100.0_hops_2_subgraph-3-metis-vol-trans.json \
+--part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DistributedSetup/partitions/ogbn-papers100m_frac_100.0_hops_2_subgraph-1-metis-vol-trans/ogbn-papers100m_frac_100.0_hops_2_subgraph-1-metis-vol-trans.json \
 --ip_config ip_config.txt \
-"/work/sbajaj_umass_edu/GNNEnv/bin/python3 node_classification.py --dataset ogbn-papers100m --graph_name ogbn-papers100m_frac_100.0_hops_2_subgraph-3-metis-vol-trans --ip_config ip_config.txt --num_epochs 20 --batch_size 1024 --num_gpus 4 --num_hidden 128 --num_layers 2 --fan_out 5,5 --eval_every 10"
-# "/work/sbajaj_umass_edu/GNNEnv/bin/python3 subprocess_file.py"
-# "python3 node_classification.py"
-# "python3 process_init_group.py"
-# "source /work/sbajaj_umass_edu/GNNEnv/bin/activate python3 process_init_group.py --graph_name ogbn-products --ip_config ip_config.txt --num_epochs 30 --batch_size 1000 --local_rank 0"
-# "source /work/sbajaj_umass_edu/GNNEnv/bin/activate python3 node_classification.py --graph_name ogbn-products --ip_config ip_config.txt --num_epochs 30 --batch_size 1000 --local_rank 0"
+"/work/sbajaj_umass_edu/GNNEnv/bin/python3 node_classification.py --dataset ogbn-papers100m --graph_name ogbn-papers100m_frac_100.0_hops_2_subgraph-1-metis-vol-trans --ip_config ip_config.txt --num_epochs 100 --batch_size 1024 --num_gpus 4 --num_hidden 512 --num_layers 2 --fan_out 10,10 --eval_every 2 --lr 0.003"

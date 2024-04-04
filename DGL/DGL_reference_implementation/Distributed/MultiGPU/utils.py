@@ -32,7 +32,22 @@ def load_data(dataset):
     else:
         raise ValueError('Unknown dataset: {}'.format(dataset))
 
-
+def load_subgraph(dataset_path):
+    g, _ = dgl.load_graphs(dataset_path)
+    # print(g)
+    g = g[0]
+    # g.ndata['label'] = g.ndata['label'].to(torch.int64)
+    n_feat = g.ndata['feat'].shape[1]
+    print("train_mask shape = {}".format(g.ndata['train_mask'].shape))
+    print("label shape = {}".format(g.ndata['label'].shape))
+    
+    if g.ndata['label'].dim() == 1:
+    
+        n_class = int(torch.max(torch.unique(g.ndata['label'][torch.logical_not(torch.isnan(g.ndata['label']))])).item()) + 1 # g.ndata['label'].max().item() + 1
+    else:
+        n_class = g.ndata['label'].shape[1]
+    
+    return g, n_feat, n_class
 
 class OrkutDataset(DGLDataset):
     def __init__(self):

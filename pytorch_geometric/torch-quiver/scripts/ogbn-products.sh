@@ -1,11 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name products-mb   ## name that will show up in the queue
-#SBATCH --gpus-per-node=4
-#SBATCH --mem=50GB  # memory per CPU core
-#SBATCH --time=0-24:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --job-name prod-quiv   ## name that will show up in the queue
+#SBATCH --gpus=4
 #SBATCH --nodes=1
-#SBATCH --partition=gypsum-m40
+#SBATCH --cpus-per-task=56        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem=100G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --partition=gpu-preempt
+#SBATCH --constraint=intel8480
+#SBATCH --time=00:25:00          # total run time limit (HH:MM:SS)
 
 
 nvidia-smi --query-gpu=gpu_name --format=csv,noheader
@@ -26,14 +28,18 @@ module load gcc/11.2.0
 module load uri/main
 module load NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
 
+echo "nvlink experiment"
+
 QUIVER_ENABLE_CUDA=1 python setup.py install
 
+source /work/sbajaj_umass_edu/pygenv1/bin/activate
 
-for n_parts in 1
+for n_parts in 1 2 3 4
 do
+  echo "ogbn-products quiver"
   echo $n_parts
   python3 examples/multi_gpu/pyg/ogb-products/dist_sampling_ogb_products_quiver.py \
-    --model gat \
+    --model graphsage \
     --n-epochs 5 \
     --n-gpus $n_parts \
     --n-layers 3 \
@@ -41,8 +47,8 @@ do
     --batch-size 1024 \
     --eval-batch-size 100000 \
     --weight-decay 0 \
-    --fanout 10 \
-    --heads 1 \
+    --fanout 20 \
+    --heads 3 \
     --agg mean \
     --log-every 10
 done

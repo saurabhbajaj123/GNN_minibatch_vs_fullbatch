@@ -1,12 +1,17 @@
 #!/bin/bash
-#SBATCH --job-name=ddp-orkut     # create a short name for your job
+#SBATCH --job-name=bns-orkut     # create a short name for your job
 #SBATCH --nodes=3                # node count
 #SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --mem=100G                # total memory per node (4 GB per cpu-core is default)
-#SBATCH --gpus-per-node=4             # number of gpus per node
+#SBATCH --cpus-per-task=112        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem=250G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --gres=gpu:4             # number of gpus per node
 #SBATCH --partition=gpu-preempt
-#SBATCH --constraint=m40
-#SBATCH --time=24:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --constraint=intel8480
+#SBATCH --exclude=superpod-gpu[001-005]
+#SBATCH --time=01:00:00          # total run time limit (HH:MM:SS)
+
+#SBATCH -A pi_mserafini_umass_edu
+
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
 
@@ -35,8 +40,8 @@ srun python main.py \
   --n-epochs 5 \
   --model graphsage \
   --sampling-rate 0.1 \
-  --n-layers 2 \
-  --n-hidden 128 \
+  --n-layers 3 \
+  --n-hidden 512 \
   --log-every 10 \
   --fix-seed \
   --seed 42 \

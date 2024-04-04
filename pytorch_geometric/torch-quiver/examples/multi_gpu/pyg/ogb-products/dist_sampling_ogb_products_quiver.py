@@ -21,6 +21,7 @@ from datetime import timedelta
 ####################
 # Import Quiver
 ####################
+# import torch_quiver as quiver
 import quiver
 
 import warnings
@@ -247,8 +248,14 @@ def main():
     # quiver_sampler = quiver.pyg.GraphSageSampler(csr_topo, [15, 10, 5], 0, mode="GPU")
     feature = torch.zeros(data.x.shape)
     feature[:] = data.x
-    quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="2G", cache_policy="device_replicate", csr_topo=csr_topo)
-    quiver_feature.from_cpu_tensor(feature)
+
+    quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="4G", cache_policy="device_replicate", csr_topo=csr_topo)
+    # quiver_feature = quiver.Feature(rank=0, device_list=list(range(world_size)), device_cache_size="500M", cache_policy="p2p_clique_replicate", csr_topo=csr_topo)
+    quiver_feature.from_cpu_tensor(data.x)
+
+    l = list(range(world_size))
+    # quiver.init_p2p(l)
+
 
     print('Let\'s use', world_size, 'GPUs!')
     mp.spawn(
