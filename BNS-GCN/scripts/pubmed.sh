@@ -2,8 +2,8 @@
 
 #SBATCH --job-name bnspubmed   ## name that will show up in the queue
 #SBATCH --gpus=4
-#SBATCH --mem=250GB
-#SBATCH --time=0-02:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --mem=50GB
+#SBATCH --time=0-20:00:00  ## time for analysis (day-hour:min:sec)
 #SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=12  # cpu-cores per task
@@ -24,16 +24,52 @@ echo "NUM GPUS PER NODE="$SLURM_GPUS
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
+for dummy in 1 2 3 4 5; do
+  python main.py \
+    --dataset pubmed \
+    --dropout 0.3 \
+    --lr 0.001 \
+    --n-epochs 1000 \
+    --n-partitions 4 \
+    --model graphsage \
+    --sampling-rate 0.1 \
+    --n-layers 4 \
+    --n-hidden 64 \
+    --log-every 10 \
+    --use-pp \
+    # --seed \
+done
+
+for dummy in 1 2 3 4 5; do
+python main.py \
+  --dataset pubmed \
+  --dropout 0.3 \
+  --lr 0.001 \
+  --n-epochs 1000 \
+  --n-partitions 4 \
+  --model gat \
+  --heads 1 \
+  --sampling-rate 0.1 \
+  --n-layers 3 \
+  --n-hidden 1024 \
+  --log-every 10 \
+  --use-pp \
+  # --seed \
+done
+
+for dummy in 1 2 3 4 5; do
 python main.py \
   --dataset pubmed \
   --dropout 0.3 \
   --lr 0.001 \
   --n-epochs 5 \
   --n-partitions 4 \
-  --model graphsage \
-  --sampling-rate 1.0 \
-  --n-layers 3 \
-  --n-hidden 256 \
+  --model gcn \
+  --sampling-rate 0.1 \
+  --n-layers 2 \
+  --n-hidden 512 \
   --log-every 10 \
   --use-pp \
   # --seed \
+done
+
