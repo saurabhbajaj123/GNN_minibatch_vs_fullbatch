@@ -2,13 +2,12 @@
 #SBATCH --job-name=pipe-papers100m     # create a short name for your job
 #SBATCH --nodes=1                # node count
 #SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --cpus-per-task=112        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --cpus-per-task=56        # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --mem=250G                # total memory per node (4 GB per cpu-core is default)
-#SBATCH --gres=gpu:4             # number of gpus per node
+#SBATCH --gres=gpu:1             # number of gpus per node
 #SBATCH --partition=gpu-preempt
 #SBATCH --constraint=intel8480
-#SBATCH --exclude=superpod-gpu[001-005]
-#SBATCH --time=02:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --time=00:05:00          # total run time limit (HH:MM:SS)
 
 export GLOO_SOCKET_IFNAME=`ip -o -4 route show to default | awk '{print $5}'`
 
@@ -32,22 +31,28 @@ echo "NUM GPUS PER NODE="$SLURM_GPUS
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-srun python main.py \
-  --dataset ogbn-papers100m \
-  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
-  --dropout 0.3 \
-  --lr 0.01 \
-  --n-partitions 4 \
-  --n-epochs 10 \
-  --model graphsage \
-  --n-layers 2 \
-  --n-hidden 128 \
-  --log-every 10 \
-  --patience 50 \
-  --fix-seed \
-  --use-pp \
-  --master-addr $MASTER_ADDR \
-  --port $MASTER_PORT \
-  --parts-per-node 4 \
-  --enable-pipeline \
-  # --skip-partition \
+# for n_layers in 2 3 4 5 6
+# do
+#   for n_hidden in 64 128 256 512 1024
+#   do 
+for n_gpus in 1; do
+    srun python main.py \
+      --dataset ogbn-papers100m \
+      --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
+      --dropout 0.3 \
+      --lr 0.01 \
+      --n-partitions $n_gpus \
+      --n-epochs 1 \
+      --model graphsage \
+      --n-layers 2 \
+      --n-hidden 128 \
+      --log-every 10 \
+      --patience 50 \
+      --fix-seed \
+      --master-addr $MASTER_ADDR \
+      --port $MASTER_PORT \
+      --parts-per-node $n_gpus
+      # --enable-pipeline \
+      # --skip-partition \
+    done
+  # done

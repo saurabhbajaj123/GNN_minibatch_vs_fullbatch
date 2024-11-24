@@ -1,15 +1,14 @@
 #!/bin/bash
 
-#SBATCH --job-name papers-mb   ## name that will show up in the queue
-#SBATCH --nodes=1                # node count
-#SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --cpus-per-task=112        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --job-name papers  ## name that will show up in the queue
+#SBATCH --gpus=4
+#SBATCH --nodes=1
+#SBATCH --gpus-per-node=4
+#SBATCH --cpus-per-task=56        # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --mem=250G                # total memory per node (4 GB per cpu-core is default)
-#SBATCH --gres=gpu:4             # number of gpus per node
-#SBATCH --partition=gpu-preempt
-#SBATCH --constraint=intel8480
-#SBATCH --exclude=superpod-gpu[004-005]
-#SBATCH --time=02:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --partition=gpu
+#SBATCH --time=08:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --reservation=hojae-a100
 
 nvidia-smi --query-gpu=gpu_name --format=csv,noheader
 
@@ -36,21 +35,37 @@ echo "Total GPUs ="$(($SLURM_GPUS * $SLURM_NNODES))
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
 
-python main.py \
-  --dataset ogbn-papers100M \
-  --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
-  --model garphsage \
-  --sampling NS \
-  --dropout 0.5 \
-  --lr 0.001 \
-  --n-epochs 100 \
-  --n-gpus 4 \
-  --n-layers 2 \
-  --n-hidden 128 \
-  --batch-size 4096 \
-  --fanout 5 \
-  --patience 200 \
-  --agg mean \
-  --log-every 2 \
-  --seed 42 \
-  # --mode puregpu \
+# for n_layers in 2 3 4 5 6
+# do
+#   for n_hidden in 64 128 256 512 1024
+#   do 
+#     for batch_size in 512 1024 2048 4096
+#     do
+#       for fanout in 5 10 15 20 25
+#       do  
+
+for n_gpus in 1 2 3 4
+do
+  python main.py \
+    --dataset ogbn-papers100M \
+    --dataset-subgraph-path /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/subgraph/ogbn-papers100M_frac_100.0_hops_2_subgraph.bin \
+    --model graphsage \
+    --sampling NS \
+    --dropout 0.3 \
+    --lr 0.003 \
+    --n-epochs 200 \
+    --n-gpus $n_gpus \
+    --n-layers 2 \
+    --n-hidden 128 \
+    --num-heads 2 \
+    --batch-size 1024 \
+    --fanout 5 \
+    --patience 200 \
+    --agg mean \
+    --log-every 10 \
+    --seed 42 \
+    --mode puregpu
+  done
+  #     done
+  #   done
+  # done

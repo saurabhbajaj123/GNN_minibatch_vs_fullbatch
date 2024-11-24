@@ -3,14 +3,9 @@
 #SBATCH --job-name products   ## name that will show up in the queue
 #SBATCH --gpus=4
 #SBATCH --mem=250GB
-#SBATCH --time=0-00:20:00  ## time for analysis (day-hour:min:sec)
-#SBATCH --partition=gpu-preempt
-#SBATCH --constraint=intel8480
-#SBATCH --exclude=superpod-gpu[001-005]
+#SBATCH --time=0-20:00:00  ## time for analysis (day-hour:min:sec)
+#SBATCH --partition=gypsum-m40
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=112  # cpu-cores per task
-#SBATCH --reservation=hgxbenchmark
-#SBATCH -A pi_mserafini_umass_edu
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 

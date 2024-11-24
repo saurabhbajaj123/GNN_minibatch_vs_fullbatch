@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=products-dist      # create a short name for your job
+#SBATCH --job-name=reddit-dist      # create a short name for your job
 #SBATCH --nodes=1                # node count
 #SBATCH --ntasks-per-node=1      # total number of tasks per node
-#SBATCH --mem=250G                # total memory per node (4 GB per cpu-core is default)
+#SBATCH --mem=100G                # total memory per node (4 GB per cpu-core is default)
 #SBATCH --partition=cpu
 #SBATCH --time=04:00:00          # total run time limit (HH:MM:SS)
 
@@ -37,7 +37,7 @@ python3 /work/sbajaj_umass_edu/dgl/tools/launch.py \
 --num_trainers $n_partitions \
 --num_samplers 0 \
 --num_servers 1 \
---part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/ogbn-products-1-metis-vol-trans/ogbn-products-1-metis-vol-trans.json \
+--part_config /work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/partitions/reddit-1-metis-vol-trans/reddit-1-metis-vol-trans.json \
 --ip_config ip_config.txt \
-"/work/sbajaj_umass_edu/GNNEnv/bin/python3 node_classification.py --dataset ogbn-products --graph_name ogbn-products-1-metis-vol-trans --ip_config ip_config.txt --num_epochs 200 --batch_size 1024 --num_hidden 256 --num_layers 5 --fan_out 5,5,5,5,5 --eval_every 2"
+"/work/sbajaj_umass_edu/GNNEnv/bin/python3 node_classification.py --dataset reddit --graph_name reddit-1-metis-vol-trans --ip_config ip_config.txt --num_epochs 200 --batch_size 1024 --num_hidden 1024 --num_layers 4 --fan_out 5,5,5,5 --eval_every 2"
 done
