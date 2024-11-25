@@ -39,4 +39,41 @@ Please go to the official repositories of the systems for updated code:
 - [OGB 1.3.6](https://ogb.stanford.edu/docs/home/)
 
 
-## Directory Structure
+### Installation
+
+#### PipeGCN
+Follow the steps on the PipeGCN repository [https://github.com/GATECH-EIC/PipeGCN]
+```
+git clone https://github.com/GATECH-EIC/PipeGCN.git
+```
+#### BNS-GCN
+```
+git clone https://github.com/GATECH-EIC/BNS-GCN.git
+```
+
+#### Quiver
+```
+git clone https://github.com/quiver-team/torch-quiver.git && cd torch-quiver
+QUIVER_ENABLE_CUDA=1 python setup.py install
+```
+
+#### DistDGL
+
+#### AdaQP
+Follow the steps in the repository () to install AdaQP
+
+### Datasets
+We run our experiments on the following datasets:
+- [ogbn datasets](https://ogb.stanford.edu/docs/nodeprop/)
+    - ogbn-arxiv
+    - ogbn-products
+    - ogbn-papers100M
+- [reddit](https://snap.stanford.edu/graphsage/#datasets)
+- [pubmed](https://linqs.org/datasets/#pubmed-diabetes)
+- [Orkut](https://snap.stanford.edu/data/com-Orkut.html)
+
+
+Experiments
+
+
+
