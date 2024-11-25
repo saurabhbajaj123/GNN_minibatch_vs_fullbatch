@@ -15,4 +15,21 @@ Please go to the official repositories of the systems for updated code:
 - DGL - https://github.com/dmlc/dgl/tree/master/examples/multigpu (https://github.com/dmlc/dgl/tree/master/examples/pytorch)
 - DistDGL - https://github.com/dmlc/dgl/tree/master/examples/distributed
 
+### Environment
 
+#### Hardware Dependencies
+
+- A X86-CPU machine with at least 120 GB host memory 
+- At least five Nvidia GPUs (at least 11 GB each)
+
+#### Software Dependencies
+
+- Ubuntu 18.04
+- Python 3.9.12
+- CUDA 11.8
+- [PyTorch 2.0.1](https://github.com/pytorch/pytorch)
+- [DGL 1.1.2+cu118](https://github.com/chwan-rice/dgl)
+- [OGB 1.3.6](https://ogb.stanford.edu/docs/home/)
+
+
+## Directory Structure
