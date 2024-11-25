@@ -68,12 +68,25 @@ We run our experiments on the following datasets:
     - ogbn-arxiv
     - ogbn-products
     - ogbn-papers100M
-- [reddit](https://snap.stanford.edu/graphsage/#datasets)
-- [pubmed](https://linqs.org/datasets/#pubmed-diabetes)
+- [Reddit](https://snap.stanford.edu/graphsage/#datasets)
+- [Pubmed](https://linqs.org/datasets/#pubmed-diabetes)
 - [Orkut](https://snap.stanford.edu/data/com-Orkut.html)
 
 
-Experiments
+### Experiments
 
+#### Figure 3
+This figure shows the test accuracy for different datasets and different systems. To reproduce this figure, you need to run the training script for all the systems and datasets. Save the test accuracy in a csv file and plot it using the plot_figure3.py script.
+
+Follow these steps to run the training script for each <dataset> and <system>:
+<system> = {PipeGCN, BNS-GCN, DGL/DGL_reference_implementation/Distributed/MultiGPU, pytorch_geometric/quiver1}
+<dataset> = {reddit, ogbn-arxiv, ogbn-products, ogbn-papers100M, pubmed, orkut}
+```
+cd <system>/
+bash scripts/<dataset>.sh
+```
+The bash script arguments can be changed according to the desired experimental settings.
+
+Save the test accuracies in a csv file and then plot the figure using the plotting/plot_figure3.py script.
 
 
