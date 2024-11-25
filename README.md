@@ -92,3 +92,7 @@ Save the test accuracies in a csv file and then plot the figure using the plotti
 python plotting/plot_figure3_and_4.py
 ```
 
+#### Figure 7
+#### Figure 8
+#### Figure 9
+
