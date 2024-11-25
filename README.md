@@ -19,8 +19,15 @@ Please go to the official repositories of the systems for updated code:
 
 #### Hardware Dependencies
 
-- A X86-CPU machine with at least 120 GB host memory 
-- At least five Nvidia GPUs (at least 11 GB each)
+- Single host experiments: 4 GPUs
+- Multi-host experiments: 3 hosts with 4 GPUs each
+- Lower end experiments:
+    - m40 GPUs with 24GB memory
+    - 2 Intel Xeon E5-2620 v3 CPUs with 12 cores each, 256GB of host memory
+- Higher end experiments: 
+    - a100 GPUs with 80GB memory
+    - 2 Intel Xeon Platinum 8480+ CPUs with 56 cores each, 256GB of host memory
+
 
 #### Software Dependencies
 
