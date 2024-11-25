@@ -87,6 +87,8 @@ bash scripts/<dataset>.sh
 ```
 The bash script arguments can be changed according to the desired experimental settings.
 
-Save the test accuracies in a csv file and then plot the figure using the plotting/plot_figure3.py script.
-
+Save the test accuracies in a csv file and then plot the figure using the plotting/plot_figure3_and_4.py script.
+```
+python plotting/plot_figure3_and_4.py
+```
 
