@@ -39,10 +39,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_area_auto_adjustable
 import numpy as np
-# pubmed = [6.452156668, 6.256353591, 6.332669323]
-# arxiv = [0.1233945153,  0.1824318829, 0.1910933683]
-# reddit = [0.1239705044, 0.116133746, 0.1149538204]
-# products = [0.04432491351, 0.04626034872, 0.04922381626]
+
 config= {
     'pubmed' : {
         'n_layers': 3,
