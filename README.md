@@ -97,7 +97,14 @@ python plotting/plot_figure3_and_4.py
 ```
 
 #### Figure 7
-This figure shows the FG/MB ratio of communication cost. To reproduce the figure, run the following command:
+This figure shows the FG/MB ratio of communication cost. 
+To calculate the data transfer in MB, follow this repository [simulate_minibatch_dataload](https://github.com/juelinl/pebble).
+To calculate the data transfer in FG, we use the metis_partition_assignment function in DGL to obtain the vertex transfered out of each GPU and then calculate the data transfer by summing up the number of edges transfered out of each GPU. 
+To obtain the vertex transfered out of each GPU, we use the following script:
+```
+python cross_gpu_data_transfer.py
+```
+To reproduce the figure, run the following command:
 ```
 python plotting/data_transfer_plot.py
 ```
