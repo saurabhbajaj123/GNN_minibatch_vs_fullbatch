@@ -209,13 +209,26 @@ class GraphSAGE(nn.Module):
         self.activation = activation
 
     def forward(self, blocks, x):
+        total_edges = 0
+        total_dst_nodes = 0
+        total_flops = 0
         h = x
         for l, (layer, block) in enumerate(zip(self.layers, blocks)):
+            # print(f'block = {block.num_dst_nodes()}')
+            # print(f"block = {block.num_edges()}")
+            # total_edges += block.num_edges()
+            # total_dst_nodes += block.num_dst_nodes()
+            F_in = h.shape[1]
             h = layer(block, h)
+            F_out = h.shape[1]
+            # print(f"F_in = {F_in}, F_out = {F_out}")
             if l != len(self.layers) - 1:
                 h = self.activation(h)
                 h = self.dropout(h)
-        return h
+        # print(f"total_edges in the model= {total_edges}")
+            total_flops += calculate_graphsage_flops_full_graph_per_layer(F_in, F_out, block.num_edges(), block.num_dst_nodes())
+        # print(f"total_flops = {total_flops}")
+        return h, torch.tensor(total_flops)
 
     # def forward(self, mfgs, x):
     #     h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
@@ -316,6 +329,7 @@ class GCN(nn.Module):
             if i != 0:
                 h = self.dropout(h)
             h = layer(g, h)
+
         return h
 
 
@@ -337,12 +351,18 @@ class NSGCN(nn.Module):
     
     def forward(self, blocks, x):
         h = x
+        total_flops = 0
         for l, (layer, block) in enumerate(zip(self.layers, blocks)):
+            F_in = h.shape[1]
             h = layer(block, h)
+            F_out = h.shape[1]
+
+            total_flops += gcn_flops(F_in, F_out, block.num_edges(), block.num_dst_nodes())
+
             if l != len(self.layers) - 1:
                 h = self.activation(h)
                 h = self.dropout(h)
-        return h
+        return h, total_flops
 
     # def forward(self, mfgs, x):
     #     h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
@@ -427,21 +447,31 @@ class NSGAT(nn.Module):
         # h_dst = x[:mfgs[0].num_dst_nodes()]  # <---
         # h = self.layers[0](mfgs[0], x)
         h = x
+        total_flops = 0
         for i in range(self.n_layers - 1):
             # h_dst = h[:mfgs[i].num_dst_nodes()]  # <---
             # print(mfgs[i], h.shape)
+            F_in = h.shape[-1]
             h = self.layers[i](mfgs[i], h)
+            F_out = h.shape[-1]
+            # print(self.layers[i].num_heads())
+            # print(self.layers[i].num_heads)
             # h = F.relu(h)
             # h = self.activation(h)
             # h = self.dropout(h)
             h = h.flatten(1)
+            total_flops += gat_flops(F_in, F_out, mfgs[i].num_edges(), mfgs[i].num_dst_nodes(), self.num_heads)
 
+        F_in = h.shape[-1]
         # h_dst = h[:mfgs[-1].num_dst_nodes()]  # <---
         h = self.layers[-1](mfgs[-1], h)
+        F_out = h.shape[-1]
+        total_flops += gat_flops(F_in, F_out, mfgs[i].num_edges(), mfgs[i].num_dst_nodes(), self.num_heads)
+
         # print(h.shape)
         h = h.mean(1)
         # print(h.shape)
-        return h
+        return h, total_flops
 
 
     def inference(self, g, device, batch_size, use_uva):
@@ -494,3 +524,19 @@ class NSGAT(nn.Module):
         g.ndata.pop("h")
         return y
 
+
+
+def calculate_graphsage_flops_full_graph_per_layer(F_in, F_out, num_edges, num_dst):
+    n1 = (num_dst + num_edges)
+    n2 = (2*num_dst + num_edges)
+    total_flops = 0
+    total_flops += 2 * n1 * F_in * F_out  # Matrix multiplication
+    total_flops += n2 * F_out  # Aggregation
+    total_flops = num_dst*(4*F_in*F_out) + num_edges*2*F_in
+    return total_flops / 1e12
+
+def gat_flops(F_in, F_out, num_edges, num_dst, num_heads):
+    return num_heads * (num_edges)*(6*F_in*F_out + 6*F_out + 2) / 1e12
+
+def gcn_flops(F_in, F_out, num_edges, num_dst):
+    return (2*F_in*num_edges + 2*F_in*F_out*num_dst + num_dst*F_in)/1e12

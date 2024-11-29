@@ -13,6 +13,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchmetrics.functional as MF
 from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingWarmRestarts
+import torchprofile
+import psutil
+
 
 import tqdm
 from dgl.data import AsNodePredDataset
@@ -29,6 +32,7 @@ from parser import create_parser
 import warnings
 warnings.filterwarnings("ignore")
 
+import pandas as pd
 # from torch.utils.tensorboard import SummaryWriter
 # writer = SummaryWriter()
 
@@ -46,7 +50,8 @@ def evaluate(model, g, n_classes, dataloader):
         with torch.no_grad():
             x = blocks[0].srcdata["feat"]
             ys.append(blocks[-1].dstdata["label"])
-            y_hats.append(model(blocks, x))
+            y_pred, _ = model(blocks, x)
+            y_hats.append(y_pred)
     return MF.accuracy(
         torch.cat(y_hats),
         torch.cat(ys),
@@ -86,6 +91,23 @@ def whole_infer(proc_id, device, model, g, nid, n_classes):
         print("Test accuracy {:.4f}".format(acc.item()))
         return acc.item()
 
+def print_memory(s):
+    torch.cuda.synchronize()
+    print(s + ': current {:.2f}MB, peak {:.2f}MB, reserved {:.2f}MB'.format(
+        torch.cuda.memory_allocated() / 1024 / 1024,
+        torch.cuda.max_memory_allocated() / 1024 / 1024,
+        torch.cuda.memory_reserved() / 1024 / 1024
+    ))
+    return torch.cuda.max_memory_allocated() / 1024 / 1024
+
+# def print_memory(s):
+#     torch.cuda.synchronize()
+#     print(f"cpu memory  = {psutil.virtual_memory()}")
+#     print(s + ': current {:.2f}MB, peak {:.2f}MB, reserved {:.2f}MB'.format(
+#         torch.cuda.memory_allocated() / 1024 / 1024,
+#         torch.cuda.max_memory_allocated() / 1024 / 1024,
+#         torch.cuda.memory_reserved() / 1024 / 1024
+#     ))
 
 def train(
     proc_id,
@@ -166,24 +188,35 @@ def train(
     val_acc = 0
     test_acc = 0
 
+    sampling_microbatch_accumulator = []
+    train_microbatch_accumulator = []
+    backward_pass_accumulator = []
+
+    # print("start training")
+
     for epoch in range(n_epochs):
-        t0 = time.time()
+        print('epoch ', epoch)
+        # total_edges = torch.tensor(0)
+        # total_dst_nodes = torch.tensor(0)
+        total_flops = torch.tensor(0.0)
+
+        # print(f"total_flops = {total_flops}, type = {type(total_flops)}")
         model.train()
         total_loss = 0
         number_of_batches = 0
-        # timers  = [torch.cuda.Event(enable_timing=True) for _ in range(10)]
-        # sampling_microbatch_accumulator = []
-        # train_microbatch_accumulator = []
+        timers  = [torch.cuda.Event(enable_timing=True) for _ in range(10)]
         # d = iter(train_dataloader)
+        # print(f"d = {d}")
+        t0 = time.time()
         # try:
-            # while d:
+        # while d:
+        timers[0].record()
         for it, (_, _,blocks) in enumerate(train_dataloader):
             # print(d)
             # timers[0].record()
             # _,_,blocks = next(d)
             # timers[1].record()
 
-            # timers[2].record()
             # start_micro_batch_time = time.time()
 
             number_of_batches += 1
@@ -194,38 +227,120 @@ def train(
             except:
                 y = y.to(torch.int64)
 
-            y_hat = model(blocks, x)
+            # timers[2].record()
+            y_hat, flops = model(blocks, x)
+            # print(f"edges = {edges}")
+            # flops = torchprofile.profile_macs(model, args=[blocks, x])
+
+
+            # timers[3].record()
+            # timers[4].record()
             loss = F.cross_entropy(y_hat, y)
+
             opt.zero_grad()
             loss.backward()
             opt.step()  # Gradients are synchronized in DDP
+            # timers[5].record()
             total_loss += loss
-            # timers[3].record()
+
             # timers[3].synchronize()
             # timers[5].synchronize()
-            # sampling_microbatch = timers[0].elapsed_time(timers[1])/1000
-            # train_microbatch = timers[2].elapsed_time(timers[3])/1000
-            # print(f"sampling_microbatch = {sampling_microbatch}")
-            # microbatch_train_time = timers[1].elapsed_time(timers[2])/1000
-            # print(f"microbatch_train_time = {microbatch_train_time}")
-            # sampling_microbatch_accumulator.append(sampling_microbatch)
-            # train_microbatch_accumulator.append(train_microbatch)
-            # print(f"sampling_microbatch = {sampling_microbatch}, train_microbatch = {train_microbatch}")
-        # except:
-        #     pass
+            # if epoch > 5:
+            #     sampling_microbatch = timers[0].elapsed_time(timers[1])/1000
+            #     train_microbatch = timers[2].elapsed_time(timers[3])/1000
+            #     backward_pass = timers[4].elapsed_time(timers[5])/1000
+            #     sampling_microbatch_accumulator.append(sampling_microbatch)
+            #     train_microbatch_accumulator.append(train_microbatch)
+            #     backward_pass_accumulator.append(backward_pass)
+            #     total = sampling_microbatch + train_microbatch + backward_pass
+                # print(f"sampling_microbatch = {sampling_microbatch}, train_microbatch = {train_microbatch}, backward_pass = {backward_pass}")
+                # print(f"sampling_microbatch fraction = {sampling_microbatch/total}, train_microbatch = {train_microbatch/total}, backward_pass = {backward_pass/total}")
+            # # total_edges += edges
+            # # total_dst_nodes += dst_nodes
+            # # print(f"flops = {flops}, type = {type(flops)}")
+            total_flops += flops
+            # # print(f"rank = {proc_id}, total_edges = {total_edges}")
+            # timers[0].record()
 
+        # except Exception as e:
+        #     print("error: ", e)
+        #     continue
+        dist.barrier()
+        dist.all_reduce(total_flops, op=dist.ReduceOp.SUM)
+        dist.barrier()
+        print(f"total_flops = {total_flops}")
+        if proc_id == 0 and epoch <= 1: 
+            data = {
+                'n_layers': [args.n_layers],
+                'n_hidden': [args.n_hidden],
+                'fanout': [args.fanout],
+                'batch_size': [args.batch_size],
+                'n_gpus': [args.n_gpus],
+                'total_flops': [total_flops.item()]
+                # 'total_dst_nodes': [total_dst_nodes.item()], 
+                # 'total_edges': [total_edges.item()]
+
+            }
+            df = pd.DataFrame(data)
+            print(df)
+            file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/{args.dataset}_{args.model}_flops.csv'
+            try:
+                df.to_csv(file_path, mode='a', index=False, header=False)
+            except Exception as e:
+                print(e)
+        #     print(f"layers = {args.n_layers}, n_hidden = {args.n_hidden}, fanout = {args.fanout}, batch_size = {args.batch_size}")
+        #     # print(f"total_dst_nodes = {total_dst_nodes}, total_edges = {total_edges}")
+        #     print(f"total_flops = {total_flops}")
+        dist.barrier()
+
+
+
+
+        # return 
+        # wandb.log(
+        #     {
+        #         'total_edges': total_edges
+        #     }
+        # )
         # if proc_id == 0: 
         #     print(f"micro batches per gpu = {number_of_batches}")
         #     print(f"sampling timers avg = {np.mean(sampling_microbatch_accumulator[int(0.2*len(sampling_microbatch_accumulator)):])}")
         #     print(f"train timers avg = {np.mean(train_microbatch_accumulator[int(0.2*len(train_microbatch_accumulator)):])}")
+        # peak_mem = print_memory("after_forward and backward pass")
+        # peak_mem = torch.tensor(peak_mem)
+
+
+
+        # dist.barrier()
+        # dist.all_reduce(peak_mem, op=dist.ReduceOp.SUM)
+        # dist.barrier()
+        # if proc_id == 0: 
+        #     data = {
+        #     'n_layers': [args.n_layers],
+        #     'n_hidden': [args.n_hidden],
+        #     'fanout': [args.fanout],
+        #     'batch_size': [args.batch_size],
+        #     'n_gpus': [args.n_gpus],
+        #     'peak_mem': [peak_mem],
+        #     }
+        #     df = pd.DataFrame(data)
+        #     print(df)
+        #     file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/{args.dataset}_mem.csv'
+        #     try:
+        #         df.to_csv(file_path, mode='a', index=False, header=False)
+        #     except Exception as e:
+        #         print(e)
+
+        
         t1 = time.time()
         train_time += t1 - t0
         train_dur.append(t1-t0)
-        if proc_id == 0: print(f"Train time = {t1 - t0}")
-        # continue
-        # scheduler.step()
-        # scheduler2.step(best_val_acc)
-        # print(f"train time = {t1 - t0}")
+        
+        # if proc_id == 0: print(f"Train time = {t1 - t0}")
+        # # continue
+        # # scheduler.step()
+        # # scheduler2.step(best_val_acc)
+        # # print(f"train time = {t1 - t0}")
         if (epoch + 1) % args.log_every == 0:
             train_acc = (
                 evaluate(model, g, n_classes, train_dataloader).to(device) / nprocs
@@ -281,20 +396,57 @@ def train(
                     })
 
         
-        dist.barrier()
+        # dist.barrier()
 
-        break_condition = False
-        if epoch > 50 and no_improvement_count >= args.patience:
-            break_condition = True
-        dist.barrier()
-        break_condition_tensor = torch.tensor(int(break_condition)).cuda()
-        dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.BOR)
-        break_condition = bool(break_condition_tensor.item())
-        # print(break_condition)
-        if break_condition:
-            print(f'Early stopping after {epoch + 1} epochs.')
-            break
-    
+        # break_condition = False
+        # if epoch > 50 and no_improvement_count >= args.patience:
+        #     break_condition = True
+        # dist.barrier()
+        # break_condition_tensor = torch.tensor(int(break_condition)).cuda()
+        # dist.all_reduce(break_condition_tensor, op=dist.ReduceOp.BOR)
+        # break_condition = bool(break_condition_tensor.item())
+        # # print(break_condition)
+        # if break_condition:
+        #     print(f'Early stopping after {epoch + 1} epochs.')
+        #     break
+    # peak_mem = print_memory("after training")
+
+    # print(f"train time = {np.mean(train_dur[int(0.2*len(train_dur)):])}")
+    # sample_avg = torch.tensor(np.mean(sampling_microbatch_accumulator))
+    # forward_avg = torch.tensor(np.mean(train_microbatch_accumulator))
+    # backward_avg = torch.tensor(np.mean(backward_pass_accumulator))
+    # total_avg = sample_avg + forward_avg + backward_avg
+    # print(f"avg_sampling_microbatch = {sample_avg}, avg_train_microbatch = {forward_avg}, backward_pass_accumulator = {backward_avg}")
+    # print(f"avg_sampling_microbatch frac = {sample_avg/(total_avg)}, avg_train_microbatch frac = {forward_avg/total_avg}, backward_pass_accumulator frac = {backward_avg/total_avg}")
+    # dist.barrier()
+    # dist.all_reduce(sample_avg, op=dist.ReduceOp.SUM)
+    # dist.all_reduce(forward_avg, op=dist.ReduceOp.SUM)
+    # dist.all_reduce(backward_avg, op=dist.ReduceOp.SUM)
+    # dist.all_reduce(total_avg, op=dist.ReduceOp.SUM)
+    # dist.barrier()
+    # if proc_id == 0: 
+    #     data = {
+    #         'n_layers': [args.n_layers],
+    #         'n_hidden': [args.n_hidden],
+    #         'fanout': [args.fanout],
+    #         'batch_size': [args.batch_size],
+    #         'n_gpus': [args.n_gpus],
+    #         'sampling': [sample_avg.item()/args.n_gpus],
+    #         'forwad': [forward_avg.item()/args.n_gpus],
+    #         'backward': [backward_avg.item()/args.n_gpus],
+    #         'total': [total_avg.item()/args.n_gpus],
+    #         'sampling_frac': [sample_avg.item()/(total_avg.item())],
+    #         'forwad_frac': [forward_avg.item()/(total_avg.item())],
+    #         'backward_frac': [backward_avg.item()/(total_avg.item())],
+    #     }
+    #     df = pd.DataFrame(data)
+    #     print(df)
+    #     file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/{args.dataset}_time.csv'
+    #     try:
+    #         df.to_csv(file_path, mode='a', index=False, header=False)
+    #     except Exception as e:
+    #         print(e)
+
     # train_dur_sum_tensor = torch.tensor(np.sum(train_dur)).cuda()
     # dist.reduce(train_dur_sum_tensor, 0)
     # train_dur_sum = train_dur_sum_tensor.item() / args.n_gpus 
@@ -310,17 +462,17 @@ def train(
 
     # print(train_dur_sum)
     if proc_id == 0:
-        print(
-            "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
-        )
+        # print(
+        #     "Epoch {:05d} | Time per epoch {:.4f} | Time to train {:.4f} | Time to eval {:.4f}".format(epoch, train_dur_mean, train_dur_sum, eval_dur_sum)
+        # )
 
         print(f"best val acc = {best_val_acc} | best test acc = {best_test_acc}")
 
         wandb.log({
             "epoch": epoch,
-            "Time_per_epoch": train_dur_mean,
-            "Time_to_train": train_dur_sum,
-            "Time_to_eval": eval_dur_sum,
+            # "Time_per_epoch": train_dur_mean,
+            # "Time_to_train": train_dur_sum,
+            # "Time_to_eval": eval_dur_sum,
             "torch seed": torch.initial_seed()  & ((1<<63)-1),
 
         })
@@ -330,7 +482,7 @@ def train(
 # def run(proc_id, nprocs, devices, g, data, args):
 def run(proc_id, nprocs, devices, g_or_n_data, data, args):
     # find corresponding device for my rank
-    device = devices[proc_id]
+    device = devices[proc_id] % 4
     torch.cuda.set_device(device)
     if args.seed:
         torch.manual_seed(args.seed)
@@ -346,6 +498,8 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
         g = dgl.hetero_from_shared_memory("train_graph")
         g.ndata['label'] = g_or_n_data['label']
         g.ndata['feat'] = g_or_n_data['feat']
+        g = g.to(device if args.mode == "puregpu" else "cpu")  
+
     else:
         g = g_or_n_data
         del g.ndata['val_mask']
@@ -384,13 +538,7 @@ def run(proc_id, nprocs, devices, g_or_n_data, data, args):
     )
     # training + testing
 
-    def print_memory(s):
-        torch.cuda.synchronize()
-        print(s + ': current {:.2f}MB, peak {:.2f}MB, reserved {:.2f}MB'.format(
-            torch.cuda.memory_allocated() / 1024 / 1024,
-            torch.cuda.max_memory_allocated() / 1024 / 1024,
-            torch.cuda.memory_reserved() / 1024 / 1024
-        ))
+
     # print_memory("before train function")
     use_uva = args.mode == "mixed"
     train(

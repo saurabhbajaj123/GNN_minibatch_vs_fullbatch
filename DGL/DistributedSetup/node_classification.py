@@ -4,6 +4,7 @@ import argparse
 import socket
 import time
 
+import pandas as pd
 import os
 import dgl
 import dgl.nn.pytorch as dglnn
@@ -15,13 +16,23 @@ import torch.nn.functional as F
 import torch.optim as optim
 import tqdm
 import torch.distributed as dist
-import wandb
-wandb.login()
+# import wandb
+# wandb.login()
 import warnings
 warnings.filterwarnings("ignore")
-os.environ["WANDB__SERVICE_WAIT"] = "300"
+# os.environ["WANDB__SERVICE_WAIT"] = "300"
 os.environ["DGLDEFAULTDIR"] = "/work/sbajaj_umass_edu/.dgl"
 os.environ["DGL_DOWNLOAD_DIR"] = "/work/sbajaj_umass_edu/.dgl"
+
+
+def calculate_graphsage_flops_full_graph_per_layer(F_in, F_out, num_edges, num_dst):
+    n1 = (num_dst + num_edges)
+    n2 = (2*num_dst + num_edges)
+    total_flops = 0
+    total_flops += 2 * n1 * F_in * F_out  # Matrix multiplication
+    total_flops += n2 * F_out  # Aggregation
+    return total_flops / 1e12
+
 
 class DistSAGE(nn.Module):
     """
@@ -70,12 +81,18 @@ class DistSAGE(nn.Module):
             Feature data.
         """
         h = x
+        total_flops = 0
         for i, (layer, block) in enumerate(zip(self.layers, blocks)):
+            F_in = h.shape[1]
             h = layer(block, h)
+            F_out = h.shape[1]
+
             if i != len(self.layers) - 1:
                 h = self.activation(h)
                 h = self.dropout(h)
-        return h
+            total_flops += calculate_graphsage_flops_full_graph_per_layer(F_in, F_out, block.num_edges(), block.num_dst_nodes())
+        
+        return h, torch.tensor(total_flops)
 
     def inference(self, g, x, batch_size, device):
         """
@@ -262,6 +279,13 @@ def run(args, device, data):
     test_acc = 0.0
     best_val_acc, best_test_acc = 0, 0
     no_improvement_count = 0
+
+
+    
+    sampling_microbatch_accumulator = []
+    train_microbatch_accumulator = []
+    backward_pass_accumulator = []
+
     for epoch in range(args.num_epochs):
         # epoch += 1
         # Various time statistics.
@@ -274,9 +298,15 @@ def run(args, device, data):
         step_time = []
         start = time.time()
         tic = time.time()
-
+        total_flops = torch.tensor(0.0)
+        # timers  = [torch.cuda.Event(enable_timing=True) for _ in range(10)]
+        timers_0 = time.time()
+        # d = iter(dataloader)
         with model.join():
             for step, (input_nodes, seeds, blocks) in enumerate(dataloader):
+                
+                # (input_nodes, seeds, blocks) = next(d)    
+                timers_1 = time.time()
                 # tic_step = time.time()
                 # sample_time += tic_step - start
                 # Slice feature and label.
@@ -292,11 +322,15 @@ def run(args, device, data):
                 batch_labels = batch_labels.to(device)
                 # Compute loss and prediction.
                 # start = time.time()
-                batch_pred = model(blocks, batch_inputs)
+                timers_2 = time.time()
+                batch_pred, flops = model(blocks, batch_inputs)
+                timers_3 = time.time()
+
                 # if epoch == 0: print(f"epoch = {epoch} batch_pred = {batch_pred}")
                 loss = loss_fcn(batch_pred, batch_labels)
                 # if epoch == 0: print(f"epoch = {epoch} loss = {loss}")
                 # forward_end = time.time()
+                timers_4 = time.time()
                 optimizer.zero_grad()
                 loss.backward()
                 # compute_end = time.time()
@@ -304,9 +338,20 @@ def run(args, device, data):
                 # backward_time += compute_end - forward_end
 
                 optimizer.step()
+                timers_5 = time.time()
                 # update_time += time.time() - compute_end
+                if epoch > 5 and epoch <= 20:
+                    sampling_microbatch = timers_1 - timers_0
+                    train_microbatch = timers_3 - timers_2
+                    backward_pass = timers_5 - timers_4
+                    sampling_microbatch_accumulator.append(sampling_microbatch)
+                    train_microbatch_accumulator.append(train_microbatch)
+                    backward_pass_accumulator.append(backward_pass)
+                    total = sampling_microbatch + train_microbatch + backward_pass
+                    # print(f"sampling_microbatch = {sampling_microbatch}, train_microbatch = {train_microbatch}, backward_pass = {backward_pass}")
+                    # print(f"sampling_microbatch fraction = {sampling_microbatch/total}, train_microbatch = {train_microbatch/total}, backward_pass = {backward_pass/total}")
 
-                
+                total_flops += flops
 
                 # step_t = time.time() - tic_step
                 # step_time.append(step_t)
@@ -328,6 +373,35 @@ def run(args, device, data):
                 #         f"Mean step time {mean_step_time:.3f} s"
                 #     )
                 # start = time.time()
+                timers_0 = time.time()
+            # except:
+            #     continue
+        # dist.barrier()
+        # dist.all_reduce(total_flops, op=dist.ReduceOp.SUM)
+        # dist.barrier()
+        # print(f"total_flops = {total_flops}")
+        # if g.rank() == 0: 
+        #     data = {
+        #         'n_layers': [args.num_layers],
+        #         'n_hidden': [args.num_hidden],
+        #         'fanout': [args.fan_out],
+        #         'batch_size': [args.batch_size],
+        #         'n_gpus': [th.distributed.get_world_size()],
+        #         'total_flops': [total_flops.item()]
+        #         # 'total_dst_nodes': [total_dst_nodes.item()], 
+        #         # 'total_edges': [total_edges.item()]
+
+        #     }
+        #     df = pd.DataFrame(data)
+        #     print(df)
+        #     file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DistributedSetup/{args.dataset}_flops.csv'
+        #     try:
+        #         df.to_csv(file_path, mode='a', index=False, header=False)
+        #     except Exception as e:
+        #         print(e)
+        # dist.barrier()
+
+
 
         toc = time.time()
         train_time += toc - tic
@@ -356,7 +430,7 @@ def run(args, device, data):
             )
             print(
                 f"Epoch {epoch}, Part {g.rank()}, Val Acc {val_acc:.4f}, Test Acc {test_acc:.4f}, "
-                f"Epoch time {epoch_time[-1]:.4f}, Eval time: {time.time() - start:.4f}"
+                # f"Epoch time {epoch_time[-1]:.4f}, Eval time: {time.time() - start:.4f}"
             )
 
             # dist.barrier()
@@ -369,24 +443,64 @@ def run(args, device, data):
                     best_val_acc = val_acc
                     best_test_acc = test_acc
 
-                wandb.log({
-                    'val_acc': val_acc,
-                    'test_acc': test_acc,
-                    'best_val_acc': best_val_acc,
-                    'best_test_acc': best_test_acc,
-                    'train_time': train_time,
-                    'total_epoch_time': sum(epoch_time),
-                })
+                # wandb.log({
+                #     'val_acc': val_acc,
+                #     'test_acc': test_acc,
+                #     'best_val_acc': best_val_acc,
+                #     'best_test_acc': best_test_acc,
+                #     'train_time': train_time,
+                #     'total_epoch_time': sum(epoch_time),
+                #     'num_partitions': th.distributed.get_world_size(),
+                # })
                 print(f"Best Val Acc {best_val_acc:.4f}, Best Test Acc {best_test_acc:.4f}")
-        # dist.barrier()
-    wandb.log({
-        'n_layers': args.n_layers,
-        'n_hidden': args.n_hidden,
-        'num_epoch': args.num_epochs,
-        'fanout': args.fan_out,
-        'lr': args.lr,
-    })
-    return np.mean(epoch_time[-int(args.num_epochs * 0.8) :]), test_acc
+        dist.barrier()
+    sample_avg = torch.tensor(np.mean(sampling_microbatch_accumulator))
+    forward_avg = torch.tensor(np.mean(train_microbatch_accumulator))
+    backward_avg = torch.tensor(np.mean(backward_pass_accumulator))
+    total_avg = sample_avg + forward_avg + backward_avg
+    # print(f"avg_sampling_microbatch = {sample_avg}, avg_train_microbatch = {forward_avg}, backward_pass_accumulator = {backward_avg}")
+    # print(f"avg_sampling_microbatch frac = {sample_avg/(total_avg)}, avg_train_microbatch frac = {forward_avg/total_avg}, backward_pass_accumulator frac = {backward_avg/total_avg}")
+
+
+    dist.barrier()
+    dist.all_reduce(sample_avg, op=dist.ReduceOp.SUM)
+    dist.all_reduce(forward_avg, op=dist.ReduceOp.SUM)
+    dist.all_reduce(backward_avg, op=dist.ReduceOp.SUM)
+    dist.all_reduce(total_avg, op=dist.ReduceOp.SUM)
+    dist.barrier()
+    if g.rank() == 0 : 
+        data = {
+            'num_layers': [args.num_layers],
+            'num_hidden': [args.num_hidden],
+            'fan_out': [args.fan_out],
+            'batch_size': [args.batch_size],
+            'num_partitions': [th.distributed.get_world_size()],
+            # 'n_gpus': [args.num_gpus],
+            # 'sampling': [sample_avg.item()/args.num_gpus],
+            # 'forwad': [forward_avg.item()/args.num_gpus],
+            # 'backward': [backward_avg.item()/args.num_gpus],
+            # 'total': [total_avg.item()/args.num_gpus],
+            'sampling_frac': [sample_avg.item()/(total_avg.item())],
+            'forwad_frac': [forward_avg.item()/(total_avg.item())],
+            'backward_frac': [backward_avg.item()/(total_avg.item())],
+        }
+        df = pd.DataFrame(data)
+        print(df)
+        file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DistributedSetup/{args.dataset}_time.csv'
+        try:
+            df.to_csv(file_path, mode='a', index=False, header=False)
+        except Exception as e:
+            print(e)
+    # wandb.log({
+    #     'num_layers': args.num_layers,
+    #     'num_hidden': args.num_hidden,
+    #     'num_epoch': args.num_epochs,
+    #     'fan_out': args.fan_out,
+    #     'lr': args.lr,
+    # })
+
+
+    return #np.mean(epoch_time[-int(args.num_epochs * 0.8) :]), test_acc
 
 
 def main(args):
@@ -396,9 +510,9 @@ def main(args):
     import os
     # os.environ['MASTER_ADDR'] = 'gypsum-gpu069'
     # os.environ['MASTER_PORT'] = '1234'
-    os.environ["GLOO_SOCKET_IFNAME"] = "eno12399" 
-    # os.environ["GLOO_SOCKET_IFNAME"] = 'enp5s0'
-    print(os.environ["GLOO_SOCKET_IFNAME"])
+    # os.environ["GLOO_SOCKET_IFNAME"] = "ens4f1" 
+    # os.environ["GLOO_SOCKET_IFNAME"] = 'enp6s0'
+    # print(os.environ["GLOO_SOCKET_IFNAME"])
     print('entering node_classification')
     host_name = socket.gethostname()
     print(f"{host_name}: Initializing DistDGL.")
@@ -408,6 +522,7 @@ def main(args):
     print(f"{host_name}: Initializing DistGraph.")
     g = dgl.distributed.DistGraph(args.graph_name, part_config=args.part_config)
     print(f"Rank of {host_name}: {g.rank()}")
+    print(f"world size = {th.distributed.get_world_size()}")
 
     print(f"keys of ndata = {g.ndata.keys()}")
     # Split train/val/test IDs for each trainer.
@@ -474,15 +589,18 @@ def main(args):
 
     # Train and evaluate.
 
-    if g.rank() == 0:
-        wandb.init(
-            project="MultiNode-{}-{}-{}".format(args.dataset, 'graphsage', 'NS'),
-        )
+    # if g.rank() == 0:
+        # wandb.init(
+        #     project="MultiNode-{}-{}-{}".format(args.dataset, 'graphsage', 'NS'),
+        # )
 
-        wandb.log({
-            'torch_seed': torch.initial_seed() & ((1<<63)-1) ,
-        })
-    epoch_time, test_acc = run(args, device, data)
+        # wandb.log({
+        #     'torch_seed': torch.initial_seed() & ((1<<63)-1) ,
+        # })
+    # epoch_time, test_acc = run(args, device, data)
+    run(args, device, data)
+    # wandb.finish()
+    return
     print(
         f"Summary of node classification(GraphSAGE): GraphName "
         f"{args.graph_name} | TrainEpochTime(mean) {epoch_time:.4f} "

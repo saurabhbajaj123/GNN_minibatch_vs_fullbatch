@@ -36,6 +36,7 @@ class GraphSAGELayer(nn.Module):
                 self.linear2.bias.data.uniform_(-stdv, stdv)
 
     def forward(self, graph, feat, in_deg):
+        flops = 0
         with graph.local_scope():
             if self.training:
                 if self.use_pp:
@@ -49,6 +50,11 @@ class GraphSAGELayer(nn.Module):
                                            etype='_E')
                     ah = graph.nodes['_V'].data['h'] / degs
                     feat = self.linear1(feat[0:num_dst]) + self.linear2(ah)
+                    # print(f"num_dst = {num_dst}, ah.shape = {ah.shape}, feat.shape = {feat.shape}, len(degs) = {len(degs)}")
+                    # print(f"num_dst = {num_dst}, sum(degs) = {sum(degs)}")
+                    flops = calculate_graphsage_flops_full_graph_per_layer(ah.shape[1], feat.shape[1], degs, num_dst)
+                    # print(f"flops = {flops}")
+                    # flops = gcn_flops(ah.shape[1], feat.shape[1], degs, num_dst)
             else:
                 assert in_deg is None
                 degs = graph.in_degrees().unsqueeze(1)
@@ -60,4 +66,24 @@ class GraphSAGELayer(nn.Module):
                     feat = self.linear(torch.cat((feat, ah), dim=1))
                 else:
                     feat = self.linear1(feat) + self.linear2(ah)
-        return feat
+        return feat, flops
+
+
+
+def calculate_graphsage_flops_full_graph_per_layer(F_in, F_out, in_degs, num_dst):
+    n1 = (num_dst + sum(in_degs))
+    n2 = (2*num_dst + sum(in_degs))
+    total_flops = 0
+    total_flops += 2 * n1 * F_in * F_out  # Matrix multiplication
+    total_flops += n2 * F_out  # Aggregation
+    return total_flops / 1e12
+
+
+def gat_flops(F_in, F_out, in_degs, num_dst, num_heads):
+    num_edges = sum(in_degs)
+
+    return num_heads * (num_edges)*(6*F_in*F_out + 6*F_out + 2) / 1e12
+
+def gcn_flops(F_in, F_out, in_degs, num_dst):
+    num_edges = sum(in_degs)
+    return (2*F_in*num_edges + 2*F_in*F_out*num_dst + num_dst*F_in)/1e12

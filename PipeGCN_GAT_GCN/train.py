@@ -379,7 +379,8 @@ def run(graph, node_dict, gpb, args):
         node_dict.pop('test_mask')
     
     
-    
+    if args.model == 'gat':
+        in_deg = node_dict['in_degree']
     if args.model == 'gcn':
         in_deg = torch.sqrt(node_dict['in_degree'])
         out_deg = torch.sqrt(node_dict['out_degree'])
@@ -395,7 +396,30 @@ def run(graph, node_dict, gpb, args):
         if args.model == 'graphsage':
             logits = model(graph, feat, in_deg)
         elif args.model == 'gat':
-            logits = model(graph, feat)
+            logits, flops = model(graph, feat, in_deg)
+            dist.barrier()
+            print(f"rank = {rank}")
+            print(f"final flops = {flops}")
+            dist.all_reduce(flops,  op=dist.ReduceOp.SUM)
+            if rank == 0: 
+                print(f"final flops = {flops}")
+
+                data = {
+                    'n_layers': [args.n_layers],
+                    'n_hidden': [args.n_hidden],
+                    'n_gpus': [args.n_partitions],
+                    'total_flops': [flops.item()]
+                    # 'total_dst_nodes': [total_dst_nodes.item()], 
+                    # 'total_edges': [total_edges.item()]
+
+                }
+                df = pd.DataFrame(data)
+                print(df)
+                file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/{args.dataset}_{args.model}_flops.csv'
+                try:
+                    df.to_csv(file_path, mode='a', index=False, header=False)
+                except Exception as e:
+                    print(e)
         elif args.model == 'gcn':
             logits = model(graph, feat, in_deg, out_deg)
         else:

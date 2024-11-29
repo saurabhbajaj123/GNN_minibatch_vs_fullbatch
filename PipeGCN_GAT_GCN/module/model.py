@@ -65,6 +65,7 @@ class GAT(GNNBase):
 
     def __init__(self, layer_size, activation, use_pp, heads=1, dropout=0.5, norm='layer', train_size=None, n_linear=0):
         super(GAT, self).__init__(layer_size, activation, use_pp, dropout, norm, n_linear)
+        self.num_heads = heads
         for i in range(self.n_layers):
             if i < self.n_layers - self.n_linear:
                 self.layers.append(dgl.nn.GATConv(layer_size[i], layer_size[i + 1], heads, dropout, dropout))
@@ -76,9 +77,13 @@ class GAT(GNNBase):
                 elif norm == 'batch':
                     self.norm.append(SyncBatchNorm(layer_size[i + 1], train_size))
 
-    def forward(self, g, feat):
+    def forward(self, g, feat, in_deg):
         h = feat
+        flops = torch.tensor(0.0)
         for i in range(self.n_layers):
+            F_in = h.shape[1]
+            num_dst = g.num_nodes('_V')
+
             if i < self.n_layers - self.n_linear:
                 if self.training:
                     if i > 0 or not self.use_pp:
@@ -97,7 +102,11 @@ class GAT(GNNBase):
                 if self.use_norm:
                     h = self.norm[i](h)
                 h = self.activation(h)
-        return h
+            F_out = h.shape[1]
+            print(F_in, F_out, in_deg.device, num_dst, self.num_heads)
+            flops += gat_flops(F_in, F_out, in_deg.to('cpu'), num_dst, self.num_heads)
+            print('flops in the model file', flops)
+        return h, flops
 
     # def forward(self, g, x):
     #     h = x
@@ -168,3 +177,8 @@ class GCN(GNNBase):
                 h = self.activation(h)
 
         return h
+
+
+def gat_flops(F_in, F_out, in_deg, num_dst, num_heads):
+    num_edges = sum(in_deg)
+    return num_heads * (num_edges)*(6*F_in*F_out + 6*F_out + 2) / 1e12

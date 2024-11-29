@@ -24,6 +24,8 @@ class GCNLayer(nn.Module):
             self.linear.bias.data.uniform_(-stdv, stdv)
 
     def forward(self, graph, feat, in_norm, out_norm):
+        flops = 0
+        
         with graph.local_scope():
             if self.training:
                 if self.use_pp:
@@ -101,3 +103,11 @@ class GraphSAGELayer(nn.Module):
                 else:
                     feat = self.linear1(feat) + self.linear2(ah)
         return feat
+
+
+def gat_flops(F_in, F_out, num_edges, num_dst, num_heads):
+    return num_heads * (num_edges)*(6*F_in*F_out + 6*F_out + 2) / 1e12
+
+def gcn_flops(F_in, F_out, in_degs, num_dst):
+    num_edges = sum(in_degs)
+    return (2*F_in*num_edges + 2*F_in*F_out*num_dst + num_dst*F_in)/1e12

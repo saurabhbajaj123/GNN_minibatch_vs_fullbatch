@@ -102,7 +102,7 @@ To calculate the data transfer in MB, follow this repository [simulate_minibatch
 To calculate the data transfer in FG, we use the metis_partition_assignment function in DGL to obtain the vertex transfered out of each GPU and then calculate the data transfer by summing up the number of edges transfered out of each GPU. 
 To obtain the vertex transfered out of each GPU, we use the following script:
 ```
-python cross_gpu_data_transfer.py
+python PipeGCN/cross_gpu_data_transfer.py
 ```
 To reproduce the figure, run the following command:
 ```

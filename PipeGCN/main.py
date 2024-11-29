@@ -9,7 +9,7 @@ import random
 import sys
 
 import wandb
-# wandb.login()
+
 import warnings
 warnings.filterwarnings("ignore")
 from socket import gethostname
@@ -64,7 +64,7 @@ def main():
             args.graph_name = '%s-%d-%s-%s-trans' % (args.dataset, args.n_partitions,
                                                      args.partition_method, args.partition_obj)
     
-    print_memory('before skip partition')
+    # print_memory('before skip partition')
 
     if args.skip_partition:
         if args.n_feat == 0 or args.n_class == 0 or args.n_train == 0:

@@ -184,3 +184,11 @@ DGL/DistributedSetup/ip_config.txt
 
 PipeGCN/original_papers_partitions
 PipeGCN/3_hops_partitions
+
+# csv files
+*.csv
+
+# .txt files
+*.txt
+
+PipeGCN/data_transfer

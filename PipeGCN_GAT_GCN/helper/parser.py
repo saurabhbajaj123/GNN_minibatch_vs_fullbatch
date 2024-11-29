@@ -69,6 +69,7 @@ def create_parser():
     parser.add_argument('--no-eval', action='store_false', dest='eval',
                         help="disable evaluation")
     parser.add_argument("--patience", "--patience", type=int, default=50)
+    parser.add_argument("--dataset-subgraph-path", "--dataset_subgraph_path", type=str, default='')
 
     parser.set_defaults(eval=True)
 

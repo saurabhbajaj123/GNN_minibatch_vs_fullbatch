@@ -40,12 +40,14 @@ class GraphSAGE(GNNBase):
 
     def forward(self, g, feat, in_deg=None):
         h = feat
+        flops = 0
         for i in range(self.n_layers):
             if i < self.n_layers - self.n_linear:
                 if self.training and (i > 0 or not self.use_pp):
                     h = ctx.buffer.update(i, h)
                 h = self.dropout(h)
-                h = self.layers[i](g, h, in_deg)
+                h, fl = self.layers[i](g, h, in_deg)
+                flops += fl
             else:
                 h = self.dropout(h)
                 h = self.layers[i](h)
@@ -55,4 +57,4 @@ class GraphSAGE(GNNBase):
                     h = self.norm[i](h)
                 h = self.activation(h)
 
-        return h
+        return h, flops

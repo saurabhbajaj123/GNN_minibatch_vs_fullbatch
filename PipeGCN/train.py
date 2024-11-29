@@ -12,6 +12,9 @@ import wandb
 import psutil
 from datetime import timedelta
 
+from pthflops import count_ops
+from torch.profiler import profile, record_function, ProfilerActivity
+
 def calc_acc(logits, labels):
     if labels.dim() == 1:
         _, indices = torch.max(logits, dim=1)
@@ -321,7 +324,7 @@ def run(graph, node_dict, gpb, args):
     graph = order_graph(part, graph, gpb, node_dict, pos)
     # print(f"graph = {graph}")
     in_deg = node_dict['in_degree']
-
+    # print(f"in_deg = {in_deg}, rank = {rank}")
     graph, node_dict, boundary = move_train_first(graph, node_dict, boundary)
 
     recv_shape = get_recv_shape(node_dict)
@@ -387,6 +390,7 @@ def run(graph, node_dict, gpb, args):
     # prev_loss = float('inf')
     train_time = 0
     # loss_list = []
+    val_acc = 0
     best_val_loss = float('inf')
     best_test_loss = float('inf')
     best_train_loss = float('inf')
@@ -397,8 +401,43 @@ def run(graph, node_dict, gpb, args):
         t0 = time.time()
         model.train()
         running_loss = 0.0
+        # print_memory('before model call')
+
         if args.model == 'graphsage':
-            logits = model(graph, feat, in_deg)
+
+            # with profile(activities=[ProfilerActivity.CUDA], record_shapes=True, profile_memory=True, use_cuda=True) as prof:
+            #     with record_function("model_inference"):
+            # print(graph.shape, feat.shape, in_deg.shape)
+            # inp = (graph, feat, in_deg)
+            # count_ops(model, inp)
+            # print(feat.shape)
+            # dist.barrier()
+            logits, flops = model(graph, feat, in_deg)
+            dist.barrier()
+            print(f"rank = {rank}")
+            print(f"final flops = {flops}")
+            dist.all_reduce(flops,  op=dist.ReduceOp.SUM)
+            if rank == 0: 
+                print(f"final flops = {flops}")
+
+                data = {
+                    'n_layers': [args.n_layers],
+                    'n_hidden': [args.n_hidden],
+                    'n_gpus': [args.n_partitions],
+                    'total_flops': [flops.item()]
+                    # 'total_dst_nodes': [total_dst_nodes.item()], 
+                    # 'total_edges': [total_edges.item()]
+
+                }
+                df = pd.DataFrame(data)
+                print(df)
+                file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/{args.dataset}_gcn_flops.csv'
+                try:
+                    df.to_csv(file_path, mode='a', index=False, header=False)
+                except Exception as e:
+                    print(e)
+
+
         else:
             raise Exception
         if args.inductive:
@@ -416,9 +455,37 @@ def run(graph, node_dict, gpb, args):
         ctx.reducer.synchronize()
         reduce_time = time.time() - pre_reduce
         optimizer.step()
+
+        peak_mem = print_memory('after optimizer step')
+
+        # peak_mem = torch.tensor(peak_mem)
+        # dist.barrier()
+        # dist.all_reduce(peak_mem, op=dist.ReduceOp.SUM)
+        # dist.barrier()
+        
+        # if rank == 0: 
+        #     print(f"final flops = {flops}")
+
+        #     data = {
+        #         'n_layers': [args.n_layers],
+        #         'n_hidden': [args.n_hidden],
+        #         'n_gpus': [args.n_partitions],
+        #         'peak_mem': [peak_mem]
+        #         # 'total_dst_nodes': [total_dst_nodes.item()], 
+        #         # 'total_edges': [total_edges.item()]
+
+        #     }
+        #     df = pd.DataFrame(data)
+        #     print(df)
+        #     file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/PipeGCN/{args.dataset}_mem.csv'
+        #     try:
+        #         df.to_csv(file_path, mode='a', index=False, header=False)
+        #     except Exception as e:
+        #         print(e)
+        
         t1 = time.time()
         train_time += t1 - t0
-        print(f"Epoch time  = {t1-t0}")
+        # print(f"Epoch time  = {t1-t0}")
         # avg_loss = loss.item() / len(labels)
         # loss_list.append(avg_loss)
         if epoch % args.log_every != 0:
@@ -435,6 +502,10 @@ def run(graph, node_dict, gpb, args):
         del loss
         
         if rank == 0 and args.eval and (epoch + 1) % args.log_every == 0:
+
+            # print(prof.key_averages().table(row_limit=20))
+            # print(prof.key_averages(group_by_input_shape=True).table(sort_by="cpu_time_total", row_limit=10))
+
             # print_memory(f'Epoch = {epoch}')
             if thread is not None:
                 if args.inductive:
@@ -506,6 +577,8 @@ def run(graph, node_dict, gpb, args):
             # break
 
         # prev_loss = avg_loss
+
+    print_memory("after all epochs")
     if args.eval and rank == 0:
         if thread is not None:
             if args.inductive:
@@ -564,6 +637,7 @@ def print_memory(s):
         torch.cuda.max_memory_allocated() / 1024 / 1024,
         torch.cuda.memory_reserved() / 1024 / 1024
     ))
+    return torch.cuda.max_memory_allocated() / 1024 / 1024
 
 def init_processes(rank, size, args):
     """ Initialize the distributed environment. """
