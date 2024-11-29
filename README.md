@@ -62,7 +62,8 @@ QUIVER_ENABLE_CUDA=1 python setup.py install
 #### AdaQP
 Follow the steps in the repository [GNN_MB-FB_Comparison fb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/fb-training) to install and run AdaQP
 
-#### Cluster-GCN and SAINT sampler [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training)
+#### Cluster-GCN and SAINT sampler 
+Follow the steps in the repository [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training)
 
 
 ### Datasets
@@ -102,10 +103,10 @@ python plotting/data_transfer_plot.py
 ```
 
 #### Figure 8
-This figure shows the ratio of the computation cost of FG and MB training for GraphSAGE, GCN and GAT. To reproduce the figure run the training script for different number of partitions/GPUs/workers and save the floating point operations in a csv file in result/compute_cost/ folder.
+This figure shows the ratio of the computation cost of FG (PipeGCN - vanilla) and MB (DGL) training for GraphSAGE, GCN and GAT. To reproduce the figure run the training script for different number of partitions/GPUs/workers and save the floating point operations in a csv file in result/compute_cost/ folder.
 Then run the following command to plot the figure:
 ```
-python plotting/compute_cost_plot.py
+python plotting/flops_plot.py
 ```
 
 #### Figure 9
