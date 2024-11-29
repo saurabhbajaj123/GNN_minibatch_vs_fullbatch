@@ -1,0 +1,788 @@
+{
+    "version": 1,
+    "graph_name": "reddit",
+    "train_mode": "minibatch",
+    "num_node": 232965,
+    "num_edge": 114848857,
+    "cpu_model": "AMD EPYC 7402 24-Core Processor",
+    "feat_width": 602,
+    "batch_size": 1024,
+    "fanouts": [
+        5,
+        5,
+        5,
+        5
+    ],
+    "num_epoch": 1,
+    "num_partition": 1,
+    "results": [
+        {
+            "cache_policy": "in_degree",
+            "results": [
+                {
+                    "cache_percentage": 0,
+                    "num_cached": 0,
+                    "num_hit": 0,
+                    "num_miss": 18555664,
+                    "num_p2p": [
+                        [
+                            0
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        0
+                    ],
+                    "num_loc_miss": [
+                        18555664
+                    ]
+                },
+                {
+                    "cache_percentage": 10,
+                    "num_cached": 23296,
+                    "num_hit": 3301369,
+                    "num_miss": 15254295,
+                    "num_p2p": [
+                        [
+                            3301369
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        3301369
+                    ],
+                    "num_loc_miss": [
+                        15254295
+                    ]
+                },
+                {
+                    "cache_percentage": 20,
+                    "num_cached": 46593,
+                    "num_hit": 6268361,
+                    "num_miss": 12287303,
+                    "num_p2p": [
+                        [
+                            6268361
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        6268361
+                    ],
+                    "num_loc_miss": [
+                        12287303
+                    ]
+                },
+                {
+                    "cache_percentage": 30,
+                    "num_cached": 69889,
+                    "num_hit": 8974386,
+                    "num_miss": 9581278,
+                    "num_p2p": [
+                        [
+                            8974386
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        8974386
+                    ],
+                    "num_loc_miss": [
+                        9581278
+                    ]
+                },
+                {
+                    "cache_percentage": 40,
+                    "num_cached": 93186,
+                    "num_hit": 11377024,
+                    "num_miss": 7178640,
+                    "num_p2p": [
+                        [
+                            11377024
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        11377024
+                    ],
+                    "num_loc_miss": [
+                        7178640
+                    ]
+                },
+                {
+                    "cache_percentage": 50,
+                    "num_cached": 116482,
+                    "num_hit": 13462151,
+                    "num_miss": 5093513,
+                    "num_p2p": [
+                        [
+                            13462151
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        13462151
+                    ],
+                    "num_loc_miss": [
+                        5093513
+                    ]
+                },
+                {
+                    "cache_percentage": 60,
+                    "num_cached": 139779,
+                    "num_hit": 15240694,
+                    "num_miss": 3314970,
+                    "num_p2p": [
+                        [
+                            15240694
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        15240694
+                    ],
+                    "num_loc_miss": [
+                        3314970
+                    ]
+                },
+                {
+                    "cache_percentage": 70,
+                    "num_cached": 163075,
+                    "num_hit": 16665466,
+                    "num_miss": 1890198,
+                    "num_p2p": [
+                        [
+                            16665466
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        16665466
+                    ],
+                    "num_loc_miss": [
+                        1890198
+                    ]
+                },
+                {
+                    "cache_percentage": 80,
+                    "num_cached": 186372,
+                    "num_hit": 17729525,
+                    "num_miss": 826139,
+                    "num_p2p": [
+                        [
+                            17729525
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        17729525
+                    ],
+                    "num_loc_miss": [
+                        826139
+                    ]
+                },
+                {
+                    "cache_percentage": 90,
+                    "num_cached": 209668,
+                    "num_hit": 18363045,
+                    "num_miss": 192619,
+                    "num_p2p": [
+                        [
+                            18363045
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18363045
+                    ],
+                    "num_loc_miss": [
+                        192619
+                    ]
+                },
+                {
+                    "cache_percentage": 100,
+                    "num_cached": 232965,
+                    "num_hit": 18555664,
+                    "num_miss": 0,
+                    "num_p2p": [
+                        [
+                            18555664
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18555664
+                    ],
+                    "num_loc_miss": [
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "cache_policy": "out_degree",
+            "results": [
+                {
+                    "cache_percentage": 0,
+                    "num_cached": 0,
+                    "num_hit": 0,
+                    "num_miss": 18555664,
+                    "num_p2p": [
+                        [
+                            0
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        0
+                    ],
+                    "num_loc_miss": [
+                        18555664
+                    ]
+                },
+                {
+                    "cache_percentage": 10,
+                    "num_cached": 23296,
+                    "num_hit": 3301369,
+                    "num_miss": 15254295,
+                    "num_p2p": [
+                        [
+                            3301369
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        3301369
+                    ],
+                    "num_loc_miss": [
+                        15254295
+                    ]
+                },
+                {
+                    "cache_percentage": 20,
+                    "num_cached": 46593,
+                    "num_hit": 6268361,
+                    "num_miss": 12287303,
+                    "num_p2p": [
+                        [
+                            6268361
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        6268361
+                    ],
+                    "num_loc_miss": [
+                        12287303
+                    ]
+                },
+                {
+                    "cache_percentage": 30,
+                    "num_cached": 69889,
+                    "num_hit": 8974386,
+                    "num_miss": 9581278,
+                    "num_p2p": [
+                        [
+                            8974386
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        8974386
+                    ],
+                    "num_loc_miss": [
+                        9581278
+                    ]
+                },
+                {
+                    "cache_percentage": 40,
+                    "num_cached": 93186,
+                    "num_hit": 11377024,
+                    "num_miss": 7178640,
+                    "num_p2p": [
+                        [
+                            11377024
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        11377024
+                    ],
+                    "num_loc_miss": [
+                        7178640
+                    ]
+                },
+                {
+                    "cache_percentage": 50,
+                    "num_cached": 116482,
+                    "num_hit": 13462151,
+                    "num_miss": 5093513,
+                    "num_p2p": [
+                        [
+                            13462151
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        13462151
+                    ],
+                    "num_loc_miss": [
+                        5093513
+                    ]
+                },
+                {
+                    "cache_percentage": 60,
+                    "num_cached": 139779,
+                    "num_hit": 15240694,
+                    "num_miss": 3314970,
+                    "num_p2p": [
+                        [
+                            15240694
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        15240694
+                    ],
+                    "num_loc_miss": [
+                        3314970
+                    ]
+                },
+                {
+                    "cache_percentage": 70,
+                    "num_cached": 163075,
+                    "num_hit": 16665466,
+                    "num_miss": 1890198,
+                    "num_p2p": [
+                        [
+                            16665466
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        16665466
+                    ],
+                    "num_loc_miss": [
+                        1890198
+                    ]
+                },
+                {
+                    "cache_percentage": 80,
+                    "num_cached": 186372,
+                    "num_hit": 17729525,
+                    "num_miss": 826139,
+                    "num_p2p": [
+                        [
+                            17729525
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        17729525
+                    ],
+                    "num_loc_miss": [
+                        826139
+                    ]
+                },
+                {
+                    "cache_percentage": 90,
+                    "num_cached": 209668,
+                    "num_hit": 18363045,
+                    "num_miss": 192619,
+                    "num_p2p": [
+                        [
+                            18363045
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18363045
+                    ],
+                    "num_loc_miss": [
+                        192619
+                    ]
+                },
+                {
+                    "cache_percentage": 100,
+                    "num_cached": 232965,
+                    "num_hit": 18555664,
+                    "num_miss": 0,
+                    "num_p2p": [
+                        [
+                            18555664
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18555664
+                    ],
+                    "num_loc_miss": [
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "cache_policy": "random",
+            "results": [
+                {
+                    "cache_percentage": 0,
+                    "num_cached": 0,
+                    "num_hit": 0,
+                    "num_miss": 18555664,
+                    "num_p2p": [
+                        [
+                            0
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        0
+                    ],
+                    "num_loc_miss": [
+                        18555664
+                    ]
+                },
+                {
+                    "cache_percentage": 10,
+                    "num_cached": 23296,
+                    "num_hit": 1848098,
+                    "num_miss": 16707566,
+                    "num_p2p": [
+                        [
+                            1848098
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        1848098
+                    ],
+                    "num_loc_miss": [
+                        16707566
+                    ]
+                },
+                {
+                    "cache_percentage": 20,
+                    "num_cached": 46593,
+                    "num_hit": 3701091,
+                    "num_miss": 14854573,
+                    "num_p2p": [
+                        [
+                            3701091
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        3701091
+                    ],
+                    "num_loc_miss": [
+                        14854573
+                    ]
+                },
+                {
+                    "cache_percentage": 30,
+                    "num_cached": 69889,
+                    "num_hit": 5556830,
+                    "num_miss": 12998834,
+                    "num_p2p": [
+                        [
+                            5556830
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        5556830
+                    ],
+                    "num_loc_miss": [
+                        12998834
+                    ]
+                },
+                {
+                    "cache_percentage": 40,
+                    "num_cached": 93186,
+                    "num_hit": 7422303,
+                    "num_miss": 11133361,
+                    "num_p2p": [
+                        [
+                            7422303
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        7422303
+                    ],
+                    "num_loc_miss": [
+                        11133361
+                    ]
+                },
+                {
+                    "cache_percentage": 50,
+                    "num_cached": 116482,
+                    "num_hit": 9284342,
+                    "num_miss": 9271322,
+                    "num_p2p": [
+                        [
+                            9284342
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        9284342
+                    ],
+                    "num_loc_miss": [
+                        9271322
+                    ]
+                },
+                {
+                    "cache_percentage": 60,
+                    "num_cached": 139779,
+                    "num_hit": 11132344,
+                    "num_miss": 7423320,
+                    "num_p2p": [
+                        [
+                            11132344
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        11132344
+                    ],
+                    "num_loc_miss": [
+                        7423320
+                    ]
+                },
+                {
+                    "cache_percentage": 70,
+                    "num_cached": 163075,
+                    "num_hit": 12988874,
+                    "num_miss": 5566790,
+                    "num_p2p": [
+                        [
+                            12988874
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        12988874
+                    ],
+                    "num_loc_miss": [
+                        5566790
+                    ]
+                },
+                {
+                    "cache_percentage": 80,
+                    "num_cached": 186372,
+                    "num_hit": 14845206,
+                    "num_miss": 3710458,
+                    "num_p2p": [
+                        [
+                            14845206
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        14845206
+                    ],
+                    "num_loc_miss": [
+                        3710458
+                    ]
+                },
+                {
+                    "cache_percentage": 90,
+                    "num_cached": 209668,
+                    "num_hit": 16704077,
+                    "num_miss": 1851587,
+                    "num_p2p": [
+                        [
+                            16704077
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        16704077
+                    ],
+                    "num_loc_miss": [
+                        1851587
+                    ]
+                },
+                {
+                    "cache_percentage": 100,
+                    "num_cached": 232965,
+                    "num_hit": 18555664,
+                    "num_miss": 0,
+                    "num_p2p": [
+                        [
+                            18555664
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18555664
+                    ],
+                    "num_loc_miss": [
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "cache_policy": "sampling",
+            "results": [
+                {
+                    "cache_percentage": 0,
+                    "num_cached": 0,
+                    "num_hit": 0,
+                    "num_miss": 18555664,
+                    "num_p2p": [
+                        [
+                            0
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        0
+                    ],
+                    "num_loc_miss": [
+                        18555664
+                    ]
+                },
+                {
+                    "cache_percentage": 10,
+                    "num_cached": 23296,
+                    "num_hit": 3343879,
+                    "num_miss": 15211785,
+                    "num_p2p": [
+                        [
+                            3343879
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        3343879
+                    ],
+                    "num_loc_miss": [
+                        15211785
+                    ]
+                },
+                {
+                    "cache_percentage": 20,
+                    "num_cached": 46593,
+                    "num_hit": 6354333,
+                    "num_miss": 12201331,
+                    "num_p2p": [
+                        [
+                            6354333
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        6354333
+                    ],
+                    "num_loc_miss": [
+                        12201331
+                    ]
+                },
+                {
+                    "cache_percentage": 30,
+                    "num_cached": 69889,
+                    "num_hit": 9046560,
+                    "num_miss": 9509104,
+                    "num_p2p": [
+                        [
+                            9046560
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        9046560
+                    ],
+                    "num_loc_miss": [
+                        9509104
+                    ]
+                },
+                {
+                    "cache_percentage": 40,
+                    "num_cached": 93186,
+                    "num_hit": 11429980,
+                    "num_miss": 7125684,
+                    "num_p2p": [
+                        [
+                            11429980
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        11429980
+                    ],
+                    "num_loc_miss": [
+                        7125684
+                    ]
+                },
+                {
+                    "cache_percentage": 50,
+                    "num_cached": 116482,
+                    "num_hit": 13510186,
+                    "num_miss": 5045478,
+                    "num_p2p": [
+                        [
+                            13510186
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        13510186
+                    ],
+                    "num_loc_miss": [
+                        5045478
+                    ]
+                },
+                {
+                    "cache_percentage": 60,
+                    "num_cached": 139779,
+                    "num_hit": 15289486,
+                    "num_miss": 3266178,
+                    "num_p2p": [
+                        [
+                            15289486
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        15289486
+                    ],
+                    "num_loc_miss": [
+                        3266178
+                    ]
+                },
+                {
+                    "cache_percentage": 70,
+                    "num_cached": 163075,
+                    "num_hit": 16723901,
+                    "num_miss": 1831763,
+                    "num_p2p": [
+                        [
+                            16723901
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        16723901
+                    ],
+                    "num_loc_miss": [
+                        1831763
+                    ]
+                },
+                {
+                    "cache_percentage": 80,
+                    "num_cached": 186372,
+                    "num_hit": 17773606,
+                    "num_miss": 782058,
+                    "num_p2p": [
+                        [
+                            17773606
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        17773606
+                    ],
+                    "num_loc_miss": [
+                        782058
+                    ]
+                },
+                {
+                    "cache_percentage": 90,
+                    "num_cached": 209668,
+                    "num_hit": 18374932,
+                    "num_miss": 180732,
+                    "num_p2p": [
+                        [
+                            18374932
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18374932
+                    ],
+                    "num_loc_miss": [
+                        180732
+                    ]
+                },
+                {
+                    "cache_percentage": 100,
+                    "num_cached": 232965,
+                    "num_hit": 18555664,
+                    "num_miss": 0,
+                    "num_p2p": [
+                        [
+                            18555664
+                        ]
+                    ],
+                    "num_loc_hit": [
+                        18555664
+                    ],
+                    "num_loc_miss": [
+                        0
+                    ]
+                }
+            ]
+        }
+    ]
+}
