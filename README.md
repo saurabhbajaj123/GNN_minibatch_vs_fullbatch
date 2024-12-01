@@ -81,7 +81,7 @@ We run our experiments on the following datasets:
 To reproduce the figures and tables, you need to run the training script for all the systems and datasets. 
 
 Follow these steps to run the training script for each *dataset* and *system*:
-*system* = {PipeGCN, BNS-GCN, DGL/DGL_reference_implementation/Distributed/MultiGPU, pytorch_geometric/quiver1}
+*system* = {PipeGCN, BNS-GCN, DGL/DGL_reference_implementation/Distributed/MultiGPU, pytorch_geometric/quiver1}.
 *dataset* = {reddit, ogbn-arxiv, ogbn-products, ogbn-papers100M, pubmed, orkut}
 ```
 cd <system>/
@@ -89,18 +89,21 @@ bash scripts/<dataset>.sh
 ```
 
 #### Table 3/4
-Train the model till convergence (i.e. when the train/val/test accuracies do not improve), 
+Train the model till convergence (i.e. when the val accuracies do not improve), 
 `total_time` at convergence is the `TTA`, and the `ET` is the ratio of `total_time` and `number of epochs`
 
 #### Table 5/6
+Run the training scripts with different number of GPUs/partitions, and obtain the `TTA` and `ET` for each GPU/partition count.
+Speed-ups are obtaained by taking a ratio of the `TTA` with the `TTA` for 1 GPU/partition.
 
 #### Table 7
+Run hyperparemeter search for full-graph (PipeGCN-vanilla), obtain the best set of parameters (which give the highest accuracy), this gives the FG-train - FG-search. Use these parameters to run mini-batch (DGL) FG-search - MB-train.
+
+Do hyperparameter search for mini-batch (MB-search - MB-train), use these parameters to train using full-graph (MB-search - FG-train) accuracy numbers.
+
 
 #### Table 8
-
-
-
-
+Run the training scripts with the best hyperparameters for all the datasets and systems. For mini-batch (DGL/DGL_reference_implementation/Distributed/MultiGPU), run with different sampling algorithms from [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training).
 
 #### Figure 3
 This figure shows the test accuracy for different datasets and different systems. To reproduce this figure, you need to run the training script for all the systems and datasets. Save the test accuracy in a csv file and plot it using the plot_figure3.py script.
