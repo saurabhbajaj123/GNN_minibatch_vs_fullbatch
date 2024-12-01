@@ -78,6 +78,29 @@ We run our experiments on the following datasets:
 
 
 ### Experiments
+To reproduce the figures and tables, you need to run the training script for all the systems and datasets. 
+
+Follow these steps to run the training script for each *dataset* and *system*:
+*system* = {PipeGCN, BNS-GCN, DGL/DGL_reference_implementation/Distributed/MultiGPU, pytorch_geometric/quiver1}
+*dataset* = {reddit, ogbn-arxiv, ogbn-products, ogbn-papers100M, pubmed, orkut}
+```
+cd <system>/
+bash scripts/<dataset>.sh
+```
+
+#### Table 3/4
+Train the model till convergence (i.e. when the train/val/test accuracies do not improve), 
+`total_time` at convergence is the `TTA`, and the `ET` is the ratio of `total_time` and `number of epochs`
+
+#### Table 5/6
+
+#### Table 7
+
+#### Table 8
+
+
+
+
 
 #### Figure 3
 This figure shows the test accuracy for different datasets and different systems. To reproduce this figure, you need to run the training script for all the systems and datasets. Save the test accuracy in a csv file and plot it using the plot_figure3.py script.
