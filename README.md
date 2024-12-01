@@ -6,7 +6,7 @@ Full-Graph and Mini-Batch. [Experiment, Analysis & Benchmark] paper.**
 
 Here is the extended version of the report that was submitted to VLDB April 1st 2025
 
-[VLDB25_GNN_benchmarking.pdf](/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/VLDB24_GNN_benchmarking_Dec1.pdf)
+[VLDB25_GNN_benchmarking.pdf](https://github.com/saurabhbajaj123/GNN_minibatch_vs_fullbatch/blob/main/VLDB24_GNN_benchmarking_Dec1.pdf)
 
 Please go to the official repositories of the systems for updated code:
 - PipeGCN - https://github.com/GATECH-EIC/PipeGCN
