@@ -87,11 +87,11 @@ DistDGL currently only support GraphSAGE model.
 For mini-batch training using DGL,
 To run training for (GraphSAGE, pubmed, NS)
 Example arguments:
-`--mode puregpu` for caching graph and features to GPU or `--mode mixed` to use UVA mode.
-`--sampling NS` for neighborhood sampling.
-`--fanout 20` to setfanout to 20.
-`--batch-size 1024`.
-`--model graphsage`.
+- `--mode puregpu` for caching graph and features to GPU or `--mode mixed` to use UVA mode.
+- `--sampling NS` for neighborhood sampling.
+- `--fanout 20` to setfanout to 20.
+- `--batch-size 1024`.
+- `--model graphsage`.
 ```
 cd DGL/DGL_reference_implementation/Distributed/MultiGPU
 bash scripts/pubmed.sh
