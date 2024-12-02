@@ -126,7 +126,8 @@ Train the model till convergence (i.e. when the val accuracies do not improve),
 For example, to get the epoch time and time to accuracy for (Full-graph, pubmed, GraphSAGE), 
 set `--enable-pipeline False`,  `--model graphsage`, `--num-gpus 4` or `--n-partitions 4`, and run
 ```
-bash PipeGCN/scripts/pubmed.sh
+cd PipeGCN
+bash scripts/pubmed.sh
 ```
 
 #### Table 5/6
@@ -136,7 +137,8 @@ For example, to get the epoch time and time to accuracy for (Full-graph, ogbn-ar
 set `--enable-pipeline = False`,  `--model = graphsage`, vary the number of partitions by varying `--num-gpus` or `--n-partitions`.
 and run
 ```
-bash PipeGCN/scripts/ogbn-arxiv.sh
+cd PipeGCN
+bash scripts/ogbn-arxiv.sh
 ```
 
 #### Table 7
@@ -144,7 +146,7 @@ Run hyperparemeter search for full-graph (PipeGCN-vanilla), obtain the best set 
 
 Do hyperparameter search for mini-batch (MB-search - MB-train), use these parameters to train using full-graph (MB-search - FG-train) accuracy numbers.
 
-hyperparameters include: `--lr`, `--n-hidden`, `--n-layers`, `--dropout`, `--batch_size`, `--num-heads`, `--fanout`, `--agg`, and run 
+Hyperparameters include: `--lr`, `--n-hidden`, `--n-layers`, `--dropout`, `--batch_size`, `--num-heads`, `--fanout`, `--agg`, and run 
 
 ```
 cd <system>/
@@ -153,6 +155,10 @@ bash scripts/<dataset>.sh
 
 #### Table 8
 Run the training scripts with the best hyperparameters for all the datasets and systems. For mini-batch (DGL/DGL_reference_implementation/Distributed/MultiGPU), run with different sampling algorithms from [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training).
+```
+cd <system>/
+bash scripts/<dataset>.sh
+```
 
 #### Figure 3
 This figure shows the test accuracy for different datasets and different systems. To reproduce this figure, you need to run the training script for all the systems and datasets. Save the test accuracy in a csv file and plot it using the plot_figure3.py script.
