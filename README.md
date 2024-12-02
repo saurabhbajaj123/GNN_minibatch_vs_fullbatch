@@ -88,10 +88,10 @@ For mini-batch training using DGL,
 To run training for (GraphSAGE, pubmed, NS)
 Example arguments:
 - `--mode puregpu` for caching graph and features to GPU or `--mode mixed` to use UVA mode.
-- `--sampling NS` for neighborhood sampling.
-- `--fanout 20` to setfanout to 20.
-- `--batch-size 1024`.
-- `--model graphsage`.
+- `--sampling NS` for neighborhood sampling
+- `--fanout 20`
+- `--batch-size 1024`
+- `--model graphsage`
 ```
 cd DGL/DGL_reference_implementation/Distributed/MultiGPU
 bash scripts/pubmed.sh
@@ -179,11 +179,13 @@ bash scripts/reddit.sh
 ```
 
 #### Table 8
-Run the training scripts with the best hyperparameters for all the datasets and systems. For mini-batch (DGL/DGL_reference_implementation/Distributed/MultiGPU), run with different sampling algorithms from [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training).
+Run the training scripts with the best hyperparameters for all the datasets and systems. 
+For example
 ```
-cd <system>/
-bash scripts/<dataset>.sh
+cd PipeGCN/
+bash scripts/reddit.sh
 ```
+To run with different sampling algorithms from [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training).
 
 #### Figure 3
 This figure shows the test accuracy for different datasets and different systems. To reproduce this figure, you need to run the training script for all the systems and datasets. Save the test accuracy in a csv file and plot it using the plot_figure3.py script.
