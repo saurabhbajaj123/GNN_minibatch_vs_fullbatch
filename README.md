@@ -39,6 +39,18 @@ Please go to the official repositories of the systems for updated code:
 - [OGB 1.3.6](https://ogb.stanford.edu/docs/home/)
 
 
+
+### Datasets
+We run our experiments on the following datasets:
+- [ogbn datasets](https://ogb.stanford.edu/docs/nodeprop/)
+    - ogbn-arxiv
+    - ogbn-products
+    - ogbn-papers100M
+- [Reddit](https://snap.stanford.edu/graphsage/#datasets)
+- [Pubmed](https://linqs.org/datasets/#pubmed-diabetes)
+- [Orkut](https://snap.stanford.edu/data/com-Orkut.html)
+
+
 ### Installation
 
 #### PipeGCN
@@ -75,11 +87,11 @@ DistDGL currently only support GraphSAGE model.
 For mini-batch training using DGL,
 To run training for (GraphSAGE, pubmed, NS)
 Example arguments:
-set `--mode puregpu` for caching graph and features to GPU or `--mode mixed` to use UVA mode. \n
-set `--sampling NS` for neighborhood sampling
-set `--fanout 20` to set fanout to 20
-set `--batch-size 1024`
-set `--model graphsage`
+`--mode puregpu` for caching graph and features to GPU or `--mode mixed` to use UVA mode.
+`--sampling NS` for neighborhood sampling.
+`--fanout 20` to setfanout to 20.
+`--batch-size 1024`.
+`--model graphsage`.
 ```
 cd DGL/DGL_reference_implementation/Distributed/MultiGPU
 bash scripts/pubmed.sh
@@ -90,17 +102,6 @@ Follow the steps in the repository [GNN_MB-FB_Comparison fb-training](https://gi
 
 #### Cluster-GCN and SAINT sampler 
 Follow the steps in the repository [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training)
-
-
-### Datasets
-We run our experiments on the following datasets:
-- [ogbn datasets](https://ogb.stanford.edu/docs/nodeprop/)
-    - ogbn-arxiv
-    - ogbn-products
-    - ogbn-papers100M
-- [Reddit](https://snap.stanford.edu/graphsage/#datasets)
-- [Pubmed](https://linqs.org/datasets/#pubmed-diabetes)
-- [Orkut](https://snap.stanford.edu/data/com-Orkut.html)
 
 
 
