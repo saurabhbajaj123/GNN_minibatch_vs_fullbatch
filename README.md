@@ -46,6 +46,10 @@ Follow the steps on the PipeGCN repository [https://github.com/GATECH-EIC/PipeGC
 ```
 git clone https://github.com/GATECH-EIC/PipeGCN.git
 ```
+To run for GraphSAGE model, run the scripts under `PipeGCN`, and for GAT and GCN run the scripts under `PipeGCN_GAT_GCN`.
+Training options:
+- `--enable-pipeline`: if true runs PipeGCN, if false runs vanilla full-graph
+
 #### BNS-GCN
 ```
 git clone https://github.com/GATECH-EIC/BNS-GCN.git
@@ -58,6 +62,13 @@ QUIVER_ENABLE_CUDA=1 python setup.py install
 ```
 
 #### DistDGL
+The source code for DistDGL implementation is present under [DistDGL](https://github.com/dmlc/dgl/tree/88f109f17338d7905d6f5618f0b2b3afc689fd54/examples/distributed/graphsage)
+the `node_classification.py` file present under the path `DGL/DistributedSetup/` is the training script.
+To run the training script for DistDGL, run the bash scripts under the folder `DGL/DistributedSetup/scripts`.
+```
+bash DGL/DistributedSetup/scripts/<dataset>.sh
+```
+DistDGL currently only support GraphSAGE model. 
 
 #### AdaQP
 Follow the steps in the repository [GNN_MB-FB_Comparison fb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/fb-training) to install and run AdaQP
@@ -77,6 +88,8 @@ We run our experiments on the following datasets:
 - [Orkut](https://snap.stanford.edu/data/com-Orkut.html)
 
 
+
+
 ### Experiments
 To reproduce the figures and tables, you need to run the training script for all the systems and datasets. 
 
@@ -87,6 +100,15 @@ Follow these steps to run the training script for each *dataset* and *system*:
 cd <system>/
 bash scripts/<dataset>.sh
 ```
+##### Training options
+- `--model`: type of model you want to use (GraphSAGE, GAT , GCN)
+- `--dataset`: the dataset you want to use
+- `--lr`: learning rate
+- `--n-epochs` or `--num-epochs`: the number of training epochs
+- `--n-partitions`: the number of partitions
+- `--num-gpus`: number of GPUs
+- `--n-hidden`: the number of hidden units
+- `--n-layers`: the number of GCN layers
 
 #### Table 3/4
 Train the model till convergence (i.e. when the val accuracies do not improve), 
