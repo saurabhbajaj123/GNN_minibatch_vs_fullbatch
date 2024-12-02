@@ -94,35 +94,62 @@ We run our experiments on the following datasets:
 To reproduce the figures and tables, you need to run the training script for all the systems and datasets. 
 
 Follow these steps to run the training script for each *dataset* and *system*:
-*system* = {PipeGCN, BNS-GCN, DGL/DGL_reference_implementation/Distributed/MultiGPU, pytorch_geometric/quiver1}.
-*dataset* = {reddit, ogbn-arxiv, ogbn-products, ogbn-papers100M, pubmed, orkut}
+*system* = {PipeGCN, BNS-GCN, DGL/DGL_reference_implementation/Distributed/MultiGPU, pytorch_geometric/torch-quiver}.
+*dataset* = {reddit, ogbn-arxiv, ogbn-products, ogbn-papers100M/ogbn-papers100m, pubmed, orkut}
 ```
 cd <system>/
 bash scripts/<dataset>.sh
 ```
-##### Training options
+##### Training options (if applicable)
 - `--model`: type of model you want to use (GraphSAGE, GAT , GCN)
-- `--dataset`: the dataset you want to use
-- `--lr`: learning rate
+- `--dataset`: the dataset you want to use (ogbn-arxiv, ogbn-products, ogbn-papers100M/ogbn-papers100m, reddit, orkut, pubmed)
 - `--n-epochs` or `--num-epochs`: the number of training epochs
 - `--n-partitions`: the number of partitions
-- `--num-gpus`: number of GPUs
+- `--num-gpus` or `--n-gpus`: the number of GPUs
+- `--lr`: learning rate
 - `--n-hidden`: the number of hidden units
 - `--n-layers`: the number of GCN layers
+- `--dropout`: dropout
+- `--log-every`: number of epochs to evaluate
+- `--patience`: number of epochs to wait to check change of val accuracy
+- `--batch_size`: batch_size for mini-batch training
+- `--num-heads`: number of heads for GAT
+- `--fanout`: fanout for Neighborhood sampling
+- `--agg`: aggregator used for GraphSAGE
+- `--mode`: puregpu or mixed for DGL mini-batch training (True: cache the graph and features)
+
+replace `source /work/sbajaj_umass_edu/GNNEnv/bin/activate` with the correct environment that you want to use with your systems.
 
 #### Table 3/4
 Train the model till convergence (i.e. when the val accuracies do not improve), 
 `total_time` at convergence is the `TTA`, and the `ET` is the ratio of `total_time` and `number of epochs`
+For example, to get the epoch time and time to accuracy for (Full-graph, pubmed, GraphSAGE), 
+set `--enable-pipeline False`,  `--model graphsage`, `--num-gpus 4` or `--n-partitions 4`, and run
+```
+bash PipeGCN/scripts/pubmed.sh
+```
 
 #### Table 5/6
 Run the training scripts with different number of GPUs/partitions, and obtain the `TTA` and `ET` for each GPU/partition count.
 Speed-ups are obtaained by taking a ratio of the `TTA` with the `TTA` for 1 GPU/partition.
+For example, to get the epoch time and time to accuracy for (Full-graph, ogbn-arxiv, GraphSAGE), 
+set `--enable-pipeline = False`,  `--model = graphsage`, vary the number of partitions by varying `--num-gpus` or `--n-partitions`.
+and run
+```
+bash PipeGCN/scripts/ogbn-arxiv.sh
+```
 
 #### Table 7
 Run hyperparemeter search for full-graph (PipeGCN-vanilla), obtain the best set of parameters (which give the highest accuracy), this gives the FG-train - FG-search. Use these parameters to run mini-batch (DGL) FG-search - MB-train.
 
 Do hyperparameter search for mini-batch (MB-search - MB-train), use these parameters to train using full-graph (MB-search - FG-train) accuracy numbers.
 
+hyperparameters include: `--lr`, `--n-hidden`, `--n-layers`, `--dropout`, `--batch_size`, `--num-heads`, `--fanout`, `--agg`, and run 
+
+```
+cd <system>/
+bash scripts/<dataset>.sh
+```
 
 #### Table 8
 Run the training scripts with the best hyperparameters for all the datasets and systems. For mini-batch (DGL/DGL_reference_implementation/Distributed/MultiGPU), run with different sampling algorithms from [GNN_MB-FB_Comparison mb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/mb-training).
