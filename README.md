@@ -66,7 +66,8 @@ The source code for DistDGL implementation is present under [DistDGL](https://gi
 the `node_classification.py` file present under the path `DGL/DistributedSetup/` is the training script.
 To run the training script for DistDGL, run the bash scripts under the folder `DGL/DistributedSetup/scripts`.
 ```
-bash DGL/DistributedSetup/scripts/<dataset>.sh
+cd DGL/DistributedSetup
+bash scripts/<dataset>.sh
 ```
 DistDGL currently only support GraphSAGE model. 
 
