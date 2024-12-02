@@ -1,6 +1,0 @@
-File/folder in gitignore, but still being tracked
-To stop tracking a file, we must remove it from the index:
-git rm --cached <file>
-To remove a folder and all files in the folder recursively:
-git rm -r --cached <folder>
-
