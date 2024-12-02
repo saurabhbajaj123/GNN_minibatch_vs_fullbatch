@@ -13,20 +13,20 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 # do
 #   for n_hidden in 64 128 256 512 1024
 #   do 
-for n_gpus in 1 2 3 4
-do
-  python main.py \
-    --dataset pubmed \
-    --dropout 0.7 \
-    --lr 0.001 \
-    --n-partitions $n_gpus \
-    --n-epochs 1 \
-    --model graphsage \
-    --n-layers 3 \
-    --n-hidden 256 \
-    --log-every 10 \
-    --patience 50 \
-    --fix-seed \
-    --seed 1344439319
-  done
+# for n_gpus in 1 2 3 4
+# do
+python main.py \
+  --dataset pubmed \
+  --dropout 0.7 \
+  --lr 0.001 \
+  --n-partitions 4 \
+  --n-epochs 1 \
+  --model graphsage \
+  --n-layers 3 \
+  --n-hidden 256 \
+  --log-every 10 \
+  --patience 50 \
+  --fix-seed \
+  --seed 1344439319 \
+  # done
   # done

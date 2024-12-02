@@ -33,20 +33,21 @@ source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 # do
 #   for n_hidden in 64 128 256 512 1024
 #   do 
-for n_gpus in 4
-do
-    python main.py \
-      --dataset ogbn-arxiv \
-      --dropout 0.3 \
-      --lr 0.01 \
-      --n-partitions $n_gpus \
-      --n-epochs 1 \
-      --model graphsage \
-      --n-layers 2 \
-      --n-hidden 512 \
-      --log-every 10 \
-      --patience 50 \
-      --fix-seed \
-      --seed 1261325436 
-  done
+# for n_gpus in 4
+# do
+python main.py \
+  --dataset ogbn-arxiv \
+  --dropout 0.3 \
+  --lr 0.01 \
+  --n-partitions 4 \
+  --n-epochs 1 \
+  --model graphsage \
+  --n-layers 2 \
+  --n-hidden 512 \
+  --log-every 10 \
+  --patience 50 \
+  --fix-seed \
+  --seed 1261325436 \
+  --enable-pipeline \
+  # done
   # done

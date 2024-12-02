@@ -124,21 +124,28 @@ replace `source /work/sbajaj_umass_edu/GNNEnv/bin/activate` with the correct env
 Train the model till convergence (i.e. when the val accuracies do not improve), 
 `total_time` at convergence is the `TTA`, and the `ET` is the ratio of `total_time` and `number of epochs`
 For example, to get the epoch time and time to accuracy for (Full-graph, pubmed, GraphSAGE), 
-set `--enable-pipeline False`,  `--model graphsage`, `--num-gpus 4` or `--n-partitions 4`, and run
+unset `--enable-pipeline`,  `--model graphsage`, `--num-gpus 4` or `--n-partitions 4`, and run
 ```
 cd PipeGCN
 bash scripts/pubmed.sh
 ```
+Similarly, to run (PipeGCN, ogbn-arxiv, Graphsage)
+set `--enable-pipeline`, and run 
+```
+cd PipeGCN
+bash scripts/ogbn-arxiv.sh
+```
+
 
 #### Table 5/6
 Run the training scripts with different number of GPUs/partitions, and obtain the `TTA` and `ET` for each GPU/partition count.
 Speed-ups are obtaained by taking a ratio of the `TTA` with the `TTA` for 1 GPU/partition.
-For example, to get the epoch time and time to accuracy for (Full-graph, ogbn-arxiv, GraphSAGE), 
-set `--enable-pipeline = False`,  `--model = graphsage`, vary the number of partitions by varying `--num-gpus` or `--n-partitions`.
+For example, to get the epoch time and time to accuracy for (Full-graph, ogbn-products, GraphSAGE), 
+unset `--enable-pipeline`,  `--model = graphsage`, vary the number of partitions by varying `--num-gpus` or `--n-partitions`.
 and run
 ```
 cd PipeGCN
-bash scripts/ogbn-arxiv.sh
+bash scripts/ogbn-products.sh
 ```
 
 #### Table 7
@@ -146,11 +153,13 @@ Run hyperparemeter search for full-graph (PipeGCN-vanilla), obtain the best set 
 
 Do hyperparameter search for mini-batch (MB-search - MB-train), use these parameters to train using full-graph (MB-search - FG-train) accuracy numbers.
 
-Hyperparameters include: `--lr`, `--n-hidden`, `--n-layers`, `--dropout`, `--batch_size`, `--num-heads`, `--fanout`, `--agg`, and run 
+Hyperparameters include: `--lr`, `--n-hidden`, `--n-layers`, `--dropout`, `--batch_size`, `--num-heads`, `--fanout`, `--agg`. 
+
+For example, to run training for one set of hyperparameters for (PipeGCN, graphsage, reddit), run
 
 ```
-cd <system>/
-bash scripts/<dataset>.sh
+cd PipeGCN/
+bash scripts/reddit.sh
 ```
 
 #### Table 8
