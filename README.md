@@ -70,6 +70,20 @@ bash DGL/DistributedSetup/scripts/<dataset>.sh
 ```
 DistDGL currently only support GraphSAGE model. 
 
+#### DGL
+For mini-batch training using DGL,
+To run training for (GraphSAGE, pubmed, NS)
+Example arguments:
+set `--mode puregpu` for caching graph and features to GPU or `--mode mixed` to use UVA mode.
+set `--sampling NS` for neighborhood sampling
+set `--fanout 20` to set fanout to 20
+set `--batch-size 1024`
+set `--model graphsage`
+```
+cd DGL/DGL_reference_implementation/Distributed/MultiGPU
+bash scripts/pubmed.sh
+```
+
 #### AdaQP
 Follow the steps in the repository [GNN_MB-FB_Comparison fb-training](https://github.com/goodluck-hojae/GNN_MB-FB_Comparison/tree/main/fb-training) to install and run AdaQP
 

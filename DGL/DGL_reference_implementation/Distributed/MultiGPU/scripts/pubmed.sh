@@ -10,15 +10,6 @@
 
 source /work/sbajaj_umass_edu/GNNEnv/bin/activate
 
-
-# for n_layers in 2 3 4 5 6
-# do
-#   for n_hidden in 64 128 256 512 1024
-#   do 
-#     for batch_size in 256 512 1024 2048 4096
-#     do
-#       for fanout in 5 10 15 20 25
-#       do  
 for n_gpus in 4
   do
     python main.py \
@@ -40,50 +31,3 @@ for n_gpus in 4
       --seed 42 \
       --mode puregpu
   done
-
-
-# for n_gpus in 1
-#   do
-#     python main.py \
-#       --dataset pubmed \
-#       --model gcn \
-#       --sampling NS \
-#       --dropout 0.3 \
-#       --lr 0.001 \
-#       --n-epochs 300 \
-#       --n-gpus 1 \
-#       --n-layers 6 \
-#       --n-hidden 64 \
-#       --num-heads 4 \
-#       --batch-size 1024 \
-#       --patience 50 \
-#       --fanout 10 \
-#       --agg mean \
-#       --log-every 10 \
-#       --seed 42 \
-#       --mode puregpu
-#   done
-
-  #     done
-  #   done
-  # done
-
-
-# python main.py \
-#   --dataset pubmed \
-#   --model graphsage \
-#   --sampling NS \
-#   --dropout 0.3 \
-#   --lr 0.003 \
-#   --n-epochs 1000 \
-#   --n-gpus 4 \
-#   --n-layers 3 \
-#   --n-hidden 187 \
-#   --batch-size 1024 \
-#   --patience 50 \
-#   --fanout 4 \
-#   --agg mean \
-#   --log-every 5 \
-#   --mode puregpu \
-#   --seed 42 \
-#   # --seed \
