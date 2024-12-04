@@ -283,7 +283,7 @@ def train(
             }
             df = pd.DataFrame(data)
             print(df)
-            file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/{args.dataset}_{args.model}_flops.csv'
+            file_path = f'../../../../result/compute_cost/mb/{args.dataset}_{args.model}_flops.csv'
             try:
                 df.to_csv(file_path, mode='a', index=False, header=False)
             except Exception as e:
@@ -306,30 +306,31 @@ def train(
         #     print(f"micro batches per gpu = {number_of_batches}")
         #     print(f"sampling timers avg = {np.mean(sampling_microbatch_accumulator[int(0.2*len(sampling_microbatch_accumulator)):])}")
         #     print(f"train timers avg = {np.mean(train_microbatch_accumulator[int(0.2*len(train_microbatch_accumulator)):])}")
-        # peak_mem = print_memory("after_forward and backward pass")
-        # peak_mem = torch.tensor(peak_mem)
+        peak_mem = print_memory("after_forward and backward pass")
+        peak_mem = torch.tensor(peak_mem)
 
 
 
-        # dist.barrier()
-        # dist.all_reduce(peak_mem, op=dist.ReduceOp.SUM)
-        # dist.barrier()
-        # if proc_id == 0: 
-        #     data = {
-        #     'n_layers': [args.n_layers],
-        #     'n_hidden': [args.n_hidden],
-        #     'fanout': [args.fanout],
-        #     'batch_size': [args.batch_size],
-        #     'n_gpus': [args.n_gpus],
-        #     'peak_mem': [peak_mem],
-        #     }
-        #     df = pd.DataFrame(data)
-        #     print(df)
-        #     file_path = f'/work/sbajaj_umass_edu/GNN_minibatch_vs_fullbatch/DGL/DGL_reference_implementation/Distributed/MultiGPU/{args.dataset}_mem.csv'
-        #     try:
-        #         df.to_csv(file_path, mode='a', index=False, header=False)
-        #     except Exception as e:
-        #         print(e)
+        dist.barrier()
+        dist.all_reduce(peak_mem, op=dist.ReduceOp.SUM)
+        dist.barrier()
+        if proc_id == 0: 
+            data = {
+            'n_layers': [args.n_layers],
+            'n_hidden': [args.n_hidden],
+            'fanout': [args.fanout],
+            'batch_size': [args.batch_size],
+            'n_gpus': [args.n_gpus],
+            'peak_mem': [peak_mem],
+            }
+            df = pd.DataFrame(data)
+            print(df)
+            
+            file_path = f'../../../../result/memory_usage/{args.dataset}_{args.model}_mem.csv'
+            try:
+                df.to_csv(file_path, mode='a', index=False, header=False)
+            except Exception as e:
+                print(e)
 
         
         t1 = time.time()

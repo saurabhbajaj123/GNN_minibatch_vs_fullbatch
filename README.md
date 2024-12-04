@@ -212,6 +212,7 @@ python plotting/data_transfer_plot.py
 
 #### Figure 8
 This figure shows the ratio of the computation cost of FG (PipeGCN - vanilla) and MB (DGL) training for GraphSAGE, GCN and GAT. To reproduce the figure run the training script for different number of partitions/GPUs/workers and save the floating point operations in a csv file in result/compute_cost/ folder.
+Update the values of flops in `<model>_<mb>_flops` or `<model>_<fg>_flops` dict, update the epochs to convergence.
 Then run the following command to plot the figure:
 ```
 python plotting/flops_plot.py

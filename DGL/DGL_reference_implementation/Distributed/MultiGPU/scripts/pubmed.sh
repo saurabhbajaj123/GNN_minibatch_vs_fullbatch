@@ -18,7 +18,7 @@ for n_gpus in 4
       --sampling NS \
       --dropout 0.3 \
       --lr 0.001 \
-      --n-epochs 100 \
+      --n-epochs 50 \
       --n-gpus $n_gpus \
       --n-layers 3 \
       --n-hidden 256 \
